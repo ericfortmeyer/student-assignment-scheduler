@@ -45,6 +45,11 @@ class Contact
         return ucfirst($this->first_name);
     }
 
+    public function emailAddress(): string
+    {
+        return $this->email_address;
+    }
+
     public function fullname(): string
     {
         
