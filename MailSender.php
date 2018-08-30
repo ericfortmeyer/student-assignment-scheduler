@@ -11,31 +11,21 @@ class MailSender
     protected $from_email;
     protected $password;
 
-    public function __construct(PHPMailer $mailer)
+    public function __construct(PHPMailer $mailer, string $from_email, string $password)
     {
         $this->mailer = $mailer;
         $this->mailer->isSMTP();
         $this->mailer->Host = "smtp.mail.me.com";
         $this->mailer->SMTPAuth = true;
-        $this->mailer->Username = $this->from_email;
-        $this->mailer->Password = $this->password;
+        $this->mailer->Username = $from_email;
+        $this->mailer->Password = $password;
         $this->mailer->SMTPSecure = "tls";
         $this->mailer->Port = 587;
-        $this->mailer->setFrom($this->from_email);
+        $this->mailer->setFrom($from_email);
 
         $this->mailer->Subject = "Student Assignment";
     }
 
-    public function loadEmailAddressOfSender(string $from_email)
-    {
-        $this->from_email = $from_email;
-    }
-
-    public function loadEmailServicePassword(string $password)
-    {
-        $this->password = $password;
-    }
-    
     public function addAddress(string $email, string $fullname = "")
     {
         $copy = clone $this;

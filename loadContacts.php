@@ -5,8 +5,8 @@ namespace TalkSlipSender;
 function loadContacts(array $contacts, ListOfContacts $list_of_contacts)
 {
     array_map(
-        function (Contact $contact) use ($list_of_contacts) {
-            $info = explode(" ", $contact);
+        function (string $contact_info) use ($list_of_contacts) {
+            $info = explode(" ", $contact_info);
             $contact = new Contact();
             $contact->addFirstName($info[0]);
             $contact->addLastName($info[1]);
