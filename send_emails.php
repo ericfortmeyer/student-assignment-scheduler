@@ -6,6 +6,8 @@ use TalkSlipSender\Contact;
 use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;
 
+use function TalkSlipSender\loadContacts;
+
 require "vendor/autoload.php";
 require "loadContacts.php";
 require "Contact.php";
@@ -37,7 +39,7 @@ array_map(
              * A contact object
              * @var Contact $contact
              */
-            $contact = TalkSlipSender\loadContacts(require "contacts.php", new ListOfContacts())
+            $contact = loadContacts(require "contacts.php", new ListOfContacts())
                 ->getContactByFirstName(str_replace(".pdf", "", $file));
 
             /**
