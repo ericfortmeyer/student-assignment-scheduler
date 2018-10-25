@@ -40,7 +40,22 @@ array_map(
              * @var Contact $contact
              */
             $contact = loadContacts(require "contacts.php", new ListOfContacts())
-                ->getContactByFirstName(str_replace(".pdf", "", $file));
+                ->getContactByFirstName(
+                    /**
+                     * Extract first name of contact from filename
+                     * where filename has a suffix like JOHN_2
+                     */
+                    current(
+                        explode(
+                            "_",
+                            /**
+                             * Extract first name of contact from filename
+                             * by removing file extension
+                             */
+                            str_replace(".pdf", "", $file)
+                        )
+                    )
+                );
 
             /**
              * The file that should be attached to the email
