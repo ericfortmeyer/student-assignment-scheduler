@@ -1,0 +1,82 @@
+<?php
+
+use TalkSlipSender\PDFAssignmentFormWriter;
+use TalkSlipSender\MailSender;
+use TalkSlipSender\ListOfContacts;
+
+use PHPMailer\PHPMailer\PHPMailer;
+use Dotenv\Dotenv;
+use Smalot\PdfParser\Parser;
+
+use function TalkSlipSender\Functions\createJsonSchedulesFromWorkbooks;
+use function TalkSlipSender\Functions\sendEmails;
+use function TalkSlipSender\Functions\CLI\writeAssignmentForms;
+use function TalkSlipSender\Functions\CLI\createJsonAssignments;
+use function TalkSlipSender\Functions\CLI\yes;
+use function TalkSlipSender\Functions\CLI\no;
+use function TalkSlipSender\Functions\CLI\red;
+use function TalkSlipSender\Functions\CLI\green;
+use function TalkSlipSender\Functions\CLI\blue;
+use function TalkSlipSender\Functions\CLI\prompt;
+
+require "autoload.php";
+$config = require "config.php";
+$path_config = require "path_config.php";
+
+$Dotenv = new Dotenv(__DIR__);
+$Dotenv->load();
+$WorkbookParser = new Parser();
+$AssignmentFormWriter = new PDFAssignmentFormWriter($config);
+$ListOfContacts = new ListOfContacts();
+$MailSender = new MailSender(
+    new PHPMailer(true),
+    $config["from_email"],
+    getenv("from_email_password")
+);
+
+
+
+$path_to_json_assignments_files = "{$path_config["path_to_data"]}/assignments/2018";
+$path_to_assignment_forms = $config["assignment_forms_destination"];
+
+
+createJsonSchedulesFromWorkbooks(
+    $WorkbookParser,
+    $path_config["path_to_workbooks"],
+    $path_config["path_to_data"]
+);
+print green("Schedules were created from workbooks\r\n");
+
+
+
+createJsonAssignments(
+    "{$path_config["path_to_data"]}/2018",
+    $path_to_json_assignments_files
+);
+
+
+writeAssignmentForms(
+    $AssignmentFormWriter,
+    $path_to_json_assignments_files,
+    "{$path_config["path_to_data"]}/2018"
+);
+
+
+
+$user_response = readline(
+    prompt("Do you want to send the emails")
+);
+
+
+
+
+yes($user_response)
+    && sendEmails(
+        $MailSender,
+        $ListOfContacts,
+        $config,
+        require "contacts.php"
+    );
+
+no($user_response)
+    && print red("Ok. Emails were not sent.\r\n");
