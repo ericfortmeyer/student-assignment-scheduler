@@ -5,7 +5,7 @@ namespace TalkSlipSender;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\StreamReader;
 
-final class TalkSlipWriter implements AssignmentFormWriterInterface
+final class PDFAssignmentFormWriter implements AssignmentFormWriterInterface
 {
     /**
      * @var Fpdi
@@ -38,7 +38,7 @@ final class TalkSlipWriter implements AssignmentFormWriterInterface
         $this->pdfCreator = new Fpdi();
         $this->textColor($this->config["font_color"]);
         $this->font($this->config["font"]);
-        $this->import($this->config["template"]);    
+        $this->import($this->config["assignment_form_template"]);    
     }
 
     /**
