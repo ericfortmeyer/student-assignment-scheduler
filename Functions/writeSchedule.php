@@ -17,5 +17,4 @@ function writeSchedule(
         weeksFrom(importJson("${path_to_json_schedules}/${month}.json")),
         $month
     );
-
 }

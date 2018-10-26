@@ -123,27 +123,26 @@ final class ScheduleWriter
                 function (
                     int $assignment_num,
                     string $assignment_name
-                ) use ($week_index, $week_of_assignments, &$i) {        
+                ) use (
+                    $week_index,
+                    $week_of_assignments,
+                    &$i
+                ) {
                     
                     if (doesNotHaveWordVideo($assignment_name)) {
-
                         $this->writeStudentAssignment(
                             $week_index,
                             $assignment_num,
                             $week_of_assignments[$i]
                         );
                         $i++;
-
-                        
                     } else {
                         $this->writeStudentAssignment(
                             $week_index,
                             $assignment_num,
                             $this->dataForVideoDiscussion($assignment_name)
                         );
-                        
                     }
-    
                 },
                 array_keys($mapWithBibleReading[$week_index]),
                 $mapWithBibleReading[$week_index]
@@ -207,7 +206,8 @@ final class ScheduleWriter
                 $this->appendCounselPoint(
                     $this->appendAssistantName($student, $assistant),
                     $counsel_point
-                ))
+                )
+            )
             : $this->writeName(
                 $week_index,
                 $assignment_num,
@@ -228,7 +228,8 @@ final class ScheduleWriter
             ? $this->writeName(
                 $week_index,
                 $assignment_num,
-                $this->appendAssistantName($student, $assistant))
+                $this->appendAssistantName($student, $assistant)
+            )
             : $this->writeName(
                 $week_index,
                 $assignment_num,
@@ -290,8 +291,7 @@ final class ScheduleWriter
     {
         $this->pdfCreator->Output(
             "F",
-            $filename
-            ,
+            $filename,
             true
         );
     }

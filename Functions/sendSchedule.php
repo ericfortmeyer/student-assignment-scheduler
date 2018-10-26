@@ -18,8 +18,8 @@ function sendSchedule(
             $MailSender,
             $ListOfContacts,
             $contacts,
-            $schedule_filename)
-        {
+            $schedule_filename
+        ) {
             $contact = loadContacts($contacts, $ListOfContacts)
                 ->getContactByFullname(
                     ...splitFullName($recipient)
@@ -34,11 +34,9 @@ function sendSchedule(
                     ->send();
 
                 echo "Email sent\r\n";
-
             } catch (\Exception $e) {
                 echo "EMAIL SEND FAILURE: {$e->getMessage()}";
             }
-            
         },
         $schedule_recipients
     );

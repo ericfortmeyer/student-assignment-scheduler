@@ -11,11 +11,10 @@ function sendAssignmentForms(
     ListOfContacts $ListOfContacts,
     array $contacts,
     string $path_to_forms
-) {            
+) {
     array_map(
         function (string $file) use ($MailSender, $ListOfContacts, $contacts, $path_to_forms) {
             try {
-
                 $contact = loadContacts($contacts, $ListOfContacts)
                     ->getContactByFirstName(
                         firstNameFromFilename($file)
