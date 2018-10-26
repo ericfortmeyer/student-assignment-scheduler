@@ -71,7 +71,7 @@ function createJsonAssignments(
 
                             $schedule["year"] = $year;
 
-                            $schedule_dest = "$data_destination/assignments";
+                            $schedule_dest = $data_destination;
                 
                             save(
                                 $schedule,
