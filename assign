@@ -1,6 +1,7 @@
 <?php
 
 use TalkSlipSender\PDFAssignmentFormWriter;
+use TalkSlipSender\ScheduleWriter;
 use TalkSlipSender\MailSender;
 use TalkSlipSender\ListOfContacts;
 
@@ -10,6 +11,7 @@ use Smalot\PdfParser\Parser;
 
 use function TalkSlipSender\Functions\createJsonSchedulesFromWorkbooks;
 use function TalkSlipSender\Functions\sendEmails;
+use function TalkSlipSender\Functions\writeSchedule;
 use function TalkSlipSender\Functions\CLI\writeAssignmentForms;
 use function TalkSlipSender\Functions\CLI\createJsonAssignments;
 use function TalkSlipSender\Functions\CLI\yes;
@@ -27,14 +29,13 @@ $Dotenv = new Dotenv(__DIR__);
 $Dotenv->load();
 $WorkbookParser = new Parser();
 $AssignmentFormWriter = new PDFAssignmentFormWriter($config);
+$ScheduleWriter = new ScheduleWriter($config);
 $ListOfContacts = new ListOfContacts();
 $MailSender = new MailSender(
     new PHPMailer(true),
     $config["from_email"],
     getenv("from_email_password")
 );
-
-
 
 $path_to_json_assignments_files = "{$path_config["path_to_data"]}/assignments/2018";
 $path_to_assignment_forms = $config["assignment_forms_destination"];
@@ -51,7 +52,7 @@ print green("Schedules were created from workbooks\r\n");
 
 createJsonAssignments(
     "{$path_config["path_to_data"]}/2018",
-    $path_to_json_assignments_files
+    "{$path_config["path_to_data"]}/assignments"
 );
 
 
@@ -61,6 +62,12 @@ writeAssignmentForms(
     "{$path_config["path_to_data"]}/2018"
 );
 
+$schedule_filename = writeSchedule(
+    $ScheduleWriter,
+    $path_to_json_assignments_files,
+    "{$path_config["path_to_data"]}/2018",
+    "November"
+);
 
 
 $user_response = readline(
@@ -74,8 +81,10 @@ yes($user_response)
     && sendEmails(
         $MailSender,
         $ListOfContacts,
-        $config,
-        require "contacts.php"
+        require "contacts.php",
+        $config["assignment_forms_destination"],
+        $config["schedule_recipients"],
+        $schedule_filename
     );
 
 no($user_response)
