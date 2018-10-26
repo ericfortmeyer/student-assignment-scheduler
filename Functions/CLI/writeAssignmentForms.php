@@ -5,19 +5,23 @@ namespace TalkSlipSender\Functions\CLI;
 use TalkSlipSender\AssignmentFormWriterInterface;
 use function TalkSlipSender\Functions\sortMonths;
 use function TalkSlipSender\Functions\writeMonthOfAssignmentForms;
+use function TalkSlipSender\Functions\monthsFromScheduleFilenames;
 
 function writeAssignmentForms(
     AssignmentFormWriterInterface $AssignmentFormWriter,
     string $path_to_json_assignments_files,
     string $path_to_json_schedules
 ) {
+
     array_map(
-        function (string $schedule_file) use (
+        function (string $month) use (
             $AssignmentFormWriter,
             $path_to_json_assignments_files
         ) {
 
-            $month = str_replace(".json", "", $schedule_file);
+            if (empty($month)) {
+                return;
+            }
 
             $didDisplay = displayTableOfMonthOfAssignments(
                 $month,
@@ -41,26 +45,6 @@ function writeAssignmentForms(
                 print green("Assignment forms for ${month} were created.\r\n");
             }
         },
-        array_map(
-            function (array $arr) {
-                return "{$arr["month"]}.json";
-            },
-            sortMonths(
-                array_map(
-                    function (string $filename) {
-                        /**
-                         * Requires key "month" to simplify passing arguments into
-                         * sortMonths function for other clients
-                         */
-                        $result["month"] = str_replace(".json", "", $filename);
-                        return $result;
-                    },
-                    array_diff(
-                        scandir($path_to_json_schedules),
-                        [".", "..", ".DS_Store"]
-                    )
-                )
-            )
-        )
+        monthsFromScheduleFilenames($path_to_json_schedules)
     );
 }
