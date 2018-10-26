@@ -1,5 +1,5 @@
 {
-    "name": "Composer config file",
+    "name": "ericfortmeyer/student-assignment-scheduler",
     "description": "Dependency and configuration for this project",
     "require": {
         "phpmailer/phpmailer": "^6.0",
