@@ -40,6 +40,13 @@ class MailSender
         return $copy;
     }
 
+    public function addSubject(string $subject)
+    {
+        $copy = clone $this;
+        $copy->mailer->Subject = $subject;
+        return $copy;
+    }
+
     public function addBody(string $body)
     {
         $copy = clone $this;
