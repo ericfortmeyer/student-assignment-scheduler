@@ -6,6 +6,9 @@
 
 ### Here's an idea for basic usage
 ```php
+<?php
+...
+
 createJsonSchedulesFromWorkbooks(
     $WorkbookParser,
     $path_config["path_to_workbooks"],
