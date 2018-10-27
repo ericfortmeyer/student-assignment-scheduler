@@ -11,6 +11,7 @@ use Smalot\PdfParser\Parser;
 
 use function TalkSlipSender\Functions\createJsonSchedulesFromWorkbooks;
 use function TalkSlipSender\Functions\sendEmails;
+use function TalkSlipSender\Functions\makeDirectories;
 use function TalkSlipSender\Functions\writeSchedule;
 use function TalkSlipSender\Functions\CLI\writeAssignmentForms;
 use function TalkSlipSender\Functions\CLI\createJsonAssignments;
@@ -37,8 +38,18 @@ $MailSender = new MailSender(
     getenv("from_email_password")
 );
 
-$path_to_json_assignments_files = "{$path_config["path_to_data"]}/assignments/2018";
-$path_to_assignment_forms = $config["assignment_forms_destination"];
+
+
+makeDirectories(
+    [
+        $path_to_assignment_forms = $config["assignment_forms_destination"],
+        $path_to_json_assignments_files = "{$path_config["path_to_data"]}/assignments/2018",
+        $path_to_assignment_forms,
+        $path_to_json_assignments_files,
+        "{$path_config["path_to_data"]}/2018",
+        "{$path_config["path_to_data"]}/2019"
+    ]
+);
 
 
 createJsonSchedulesFromWorkbooks(
