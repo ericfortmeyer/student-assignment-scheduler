@@ -14,7 +14,7 @@ function sendAssignmentForms(
 ) {
     
     define(
-        "EMPTY_DIRECTORY_ERROR_MSG",
+        "NO_ASSIGNMENT_FORMS_ERROR_MSG",
         red("Oops! It looks like there are no assignment forms to send.\r\nABORT\r\n")
     );
     
@@ -41,7 +41,7 @@ function sendAssignmentForms(
         },
         filenamesInDirectory(
             $path_to_forms,
-            EMPTY_DIRECTORY_ERROR_MSG,
+            NO_ASSIGNMENT_FORMS_ERROR_MSG,
             true
         )
     );

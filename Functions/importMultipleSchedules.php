@@ -7,7 +7,7 @@ use function TalkSlipSender\Functions\CLI\white;
 function importMultipleSchedules(string $path_to_json_schedules): array
 {
     define(
-        "EMPTY_DIRECTORY_ERROR_MSG",
+        "NO_SCHEDULES_ERROR_MSG",
         white("Nothing was schedule. Bye\r\n")
     );
 
@@ -17,7 +17,7 @@ function importMultipleSchedules(string $path_to_json_schedules): array
         },
         filenamesInDirectory(
             $path_to_json_schedules,
-            EMPTY_DIRECTORY_ERROR_MSG,
+            NO_SCHEDULES_ERROR_MSG,
             true
         )
     );
