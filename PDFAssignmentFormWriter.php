@@ -42,7 +42,7 @@ final class PDFAssignmentFormWriter implements AssignmentFormWriterInterface
     }
 
     /**
-     * @param mixed[]
+     * @param mixed[] $data
      * @return void
      */
     public function create(array $data): void

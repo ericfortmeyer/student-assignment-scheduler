@@ -49,7 +49,7 @@ class ListOfContacts
         string $type = "",
         string $needle = "",
         bool $use_fullname = false,
-        array $both = []
+        array $both = [Contact::FIRST_NAME => "", Contact::LAST_NAME => ""]
     ) {
         if (empty($haystack)) {
             throw new \Exception(static::NOT_SETUP_YET);

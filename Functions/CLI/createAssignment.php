@@ -40,4 +40,9 @@ function createAssignment(
             echo "Please enter yes or no\r\n";
         }
     } while (notYesOrNo($reply));
+
+    /**
+     * To suppress phan error since the function must return an array
+     */
+    return [];
 }

@@ -4,7 +4,6 @@ namespace TalkSlipSender\Functions;
 
 use TalkSlipSender\MailSender;
 use TalkSlipSender\ListOfContacts;
-use TalkSlipSender\Contact;
 
 function sendSchedule(
     MailSender $MailSender,

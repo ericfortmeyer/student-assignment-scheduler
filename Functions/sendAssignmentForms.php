@@ -4,7 +4,7 @@ namespace TalkSlipSender\Functions;
 
 use TalkSlipSender\MailSender;
 use TalkSlipSender\ListOfContacts;
-use TalkSlipSender\Contact;
+use function TalkSlipSender\Functions\CLI\red;
 
 function sendAssignmentForms(
     MailSender $MailSender,
@@ -12,6 +12,12 @@ function sendAssignmentForms(
     array $contacts,
     string $path_to_forms
 ) {
+    
+    define(
+        "EMPTY_DIRECTORY_ERROR_MSG",
+        red("Oops! It looks like there are no assignment forms to send.\r\nABORT\r\n")
+    );
+    
     array_map(
         function (string $file) use ($MailSender, $ListOfContacts, $contacts, $path_to_forms) {
             try {
@@ -33,9 +39,10 @@ function sendAssignmentForms(
                 echo "EMAIL SEND FAILURE: {$e->getMessage()}\r\n";
             }
         },
-        array_diff(
-            scandir($path_to_forms),
-            [".", "..", ".DS_Store"]
+        filenamesInDirectory(
+            $path_to_forms,
+            EMPTY_DIRECTORY_ERROR_MSG,
+            true
         )
     );
 }

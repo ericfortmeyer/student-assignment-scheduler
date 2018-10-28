@@ -9,6 +9,9 @@ function writeMonthOfAssignmentForms(
     string $month,
     string $path_to_json_assignments_files
 ): void {
+    
+    $partial = monthOfAssignments($month);
+    
     array_map(
         function (array $week_of_assignments) use ($AssignmentFormWriter) {
             writeAssignmentFormsFromArrayOfAssignments(
@@ -16,6 +19,6 @@ function writeMonthOfAssignmentForms(
                 $week_of_assignments
             );
         },
-        monthOfAssignments($month)($path_to_json_assignments_files)
+        $partial($path_to_json_assignments_files)
     );
 }

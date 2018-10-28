@@ -3,7 +3,6 @@
 namespace TalkSlipSender\Functions\CLI;
 
 use TalkSlipSender\AssignmentFormWriterInterface;
-use function TalkSlipSender\Functions\sortMonths;
 use function TalkSlipSender\Functions\writeMonthOfAssignmentForms;
 use function TalkSlipSender\Functions\monthsFromScheduleFilenames;
 

@@ -53,7 +53,9 @@ final class ScheduleWriter
     }
 
     /**
-     * @param mixed[]
+     * @param string $path_to_json_assignments
+     * @param string[] $schedule
+     * @param string $month
      * @return string
      */
     public function create(
@@ -318,7 +320,7 @@ final class ScheduleWriter
 
     protected function monthFromDate(string $date): string
     {
-        return date_create_from_format("F j")->format("F");
+        return date_create_from_format("F j", $date)->format("F");
     }
 
     protected function firstName(string $fullname): string

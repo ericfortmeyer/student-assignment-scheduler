@@ -2,12 +2,23 @@
 
 namespace TalkSlipSender\Functions;
 
-function importMultipleSchedules(string $path_to_json_schedules)
+use function TalkSlipSender\Functions\CLI\white;
+
+function importMultipleSchedules(string $path_to_json_schedules): array
 {
+    define(
+        "EMPTY_DIRECTORY_ERROR_MSG",
+        white("Nothing was schedule. Bye\r\n")
+    );
+
     return array_map(
         function (string $json_file) use ($path_to_json_schedules) {
             return importJson("$path_to_json_schedules/$json_file");
         },
-        array_diff(scandir($path_to_json_schedules), [".", "..", ".DS_Store"])
+        filenamesInDirectory(
+            $path_to_json_schedules,
+            EMPTY_DIRECTORY_ERROR_MSG,
+            true
+        )
     );
 }

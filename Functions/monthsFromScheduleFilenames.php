@@ -15,8 +15,9 @@ function monthsFromScheduleFilenames(string $path_to_json_schedules): array
                      * Requires key "month" to simplify passing arguments into
                      * sortMonths function for other clients
                      */
-                    $result["month"] = str_replace(".json", "", $filename);
-                    return $result;
+                    return [
+                        "month" => str_replace(".json", "", $filename)
+                    ];
                 },
                 array_diff(
                     scandir($path_to_json_schedules),
