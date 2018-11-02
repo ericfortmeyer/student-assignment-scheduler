@@ -1,0 +1,34 @@
+<?php
+
+use function TalkSlipSender\Functions\CLI\green;
+use function TalkSlipSender\Functions\CLI\red;
+
+$type = $argv[1];
+$paths = require "path_config.php";
+require "functions.php";
+
+array_map(
+    function (string $file) use ($paths, $type) {
+        $dest = __DIR__ . "/{$paths["path_to_${type}"]}/" . basename($file);
+        copy($file, $dest) ? success($file, $dest) : fail($file);
+        $result = copy($file, $dest);
+    },
+    array_filter(
+        $argv,
+        function($key) {
+            return $key != 0 && $key != 1;
+        },
+        ARRAY_FILTER_USE_KEY
+    )
+);
+
+function success(string $file, string $dest): void
+{
+    print green("Imported ${file}\r\nDestination: ${dest}\r\n");
+}
+
+function fail(string $file): void
+{
+    print red("Failed to import ${file}\r\n");
+    exit();
+}
