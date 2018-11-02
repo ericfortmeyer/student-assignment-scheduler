@@ -34,7 +34,7 @@ writeAssignmentForms(
 
 ## TODO
 - [x] Create Command Line Tool
-    - [] Add CLI coniguration
+    - [] Add CLI configuration
 - [] Create Web Interface
 - [] Write test :sob:
 
