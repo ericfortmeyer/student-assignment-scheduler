@@ -7,10 +7,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 class MailSender
 {
     protected $mailer;
-    protected $from_email;
-    protected $password;
 
-    public function __construct(PHPMailer $mailer, string $from_email, string $password)
+    public function __construct(PHPMailer $mailer, string $from_email, $password)
     {
         $this->mailer = $mailer;
         $this->mailer->isSMTP();
@@ -23,6 +21,24 @@ class MailSender
         $this->mailer->setFrom($from_email);
 
         $this->mailer->Subject = "Student Assignment";
+    }
+
+    public function __clone()
+    {
+        $this->mailer = clone $this->mailer;
+    }
+
+    public function withRecipient(string $email, string $fullname = "")
+    {
+        $copy = clone $this;
+        $copy->resetRecipients();
+        $copy->mailer->addAddress($email, $fullname);
+        return $copy;
+    }
+
+    private function resetRecipients()
+    {
+        $this->mailer->clearAllRecipients();
     }
 
     public function addAddress(string $email, string $fullname = "")
@@ -55,7 +71,9 @@ class MailSender
 
     public function send()
     {
-        $this->mailer->send();
+        $copy = clone $this;
+        $copy->mailer->send();
+        return $copy;
     }
 
     public function getMailer()
