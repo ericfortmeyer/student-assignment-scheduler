@@ -15,7 +15,7 @@ function filenamesInDirectory(
     if ($result) {
         return $result;
     } else {
-        $exit_program ? abort($error_msg) : print($error_msg);        
+        $exit_program ? abort($error_msg) : print($error_msg);
     }
 }
 

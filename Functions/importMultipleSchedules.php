@@ -2,7 +2,6 @@
 
 namespace TalkSlipSender\Functions;
 
-
 use function TalkSlipSender\Functions\CLI\white;
 
 function importMultipleSchedules(string $path_to_json_schedules): array

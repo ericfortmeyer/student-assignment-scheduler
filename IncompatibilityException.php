@@ -2,7 +2,7 @@
 
 namespace TalkSlipSender;
 
-class IncompatibilityException extends Exception
+class IncompatibilityException extends \Exception
 {
     
 }

@@ -1,16 +1,41 @@
 {
     "name": "ericfortmeyer/student-assignment-scheduler",
     "description": "Dependency and configuration for this project",
+    "license": "MIT",
     "require": {
         "phpmailer/phpmailer": "^6.0",
         "vlucas/phpdotenv": "^2.5",
         "setasign/fpdi": "^2.1",
         "setasign/fpdf": "^1.8",
-        "smalot/pdfparser": "^0.13.2"
+        "smalot/pdfparser": "^0.13.2",
+        "symfony/process": "^4.1",
+        "symfony/lock": "^4.1",
+        "symfony/event-dispatcher": "^4.1",
+        "league/oauth2-google": "^2.2",
+        "stevenmaguire/oauth2-microsoft": "^2.2",
+        "setasign/tfpdf": "^1.25",
+        "symfony/dependency-injection": "^4.1",
+        "symfony/http-kernel": "^4.1",
+        "symfony/config": "^4.1",
+        "symfony/finder": "^4.1",
+        "symfony/browser-kit": "^4.1",
+        "symfony/expression-language": "^4.1",
+        "symfony/yaml": "^4.1",
+        "symfony/var-dumper": "^4.1",
+        "symfony/console": "^4.1",
+        "setasign/fpdi-fpdf": "^2.1",
+        "setasign/fpdi-tfpdf": "^2.1",
+        "setasign/fpdi-tcpdf": "^2.1",
+        "symfony/css-selector": "^4.1",
+        "symfony/proxy-manager-bridge": "^4.1",
+        "doctrine/annotations": "^1.6",
+        "ocramius/generated-hydrator": "^2.2"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.3",
-        "phan/phan": "^1.1"
+        "phan/phan": "^1.1",
+        "phpunit/phpunit": "^7.4",
+        "phpunit/php-invoker": "^2.0"
     },
     "autoload": {
         "files": [
