@@ -8,11 +8,11 @@ class MailSender
 {
     protected $mailer;
 
-    public function __construct(PHPMailer $mailer, string $from_email, $password)
+    public function __construct(PHPMailer $mailer, string $from_email, $password, string $host)
     {
         $this->mailer = $mailer;
         $this->mailer->isSMTP();
-        $this->mailer->Host = "smtp.mail.me.com";
+        $this->mailer->Host = $host;
         $this->mailer->SMTPAuth = true;
         $this->mailer->Username = $from_email;
         $this->mailer->Password = $password;
