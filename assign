@@ -37,11 +37,9 @@ $MailSender = new MailSender(
     getenv("from_email_password")
 );
 
-
-
 makeDirectories(
     [
-        $path_to_assignment_forms = $config["assignment_forms_destination"],
+        $path_to_assignment_forms = $path_config["path_to_forms"],
         $path_to_json_assignments_files = "{$path_config["path_to_data"]}/assignments/2018",
         $path_to_assignment_forms,
         $path_to_json_assignments_files,

@@ -6,6 +6,5 @@ return [
     "path_to_schedules" => "data/schedules",
     "path_to_assignments" => "data/assignments",
     "path_to_forms" => "data/forms",
-    "path_to_talkslip_template" => "templates",
     "path_to_templates" => "templates"
 ];
