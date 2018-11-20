@@ -11,17 +11,15 @@ function writeAssignmentForms(
     string $path_to_json_assignments_files,
     string $path_to_json_schedules,
     bool $do_past_months = false
-) {
+): array {
 
-    array_map(
-        function (string $month) use (
+    return array_map(
+        function (array $arr) use (
             $AssignmentFormWriter,
             $path_to_json_assignments_files
         ) {
 
-            if (empty($month)) {
-                return;
-            }
+            $month = $arr["month"];
 
             $didDisplay = displayTableOfMonthOfAssignments(
                 $month,
@@ -43,6 +41,11 @@ function writeAssignmentForms(
                 );
 
                 print green("Assignment forms for ${month} were created.\r\n");
+
+                /**
+                 * Use to determine which month(s) were scheduled
+                 */
+                return $month;
             }
         },
         monthsFromScheduleFilenames($path_to_json_schedules, $do_past_months)

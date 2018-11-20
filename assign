@@ -84,24 +84,20 @@ $options = getopt(
 
 extract($options);
 
-writeAssignmentForms(
+$which_months = writeAssignmentForms(
     $AssignmentFormWriter,
     $path_to_json_assignments_files,
     "{$path_config["path_to_data"]}/2018",
     ($past ?? $p ?? false)
 );
 
-writeAssignmentForms(
-    $AssignmentFormWriter,
-    $path_to_json_assignments_files,
-    "{$path_config["path_to_data"]}/2018"
-);
+current($which_months) ?? exit("No schedules were created.  Good Bye\r\n");
 
 $schedule_filename = writeSchedule(
     $ScheduleWriter,
     $path_to_json_assignments_files,
     "{$path_config["path_to_data"]}/2018",
-    "November"
+    current($which_months)
 );
 
 
