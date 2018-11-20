@@ -7,6 +7,7 @@ use function TalkSlipSender\Functions\monthNumeric;
 use function TalkSlipSender\Functions\weeksFrom;
 use function TalkSlipSender\Functions\importMultipleSchedules;
 use function TalkSlipSender\Functions\sortMonths;
+use function TalkSlipSender\Functions\isPastMonth;
 
 function createJsonAssignments(
     string $path_to_json_schedules,
@@ -17,6 +18,10 @@ function createJsonAssignments(
 
             $month = $schedule_for_month["month"];
             $year = $schedule_for_month["year"];
+
+            if (isPastMonth($month)) {
+                return;
+            }
 
             $reply = readline(
                 readyForSchedulePrompt($month)

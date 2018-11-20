@@ -21,15 +21,15 @@ function sendSchedule(
             $schedule_filename
         ) {
             $contact = $list_of_contacts->getContactByFullname(
-                    ...splitFullName($recipient)
+                ...splitFullName($recipient)
             );
 
             try {
                 $MailSender
                     ->addBody("Dear {$contact->firstName()},\r\n\r\nHere's the schedule for next month.\r\n\r\nThanks!")
                     ->withRecipient($contact->emailAddress(), $contact->fullname())
-                    ->addSubject("Schedule for next month")                    
-                    ->addAttachment($schedule_filename)                    
+                    ->addSubject("Schedule for next month")
+                    ->addAttachment($schedule_filename)
                     ->send();
 
                 echo "Email sent: {$contact->emailAddress()}\r\n";
