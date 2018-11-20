@@ -5,14 +5,6 @@ return [
     "schedule_template" => "templates/S-140-E.pdf",
     "assignment_forms_destination" => "data/forms",
     "schedules_destination" => "data/schedules",
-    "schedule_recipients" => [
-        "Eric Fortmeyer",
-        "Bill Evis",
-        "Kevin Flint",
-        "Jonathan Johnson",
-        "Kyle Pockrus",
-        "Elliott Jolly"
-    ],
     "schedule_font_size" => 10,
     "font" => "Helvetica",
     "font_color" => "blue",
