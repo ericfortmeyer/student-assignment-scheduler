@@ -14,6 +14,8 @@ function sendEmails(
     string $schedule_filename
 ) {
 
+    $clone_of_mail_sender = clone $MailSender;
+    $clone_of_list_of_contacts = clone $ListOfContacts;
 
     sendAssignmentForms(
         $MailSender,
@@ -24,8 +26,8 @@ function sendEmails(
 
 
     sendSchedule(
-        $MailSender,
-        $ListOfContacts,
+        $clone_of_mail_sender,
+        $clone_of_list_of_contacts,
         $schedule_recipients,
         $contacts,
         $schedule_filename

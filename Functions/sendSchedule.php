@@ -12,7 +12,6 @@ function sendSchedule(
     array $contacts,
     string $schedule_filename
 ) {
-    $MailSender->addSubject("Schedule for next month");
     $list_of_contacts = loadContacts($contacts, $ListOfContacts);
 
     array_map(
@@ -29,6 +28,7 @@ function sendSchedule(
                 $MailSender
                     ->addBody("Dear {$contact->firstName()},\r\n\r\nHere's the schedule for next month.\r\n\r\nThanks!")
                     ->withRecipient($contact->emailAddress(), $contact->fullname())
+                    ->addSubject("Schedule for next month")                    
                     ->addAttachment($schedule_filename)                    
                     ->send();
 
