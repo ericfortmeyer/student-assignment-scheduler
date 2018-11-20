@@ -12,27 +12,27 @@ function sendSchedule(
     array $contacts,
     string $schedule_filename
 ) {
+    $MailSender->addSubject("Schedule for next month");
+    $list_of_contacts = loadContacts($contacts, $ListOfContacts);
+
     array_map(
         function (string $recipient) use (
             $MailSender,
-            $ListOfContacts,
-            $contacts,
+            $list_of_contacts,
             $schedule_filename
         ) {
-            $contact = loadContacts($contacts, $ListOfContacts)
-                ->getContactByFullname(
+            $contact = $list_of_contacts->getContactByFullname(
                     ...splitFullName($recipient)
-                );
+            );
 
             try {
                 $MailSender
-                    ->addSubject("Schedule for next month")
                     ->addBody("Dear {$contact->firstName()},\r\n\r\nHere's the schedule for next month.\r\n\r\nThanks!")
-                    ->addAddress($contact->emailAddress(), $contact->fullname())
-                    ->addAttachment($schedule_filename)
+                    ->withRecipient($contact->emailAddress(), $contact->fullname())
+                    ->addAttachment($schedule_filename)                    
                     ->send();
 
-                echo "Email sent\r\n";
+                echo "Email sent: {$contact->emailAddress()}\r\n";
             } catch (\Exception $e) {
                 echo "EMAIL SEND FAILURE: {$e->getMessage()}";
             }
