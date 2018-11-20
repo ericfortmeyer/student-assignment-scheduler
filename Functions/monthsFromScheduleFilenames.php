@@ -2,11 +2,13 @@
 
 namespace TalkSlipSender\Functions;
 
-function monthsFromScheduleFilenames(string $path_to_json_schedules): array
+function monthsFromScheduleFilenames(string $path_to_json_schedules, bool $do_past_months): array
 {
     return array_map(
-        function (array $arr): string {
-            return isPastMonth($arr["month"]) ? "" : "{$arr["month"]}";
+        function (array $arr) use ($do_past_months): string {
+            return !$do_past_months && isPastMonth($arr["month"])
+                ? ""
+                : "{$arr["month"]}";
         },
         sortMonths(
             array_map(

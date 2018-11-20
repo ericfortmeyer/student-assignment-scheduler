@@ -9,7 +9,8 @@ use function TalkSlipSender\Functions\monthsFromScheduleFilenames;
 function writeAssignmentForms(
     AssignmentFormWriterInterface $AssignmentFormWriter,
     string $path_to_json_assignments_files,
-    string $path_to_json_schedules
+    string $path_to_json_schedules,
+    bool $do_past_months = false
 ) {
 
     array_map(
@@ -44,6 +45,6 @@ function writeAssignmentForms(
                 print green("Assignment forms for ${month} were created.\r\n");
             }
         },
-        monthsFromScheduleFilenames($path_to_json_schedules)
+        monthsFromScheduleFilenames($path_to_json_schedules, $do_past_months)
     );
 }

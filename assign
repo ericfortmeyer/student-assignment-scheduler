@@ -64,6 +64,19 @@ createJsonAssignments(
     "{$path_config["path_to_data"]}/assignments"
 );
 
+$options = getopt(
+    "p::",
+    ["past::"]
+);
+
+extract($options);
+
+writeAssignmentForms(
+    $AssignmentFormWriter,
+    $path_to_json_assignments_files,
+    "{$path_config["path_to_data"]}/2018",
+    ($past ?? $p ?? false)
+);
 
 writeAssignmentForms(
     $AssignmentFormWriter,
