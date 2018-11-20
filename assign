@@ -47,7 +47,8 @@ $ListOfContacts = new ListOfContacts();
 $MailSender = new MailSender(
     new PHPMailer(true),
     $config["from_email"],
-    getenv("from_email_password")
+    getenv("from_email_password"),
+    getenv("smtp_host")
 );
 
 makeDirectories(
