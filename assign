@@ -11,6 +11,8 @@ use Smalot\PdfParser\Parser;
 
 use function TalkSlipSender\Functions\createJsonSchedulesFromWorkbooks;
 use function TalkSlipSender\Functions\sendEmails;
+use function TalkSlipSender\Functions\scheduleRecipientError;
+use function TalkSlipSender\Functions\contactSetupError;
 use function TalkSlipSender\Functions\makeDirectories;
 use function TalkSlipSender\Functions\writeSchedule;
 use function TalkSlipSender\Functions\CLI\writeAssignmentForms;
@@ -22,8 +24,19 @@ use function TalkSlipSender\Functions\CLI\green;
 use function TalkSlipSender\Functions\CLI\prompt;
 
 require "autoload.php";
-$config = require "config.php";
-$path_config = require "path_config.php";
+
+$config_path = "config/";
+$config = require "${config_path}config.php";
+$path_config = require "${config_path}path_config.php";
+$schedule_recipients_config_file = "${config_path}schedule_recipients.php";
+$contacts_file = "${config_path}contacts.php";
+
+!file_exists($contacts_file) && file_put_contents($contacts_file, "<?php" . PHP_EOL . "return [];" . PHP_EOL);
+$schedule_recipients = require $schedule_recipients_config_file;
+$contacts = require $contacts_file;
+
+empty($contacts) && exit(red(contactSetupError($contacts_file)));
+empty($schedule_recipients) && exit(red(scheduleRecipientError($schedule_recipients_config_file)));
 
 $Dotenv = new Dotenv(__DIR__);
 $Dotenv->load();
@@ -103,9 +116,9 @@ yes($user_response)
     && sendEmails(
         $MailSender,
         $ListOfContacts,
-        require "contacts.php",
+        $contacts,
         $config["assignment_forms_destination"],
-        $config["schedule_recipients"],
+        $schedule_recipients,
         $schedule_filename
     );
 
