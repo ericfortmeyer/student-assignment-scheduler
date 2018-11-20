@@ -17,20 +17,21 @@ function sendAssignmentForms(
         "NO_ASSIGNMENT_FORMS_ERROR_MSG",
         red("Oops! It looks like there are no assignment forms to send.\r\nABORT\r\n")
     );
+
+    $list_of_contacts = loadContacts($contacts, $ListOfContacts);
     
     array_map(
-        function (string $file) use ($MailSender, $ListOfContacts, $contacts, $path_to_forms) {
+        function (string $file) use ($MailSender, $list_of_contacts, $path_to_forms) {
             try {
-                $contact = loadContacts($contacts, $ListOfContacts)
-                    ->getContactByFirstName(
-                        firstNameFromFilename($file)
-                    );
+                $contact = $list_of_contacts->getContactByFirstName(
+                    firstNameFromFilename($file)
+                );
     
                 $attachment = "$path_to_forms/$file";
     
                 $MailSender
                     ->addBody("Dear {$contact->firstName()},\r\n\r\nHere's your next assignment.\r\n\r\nThanks!")
-                    ->addAddress($contact->emailAddress(), $contact->fullname())
+                    ->withRecipient($contact->emailAddress(), $contact->fullname())
                     ->addAttachment($attachment)
                     ->send();
     
