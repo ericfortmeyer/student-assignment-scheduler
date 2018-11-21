@@ -7,6 +7,9 @@ use setasign\Fpdi\PdfParser\StreamReader;
 
 use function TalkSlipSender\Functions\CLI\doesNotHaveWordVideo;
 use function TalkSlipSender\Functions\importMultipleSchedules;
+use function TalkSlipSender\Functions\filenamesByMonth;
+use function TalkSlipSender\Functions\shiftFinalWeekInFollowingMonth;
+use function TalkSlipSender\Functions\importJson;
 
 final class ScheduleWriter
 {
@@ -73,7 +76,7 @@ final class ScheduleWriter
 
         array_map(
             function (int $week_index, $week_of_assignments) use ($schedule) {
-                if ($week_index > 2) {
+                if ($week_index === 3) {
                     $this->nextPage();
                 }
 
@@ -84,7 +87,14 @@ final class ScheduleWriter
                 );
             },
             array_keys($schedule),
-            importMultipleSchedules($path_to_json_assignments)
+            array_map(
+                function (string $json_file) use ($path_to_json_assignments) {
+                    return importJson("${path_to_json_assignments}/${json_file}");
+                },
+                shiftFinalWeekInFollowingMonth(
+                    filenamesByMonth($month, $path_to_json_assignments)
+                )
+            )
         );
 
 
