@@ -6,6 +6,10 @@ use TalkSlipSender\MailSender;
 use TalkSlipSender\ListOfContacts;
 use function TalkSlipSender\Functions\CLI\red;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Processor\PsrLogMessageProcessor;
+
 function sendAssignmentForms(
     MailSender $MailSender,
     ListOfContacts $ListOfContacts,
@@ -19,7 +23,11 @@ function sendAssignmentForms(
     );
 
     $list_of_contacts = loadContacts($contacts, $ListOfContacts);
-    
+
+    $log = new Logger(__FUNCTION__);
+    $log->pushHandler(new StreamHandler(__DIR__ . "/../log/email.log"));
+    $log->pushProcessor(new PsrLogMessageProcessor());
+
     array_map(
         function (string $file) use ($MailSender, $list_of_contacts, $path_to_forms) {
             try {
@@ -36,8 +44,21 @@ function sendAssignmentForms(
                     ->send();
     
                 echo "Email sent: {$contact->emailAddress()}\r\n";
+
+                $log->info(
+                    "Email sent: {email_address}",
+                    ["email_address" => $contact->emailAddress()]
+                );
+
             } catch (\Exception $e) {
                 echo "EMAIL SEND FAILURE: {$e->getMessage()}\r\n";
+                $log->error(
+                    "Email not sent to {email_address}. Reason: {error_message}",
+                        [
+                            "email_address" => $contact->emailAddress(),
+                            "error_message" => $e->getMessage()
+                        ]
+                    );
             }
         },
         filenamesInDirectory(

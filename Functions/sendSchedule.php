@@ -5,6 +5,10 @@ namespace TalkSlipSender\Functions;
 use TalkSlipSender\MailSender;
 use TalkSlipSender\ListOfContacts;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Processor\PsrLogMessageProcessor;
+
 function sendSchedule(
     MailSender $MailSender,
     ListOfContacts $ListOfContacts,
@@ -14,10 +18,15 @@ function sendSchedule(
 ) {
     $list_of_contacts = loadContacts($contacts, $ListOfContacts);
 
+    $log = new Logger(__FUNCTION__);
+    $log->pushHandler(new StreamHandler(__DIR__ . "/../log/email.log"));
+    $log->pushProcessor(new PsrLogMessageProcessor());
+
     array_map(
         function (string $recipient) use (
             $MailSender,
             $list_of_contacts,
+            $log,
             $schedule_filename
         ) {
             $contact = $list_of_contacts->getContactByFullname(
@@ -33,8 +42,19 @@ function sendSchedule(
                     ->send();
 
                 echo "Email sent: {$contact->emailAddress()}\r\n";
+                $log->info(
+                    "Email sent: {email_address}",
+                    ["email_address" => $contact->emailAddress()]
+                );
             } catch (\Exception $e) {
-                echo "EMAIL SEND FAILURE: {$e->getMessage()}";
+                echo "EMAIL SEND FAILURE: {$e->getMessage()}\r\n";
+                $log->error(
+                    "Email not sent to {email_address}. Reason: {error_message}",
+                        [
+                            "email_address" => $contact->emailAddress(),
+                            "error_message" => $e->getMessage()
+                        ]
+                    );
             }
         },
         $schedule_recipients
