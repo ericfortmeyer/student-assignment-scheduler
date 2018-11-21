@@ -29,7 +29,7 @@ function sendAssignmentForms(
     $log->pushProcessor(new PsrLogMessageProcessor());
 
     array_map(
-        function (string $file) use ($MailSender, $list_of_contacts, $path_to_forms) {
+        function (string $file) use ($MailSender, $list_of_contacts, $log, $path_to_forms) {
             try {
                 $contact = $list_of_contacts->getContactByFirstName(
                     firstNameFromFilename($file)
