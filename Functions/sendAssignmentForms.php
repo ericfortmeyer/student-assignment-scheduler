@@ -5,10 +5,7 @@ namespace TalkSlipSender\Functions;
 use TalkSlipSender\MailSender;
 use TalkSlipSender\ListOfContacts;
 use function TalkSlipSender\Functions\CLI\red;
-
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Processor\PsrLogMessageProcessor;
+use function TalkSlipSender\Functions\Logging\emailLogger;
 
 function sendAssignmentForms(
     MailSender $MailSender,
@@ -24,9 +21,7 @@ function sendAssignmentForms(
 
     $list_of_contacts = loadContacts($contacts, $ListOfContacts);
 
-    $log = new Logger(__FUNCTION__);
-    $log->pushHandler(new StreamHandler(__DIR__ . "/../log/email.log"));
-    $log->pushProcessor(new PsrLogMessageProcessor());
+    $log = emailLogger(__FUNCTION__);
 
     array_map(
         function (string $file) use ($MailSender, $list_of_contacts, $log, $path_to_forms) {

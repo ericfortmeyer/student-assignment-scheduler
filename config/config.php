@@ -5,6 +5,7 @@ return [
     "schedule_template" => "templates/S-140-E.pdf",
     "assignment_forms_destination" => "data/forms",
     "schedules_destination" => "data/schedules",
+    "email_log" => __DIR__ . "/../log/email.log",
     "schedule_font_size" => 10,
     "font" => "Helvetica",
     "font_color" => "blue",

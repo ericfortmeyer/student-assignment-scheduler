@@ -5,9 +5,7 @@ namespace TalkSlipSender\Functions;
 use TalkSlipSender\MailSender;
 use TalkSlipSender\ListOfContacts;
 
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Processor\PsrLogMessageProcessor;
+use function TalkSlipSender\Functions\Logging\emailLogger;
 
 function sendSchedule(
     MailSender $MailSender,
@@ -18,9 +16,7 @@ function sendSchedule(
 ) {
     $list_of_contacts = loadContacts($contacts, $ListOfContacts);
 
-    $log = new Logger(__FUNCTION__);
-    $log->pushHandler(new StreamHandler(__DIR__ . "/../log/email.log"));
-    $log->pushProcessor(new PsrLogMessageProcessor());
+    $log = emailLogger(__FUNCTION__);
 
     array_map(
         function (string $recipient) use (
