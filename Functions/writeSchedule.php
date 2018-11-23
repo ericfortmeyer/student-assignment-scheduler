@@ -2,7 +2,7 @@
 
 namespace TalkSlipSender\Functions;
 
-use TalkSlipSender\ScheduleWriter;
+use TalkSlipSender\Utils\ScheduleWriter;
 
 /**
  * Create the schedule for the month

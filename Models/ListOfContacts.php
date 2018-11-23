@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender;
+namespace TalkSlipSender\Models;
 
 class ListOfContacts
 {

@@ -46,10 +46,7 @@ function shiftFinalWeekInFollowingMonth(array $files): array
         $copy->push($week_in_following_month);
 
         return $copy->toArray();
-
     } else {
-
         return $files;
-
     }
 }

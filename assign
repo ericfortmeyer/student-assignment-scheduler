@@ -1,9 +1,9 @@
 <?php
 
-use TalkSlipSender\PDFAssignmentFormWriter;
-use TalkSlipSender\ScheduleWriter;
-use TalkSlipSender\MailSender;
-use TalkSlipSender\ListOfContacts;
+use TalkSlipSender\Utils\PDFAssignmentFormWriter;
+use TalkSlipSender\Utils\ScheduleWriter;
+use TalkSlipSender\Utils\MailSender;
+use TalkSlipSender\Models\ListOfContacts;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;

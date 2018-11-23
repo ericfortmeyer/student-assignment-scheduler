@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender;
+namespace TalkSlipSender\Utils;
 
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\StreamReader;

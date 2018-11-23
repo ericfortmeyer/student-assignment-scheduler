@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender;
+namespace TalkSlipSender\Models;
 
 /**
  * Use to avoid leaking password into stack traces, var_dump() calls, etc

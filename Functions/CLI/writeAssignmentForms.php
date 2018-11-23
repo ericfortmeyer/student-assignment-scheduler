@@ -2,7 +2,7 @@
 
 namespace TalkSlipSender\Functions\CLI;
 
-use TalkSlipSender\AssignmentFormWriterInterface;
+use TalkSlipSender\Utils\AssignmentFormWriterInterface;
 use function TalkSlipSender\Functions\writeMonthOfAssignmentForms;
 use function TalkSlipSender\Functions\monthsFromScheduleFilenames;
 

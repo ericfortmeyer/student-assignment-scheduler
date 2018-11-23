@@ -2,7 +2,7 @@
 
 namespace TalkSlipSender\Functions;
 
-use TalkSlipSender\AssignmentFormWriterInterface;
+use TalkSlipSender\Utils\AssignmentFormWriterInterface;
 
 function writeAssignmentFormFromAssignment(
     AssignmentFormWriterInterface $Writer,

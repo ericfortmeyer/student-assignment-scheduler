@@ -2,8 +2,8 @@
 
 namespace TalkSlipSender\Functions;
 
-use TalkSlipSender\Contact;
-use TalkSlipSender\ListOfContacts;
+use TalkSlipSender\Models\Contact;
+use TalkSlipSender\Models\ListOfContacts;
 
 function loadContacts(array $contacts, ListOfContacts $list_of_contacts)
 {

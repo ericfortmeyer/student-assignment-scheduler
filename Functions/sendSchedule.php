@@ -2,8 +2,8 @@
 
 namespace TalkSlipSender\Functions;
 
-use TalkSlipSender\MailSender;
-use TalkSlipSender\ListOfContacts;
+use TalkSlipSender\Utils\MailSender;
+use TalkSlipSender\Models\ListOfContacts;
 
 use function TalkSlipSender\Functions\Logging\emailLogger;
 
