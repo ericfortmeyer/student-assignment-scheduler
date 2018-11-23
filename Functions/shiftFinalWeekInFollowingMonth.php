@@ -2,6 +2,8 @@
 
 namespace TalkSlipSender\Functions;
 
+use \Ds\Vector;
+
 function shiftFinalWeekInFollowingMonth(array $files): array
 {
     /**
@@ -33,17 +35,21 @@ function shiftFinalWeekInFollowingMonth(array $files): array
     $mustShift = $firstAndSecondWeekAreLessThanAWeekApart
         && $moreThan4weeksTotal;
 
+    $vector = new Vector($files);
+
+    
     if ($mustShift) {
-
         // just to be safe
-        $copy = $files;
-
+        $copy = $vector->copy();
         // move the first element to the end of the array
-        $week_in_following_month = array_shift($copy);
-        $copy[] = $week_in_following_month;
+        $week_in_following_month = $copy->shift();
+        $copy->push($week_in_following_month);
 
-        return $copy;
+        return $copy->toArray();
+
     } else {
+
         return $files;
+
     }
 }
