@@ -11,6 +11,7 @@ use Smalot\PdfParser\Parser;
 
 use function TalkSlipSender\Functions\createJsonSchedulesFromWorkbooks;
 use function TalkSlipSender\Functions\sendEmails;
+use function TalkSlipSender\Functions\decryptedPassword;
 use function TalkSlipSender\Functions\scheduleRecipientError;
 use function TalkSlipSender\Functions\contactSetupError;
 use function TalkSlipSender\Functions\makeDirectories;
@@ -25,21 +26,30 @@ use function TalkSlipSender\Functions\CLI\prompt;
 
 require "autoload.php";
 
+// load configuration files
 $config_path = "config/";
 $config = require "${config_path}config.php";
 $path_config = require "${config_path}path_config.php";
 $schedule_recipients_config_file = "${config_path}schedule_recipients.php";
 $contacts_file = "${config_path}contacts.php";
 
+// creates an empty contacts file if one has not been created yet
 !file_exists($contacts_file) && file_put_contents($contacts_file, "<?php" . PHP_EOL . "return [];" . PHP_EOL);
-$schedule_recipients = require $schedule_recipients_config_file;
-$contacts = require $contacts_file;
 
-empty($contacts) && exit(red(contactSetupError($contacts_file)));
-empty($schedule_recipients) && exit(red(scheduleRecipientError($schedule_recipients_config_file)));
+// the contacts file and schedule recipients must be setup first
+empty($contacts = require $contacts_file)
+    && exit(red(contactSetupError($contacts_file)));
+empty($schedule_recipients = require $schedule_recipients_config_file)
+    && exit(red(scheduleRecipientError($schedule_recipients_config_file)));
 
 $Dotenv = new Dotenv(__DIR__);
 $Dotenv->load();
+$Dotenv->required([
+    "from_email_password",
+    "from_email_nonce",
+    "from_email_key",
+    "smtp_host"
+]);
 $WorkbookParser = new Parser();
 $AssignmentFormWriter = new PDFAssignmentFormWriter($config);
 $ScheduleWriter = new ScheduleWriter($config);
@@ -47,66 +57,89 @@ $ListOfContacts = new ListOfContacts();
 $MailSender = new MailSender(
     new PHPMailer(true),
     $config["from_email"],
-    getenv("from_email_password"),
+    decryptedPassword(),
     getenv("smtp_host")
 );
 
 makeDirectories(
     [
         $path_to_assignment_forms = $path_config["path_to_forms"],
-        $path_to_json_assignments_files = "{$path_config["path_to_data"]}/assignments/2018",
-        $path_to_assignment_forms,
-        $path_config["path_to_schedules"],
-        $path_to_json_assignments_files,
-        "{$path_config["path_to_data"]}/2018",
-        "{$path_config["path_to_data"]}/2019"
+        $path_config["path_to_schedules"]
     ]
 );
 
 
-createJsonSchedulesFromWorkbooks(
+/**
+ * Parse pdf schedules into json
+ *
+ * Data derived from the json schedules are used
+ * when the user of the application schedules assignments
+ * and for writing out assignment forms
+ */
+$json_schedules_paths = createJsonSchedulesFromWorkbooks(
     $WorkbookParser,
     $path_config["path_to_workbooks"],
     $path_config["path_to_data"]
 );
 print green("Schedules were created from workbooks\r\n");
 
+/**
+ * FIX:
+ * The year can not be assumed to be the greatest year
+ * of the schedules generated since December and January might
+ * be being scheduled together
+ */
+$year = max($json_schedules_paths);
+$path_to_json_schedules = "{$path_config["path_to_data"]}/${year}";
 
+makeDirectories([$path_to_json_assignments_files = "{$path_config["path_to_data"]}/assignments/${year}"]);
 
+/**
+ * Interact with the user of the application to schedule assignments
+ *
+ * A json file is created for each week of assignments
+ */
 createJsonAssignments(
-    "{$path_config["path_to_data"]}/2018",
-    "{$path_config["path_to_data"]}/assignments"
+    $path_to_json_schedules,
+    $path_config["path_to_assignments"]
 );
 
-$options = getopt(
-    "p::",
-    ["past::"]
-);
-
-extract($options);
-
+/**
+ * Create assignment forms
+ *
+ * The json files representing weeks of assignments are used
+ * to generate pdf assignment forms
+ */
 $which_months = writeAssignmentForms(
     $AssignmentFormWriter,
     $path_to_json_assignments_files,
-    "{$path_config["path_to_data"]}/2018",
+    $path_to_json_schedules,
     ($past ?? $p ?? false)
 );
 
+/**
+ * Were assignments scheduled?
+ */
 current($which_months) ?? exit("No schedules were created.  Good Bye\r\n");
 
+/**
+ * Create the schedule for the month
+ *
+ * Uses the json schedule and the json assignment files
+ * to generate a pdf schedule for the month
+ */
 $schedule_filename = writeSchedule(
     $ScheduleWriter,
     $path_to_json_assignments_files,
-    "{$path_config["path_to_data"]}/2018",
+    $path_to_json_schedules,
     current($which_months)
 );
+
 
 
 $user_response = readline(
     prompt("Do you want to send the emails")
 );
-
-
 
 
 yes($user_response)
