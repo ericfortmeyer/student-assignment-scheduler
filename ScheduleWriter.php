@@ -6,7 +6,6 @@ use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\StreamReader;
 
 use function TalkSlipSender\Functions\CLI\doesNotHaveWordVideo;
-use function TalkSlipSender\Functions\importMultipleSchedules;
 use function TalkSlipSender\Functions\filenamesByMonth;
 use function TalkSlipSender\Functions\shiftFinalWeekInFollowingMonth;
 use function TalkSlipSender\Functions\importJson;
@@ -56,6 +55,10 @@ final class ScheduleWriter
     }
 
     /**
+     * Create the schedule for the given month
+     * 
+     * Creates a file with the schedule for the given month that can be distrubted
+     * i.e. a PDF file that can be attached to an email
      * @param string $path_to_json_assignments
      * @param string[] $schedule
      * @param string $month
