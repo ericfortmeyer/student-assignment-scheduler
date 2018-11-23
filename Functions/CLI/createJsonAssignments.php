@@ -9,6 +9,11 @@ use function TalkSlipSender\Functions\importMultipleSchedules;
 use function TalkSlipSender\Functions\sortMonths;
 use function TalkSlipSender\Functions\isPastMonth;
 
+/**
+ * Interact with the user of the application to schedule assignments
+ *
+ * A json file is created for each week of assignments
+ */
 function createJsonAssignments(
     string $path_to_json_schedules,
     string $data_destination

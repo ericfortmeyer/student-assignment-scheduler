@@ -6,6 +6,18 @@ use TalkSlipSender\AssignmentFormWriterInterface;
 use function TalkSlipSender\Functions\writeMonthOfAssignmentForms;
 use function TalkSlipSender\Functions\monthsFromScheduleFilenames;
 
+/**
+ * Create assignment forms
+ *
+ * The json files representing weeks of assignments are used
+ * to generate pdf assignment forms
+ *
+ * @param AssignmentFormWriterInterface $AssignmentFormWriter
+ * @param string $path_to_json_assignments_files
+ * @param string $path_to_json_schedules
+ * @param bool $do_past_months
+ * @return array  Which months of assignment forms were created?
+ */
 function writeAssignmentForms(
     AssignmentFormWriterInterface $AssignmentFormWriter,
     string $path_to_json_assignments_files,

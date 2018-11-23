@@ -7,6 +7,14 @@ use TalkSlipSender\ListOfContacts;
 use function TalkSlipSender\Functions\CLI\red;
 use function TalkSlipSender\Functions\Logging\emailLogger;
 
+/**
+ * Sends assignment forms
+ *
+ * For each file found in the assignment form folder
+ * (1) Use the name of the assignment folder to determine who the recipient is
+ * (2) Attach file and send email to the recipient
+ * (3) Delete the file from the folder
+ */
 function sendAssignmentForms(
     MailSender $MailSender,
     ListOfContacts $ListOfContacts,
@@ -45,15 +53,26 @@ function sendAssignmentForms(
                     ["email_address" => $contact->emailAddress()]
                 );
 
+                /**
+                 * Delete attachment
+                 *
+                 * Since assignment slips are created and this function is called each time the script is run,
+                 * the file needs to be deleted or duplicates will be created
+                 */
+                unlink($attachment);
+
+                $log->info(
+                    "Assignment slip deleted"
+                );
             } catch (\Exception $e) {
                 echo "EMAIL SEND FAILURE: {$e->getMessage()}\r\n";
                 $log->error(
                     "Email not sent to {email_address}. Reason: {error_message}",
-                        [
+                    [
                             "email_address" => $contact->emailAddress(),
                             "error_message" => $e->getMessage()
                         ]
-                    );
+                );
             }
         },
         filenamesInDirectory(

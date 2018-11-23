@@ -46,11 +46,11 @@ function sendSchedule(
                 echo "EMAIL SEND FAILURE: {$e->getMessage()}\r\n";
                 $log->error(
                     "Email not sent to {email_address}. Reason: {error_message}",
-                        [
+                    [
                             "email_address" => $contact->emailAddress(),
                             "error_message" => $e->getMessage()
                         ]
-                    );
+                );
             }
         },
         $schedule_recipients
