@@ -36,7 +36,7 @@ function createJsonSchedulesFromWorkbooks(
             },
             array_diff(
                 scandir($path_to_workbooks),
-                [".", ".."]
+                [".", "..", ".DS_Store"]
             )
         )
     );
