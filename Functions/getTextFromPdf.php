@@ -6,8 +6,10 @@ use Smalot\PdfParser\Parser;
 
 function getTextFromPdf(Parser $parser, string $file, int $page_number): string
 {
-    return $parser
-        ->parseFile($file)
-        ->getPages()[$page_number]
-        ->getText();
+    //if the length is less than 400, the text is not needed
+    return (strlen($text = $parser
+            ->parseFile($file)
+            ->getPages()[$page_number]
+            ->getText()) > 400
+        ) ? $text : "";
 }
