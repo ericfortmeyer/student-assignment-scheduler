@@ -14,6 +14,10 @@ function sendEmails(
     string $schedule_filename
 ) {
 
+    /**
+     * Clone these classes since they are mutated by the functions using them
+     * making their behavior unpredictable to functions using them afterwards
+     */
     $clone_of_mail_sender = clone $MailSender;
     $clone_of_list_of_contacts = clone $ListOfContacts;
 
