@@ -5,18 +5,17 @@ namespace TalkSlipSender\Functions;
 function filenamesInDirectory(
     string $dir,
     string $error_msg = "",
-    bool $exit_program = false
+    bool $should_exit = false,
+    array $exclude = [".", "..", ".DS_Store"]
 ) {
-    $result = array_diff(
-        scandir($dir),
-        [".", "..", ".DS_Store"]
-    );
+    return ($result = array_diff(scandir($dir), $exclude))
+        ? $result
+        : handleError($should_exit, $error_msg);
+}
 
-    if ($result) {
-        return $result;
-    } else {
-        $exit_program ? abort($error_msg) : print($error_msg);
-    }
+function handleError(bool $should_exit, string $error_msg): void
+{
+    $should_exit ? abort($error_msg) : print($error_msg);
 }
 
 function abort(string $error_msg): void
