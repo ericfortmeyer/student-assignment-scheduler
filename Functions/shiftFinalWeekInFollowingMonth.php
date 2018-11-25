@@ -17,7 +17,7 @@ function shiftFinalWeekInFollowingMonth(array $files): array
      */
     $dates = array_map(
         function (string $filename) {
-            return (int) str_replace(".json", "", $filename);
+            return (int) basename($filename, ".json");
         },
         $files
     );
