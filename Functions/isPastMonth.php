@@ -4,5 +4,5 @@ namespace TalkSlipSender\Functions;
 
 function isPastMonth(string $month): bool
 {
-    return monthObj($month) < date_create();
+    return monthObj($month) <= date_create("00:00");
 }
