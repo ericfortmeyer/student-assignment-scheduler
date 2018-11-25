@@ -13,13 +13,13 @@ function getAssignmentDate(string $text, string $month): string
         $one_or_more_horizontal_whitespaces,
         $one_or_two_digits_captured,
         $multiline_mode
-    ) = ["^", "\h+", "(\d{1,2})", "m"];
+    ) = ["/^", "\h+", "(\d{1,2})", "/m"];
 
-    $pattern = "/${beginning_of_line}"
+    $pattern = $beginning_of_line
         . $monthAllCaps
         . $one_or_more_horizontal_whitespaces
         . $one_or_two_digits_captured
-        . "/${multiline_mode}";
+        . $multiline_mode;
 
     return date_create_immutable_from_format(
         "d",
