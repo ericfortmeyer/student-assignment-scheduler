@@ -1,0 +1,31 @@
+{
+    "0": {
+        "date": "December 27",
+        "assignment": "bible_reading",
+        "name": "Kevin Flint",
+        "counsel_point": "1",
+        "assistant": ""
+    },
+    "1": {
+        "date": "December 27",
+        "assignment": "Second Return Visit",
+        "name": "Danyetta Jolly",
+        "counsel_point": "31",
+        "assistant": "Elvira Phillips"
+    },
+    "2": {
+        "date": "December 27",
+        "assignment": "Third Return Visit",
+        "name": "Mona Osburn",
+        "counsel_point": "31",
+        "assistant": "Jasmia Horton"
+    },
+    "3": {
+        "date": "December 27",
+        "assignment": "Bible Study",
+        "name": "Collene Underwood",
+        "counsel_point": "31",
+        "assistant": "Wideline Joseph"
+    },
+    "year": "2018"
+}

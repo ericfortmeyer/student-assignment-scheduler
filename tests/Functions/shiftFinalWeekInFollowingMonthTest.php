@@ -8,7 +8,7 @@ class shiftFinalWeekInFollowingMonthTest extends TestCase
 {
     protected function setup()
     {
-        $this->weeks = [
+        $this->weeks_needing_shifting = [
             "1203.json",
             "1206.json",
             "1213.json",
@@ -16,7 +16,7 @@ class shiftFinalWeekInFollowingMonthTest extends TestCase
             "1227.json"
         ];
 
-        $this->normal_month = [
+        $this->weeks_not_needing_shifting = [
             "1108.json",
             "1115.json",
             "1122.json",
@@ -26,22 +26,29 @@ class shiftFinalWeekInFollowingMonthTest extends TestCase
 
     public function testShiftsFinalWeekAsExpected()
     {
-        $result = shiftFinalWeekInFollowingMonth($this->weeks);
-        $this->assertSame(
-            $this->weeks[0],
-            end($result)
+        $result = shiftFinalWeekInFollowingMonth($this->weeks_needing_shifting);
+        $first_element_before_shifting = $this->weeks_needing_shifting[0];
+        $last_element_after_shifting = end($result);
+
+        $this->assertThat(
+            $first_element_before_shifting,
+            $this->identicalTo(
+                $last_element_after_shifting
+            )
         );
     }
 
     public function testDoesNotShiftNormalMonth()
     {
-        $result = shiftFinalWeekInFollowingMonth($this->normal_month);
+        $result = shiftFinalWeekInFollowingMonth($this->weeks_not_needing_shifting);
+        $first_element_before_shifting = $this->weeks_not_needing_shifting[0];
+        $last_element_after_shifting = end($result);
 
         $this->assertThat(
-            $this->normal_month[0],
+            $first_element_before_shifting,
             $this->logicalNot(
                 $this->identicalTo(
-                    end($result)
+                    $last_element_after_shifting
                 )
             )
         );

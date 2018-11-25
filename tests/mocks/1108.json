@@ -1,0 +1,24 @@
+{
+    "0": {
+        "date": "November 08",
+        "assignment": "bible_reading",
+        "name": "Phillip Tate",
+        "counsel_point": "5",
+        "assistant": ""
+    },
+    "1": {
+        "date": "November 08",
+        "assignment": "First Return Visit",
+        "name": "Eriviel Johnson",
+        "counsel_point": "24",
+        "assistant": "Holly Evis"
+    },
+    "2": {
+        "date": "November 08",
+        "assignment": "Bible Study",
+        "name": "Pat Noble",
+        "counsel_point": "12",
+        "assistant": "Danyetta Jolly"
+    },
+    "year": "2018"
+}

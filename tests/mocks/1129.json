@@ -1,0 +1,31 @@
+{
+    "0": {
+        "date": "November 29",
+        "assignment": "bible_reading",
+        "name": "Tiaun Brown",
+        "counsel_point": "12",
+        "assistant": ""
+    },
+    "1": {
+        "date": "November 29",
+        "assignment": "Second Return Visit",
+        "name": "Keisha Herren",
+        "counsel_point": "24",
+        "assistant": "Jasmia Horton"
+    },
+    "2": {
+        "date": "November 29",
+        "assignment": "Third Return Visit",
+        "name": "Elvira Phillips",
+        "counsel_point": "24",
+        "assistant": "Collene Underwood"
+    },
+    "3": {
+        "date": "November 29",
+        "assignment": "Bible Study",
+        "name": "Sara Pockrus",
+        "counsel_point": "12",
+        "assistant": "Tosha Fortmeyer"
+    },
+    "year": "2018"
+}

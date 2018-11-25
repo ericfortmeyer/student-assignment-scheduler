@@ -1,0 +1,24 @@
+{
+    "0": {
+        "date": "November 22",
+        "assignment": "bible_reading",
+        "name": "TJ Clements",
+        "counsel_point": "12",
+        "assistant": ""
+    },
+    "1": {
+        "date": "November 22",
+        "assignment": "First Conversation",
+        "name": "Shaletra Pugh",
+        "counsel_point": "13",
+        "assistant": "Jordan Singleton"
+    },
+    "2": {
+        "date": "November 22",
+        "assignment": "First Return Visit",
+        "name": "Lourdes Clement",
+        "counsel_point": "12",
+        "assistant": "Arlene Mullins"
+    },
+    "year": "2018"
+}

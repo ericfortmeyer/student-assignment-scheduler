@@ -1,0 +1,31 @@
+{
+    "0": {
+        "date": "January 03",
+        "assignment": "bible_reading",
+        "name": "Eric Fortmeyer",
+        "counsel_point": "3",
+        "assistant": ""
+    },
+    "1": {
+        "date": "January 03",
+        "assignment": "Second Return Visit",
+        "name": "Lourdes Clements",
+        "counsel_point": "31",
+        "assistant": "Arlene Mullins"
+    },
+    "2": {
+        "date": "January 03",
+        "assignment": "Third Return Visit",
+        "name": "Jasmia Horton",
+        "counsel_point": "31",
+        "assistant": "Regina Peebles"
+    },
+    "3": {
+        "date": "January 03",
+        "assignment": "Bible Study",
+        "name": "Tammie Brown",
+        "counsel_point": "31",
+        "assistant": "Sara Pockrus"
+    },
+    "year": "2018"
+}
