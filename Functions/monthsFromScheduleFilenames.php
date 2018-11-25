@@ -2,28 +2,22 @@
 
 namespace TalkSlipSender\Functions;
 
-function monthsFromScheduleFilenames(string $path_to_json_schedules, bool $do_past_months): array
+use \Ds\Vector;
+
+function monthsFromScheduleFilenames(string $path_to_json_schedules, bool $do_past_months = false): array
 {
-    return array_filter(
-        sortMonths(
-            array_map(
-                function (string $filename) {
-                    /**
-                     * Requires key "month" to simplify passing arguments into
-                     * sortMonths function for other clients
-                     */
-                    return [
-                        "month" => str_replace(".json", "", $filename)
-                    ];
-                },
-                array_diff(
-                    scandir($path_to_json_schedules),
-                    [".", "..", ".DS_Store"]
-                )
-            )
-        ),
-        function (array $arr) use ($do_past_months) {
-            return (!$do_past_months && !isPastMonth($arr["month"]));
-        }
-    );
+    $vector = new Vector(filenamesInDirectory($path_to_json_schedules));
+    /**
+     * Requires key "month" to simplify passing arguments into
+     * sortMonths function for other clients
+     */
+    return $vector->map(function (string $filename) {
+        return basename($filename, ".json");
+    })->sorted(function (string $month_a, string $month_b) {
+        return monthObj($month_a) <=> monthObj($month_b);
+    })->filter(function (string $month) use ($do_past_months) {
+        return !$do_past_months && !isPastMonth($month);
+    })->map(function (string $month) {
+        return ["month" => $month];
+    })->toArray();
 }

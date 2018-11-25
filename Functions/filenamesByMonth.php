@@ -10,10 +10,7 @@ namespace TalkSlipSender\Functions;
 function filenamesByMonth(string $month, string $path_to_files): array
 {
     return array_filter(
-        array_diff(
-            scandir($path_to_files),
-            [".", "..", "DS_Store"]
-        ),
+        filenamesInDirectory($path_to_files),
         function (string $file) use ($month) {
             return str_split($file, 2)[0] === monthNumeric($month);
         }
