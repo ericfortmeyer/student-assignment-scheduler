@@ -17,7 +17,8 @@ function extractDataFromPdf(Parser $parser, string $file): array
             array_map(
                 function ($page) use ($parser, $file, $month) {
                     $textFromPdf = getTextFromPdf($parser, $file, $page);
-                    return strlen($textFromPdf) < 400
+                    $pdf_page_does_not_have_schedule = strlen($textFromPdf) < 400;
+                    return $pdf_page_does_not_have_schedule
                         ? null
                         : [
                             "date" => getAssignmentDate($textFromPdf, $month),
