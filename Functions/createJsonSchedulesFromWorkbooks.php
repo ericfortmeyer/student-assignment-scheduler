@@ -6,6 +6,8 @@ use Smalot\PdfParser\Parser;
 use \Ds\Set;
 use \Ds\Vector;
 
+use function TalkSlipSender\Functions\CLI\green;
+
 /**
  * Parse pdf schedules into json
  *
@@ -26,11 +28,13 @@ function createJsonSchedulesFromWorkbooks(
         function (string $workbook) use ($parser, $path_to_workbooks, $data_destination) {
             $year = getYearFromWorkbookPath($workbook);
             $month = getMonthFromWorkbookPath($workbook);
-
-            $data = extractDataFromPdf($parser, "${path_to_workbooks}/${workbook}");
             $filename = "${data_destination}/${year}/${month}.json";
-
-            save($data, $filename);
+            
+            if (!file_exists($filename)) {
+                $data = extractDataFromPdf($parser, "${path_to_workbooks}/${workbook}");
+                save($data, $filename, true);
+                print green("Schedule for $month was created");
+            }
 
             return (int) $year;
         }

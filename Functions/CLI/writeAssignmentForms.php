@@ -22,16 +22,22 @@ function writeAssignmentForms(
     AssignmentFormWriterInterface $AssignmentFormWriter,
     string $path_to_json_assignments_files,
     string $path_to_json_schedules,
+    \Closure $hasScheduleAlreadyBeenCompleted,
     bool $do_past_months = false
 ): array {
 
     return array_map(
         function (array $arr) use (
             $AssignmentFormWriter,
-            $path_to_json_assignments_files
+            $path_to_json_assignments_files,
+            $hasScheduleAlreadyBeenCompleted
         ) {
 
             $month = $arr["month"];
+
+            if ($hasScheduleAlreadyBeenCompleted($month)) {
+                return;
+            }
 
             $didDisplay = displayTableOfMonthOfAssignments(
                 $month,

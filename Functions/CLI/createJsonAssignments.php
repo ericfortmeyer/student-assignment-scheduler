@@ -16,15 +16,18 @@ use function TalkSlipSender\Functions\isPastMonth;
  */
 function createJsonAssignments(
     string $path_to_json_schedules,
-    string $data_destination
+    string $data_destination,
+    \Closure $hasScheduleAlreadyBeenCompleted
 ) {
     array_map(
-        function (array $schedule_for_month) use ($data_destination) {
+        function (array $schedule_for_month) use ($data_destination, $hasScheduleAlreadyBeenCompleted) {
 
             $month = $schedule_for_month["month"];
             $year = $schedule_for_month["year"];
 
-            if (isPastMonth($month)) {
+            $shouldAbort = isPastMonth($month) || $hasScheduleAlreadyBeenCompleted($month);
+
+            if ($shouldAbort) {
                 return;
             }
 
@@ -48,6 +51,7 @@ function createJsonAssignments(
                             $filename = "${data_destination}/"
                                 . monthNumeric($month)
                                 . "{$schedule_for_week["date"]}.json";
+
 
                             if (file_exists($filename)) {
                                 echo green("It looks like you've already completed "
@@ -80,10 +84,7 @@ function createJsonAssignments(
 
                             $schedule["year"] = $year;
                 
-                            save(
-                                $schedule,
-                                $filename
-                            );
+                            save($schedule, $filename, true);
                         },
                         weeksFrom($schedule_for_month),
                         array_keys(weeksFrom($schedule_for_month))
