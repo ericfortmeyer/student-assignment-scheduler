@@ -2,18 +2,59 @@
 
 namespace TalkSlipSender\Functions;
 
-/**
- * @param mixed[] $info
- * @param string $path_to_data
- * @return mixed int|bool number of bytes written or false on failure
- */
-function save(array $info, string $path_to_data, string $filename)
-{
-    !file_exists("$path_to_data/{$info["year"]}")
-        && mkdir("$path_to_data/{$info["year"]}", 0777, true);
+use function TalkSlipSender\Functions\Logging\fileSaveLogger;
+use function TalkSlipSender\Functions\Logging\nullLogger;
+use function TalkSlipSender\FileRegistry\Functions\registerFile;
 
-    return file_put_contents(
-        "$path_to_data/{$info["year"]}/${filename}.json",
-        json_encode($info, JSON_PRETTY_PRINT)
+function save(
+    array $file_data,
+    string $filename,
+    bool $test_mode = false,
+    ?string $test_registry = null
+): void {
+
+    $logger = whichLogger(__FUNCTION__, $test_mode);
+    $directory = dirname($filename);
+
+    !file_exists($directory) && makeDir($directory, $logger);
+    !file_exists($filename) && createFile($file_data, $filename, $logger, $test_registry);
+}
+
+function createFile(array $file_data, string $filename, $logger, ?string $test_registry)
+{
+    $context = ["file" => $filename];
+
+    file_put_contents($filename, json_encode($file_data, JSON_PRETTY_PRINT))
+        ? success($filename, $logger, $context, $test_registry)
+        : fail($logger, $context);
+}
+
+function makeDir(string $directory, $logger)
+{
+    $context = ["directory" => $directory];
+
+    mkdir($directory, 0777, true)
+        ? $logger->info("Directory {directory} created", $context)
+        : $logger->error("Directory {directory} creation failed", $context);
+}
+
+function success(string $filename, $logger, array $context, ?string $test_registry)
+{
+    registerFile(
+        hashOfFile($filename),
+        $filename,
+        $test_registry
     );
+
+    $logger->info("File {file} created", $context);
+}
+
+function fail($logger, array $context)
+{
+    $logger->error("File {file} creation failed", $context);
+}
+
+function whichLogger(string $function, bool $test_mode)
+{
+    return $test_mode ? nullLogger() : fileSaveLogger($function);
 }
