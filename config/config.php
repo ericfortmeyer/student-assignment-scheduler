@@ -6,6 +6,8 @@ return [
     "assignment_forms_destination" => "data/forms",
     "schedules_destination" => "data/schedules",
     "email_log" => __DIR__ . "/../log/email.log",
+    "file_save_log" => __DIR__ . "/../log/info.log",
+    "file_import_log" => __DIR__ . "/../log/info.log",
     "schedule_font_size" => 10,
     "font" => "Helvetica",
     "font_color" => "blue",
