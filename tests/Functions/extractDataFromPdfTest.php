@@ -5,7 +5,7 @@ namespace TalkSlipSender\Functions;
 use PHPUnit\Framework\TestCase;
 use Smalot\PdfParser\Parser;
 
-class extractDataFromPdfTest extends TestCase
+class ExtractDataFromPdfTest extends TestCase
 {
     protected function setup()
     {

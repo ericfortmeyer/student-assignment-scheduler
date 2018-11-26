@@ -4,7 +4,7 @@ namespace TalkSlipSender\Functions;
 
 use PHPUnit\Framework\TestCase;
 
-class shiftFinalWeekInFollowingMonthTest extends TestCase
+class ShiftFinalWeekInFollowingMonthTest extends TestCase
 {
     protected function setup()
     {

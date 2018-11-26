@@ -7,7 +7,7 @@ use Smalot\PdfParser\Parser;
 use \Ds\Vector;
 use \Ds\Map;
 
-class getAssignmentTest extends TestCase
+class GetAssignmentTest extends TestCase
 {
     protected function setup()
     {
@@ -25,7 +25,7 @@ class getAssignmentTest extends TestCase
         (new Map($this->pages($year_month)))->map(
             function (int $key, string $text) use ($expected) {
                 (new Vector(range(5, 7)))->map(
-                    function (int $assignment_num) use ($expected, $key, $text){
+                    function (int $assignment_num) use ($expected, $key, $text) {
                         $this->assertEquals(
                             $expected[$key][$assignment_num],
                             getAssignment($assignment_num, $text)
@@ -39,8 +39,12 @@ class getAssignmentTest extends TestCase
     private function pages(string $year_month): array
     {
         return (new Vector(range(1, 6)))
-            ->map(function (int $page_num) use ($year_month) {return $this->getText($year_month, $page_num);})
-            ->filter(function (string $text) {return $this->hasSchedule($text);})
+            ->map(function (int $page_num) use ($year_month) {
+                return $this->getText($year_month, $page_num);
+            })
+            ->filter(function (string $text) {
+                return $this->hasSchedule($text);
+            })
             ->toArray();
     }
 

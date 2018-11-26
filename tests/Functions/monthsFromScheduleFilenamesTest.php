@@ -4,7 +4,7 @@ namespace TalkSlipSender\Functions;
 
 use PHPUnit\Framework\TestCase;
 
-class monthsFromScheduleFilenamesTest extends TestCase
+class MonthsFromScheduleFilenamesTest extends TestCase
 {
     protected function setup()
     {

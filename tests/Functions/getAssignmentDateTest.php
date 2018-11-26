@@ -4,7 +4,7 @@ namespace TalkSlipSender\Functions;
 
 use PHPUnit\Framework\TestCase;
 
-class getAssignmentDateTest extends TestCase
+class GetAssignmentDateTest extends TestCase
 {
     protected function setup()
     {
@@ -24,7 +24,7 @@ class getAssignmentDateTest extends TestCase
             "3{MONTH} 29–NOVEMBER 2",
             "{MONTH} D29",
             "{MONTH}    d29",
-            "{MONTH} \n29"    
+            "{MONTH} \n29"
         ];
 
         $this->target_date = "02";
@@ -89,7 +89,6 @@ class getAssignmentDateTest extends TestCase
                 $this->passingTests($month_all_caps)[1]
             )
         );
-
     }
 
     public function testGetAssignmentDateFunctionWorks()
@@ -125,9 +124,9 @@ class getAssignmentDateTest extends TestCase
     protected function failingTests(string $month): array
     {
         return array_map(
-                function (\Closure $callable) use ($month) {
+            function (\Closure $callable) use ($month) {
                     return $callable($month);
-                },
+            },
             array_map(
                 [$this, "extrapolateMonth"],
                 $this->fails
@@ -146,5 +145,4 @@ class getAssignmentDateTest extends TestCase
             );
         };
     }
-
 }
