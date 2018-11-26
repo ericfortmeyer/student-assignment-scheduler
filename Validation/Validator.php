@@ -30,13 +30,4 @@ class Validator
             return $carry || preg_match($pattern, $value);
         });        
     }
-
-    private static function fileFailCase(string $file): int
-    {
-        $map = new \Ds\Map(self::$file_failure_patterns);
-
-        return $map->reduce(function ($carry, $key, $value) use ($file) {
-            return $carry || preg_match($value, $file);
-        });        
-    }
 }
