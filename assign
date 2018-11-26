@@ -84,57 +84,57 @@ $json_schedules_paths = createJsonSchedulesFromWorkbooks(
 print green("Schedules were created from workbooks\r\n");
 
 /**
- * FIX:
- * The year can not be assumed to be the greatest year
- * of the schedules generated since December and January might
- * be being scheduled together
+ * An instance of \Ds\Set so the values will be unique
+ * @var \Ds\Set $json_schedules_paths
  */
-$year = max($json_schedules_paths);
-$path_to_json_schedules = "{$path_config["path_to_data"]}/${year}";
+$json_schedules_paths->reduce(function($carry, int $year) use ($path_config, $AssignmentFormWriter, $ScheduleWriter) {
 
-makeDirectories([$path_to_json_assignments_files = "{$path_config["path_to_data"]}/assignments/${year}"]);
+    $path_to_json_schedules = "{$path_config["path_to_data"]}/${year}";
+    $path_to_json_assignments = "{$path_config["path_to_assignments"]}/${year}";
 
-/**
- * Interact with the user of the application to schedule assignments
- *
- * A json file is created for each week of assignments
- */
-createJsonAssignments(
-    $path_to_json_schedules,
-    $path_config["path_to_assignments"]
-);
+    /**
+     * Interact with the user of the application to schedule assignments
+     *
+     * A json file is created for each week of assignments
+     */
+    createJsonAssignments(
+        $path_to_json_schedules,
+        $path_to_json_assignments
+    );
 
-/**
- * Create assignment forms
- *
- * The json files representing weeks of assignments are used
- * to generate pdf assignment forms
- */
-$which_months = writeAssignmentForms(
-    $AssignmentFormWriter,
-    $path_to_json_assignments_files,
-    $path_to_json_schedules,
-    ($past ?? $p ?? false)
-);
+    /**
+     * Create assignment forms
+     *
+     * The json files representing weeks of assignments are used
+     * to generate pdf assignment forms
+     */
+    $which_months = writeAssignmentForms(
+        $AssignmentFormWriter,
+        $path_to_json_assignments,
+        $path_to_json_schedules,
+        false
+    );
 
-/**
- * Were assignments scheduled?
- */
-current($which_months) ?? exit("No schedules were created.  Good Bye\r\n");
+    /**
+     * Were assignments scheduled?
+     */
+    current($which_months) ?? exit("No schedules were created.  Good Bye\r\n");
 
-/**
- * Create the schedule for the month
- *
- * Uses the json schedule and the json assignment files
- * to generate a pdf schedule for the month
- */
-$schedule_filename = writeSchedule(
-    $ScheduleWriter,
-    $path_to_json_assignments_files,
-    $path_to_json_schedules,
-    current($which_months)
-);
+    /**
+     * Create the schedule for the month
+     *
+     * Uses the json schedule and the json assignment files
+     * to generate a pdf schedule for the month
+     */
+    $schedule_filename = writeSchedule(
+        $ScheduleWriter,
+        $path_to_json_assignments,
+        $path_to_json_schedules,
+        current($which_months)
+    );
 
+    
+});
 
 
 $user_response = readline(
