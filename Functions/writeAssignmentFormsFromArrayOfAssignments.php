@@ -14,7 +14,7 @@ function writeAssignmentFormsFromArrayOfAssignments(
         return $key !== "year";
     };
 
-    $write_assignments = function (array $assignment) use  ($Writer) {
+    $write_assignments = function (array $assignment) use ($Writer) {
         writeAssignmentFormFromAssignment($Writer, $assignment);
     };
 

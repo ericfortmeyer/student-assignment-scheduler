@@ -22,7 +22,6 @@ use function TalkSlipSender\Functions\CLI\yes;
 use function TalkSlipSender\Functions\CLI\no;
 use function TalkSlipSender\Functions\CLI\red;
 use function TalkSlipSender\Functions\CLI\green;
-use function TalkSlipSender\Functions\CLI\purple;
 use function TalkSlipSender\Functions\CLI\prompt;
 
 require "autoload.php";
