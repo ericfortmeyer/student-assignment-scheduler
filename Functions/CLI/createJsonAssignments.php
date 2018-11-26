@@ -45,12 +45,11 @@ function createJsonAssignments(
                             $data_destination
                         ) {
 
-                            if (file_exists(
-                                "${data_destination}/"
-                                        . monthNumeric($month)
-                                        . "{$schedule_for_week["date"]}.json"
-                            )
-                            ) {
+                            $filename = "${data_destination}/"
+                                . monthNumeric($month)
+                                . "{$schedule_for_week["date"]}.json";
+
+                            if (file_exists($filename)) {
                                 echo green("It looks like you've already completed "
                                     . "the schedule for ${month} "
                                     . "{$schedule_for_week["date"]}.\r\n");
@@ -80,13 +79,10 @@ function createJsonAssignments(
                             );
 
                             $schedule["year"] = $year;
-
-                            $schedule_dest = $data_destination;
                 
                             save(
                                 $schedule,
-                                $schedule_dest,
-                                monthNumeric($month) . "{$schedule_for_week["date"]}"
+                                $filename
                             );
                         },
                         weeksFrom($schedule_for_month),
