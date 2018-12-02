@@ -1,10 +1,9 @@
 <?php
 return [
-    "from_email" => "lammo_huntsville@icloud.com",
-    "assignment_form_template" => "templates/S-89-E.pdf",
-    "schedule_template" => "templates/S-140-E.pdf",
-    "assignment_forms_destination" => "data/forms",
-    "schedules_destination" => "data/schedules",
+    "assignment_form_template" => __DIR__ . "/../Utils/templates/S-89-E.pdf",
+    "schedule_template" => __DIR__ . "/../Utils/templates/S-140-E.pdf",
+    "assignment_forms_destination" => __DIR__ . "/../data/forms",
+    "schedules_destination" => __DIR__ . "/../data/schedules",
     "email_log" => __DIR__ . "/../log/email.log",
     "file_save_log" => __DIR__ . "/../log/info.log",
     "file_import_log" => __DIR__ . "/../log/info.log",
