@@ -80,8 +80,8 @@ class ScheduleWriter
             };
         };
 
-        $this->writeIndividualAssignment = function (int $week_index, string $week_of_assignments): \Closure {
-            return function (int $assignment_num, string $assignment_name) use ($week_index, $week_of_assignments): void {
+        $this->writeIndividualAssignment = function (int $week_index, array $week_of_assignments): \Closure {
+            return function (int $assignment_num, string $assignment_name) use ($week_index, $week_of_assignments) {
                 if (doesNotHaveWordVideo($assignment_name)) {
                     $this->writeStudentAssignment(
                         $week_index,
@@ -111,7 +111,7 @@ class ScheduleWriter
 
     /**
      * Create the schedule for the given month
-     * 
+     *
      * Creates a file with the schedule for the given month that can be distrubted
      * i.e. a PDF file that can be attached to an email
      * @param string $path_to_json_assignments
@@ -170,22 +170,20 @@ class ScheduleWriter
 
     /**
      * Prepares the schedule file for output
-     * 
+     *
      * Loads the PDF writing object with items that need to be written to final output.
      * Uses:
      * (1) the zero-based index of the week that is represented by the data
      * (2) an array of assignments for the given week
      * (3) an array mapping the title of the assignments to a numeric representation
      * @example $this->writeWeekOfAssignments(2, [$assn1, $assn2, ...], [5 => 'First Return Visit', ...])
-     * 
-     * This method is public for testing
-     * 
+     *
      * @param int $week_index
      * @param array $week_of_assignments
      * @param array $assignment_map
      * @return void
      */
-    public function writeWeekOfAssignments(
+    protected function writeWeekOfAssignments(
         int $week_index,
         array $week_of_assignments,
         array $assignment_map
@@ -194,11 +192,11 @@ class ScheduleWriter
         $this->writeDate($week_index, $week_of_assignments[0]["date"]);
 
         $partialFunc = $this->writeIndividualAssignment;
-        $partialFunc($week_index, $week_of_assignments);
+        $writeAssignments = $partialFunc($week_index, $week_of_assignments);
 
         $MapOfAssignments = new \Ds\Map($assignment_map);
         $MapOfAssignments->put(4, "bible_reading");
-        $MapOfAssignments->has("date") && $MapOfAssignments->remove("date");
+        $MapOfAssignments->hasKey("date") && $MapOfAssignments->remove("date");
         $MapOfAssignments->ksort();
         $MapOfAssignments->map($writeAssignments);
     }
@@ -406,17 +404,17 @@ class ScheduleWriter
         $this->pdfCreator->Write(0, $string);
     }
 
-    public function font(string $font): void
+    protected function font(string $font): void
     {
         $this->pdfCreator->SetFont($font);
     }
 
-    public function fontSize(int $points): void
+    protected function fontSize(int $points): void
     {
         $this->pdfCreator->SetFontSize($points);
     }
 
-    public function textColor(string $color): void
+    protected function textColor(string $color): void
     {
         $rgb = $this->colorIsAvailable($color)
             ? $this->toRgb($color)

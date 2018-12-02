@@ -5,13 +5,16 @@ namespace TalkSlipSender\Utils;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\StreamReader;
 
-final class PDFAssignmentFormWriter implements AssignmentFormWriterInterface
+/**
+ * Writes the PDF assignments forms for the students
+ */
+class PDFAssignmentFormWriter implements AssignmentFormWriterInterface
 {
     /**
      * @var Fpdi
      */
     protected $pdfCreator;
-
+    
     /**
      * @var array
      */
@@ -27,18 +30,18 @@ final class PDFAssignmentFormWriter implements AssignmentFormWriterInterface
      * @var array
      */
     protected $config = [];
-
+    
     public function __construct(array $config)
     {
         $this->config = $config;
     }
-    
+
     protected function initPdfCreator()
     {
         $this->pdfCreator = new Fpdi();
         $this->textColor($this->config["font_color"]);
         $this->font($this->config["font"]);
-        $this->import($this->config["assignment_form_template"]);    
+        $this->import($this->config["assignment_form_template"]);
     }
 
     /**
@@ -102,14 +105,19 @@ final class PDFAssignmentFormWriter implements AssignmentFormWriterInterface
         );
     }
 
+    /**
+     * Write the prepared pdf to the file system
+     *
+     * @param string $filename
+     * @return void
+     */
     protected function createPDF(string $filename): void
     {
         $this->pdfCreator->Output(
             "F",
             $this->shouldAddIncrementedSuffix($filename)
                 ? $this->withIncrementedSuffix($filename)
-                : $filename
-            ,
+                : $filename,
             true
         );
     }
@@ -119,17 +127,38 @@ final class PDFAssignmentFormWriter implements AssignmentFormWriterInterface
         return file_exists($filename);
     }
 
-    protected function arrayOfFilenamesWithSuffixes(string $filename)
+    /**
+     * Provides an array of filenames with numeric suffixes
+     *
+     * Use to provide finite list of probable filenames
+     * @example [Johnny_2.pdf, Johnny_3.pdf, ...]
+     * @param string $filename
+     * @return array
+     */
+    protected function arrayOfFilenamesWithSuffixes(string $filename): array
     {
+        $string_separator = "_";
+
+        $addSuffixToFilenames = function (int $num) use ($filename, $string_separator): string {
+            $suffix = "${string_separator}${num}";
+
+            return $this->addExtension(
+                $this->removeExtension($filename) . $suffix
+            );
+        };
+
         return array_map(
-            function (int $num) use ($filename) {
-                $suffix = $num ? "_${num}" : "";
-                return "{$this->addExtension("{$this->removeExtension($filename)}${suffix}")}";
-            },
+            $addSuffixToFilenames,
             range(2, 5)
         );
     }
 
+    /**
+     * Use to determine what to increment the numeric filename suffix if needed
+     *
+     * @param string $filename
+     * @return string
+     */
     protected function fileWithGreatestSuffixValue(string $filename): string
     {
         return array_reduce(
@@ -147,6 +176,12 @@ final class PDFAssignmentFormWriter implements AssignmentFormWriterInterface
         );
     }
 
+    /**
+     * Get the value of the numeric suffix from the filename
+     *
+     * @param string $filename
+     * @return int
+     */
     protected function parseSuffixValue(string $filename): int
     {
         return sscanf(
@@ -183,7 +218,7 @@ final class PDFAssignmentFormWriter implements AssignmentFormWriterInterface
 
     protected function removeExtension(string $filename): string
     {
-        return str_replace(".pdf", "", $filename);
+        return basename($filename, ".pdf");
     }
 
     protected function allCaps(string $string): string
@@ -218,12 +253,12 @@ final class PDFAssignmentFormWriter implements AssignmentFormWriterInterface
         return $this->config["talk_slip"]["fields"]["position"][$which_position];
     }
 
-    public function font(string $font): void
+    protected function font(string $font): void
     {
         $this->pdfCreator->SetFont($font);
     }
 
-    public function textColor(string $color): void
+    protected function textColor(string $color): void
     {
         $rgb = $this->colorIsAvailable($color)
             ? $this->toRgb($color)
