@@ -12,14 +12,14 @@ define("__ARROW__", "=>");
 define("__COMMA__", ",");
 define("__SEMICOLON__", ";");
 
-function generateRegistry(array $arr, string $filename = "", $asJSON = false)
+function generateRegistry(array $data, string $filename = "", $asJSON = false)
 {
     $path = __DIR__ . "/../";
     $registry_filename = $filename = $filename ? $filename : "${path}/registry";
 
     if ($asJSON === true) {
         $file = "${registry_filename}.json";
-        file_put_contents($file, json_encode($arr, JSON_PRETTY_PRINT));
+        file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
     } else {
     
         $string = "";
@@ -29,7 +29,7 @@ function generateRegistry(array $arr, string $filename = "", $asJSON = false)
         $string .= __SPACE__;
         $string .= __OPENING_BRACKET__;    
     
-        foreach ($arr as $key => $val) {
+        foreach ($data as $key => $val) {
             $string .= PHP_EOL;
             $string .= __INDENT__;
             $string .= withQuotes($key);
@@ -55,14 +55,14 @@ function withQuotes(string $string): string
     return "\"" . $string . "\"";
 }
 
-function valAsArray(array $arr): string
+function valAsArray(array $data): string
 {
     $string = "";
     $string .= __OPENING_BRACKET__;
     $string .= PHP_EOL;
     $string .= __INDENT__;
     $string .= __INDENT__;
-    foreach ($arr as $key => $val) {
+    foreach ($data as $key => $val) {
         $string .= withQuotes($key);
         $string .= __SPACE__;
         $string .= __ARROW__;
