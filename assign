@@ -88,8 +88,8 @@ $hasScheduleAlreadyBeenCompleted = function (string $month) use ($path_config) {
 
     return file_exists($schedule_filename);
 };
-$path_to_json_schedules = "{$path_config["path_to_data"]}/";
-$path_to_json_assignments = "{$path_config["path_to_assignments"]}/";
+$path_to_json_schedules = __DIR__ . "/{$path_config["path_to_data"]}/";
+$path_to_json_assignments = __DIR__ . "/{$path_config["path_to_assignments"]}/";
 
 $createJsonAssignments = function ($carry, int $year) use (
     $AssignmentFormWriter,
