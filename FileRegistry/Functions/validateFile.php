@@ -6,6 +6,6 @@ function validateFile(string $hash, string $path, ?string $registry_filename = n
 {
     $registry = include $registry_filename ?? __DIR__ . "/../registry.php";
 
-    return key_exists($hash, $registry) && $registry[$hash] == $path;
+    return key_exists($hash, $registry) && $registry[$hash] === $path;
 }
 
