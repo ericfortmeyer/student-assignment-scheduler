@@ -4,13 +4,14 @@ namespace TalkSlipSender\Utils;
 
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\StreamReader;
+use \Ds\Vector;
 
 use function TalkSlipSender\Functions\CLI\doesNotHaveWordVideo;
 use function TalkSlipSender\Functions\filenamesByMonth;
 use function TalkSlipSender\Functions\shiftFinalWeekInFollowingMonth;
 use function TalkSlipSender\Functions\importJson;
 
-final class ScheduleWriter
+class ScheduleWriter
 {
     protected const BIBLE_READING = [
         "BIBLE READING",
@@ -40,9 +41,63 @@ final class ScheduleWriter
      */
     protected $config = [];
 
+    /**
+     * @var \Closure|null
+     */
+    protected $importJson;
+
+    /**
+     * @var \Closure|null
+     */
+    protected $writeWeekOfAssignments;
+
+    /**
+     * @var \Closure|null
+     */
+    protected $writeIndividualAssignment;
+
+
     public function __construct(array $config)
     {
         $this->config = $config;
+
+        $this->importJson = function (string $path_to_json_assignments): \Closure {
+            return function (string $json_file) use ($path_to_json_assignments): array {
+                return importJson("${path_to_json_assignments}/${json_file}");
+            };
+        };
+
+        $this->writeWeekOfAssignments = function (array $schedule): \Closure {
+            return function (int $week_index, $week_of_assignments) use ($schedule): void {
+                /**
+                 * Move to the next page when the 4th week is encountered
+                 * since there are only 3 weeks of assignments on the first page
+                 */
+                if ($week_index === 3) {
+                    $this->nextPage();
+                }
+                $this->writeWeekOfAssignments($week_index, $week_of_assignments, $schedule);
+            };
+        };
+
+        $this->writeIndividualAssignment = function (int $week_index, string $week_of_assignments): \Closure {
+            return function (int $assignment_num, string $assignment_name) use ($week_index, $week_of_assignments): void {
+                if (doesNotHaveWordVideo($assignment_name)) {
+                    $this->writeStudentAssignment(
+                        $week_index,
+                        $assignment_num,
+                        current($week_of_assignments)
+                    );
+                    next($week_of_assignments);
+                } else {
+                    $this->writeStudentAssignment(
+                        $week_index,
+                        $assignment_num,
+                        $this->dataForVideoDiscussion($assignment_name)
+                    );
+                }
+            };
+        };
     }
     
     protected function initPdfCreator()
@@ -77,37 +132,59 @@ final class ScheduleWriter
          */
         $this->initPdfCreator();
 
-        array_map(
-            function (int $week_index, $week_of_assignments) use ($schedule) {
-                if ($week_index === 3) {
-                    $this->nextPage();
-                }
-
-                $this->writeWeekOfAssignments(
-                    $week_index,
-                    $week_of_assignments,
-                    $schedule
-                );
-            },
-            array_keys($schedule),
-            array_map(
-                function (string $json_file) use ($path_to_json_assignments) {
-                    return importJson("${path_to_json_assignments}/${json_file}");
-                },
-                shiftFinalWeekInFollowingMonth(
-                    filenamesByMonth($month, $path_to_json_assignments)
-                )
-            )
-        );
-
-
+        $partialFunc = $this->writeWeekOfAssignments;
+        $writeAssignments = $partialFunc($schedule);
         $schedule_filename = "{$this->config["schedules_destination"]}/{$this->addExtension($month)}";
+
+        $this->preparePDF(
+            $writeAssignments,
+            array_keys($schedule),
+            $this->getArrayOfDataFromJson($month, $path_to_json_assignments)
+        );
 
         $this->createPDF($schedule_filename);
 
         return $schedule_filename;
     }
 
+    private function preparePDF(\Closure $writeAssignments, array $array_keys_from_schedule, array $schedule_data): void
+    {
+        array_map(
+            $writeAssignments,
+            $array_keys_from_schedule,
+            $schedule_data
+        );
+    }
+    
+    private function getArrayOfDataFromJson(string $month, string $path_to_json_assignments): array
+    {
+        $partialFunc = $this->importJson;
+        $importJson = $partialFunc($path_to_json_assignments);
+
+        $filenames = shiftFinalWeekInFollowingMonth(
+            filenamesByMonth($month, $path_to_json_assignments)
+        );
+
+        return (new Vector($filenames))->map($importJson)->toArray();
+    }
+
+    /**
+     * Prepares the schedule file for output
+     * 
+     * Loads the PDF writing object with items that need to be written to final output.
+     * Uses:
+     * (1) the zero-based index of the week that is represented by the data
+     * (2) an array of assignments for the given week
+     * (3) an array mapping the title of the assignments to a numeric representation
+     * @example $this->writeWeekOfAssignments(2, [$assn1, $assn2, ...], [5 => 'First Return Visit', ...])
+     * 
+     * This method is public for testing
+     * 
+     * @param int $week_index
+     * @param array $week_of_assignments
+     * @param array $assignment_map
+     * @return void
+     */
     public function writeWeekOfAssignments(
         int $week_index,
         array $week_of_assignments,
@@ -116,52 +193,14 @@ final class ScheduleWriter
 
         $this->writeDate($week_index, $week_of_assignments[0]["date"]);
 
-        $mapWithBibleReading = array_map(
-            function (array $map_of_week) {
-                $map_of_week[4] = "bible_reading";
-                return array_filter(
-                    $map_of_week,
-                    function ($key) {
-                        return $key !== "date";
-                    },
-                    ARRAY_FILTER_USE_KEY
-                );
-            },
-            $assignment_map
-        );
+        $partialFunc = $this->writeIndividualAssignment;
+        $partialFunc($week_index, $week_of_assignments);
 
-        ksort($mapWithBibleReading[$week_index]);
-
-            $i = 0;
-
-            array_map(
-                function (
-                    int $assignment_num,
-                    string $assignment_name
-                ) use (
-                    $week_index,
-                    $week_of_assignments,
-                    &$i
-                ) {
-                    
-                    if (doesNotHaveWordVideo($assignment_name)) {
-                        $this->writeStudentAssignment(
-                            $week_index,
-                            $assignment_num,
-                            $week_of_assignments[$i]
-                        );
-                        $i++;
-                    } else {
-                        $this->writeStudentAssignment(
-                            $week_index,
-                            $assignment_num,
-                            $this->dataForVideoDiscussion($assignment_name)
-                        );
-                    }
-                },
-                array_keys($mapWithBibleReading[$week_index]),
-                $mapWithBibleReading[$week_index]
-            );
+        $MapOfAssignments = new \Ds\Map($assignment_map);
+        $MapOfAssignments->put(4, "bible_reading");
+        $MapOfAssignments->has("date") && $MapOfAssignments->remove("date");
+        $MapOfAssignments->ksort();
+        $MapOfAssignments->map($writeAssignments);
     }
 
     protected function dataForVideoDiscussion(string $assignment): array
@@ -174,7 +213,7 @@ final class ScheduleWriter
         ];
     }
 
-    public function writeStudentAssignment(
+    protected function writeStudentAssignment(
         int $week_index,
         int $assignment_num,
         array $data
