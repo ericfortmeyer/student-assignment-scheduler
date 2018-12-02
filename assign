@@ -47,6 +47,7 @@ empty($schedule_recipients = require $schedule_recipients_config_file)
 $Dotenv = new Dotenv(__DIR__);
 $Dotenv->load();
 $Dotenv->required([
+    "from_email",
     "from_email_password",
     "from_email_nonce",
     "from_email_key",
@@ -58,7 +59,7 @@ $ScheduleWriter = new ScheduleWriter($config);
 $ListOfContacts = new ListOfContacts();
 $MailSender = new MailSender(
     new PHPMailer(true),
-    $config["from_email"],
+    getenv("from_email"),
     decryptedPassword(),
     getenv("smtp_host")
 );
