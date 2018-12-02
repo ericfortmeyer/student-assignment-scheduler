@@ -20,8 +20,9 @@ function save(
     !file_exists($filename) && createFile($file_data, $filename, $logger, $test_registry);
 }
 
-function createFile(array $file_data, string $filename, $logger, ?string $test_registry)
+function createFile(array $file_data, string $path, $logger, ?string $test_registry)
 {
+    $filename = realpath($path);
     $context = ["file" => $filename];
 
     file_put_contents($filename, json_encode($file_data, JSON_PRETTY_PRINT))
