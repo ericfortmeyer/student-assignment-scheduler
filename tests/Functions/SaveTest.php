@@ -13,7 +13,6 @@ class SaveTest extends TestCase
         $this->destination = "{$this->test_path}/{$this->year_dir}";
         $this->test_basename = "test.json";
         $this->test_file = "{$this->destination}/{$this->test_basename}";
-        $this->test_registry = "{$this->test_path}/test_registry.php";
         $this->test_registry = $this->test_path . sha1("test_registry") . ".php";
         $this->test_info = [
             // required

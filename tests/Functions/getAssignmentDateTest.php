@@ -96,10 +96,12 @@ class GetAssignmentDateTest extends TestCase
         $month = "October";
         $month_all_caps = strtoupper($month);
 
+        $target_date = "01";
+
         
         foreach ($this->passingTests($month_all_caps) as $test) {
             $this->assertSame(
-                $this->target_date,
+                $target_date,
                 getAssignmentDate(
                     $test,
                     $month

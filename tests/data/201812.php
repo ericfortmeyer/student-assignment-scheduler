@@ -28,7 +28,7 @@ return [
         7 => "Bible Study"
     ],
     4 => [
-        "date" => "04",
+        "date" => "03",
         5 => "Second Return Visit",
         6 => "Third Return Visit",
         7 => "Bible Study"
