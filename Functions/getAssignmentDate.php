@@ -22,8 +22,8 @@ function getAssignmentDate(string $text, string $month): string
         . $multiline_mode;
 
     return date_create_immutable_from_format(
-        "d",
-        parse(
+        "F d",
+        "$month " . parse(
             $pattern,
             $text
         )
