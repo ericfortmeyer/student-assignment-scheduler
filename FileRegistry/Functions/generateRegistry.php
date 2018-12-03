@@ -15,7 +15,7 @@ define("__SEMICOLON__", ";");
 function generateRegistry(array $data, string $filename = "", $asJSON = false)
 {
     $path = __DIR__ . "/../";
-    $registry_filename = $filename = $filename ? $filename : "${path}/registry";
+    $registry_filename = $filename ? $filename : "${path}/registry";
 
     if ($asJSON === true) {
         $file = "${registry_filename}.json";
