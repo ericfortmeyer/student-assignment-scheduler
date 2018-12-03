@@ -21,13 +21,12 @@ function generateRegistry(array $data, string $filename = "", $asJSON = false)
         $file = "${registry_filename}.json";
         file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
     } else {
-    
         $string = "";
         $string .= __OPENING_TAG__;
         $string .= PHP_EOL;
         $string .= __RETURN__;
         $string .= __SPACE__;
-        $string .= __OPENING_BRACKET__;    
+        $string .= __OPENING_BRACKET__;
     
         foreach ($data as $key => $val) {
             $string .= PHP_EOL;

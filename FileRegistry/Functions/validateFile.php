@@ -8,4 +8,3 @@ function validateFile(string $hash, string $path, ?string $registry_filename = n
 
     return key_exists($hash, $registry) && $registry[$hash] === $path;
 }
-
