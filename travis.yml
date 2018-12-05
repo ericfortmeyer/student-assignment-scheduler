@@ -1,0 +1,12 @@
+language: php
+
+php:
+  - '7.2'
+
+install:
+  - ./bin/ci/install_php_modules.sh
+  - composer install
+
+notifications:
+  email:
+    - e.fortmeyer01@gmail.com
