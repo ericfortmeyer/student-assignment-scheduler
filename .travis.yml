@@ -7,6 +7,9 @@ install:
   - ./bin/ci/install_php_modules.sh
   - composer install
 
+before_script:
+  - phpenv config-rm xdebug.ini
+
 script:
   - vendor/bin/phan
 
