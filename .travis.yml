@@ -12,6 +12,7 @@ before_script:
 
 script:
   - vendor/bin/phan
+  - vendor/bin/phpcs --standard=PSR2
 
 notifications:
   email:
