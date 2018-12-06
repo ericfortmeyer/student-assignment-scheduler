@@ -2,6 +2,12 @@ language: php
 
 php:
   - '7.2'
+  - '7.3'
+  - nightly
+
+matrix:
+  allow_failures:
+    - php: nightly 7.3
 
 install:
   - ./bin/ci/install_php_modules.sh
