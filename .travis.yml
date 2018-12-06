@@ -7,6 +7,9 @@ install:
   - ./bin/ci/install_php_modules.sh
   - composer install
 
+script:
+  - vendor/bin/phan
+
 notifications:
   email:
     - e.fortmeyer01@gmail.com
