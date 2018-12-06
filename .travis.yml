@@ -18,7 +18,7 @@ before_script:
 
 script:
   - vendor/bin/phan
-  - vendor/bin/phpcs --standard=PSR2
+  - vendor/bin/phpcs -p --standard=PSR2 assign Utils/ Functions/ FileRegistry/Functions/ config/ Models/ Validation/
 
 notifications:
   email:

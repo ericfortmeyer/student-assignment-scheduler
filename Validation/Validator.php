@@ -28,6 +28,6 @@ class Validator
 
         return $map->reduce(function ($carry, $description, $pattern) use ($value) {
             return $carry || preg_match($pattern, $value);
-        });        
+        });
     }
 }
