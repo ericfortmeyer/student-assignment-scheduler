@@ -2,26 +2,21 @@ language: php
 
 php:
   - '7.2'
-  - '7.3'
-  - nightly
-
-env:
-
-matrix:
-  allow_failures:
-    - php: nightly 7.3
+  # - '7.3'
+  # - nightly
 
 install:
   - ./bin/ci/install_php_modules.sh
   - composer install
 
 before_script:
-  - phpenv config-rm xdebug.ini
+  - echo $TRAVIS_PHP_VERSION
+  # - phpenv config-rm xdebug.ini
 
 script:
-  - vendor/bin/phan
-  - vendor/bin/phpcs -p --standard=PSR2 assign Utils/ Functions/ FileRegistry/Functions/ config/ Models/ Validation/
+  # - vendor/bin/phan
+  # - vendor/bin/phpcs -p --standard=PSR2 assign Utils/ Functions/ FileRegistry/Functions/ config/ Models/ Validation/
 
 notifications:
   email:
-    - e.fortmeyer01@gmail.com
+    # - e.fortmeyer01@gmail.com
