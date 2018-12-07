@@ -3,19 +3,19 @@ language: php
 php:
   - '7.2'
   - '7.3'
-  # - nightly
+  - nightly
 
 install:
   - ./bin/ci/install_php_modules.sh
   - composer install
 
 before_script:
-  - if [ $(phpenv version-name) == "7.2" ]; then phpenv config-rm xdebug.ini; fi
-  - if [ $(phpenv version-name) == "7.3" ]; then TRAVIS_ALLOW_FAILURE=true; fi
+  - phpenv config-rm xdebug.ini || echo "No XDebug config"
+  - if [ $(phpenv version-name) == "nightly" ]; then TRAVIS_ALLOW_FAILURE=true; fi
 
 script:
   - vendor/bin/phan
-  - vendor/bin/phpcs -p --standard=PSR2 assign Utils/ Functions/ FileRegistry/Functions/ config/ Models/ Validation/
+  - vendor/bin/phpcs --standard=PSR1,PSR2,PSR12 assign Utils/ Functions/ FileRegistry/Functions/ config/ Models/ Validation/
 
 notifications:
   email:
