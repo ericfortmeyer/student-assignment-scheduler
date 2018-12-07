@@ -2,7 +2,7 @@ language: php
 
 php:
   - '7.2'
-  # - '7.3'
+  - '7.3'
   # - nightly
 
 install:
@@ -10,12 +10,12 @@ install:
   - composer install
 
 before_script:
-  - echo $TRAVIS_PHP_VERSION
-  # - phpenv config-rm xdebug.ini
+  - if [ $(phpenv version-name) == "7.2" ]; then phpenv config-rm xdebug.ini;
+  - if [ $(phpenv version-name) == "7.3" ]; then TRAVIS_ALLOW_FAILURE=true;
 
 script:
-  # - vendor/bin/phan
-  # - vendor/bin/phpcs -p --standard=PSR2 assign Utils/ Functions/ FileRegistry/Functions/ config/ Models/ Validation/
+  - vendor/bin/phan
+  - vendor/bin/phpcs -p --standard=PSR2 assign Utils/ Functions/ FileRegistry/Functions/ config/ Models/ Validation/
 
 notifications:
   email:
