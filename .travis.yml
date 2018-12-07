@@ -10,8 +10,8 @@ install:
   - composer install
 
 before_script:
-  - if [ $(phpenv version-name) == "7.2" ]; then phpenv config-rm xdebug.ini;
-  - if [ $(phpenv version-name) == "7.3" ]; then TRAVIS_ALLOW_FAILURE=true;
+  - if [ $(phpenv version-name) == "7.2" ]; then phpenv config-rm xdebug.ini; fi
+  - if [ $(phpenv version-name) == "7.3" ]; then TRAVIS_ALLOW_FAILURE=true; fi
 
 script:
   - vendor/bin/phan
