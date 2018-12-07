@@ -3,7 +3,6 @@ language: php
 php:
   - '7.2'
   - '7.3'
-  - nightly
 
 install:
   - ./bin/ci/install_php_modules.sh
@@ -11,7 +10,6 @@ install:
 
 before_script:
   - phpenv config-rm xdebug.ini || echo "No XDebug config"
-  - if [ $(phpenv version-name) == "nightly" ]; then TRAVIS_ALLOW_FAILURE=true; fi
 
 script:
   - vendor/bin/phan
