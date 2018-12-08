@@ -289,7 +289,7 @@ return [
         ]
     ],
     "talk_slip" => [
-        "version" => "10.17",
+        "version" => "10.18",
         "fields" => [
             "position" => [
                 "name" => [
@@ -304,37 +304,30 @@ return [
                     16,
                     33
                 ],
-                "counsel_point" => [
-                    35,
-                    41
-                ],
                 "bible_reading" => [
                     7.8,
-                    55
+                    51
                 ],
                 "First Conversation" => [
                     7.8,
-                    58.8
+                    55
                 ],
                 "First Return Visit" => [
                     7.8,
-                    62.8
+                    58.8
                 ],
                 "Second Return Visit" => [
                     7.8,
-                    66.5
-                ],
-                "Third Return Visit" => [
-                    48.4,
-                    55
+                    62.8
+                    // 66.5
                 ],
                 "Bible Study" => [
                     48.4,
-                    58.8
+                    51
                 ],
                 "Talk" => [
                     48.4,
-                    62.8
+                    55
                 ]
             ]
         ]
