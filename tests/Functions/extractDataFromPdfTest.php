@@ -10,16 +10,20 @@ class ExtractDataFromPdfTest extends TestCase
     protected function setup()
     {
         $this->parser = new Parser();
+        $this->config = include __DIR__ . "/../../config/config.php";
     }
 
     public function testReturnsExpectedData()
     {
         $year_month = "201812";
+        $meeting_night = $this->config["meeting_night"];
+        $interval_spec_for_meeting_night = $this->config["interval_spec"][$meeting_night];
         $this->assertEquals(
             $this->getData($year_month),
             extractDataFromPdf(
                 $this->parser,
-                $this->workbookFilename($year_month)
+                $this->workbookFilename($year_month),
+                $interval_spec_for_meeting_night
             )
         );
     }

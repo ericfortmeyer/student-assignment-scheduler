@@ -28,6 +28,8 @@ class GetAssignmentDateTest extends TestCase
         ];
 
         $this->target_date = "02";
+
+        $this->config = include __DIR__ . "/../../config/config.php";
     }
 
     protected function withPattern(string $search): string
@@ -98,13 +100,17 @@ class GetAssignmentDateTest extends TestCase
 
         $target_date = "01";
 
+        $meeting_night = $this->config["meeting_night"];
+        $interval_spec_for_meeting_night = $this->config["interval_spec"][$meeting_night];
+        
         
         foreach ($this->passingTests($month_all_caps) as $test) {
             $this->assertSame(
                 $target_date,
                 getAssignmentDate(
                     $test,
-                    $month
+                    $month,
+                    $interval_spec_for_meeting_night
                 )
             );
         }

@@ -4,7 +4,7 @@ namespace TalkSlipSender\Functions;
 
 use \DateInterval;
 
-function getAssignmentDate(string $text, string $month): string
+function getAssignmentDate(string $text, string $month, string $interval_spec): string
 {
     $monthAllCaps = strtoupper($month);
 
@@ -27,5 +27,5 @@ function getAssignmentDate(string $text, string $month): string
             $pattern,
             $text
         )
-    )->add(new DateInterval("P3D"))->format("d");
+    )->add(new DateInterval($interval_spec))->format("d");
 }

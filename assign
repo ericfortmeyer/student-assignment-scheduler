@@ -82,14 +82,29 @@ $hasScheduleAlreadyBeenCompleted = function (string $month) use ($path_config) {
 
     return file_exists($schedule_filename);
 };
+
+
+/**
+ * These strings will be modified by an anonymous function
+ */
 $path_to_json_schedules = "{$path_config["path_to_data"]}/";
 $path_to_json_assignments = "{$path_config["path_to_assignments"]}/";
+
+/**
+ * The meeting night is written on the schedule and assignment forms.
+ * It is derived from adding to the first day of the month found on
+ * the date in the worksheet.  The meeting night must be configured for
+ * the user in order to determine the interval spec needed for DateInterval.
+ */
+$meeting_night = $config["meeting_night"];
+$interval_spec_for_meeting_night = $config["interval_spec"][$meeting_night];
 
 $createJsonAssignments = function ($carry, int $year) use (
     $AssignmentFormWriter,
     &$path_to_json_schedules,
     &$path_to_json_assignments,
-    $hasScheduleAlreadyBeenCompleted) {
+    $hasScheduleAlreadyBeenCompleted,
+    $interval_spec_for_meeting_night) {
 
     $path_to_json_schedules .= $year;
     $path_to_json_assignments .= $year;
@@ -101,7 +116,8 @@ $createJsonAssignments = function ($carry, int $year) use (
     createJsonAssignments(
         $path_to_json_schedules,
         $path_to_json_assignments,
-        $hasScheduleAlreadyBeenCompleted
+        $hasScheduleAlreadyBeenCompleted,
+        $interval_spec_for_meeting_night
     );
 };
 
@@ -112,6 +128,8 @@ $createJsonAssignments = function ($carry, int $year) use (
  */
 $json_schedules_set->remove(null);
 $json_schedules_set->reduce($createJsonAssignments);
+
+
 
 /**
  * Create assignment forms
@@ -133,6 +151,7 @@ $which_months = writeAssignmentForms(
  */
 current($which_months)
     ?? exit(green("It looks like you are all up-to-date.\r\nNo schedules were created.  Good Bye\r\n"));
+
 
 /**
  * Create the schedule for the month
