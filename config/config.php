@@ -1,5 +1,13 @@
 <?php
 return [
+    "interval_spec" => [
+        "Monday" => "P0D",
+        "Tuesday" => "P1D",
+        "Wednesday" => "P2D",
+        "Thursday" => "P3D",
+        "Friday" => "P4D"
+    ],
+    "meeting_night" => "Thursday",
     "assignment_form_template" => __DIR__ . "/../Utils/templates/S-89-E.pdf",
     "schedule_template" => __DIR__ . "/../Utils/templates/S-140-E.pdf",
     "assignment_forms_destination" => __DIR__ . "/../data/forms",
