@@ -43,9 +43,9 @@ class RtfDocument
     }
 
     /**
-     * Must return an array of RtfPages
+     * Must return an array of RtfPage objects
      *
-     * @return array<int,RtfPages>
+     * @return array<int,RtfPage>
      */
     public function getPages(): array
     {

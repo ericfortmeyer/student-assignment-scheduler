@@ -15,12 +15,17 @@ class RtfParser implements ParserInterface
     /**
      * Wrap the text in a DocumentWrapper
      *
-     * @param string $filename
+     * @param string $directory
      * @return DocumentWrapper
      */
     public function parseFile(string $directory): DocumentWrapper
     {
         return new DocumentWrapper($this->parse($directory));
+    }
+
+    public function getAssignments(string $textFromWorksheet, string $month, string $interval_spec): array
+    {
+        return [];
     }
 
     /**
@@ -31,7 +36,7 @@ class RtfParser implements ParserInterface
      */
     protected function parse(string $directory): RtfDocument
     {
-        $filenames = array_diff(scandir($directory, [".", "..", ".DS_Store"]));
+        $filenames = array_diff(scandir($directory), [".", "..", ".DS_Store"]);
         $justWeeks = $this->removeSampleConversations($filenames);
         $pages = $this->contentOfAllFiles($justWeeks, $directory);
 
@@ -47,6 +52,14 @@ class RtfParser implements ParserInterface
         );
     }
 
+    /**
+     * Get the contents of all files
+     * 
+     * @todo Verify file contents in file registry
+     * @param array $filenames
+     * @param string $directory
+     * @return array
+     */
     protected function contentOfAllFiles(array $filenames, string $directory): array
     {
         $getContents = function (string $filename) use ($directory) {

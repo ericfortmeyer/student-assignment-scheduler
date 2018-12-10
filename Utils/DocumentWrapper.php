@@ -4,6 +4,9 @@ namespace TalkSlipSender\Utils;
 
 class DocumentWrapper
 {
+    /**
+     * @var mixed
+     */
     protected $document;
 
     public function __construct($document)

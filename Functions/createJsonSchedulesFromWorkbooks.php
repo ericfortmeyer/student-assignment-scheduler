@@ -37,7 +37,7 @@ function createJsonSchedulesFromWorkbooks(
             $filename = "${data_destination}/${year}/${month}.json";
             
             if (!file_exists($filename)) {
-                $data = extractDataFromPdf(
+                $data = extractDataFromWorksheet(
                     $parser,
                     "${path_to_workbooks}/${workbook}",
                     $interval_spec_for_meeting_night
