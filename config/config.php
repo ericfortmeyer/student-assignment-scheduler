@@ -1,11 +1,19 @@
 <?php
 return [
+    "language" => "ASL",
     "interval_spec" => [
         "Monday" => "P0D",
         "Tuesday" => "P1D",
         "Wednesday" => "P2D",
         "Thursday" => "P3D",
         "Friday" => "P4D"
+    ],
+    "mnemonic" => [
+        "ASL" => "mwbsl",
+        "English" => "mwb"
+    ],
+    "worksheet_filename_prefix" => [
+        "ASL" => "mwb_ASL_",
     ],
     "meeting_night" => "Thursday",
     "assignment_form_template" => __DIR__ . "/../Utils/templates/S-89-E.pdf",
