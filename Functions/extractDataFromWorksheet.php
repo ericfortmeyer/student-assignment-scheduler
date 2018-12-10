@@ -13,7 +13,7 @@ function extractDataFromWorksheet(ParserInterface $parser, string $file, string 
     $month = getMonthFromTitle($title);
     
     $page_numbers = new Vector(
-        $parser instanceof PdfParser ? range(1, 6) : range (0, 4)
+        $parser instanceof PdfParser ? range(1, 6) : range(0, 4)
     );
 
     $getTextFromWorksheets = function (int $page) use ($parser, $file) {

@@ -8,7 +8,6 @@ use \Ds\Map;
 use function TalkSlipSender\Functions\getAssignmentDate;
 use function TalkSlipSender\Functions\getAssignment;
 
-
 final class PdfParser implements ParserInterface
 {
     /**

@@ -8,7 +8,7 @@ use function TalkSlipSender\Functions\getMonthFromWorkbookPath;
 
 /**
  * Use this class for polymorphism when parsing documents
- * 
+ *
  * This class shares methods with the Document class
  * of a 3rd party library used in this project.
  * The goal is to produce the same results no matter what type of
@@ -44,7 +44,7 @@ class RtfDocument
 
     /**
      * Must return an array of RtfPages
-     * 
+     *
      * @return array<int,RtfPages>
      */
     public function getPages(): array
@@ -65,7 +65,7 @@ class RtfDocument
 
     /**
      * Return a two digit representation of the year
-     * 
+     *
      * @return string
      */
     protected function year(): string
@@ -75,7 +75,7 @@ class RtfDocument
 
     /**
      * Return a two digit representation of the month
-     * 
+     *
      * @return string
      */
     protected function month(): string

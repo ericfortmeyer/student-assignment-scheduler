@@ -26,13 +26,22 @@ function createJsonSchedulesFromWorkbooks(
     
     // Use set so the values will be unique
     return (new Set((new Vector(filenamesInDirectory($path_to_workbooks)))->map(
-        function (string $workbook) use ($parser, $path_to_workbooks, $data_destination, $interval_spec_for_meeting_night) {
+        function (string $workbook) use (
+            $parser,
+            $path_to_workbooks,
+            $data_destination,
+            $interval_spec_for_meeting_night
+        ) {
             $year = getYearFromWorkbookPath($workbook);
             $month = getMonthFromWorkbookPath($workbook);
             $filename = "${data_destination}/${year}/${month}.json";
             
             if (!file_exists($filename)) {
-                $data = extractDataFromPdf($parser, "${path_to_workbooks}/${workbook}", $interval_spec_for_meeting_night);
+                $data = extractDataFromPdf(
+                    $parser,
+                    "${path_to_workbooks}/${workbook}",
+                    $interval_spec_for_meeting_night
+                );
                 save($data, $filename, true);
                 print green("Schedule for $month was created");
             }

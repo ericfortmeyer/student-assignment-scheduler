@@ -6,7 +6,7 @@ use \Ds\Vector;
 
 /**
  * Wraps all contents of an rtf file in a DocumentWrapper object
- * 
+ *
  * This class does not parse the text of the document.
  * It is used for polymorphism.
  */
@@ -14,7 +14,7 @@ class RtfParser implements ParserInterface
 {
     /**
      * Wrap the text in a DocumentWrapper
-     * 
+     *
      * @param string $filename
      * @return DocumentWrapper
      */
@@ -25,7 +25,7 @@ class RtfParser implements ParserInterface
 
     /**
      * Get a RtfDocument instance containing the contents of all files in the directory
-     * 
+     *
      * @param string $directory
      * @return RtfDocument
      */
