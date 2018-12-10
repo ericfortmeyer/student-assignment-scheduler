@@ -4,6 +4,7 @@ namespace TalkSlipSender\Functions;
 
 use PHPUnit\Framework\TestCase;
 use Smalot\PdfParser\Parser;
+use TalkSlipSender\Utils\PdfParser;
 use \Ds\Vector;
 use \Ds\Map;
 
@@ -11,7 +12,7 @@ class GetAssignmentTest extends TestCase
 {
     protected function setup()
     {
-        $this->parser = new Parser();
+        $this->parser = new PdfParser(new Parser());
     }
 
     public function testReturnsExpectedInfoFromDecember2018Workbook()
@@ -60,7 +61,7 @@ class GetAssignmentTest extends TestCase
 
     protected function getText(string $year_month, int $page)
     {
-        return getTextFromPdf(
+        return getTextFromWorksheet(
             $this->parser,
             __DIR__ . "/../mocks/mwb_ASL_${year_month}.pdf",
             $page
