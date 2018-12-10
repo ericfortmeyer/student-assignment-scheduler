@@ -54,7 +54,7 @@ class RtfParser implements ParserInterface
 
     /**
      * Get the contents of all files
-     * 
+     *
      * @todo Verify file contents in file registry
      * @param array $filenames
      * @param string $directory
