@@ -4,9 +4,12 @@ namespace TalkSlipSender\Functions;
 
 function getYearFromTitle(string $title): string
 {
+    $config = getConfig();
+    $language = $config["language"];
+    $mnemonic = $config["mnemonic"][$language];
     return dateFromYear(
         parse(
-            "/mwbsl(\d{2})/",
+            "/$mnemonic(\d{2})/",
             $title
         )
     )->format("Y");
