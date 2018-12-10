@@ -2,7 +2,7 @@
 
 namespace TalkSlipSender\Functions;
 
-use Smalot\PdfParser\Parser;
+use TalkSlipSender\Utils\ParserInterface as Parser;
 use \Ds\Set;
 use \Ds\Vector;
 
