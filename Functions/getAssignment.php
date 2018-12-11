@@ -16,12 +16,12 @@ function getAssignment(int $assignment_number, string $text): string
         . "(?# one open parentheses)\(/";
 
     $result = ltrim(
-            parse(
-                $pattern,
-                $text
-            ),
-            $string_representation_of_media_image_for_videos
-        );
+        parse(
+            $pattern,
+            $text
+        ),
+        $string_representation_of_media_image_for_videos
+    );
 
     return $result === "Ta l k"
         ? str_replace(" ", "", $result)
