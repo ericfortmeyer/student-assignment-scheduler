@@ -9,28 +9,37 @@ use \Ds\Vector;
 use function TalkSlipSender\Functions\CLI\green;
 
 /**
- * Parse pdf schedules into json
+ * Parse workbooks into json for use later in the application.
  *
  * Data derived from the json schedules are used
  * when the user of the application schedules assignments
- * and for writing out assignment forms
+ * and for writing out assignment forms.
  *
- * Returns an array of years
+ * Returns an array of years since the last week of the December schedule
+ * may be in January of the following year.
+ *
+ * @param Parser $parser Capable of obtaining data from worksheet files.
+ * @param string $path_to_workbooks
+ * @param string $data_destination
+ * @return Set The year(s) of the json schedules created.
+ *   Required since December may have more than one year in it's schedule.
  */
 function createJsonSchedulesFromWorkbooks(
     Parser $parser,
     string $path_to_workbooks,
     string $data_destination,
-    string $interval_spec_for_meeting_night
+    \Closure $scheduleCreationNotificationFunc
 ): Set {
     
-    // Use set so the values will be unique
-    return (new Set((new Vector(filenamesInDirectory($path_to_workbooks)))->map(
+    $VectorOfWorkbooks = new Vector(filenamesInDirectory($path_to_workbooks));
+    
+    // Use set so that there will not be duplicate years returned
+    return new Set($VectorOfWorkbooks->map(
         function (string $workbook) use (
             $parser,
             $path_to_workbooks,
             $data_destination,
-            $interval_spec_for_meeting_night
+            $scheduleCreationNotificationFunc
         ) {
             $year = getYearFromWorkbookPath($workbook);
             $month = getMonthFromWorkbookPath($workbook);
@@ -39,14 +48,13 @@ function createJsonSchedulesFromWorkbooks(
             if (!file_exists($filename)) {
                 $data = extractDataFromWorksheet(
                     $parser,
-                    "${path_to_workbooks}/${workbook}",
-                    $interval_spec_for_meeting_night
+                    "${path_to_workbooks}/${workbook}"
                 );
                 save($data, $filename, true);
-                print green("Schedule for $month was created");
+                $scheduleCreationNotificationFunc($month);
             }
 
             return (int) $year;
         }
-    )));
+    ));
 }
