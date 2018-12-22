@@ -6,8 +6,6 @@ use TalkSlipSender\Utils\ParserInterface as Parser;
 use \Ds\Set;
 use \Ds\Vector;
 
-use function TalkSlipSender\Functions\CLI\green;
-
 /**
  * Parse workbooks into json for use later in the application.
  *
