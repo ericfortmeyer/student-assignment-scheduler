@@ -32,7 +32,7 @@ final class PdfParser implements ParserInterface
         /**
          * Repress errors since I'm using a third party library for pdf parsing
          * that throws a warning in PHP 7.3.
-         * 
+         *
          * The error is:
          * "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"?
          */
