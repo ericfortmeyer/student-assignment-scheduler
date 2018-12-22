@@ -101,8 +101,9 @@ class GetAssignmentDateTest extends TestCase
         $target_date = "01";
 
         $meeting_night = $this->config["meeting_night"];
-        $interval_spec_for_meeting_night = $this->config["interval_spec"][$meeting_night];
-        $pattern_func = $this->getPatternConfig()["assignment_date_pattern_func"];
+        $pattern_config = $this->getPatternConfig();
+        $interval_spec_for_meeting_night = $pattern_config["interval_spec"][$meeting_night];
+        $pattern_func = $pattern_config["assignment_date_pattern_func"];
         
         
         foreach ($this->passingTests($month_all_caps) as $test) {
