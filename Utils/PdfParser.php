@@ -29,7 +29,23 @@ final class PdfParser implements ParserInterface
 
     public function parseFile(string $filename): DocumentWrapper
     {
-        return new DocumentWrapper($this->parser->parseFile($filename));
+        /**
+         * Repress errors since I'm using a third party library for pdf parsing
+         * that throws a warning in PHP 7.3.
+         * 
+         * The error is:
+         * "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"?
+         */
+        $initial_error_reporting_level = ini_get("error_reporting");
+        error_reporting(0);
+        \trigger_error('hey');
+
+        $contents = $this->parser->parseFile($filename);
+
+        // restore error reporting level
+        error_reporting($initial_error_reporting_level);
+        
+        return new DocumentWrapper($contents);
     }
 
     public function getAssignments(string $textFromWorksheet, string $month): array
