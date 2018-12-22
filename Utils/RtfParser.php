@@ -47,11 +47,10 @@ class RtfParser implements ParserInterface
         $interval_spec = $parse_config["interval_spec"][$this->meeting_night];
 
         $day_of_month = getAssignmentDate($date_pattern_func($month), $textFromWorksheet, $month, $interval_spec);
+        $mapWithDate = new Map(["date" => $day_of_month]);
         $assignmentsMap = $this->assignments($assignment_pattern, $textFromWorksheet);
 
-        $assignmentsMap->put("date", $day_of_month);
-
-        return $assignmentsMap->toArray();
+        return $mapWithDate->union($assignmentsMap)->toArray();
     }
 
     /**
