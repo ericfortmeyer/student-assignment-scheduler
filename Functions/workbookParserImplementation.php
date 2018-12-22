@@ -17,11 +17,10 @@ function workbookParserImplementation(array $config): ParserInterface
             . " the workbook is in. The workbook parser implementation must be set in the config file"
             . " with 'workbook_parser' as it's key."
             . "  Use the fully qualified class name";
-        throw new \Exception($no_workbook_parser_msg);
+        throw new \Exception($no_workbook_format_msg);
     }
 
     $workbook_format = $config["workbook_format"];
-
     $meeting_night = $config["meeting_night"];
     $ClassnameOfImplementation = $config["workbook_parser_implementations"][$workbook_format];
 
