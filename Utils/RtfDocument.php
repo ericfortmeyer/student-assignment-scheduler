@@ -5,6 +5,7 @@ namespace TalkSlipSender\Utils;
 use function TalkSlipSender\Functions\getConfig;
 use function TalkSlipSender\Functions\getYearFromWorkbookPath;
 use function TalkSlipSender\Functions\getMonthFromWorkbookPath;
+use function TalkSlipSender\Functions\monthNumeric;
 
 /**
  * Use this class for polymorphism when parsing documents
@@ -59,7 +60,7 @@ class RtfDocument
         $mnemonic = $config["mnemonic"][$language];
         //keep the result compatible with the result of parsing pdf files
         return [
-            "Title" => "$mnemonic{$this->year()}.{$this->month()}"
+            "Title" => "$mnemonic{$this->year()}.{$this->month()}-ASL"
         ];
     }
 
@@ -70,7 +71,7 @@ class RtfDocument
      */
     protected function year(): string
     {
-        return getYearFromWorkbookPath($this->filename);
+        return date_create_from_format("Y", getYearFromWorkbookPath($this->filename))->format("y");
     }
 
     /**
@@ -80,6 +81,6 @@ class RtfDocument
      */
     protected function month(): string
     {
-        return getMonthFromWorkbookPath($this->filename);
+        return monthNumeric(getMonthFromWorkbookPath($this->filename));
     }
 }
