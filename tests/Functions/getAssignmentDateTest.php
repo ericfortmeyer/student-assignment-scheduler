@@ -102,18 +102,25 @@ class GetAssignmentDateTest extends TestCase
 
         $meeting_night = $this->config["meeting_night"];
         $interval_spec_for_meeting_night = $this->config["interval_spec"][$meeting_night];
+        $pattern_func = $this->getPatternConfig()["assignment_date_pattern_func"];
         
         
         foreach ($this->passingTests($month_all_caps) as $test) {
             $this->assertSame(
                 $target_date,
                 getAssignmentDate(
+                    $pattern_func($month),
                     $test,
                     $month,
                     $interval_spec_for_meeting_night
                 )
             );
         }
+    }
+
+    protected function getPatternConfig(): array
+    {
+        return require __DIR__ . "/../../Utils/parse_config.php";
     }
 
     protected function passingTests(string $month): array

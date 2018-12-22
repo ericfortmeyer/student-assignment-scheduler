@@ -11,9 +11,9 @@ return [
     1 => [
         "date" => "17",
         5 => "Initial Call Video",
-        6 => "Intial Call",
-        7 => "Intial Call",
-        8 => "Intial Call"
+        6 => "Initial Call",
+        7 => "Initial Call",
+        8 => "Initial Call"
     ],
     2 => [
         "date" => "24",

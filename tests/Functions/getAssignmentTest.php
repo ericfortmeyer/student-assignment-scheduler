@@ -23,13 +23,15 @@ class GetAssignmentTest extends TestCase
     private function doTest(string $year_month)
     {
         $expected = $this->getData($year_month);
+        $pattern_func = $this->getConfig()["pdf_assignment_pattern_func"];
         (new Map($this->pages($year_month)))->map(
-            function (int $key, string $text) use ($expected) {
+            function (int $key, string $text) use ($expected, $pattern_func) {
                 (new Vector(range(5, 7)))->map(
-                    function (int $assignment_num) use ($expected, $key, $text) {
+                    function (int $assignment_num) use ($expected, $key, $text, $pattern_func) {
+                        $pattern = $pattern_func($assignment_num);
                         $this->assertEquals(
                             $expected[$key][$assignment_num],
-                            getAssignment($assignment_num, $text)
+                            getAssignment($pattern, $text)
                         );
                     }
                 );
@@ -52,6 +54,11 @@ class GetAssignmentTest extends TestCase
     private function hasSchedule(string $text): bool
     {
         return strlen($text) > 400;
+    }
+
+    protected function getConfig(): array
+    {
+        return require __DIR__ . "/../../Utils/parse_config.php";
     }
 
     protected function getData(string $year_month)
