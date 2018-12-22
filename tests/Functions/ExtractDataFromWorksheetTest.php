@@ -11,22 +11,22 @@ class ExtractDataFromWorksheetTest extends TestCase
 {
     protected function setup()
     {
-        $this->config = include __DIR__ . "/../../config/config.php";
+        $this->config = include realpath(__DIR__ . "/../../config/config.php");
     }
 
     public function testReturnsExpectedDataWhenGivenPdfParser()
     {
         $year_month = "201812";
         $meeting_night = $this->config["meeting_night"];
-        $interval_spec_for_meeting_night = $this->config["interval_spec"][$meeting_night];
-        $PdfParser = new PdfParser(new Parser());
+        // $interval_spec_for_meeting_night = $this->config["interval_spec"][$meeting_night];
+        $PdfParser = new PdfParser(new Parser(), $meeting_night);
 
         $this->assertEquals(
             $this->getData($year_month),
             extractDataFromWorksheet(
                 $PdfParser,
-                $this->workbookFilename($year_month),
-                $interval_spec_for_meeting_night
+                $this->workbookFilename($year_month)
+                // $interval_spec_for_meeting_night
             )
         );
     }
@@ -35,14 +35,12 @@ class ExtractDataFromWorksheetTest extends TestCase
     {
         $year_month = "201901";
         $meeting_night = $this->config["meeting_night"];
-        $interval_spec_for_meeting_night = $this->config["interval_spec"][$meeting_night];
-        $RtfParser = new RtfParser();
+        $RtfParser = new RtfParser($meeting_night);
         $this->assertEquals(
             $this->getData($year_month),
             extractDataFromWorksheet(
                 $RtfParser,
-                $this->workbookFilename($year_month, "rtf"),
-                $interval_spec_for_meeting_night
+                $this->workbookFilename($year_month, "rtf")
             )
         );
     }

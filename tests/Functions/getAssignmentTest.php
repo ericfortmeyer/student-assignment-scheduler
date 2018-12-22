@@ -12,7 +12,7 @@ class GetAssignmentTest extends TestCase
 {
     protected function setup()
     {
-        $this->parser = new PdfParser(new Parser());
+        $this->parser = new PdfParser(new Parser(), "Thursday");
     }
 
     public function testReturnsExpectedInfoFromDecember2018Workbook()
@@ -58,7 +58,7 @@ class GetAssignmentTest extends TestCase
 
     protected function getConfig(): array
     {
-        return require __DIR__ . "/../../Utils/parse_config.php";
+        return require realpath(__DIR__ . "/../../Utils/parse_config.php");
     }
 
     protected function getData(string $year_month)
@@ -67,11 +67,8 @@ class GetAssignmentTest extends TestCase
     }
 
     protected function getText(string $year_month, int $page)
-    {
-        return getTextFromWorksheet(
-            $this->parser,
-            __DIR__ . "/../mocks/mwb_ASL_${year_month}.pdf",
-            $page
-        );
+    {    
+        $worksheet = __DIR__ . "/../mocks/mwb_ASL_${year_month}.pdf";
+        return $this->parser->parseFile($worksheet)->getPages()[$page]->getText();
     }
 }
