@@ -7,7 +7,7 @@ use Smalot\PdfParser\Parser;
 use TalkSlipSender\Utils\PdfParser;
 use TalkSlipSender\Utils\RtfParser;
 
-class ExtractDataFromWorksheetTest extends TestCase
+class extractDataFromWorkbookTest extends TestCase
 {
     protected function setup()
     {
@@ -23,7 +23,7 @@ class ExtractDataFromWorksheetTest extends TestCase
 
         $this->assertEquals(
             $this->getData($year_month),
-            extractDataFromWorksheet(
+            extractDataFromWorkbook(
                 $PdfParser,
                 $this->workbookFilename($year_month)
                 // $interval_spec_for_meeting_night
@@ -38,7 +38,7 @@ class ExtractDataFromWorksheetTest extends TestCase
         $RtfParser = new RtfParser($meeting_night);
         $this->assertEquals(
             $this->getData($year_month),
-            extractDataFromWorksheet(
+            extractDataFromWorkbook(
                 $RtfParser,
                 $this->workbookFilename($year_month, "rtf")
             )

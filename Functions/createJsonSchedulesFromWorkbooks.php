@@ -44,12 +44,10 @@ function createJsonSchedulesFromWorkbooks(
             $year = getYearFromWorkbookPath($workbook);
             $month = getMonthFromWorkbookPath($workbook);
             $filename = "${data_destination}/${year}/${month}.json";
+            $workbook = "${path_to_workbooks}/${workbook}";
             
             if (!file_exists($filename)) {
-                $data = extractDataFromWorksheet(
-                    $parser,
-                    "${path_to_workbooks}/${workbook}"
-                );
+                $data = extractDataFromWorkbook($parser, $workbook);
                 save($data, $filename, true);
                 $scheduleCreationNotificationFunc($month);
             }

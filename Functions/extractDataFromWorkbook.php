@@ -12,7 +12,7 @@ use \Ds\Map;
  * @param string $filename
  * @return array
  */
-function extractDataFromWorksheet(ParserInterface $parser, string $filename): array
+function extractDataFromWorkbook(ParserInterface $parser, string $filename): array
 {
     // mnemonic title of the worksheet found in it's text
     $title = getDetailsFromWorksheet($parser, $filename)["Title"];
