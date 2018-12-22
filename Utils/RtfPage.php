@@ -28,13 +28,13 @@ class RtfPage
 
     protected function parseDate(string $text): array
     {
-        $date = "/(\w+)\S{6}(\d{1,2})-\d{1,2}/";
+        $date = "/\\b(\w+)\S{6}(\d{1,2})-([\w]+|\d{1,2})/";
 
         preg_match($date, $text, $matches);
 
         return [
-            "month" => strtoupper($matches[0]),
-            "day" => $matches[1]
+            "month" => "\n" . strtoupper($matches[1]),
+            "day" => $matches[2]
         ];
     }
 }
