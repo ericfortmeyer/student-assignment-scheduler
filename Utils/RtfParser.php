@@ -3,13 +3,9 @@
 namespace TalkSlipSender\Utils;
 
 use \Ds\Vector;
+use \Ds\Map;
+use function TalkSlipSender\Functions\getAssignmentDate;
 
-/**
- * Wraps all contents of an rtf file in a DocumentWrapper object
- *
- * This class does not parse the text of the document.
- * It is used for polymorphism.
- */
 class RtfParser implements ParserInterface
 {
     /**
@@ -23,9 +19,83 @@ class RtfParser implements ParserInterface
         return new DocumentWrapper($this->parse($directory));
     }
 
+    /**
+     * Day of the month and assignments
+     *
+     * The keys of the assignments correspond to
+     * their assignment numbers on the worksheet
+     *
+     * @param string $textFromWorksheet
+     * @param string $month
+     * @param string $interval_spec
+     * @return array
+     */
     public function getAssignments(string $textFromWorksheet, string $month, string $interval_spec): array
     {
-        return [];
+        $parse_config = $this->getConfig();
+        $date_pattern_func = $parse_config["assignment_date_pattern_func"];
+        $assignment_pattern = $parse_config["rtf_assignment_pattern"];
+
+        $day_of_month = getAssignmentDate($date_pattern_func($month), $textFromWorksheet, $month, $interval_spec);
+        $assignmentsMap = $this->assignments($assignment_pattern, $textFromWorksheet);
+
+        $assignmentsMap->put("date", $day_of_month);
+
+        return $assignmentsMap->toArray();
+    }
+    
+    /**
+     * The assignments with their assignment numbers as keys
+     *
+     * Use a regular expresssion pattern to find the assignments in the text
+     *
+     * @param string $assignment_pattern
+     * @param string $textFromWorksheet
+     * @return Map
+     */
+    protected function assignments(string $assignment_pattern, string $textFromWorksheet): Map
+    {
+        preg_match_all($assignment_pattern, $textFromWorksheet, $matches);
+        $assignments = $matches[1];
+        //skip bible reading
+        $first_assignment_num = 5;
+
+        return $this->mapAssignmentsToWorksheetAssignmentNumbers($first_assignment_num, $assignments);
+    }
+    
+    /**
+     * Set the keys of all assignments to their assignment number in the worksheet.
+     *
+     * Rtf documents do not include the assignment number in the text.
+     *
+     * @param int $first_assignment_num
+     * @param array $assignments
+     * @return Map
+     */
+    protected function mapAssignmentsToWorksheetAssignmentNumbers(int $first_assignment_num, array $assignments): Map
+    {
+        $map = new Map();
+        $key = $first_assignment_num;
+
+        foreach ($assignments as $assignment) {
+            $map->put($key, $assignment);
+            $key++;
+        }
+
+        return $map;
+    }
+
+    /**
+     * Configuration containing regular expressions needed to parse data
+     *
+     * Use a configuration file for regexp patterns so that the patterns
+     * required by all parsers can be located in the same place
+     *
+     * @return array
+     */
+    protected function getConfig(): array
+    {
+        return require "parse_config.php";
     }
 
     /**
@@ -36,11 +106,29 @@ class RtfParser implements ParserInterface
      */
     protected function parse(string $directory): RtfDocument
     {
-        $filenames = array_diff(scandir($directory), [".", "..", ".DS_Store"]);
-        $justWeeks = $this->removeSampleConversations($filenames);
-        $pages = $this->contentOfAllFiles($justWeeks, $directory);
+        $pages = $this->contentOfAllFiles(
+            $this->justWeeks($this->filenames($directory)),
+            $directory
+        );
 
         return new RtfDocument($pages, $directory);
+    }
+
+    public function zeroIndexedRangeOfPageNumbers(string $directory): array
+    {
+        $end = count($this->justWeeks($this->filenames($directory))) - 1;
+
+        return range(0, $end);
+    }
+
+    protected function justWeeks(array $filenames): array
+    {
+        return $this->removeSampleConversations($filenames);
+    }
+
+    protected function filenames(string $directory): array
+    {
+        return array_diff(\scandir($directory), [".", "..", ".DS_Store"]);
     }
 
     protected function removeSampleConversations(array $filenames): array
