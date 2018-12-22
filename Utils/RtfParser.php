@@ -9,6 +9,16 @@ use function TalkSlipSender\Functions\getAssignmentDate;
 class RtfParser implements ParserInterface
 {
     /**
+     * @var string
+     */
+    protected $meeting_night = "";
+
+    public function __construct(string $meeting_night)
+    {
+        $this->meeting_night = $meeting_night;
+    }
+
+    /**
      * Wrap the text in a DocumentWrapper
      *
      * @param string $directory
@@ -27,14 +37,14 @@ class RtfParser implements ParserInterface
      *
      * @param string $textFromWorksheet
      * @param string $month
-     * @param string $interval_spec
      * @return array
      */
-    public function getAssignments(string $textFromWorksheet, string $month, string $interval_spec): array
+    public function getAssignments(string $textFromWorksheet, string $month): array
     {
         $parse_config = $this->getConfig();
         $date_pattern_func = $parse_config["assignment_date_pattern_func"];
         $assignment_pattern = $parse_config["rtf_assignment_pattern"];
+        $interval_spec = $parse_config["interval_spec"][$this->meeting_night];
 
         $day_of_month = getAssignmentDate($date_pattern_func($month), $textFromWorksheet, $month, $interval_spec);
         $assignmentsMap = $this->assignments($assignment_pattern, $textFromWorksheet);
@@ -42,6 +52,18 @@ class RtfParser implements ParserInterface
         $assignmentsMap->put("date", $day_of_month);
 
         return $assignmentsMap->toArray();
+    }
+
+    /**
+     * A vector of page numbers required when creating a document representing the file parsed
+     *
+     * @param $filename
+     * @return Vector
+     */
+    public function pageNumbers(string $filename): Vector
+    {
+        $directory = $filename;
+        return new Vector($this->zeroIndexedRangeOfPageNumbers($directory));
     }
     
     /**
@@ -128,7 +150,7 @@ class RtfParser implements ParserInterface
 
     protected function filenames(string $directory): array
     {
-        return array_diff(\scandir($directory), [".", "..", ".DS_Store"]);
+        return array_diff(scandir($directory), [".", "..", ".DS_Store"]);
     }
 
     protected function removeSampleConversations(array $filenames): array
