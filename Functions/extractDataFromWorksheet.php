@@ -3,40 +3,42 @@
 namespace TalkSlipSender\Functions;
 
 use TalkSlipSender\Utils\ParserInterface;
-use TalkSlipSender\Utils\PdfParser;
 use \Ds\Map;
-use \Ds\Vector;
 
-function extractDataFromWorksheet(ParserInterface $parser, string $file, string $interval_spec): array
+/**
+ * Use parser to extract an array of data from the worksheet
+ *
+ * @param ParserInterface $parser
+ * @param string $filename
+ * @return array
+ */
+function extractDataFromWorksheet(ParserInterface $parser, string $filename): array
 {
-    $title = getDetailsFromWorksheet($parser, $file)["Title"];
-    $month = getMonthFromTitle($title);
-    
-    $page_numbers = new Vector(
-        $parser instanceof PdfParser ? range(1, 6) : $parser->zeroIndexedRangeOfPageNumbers($file)
-    );
+    // mnemonic title of the worksheet found in it's text
+    $title = getDetailsFromWorksheet($parser, $filename)["Title"];
 
-    $getTextFromWorksheets = function (int $page) use ($parser, $file) {
-        return getTextFromWorksheet($parser, $file, $page);
+    $year = getYearFromTitle($title);
+    $month = getMonthFromTitle($title);
+
+    $getTextFromWorksheets = function (int $page_number) use ($parser, $filename) {
+        return $parser->parseFile($filename)->getPages()[$page_number]->getText();
     };
 
-    $onlyPagesWithSchedules = function ($text) {
+    $onlyPagesWithSchedules = function (string $text) {
         return strlen($text) > 400;
     };
 
-    $assignmentsFromText = function (string $textFromWorksheet) use ($parser, $month, $interval_spec): array {
-        return $parser->getAssignments($textFromWorksheet, $month, $interval_spec);
+    $getAssignmentsFromText = function (string $textFromWorksheet) use ($parser, $month): array {
+        return $parser->getAssignments($textFromWorksheet, $month);
     };
 
-    $textFromWorksheet = $page_numbers
-        ->map($getTextFromWorksheets)
-        ->filter($onlyPagesWithSchedules);
+    $VectorOfPageNumbers = $parser->pageNumbers($filename);
 
-    $mapOfAssignments = new Map($textFromWorksheet->map($assignmentsFromText));
+    $VectorOfTextFromWorksheet = $VectorOfPageNumbers->map($getTextFromWorksheets)->filter($onlyPagesWithSchedules);
 
-    $mapOfDateInfo = new Map();
-    $mapOfDateInfo->put("month", $month);
-    $mapOfDateInfo->put("year", getYearFromTitle($title));
+    $MapOfAssignments = new Map($VectorOfTextFromWorksheet->map($getAssignmentsFromText));
 
-    return $mapOfDateInfo->union($mapOfAssignments)->toArray();
+    $MapOfDateInfo = new Map(["month" => $month, "year" => $year]);
+
+    return $MapOfDateInfo->union($MapOfAssignments)->toArray();
 }
