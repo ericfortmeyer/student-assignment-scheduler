@@ -8,7 +8,8 @@ class RegisterFileTest extends TestCase
 {
     protected function setup()
     {
-        $this->path_to_test_files = __DIR__ . "/../data";
+        // tests were breaking unexpectedly when the realpath function was not being used
+        $this->path_to_test_files = realpath(__DIR__ . "/../data");
         $registry_filename = sha1("test") . ".php";
         $this->test_registry = __DIR__ . "/../mocks/${registry_filename}";
         generateRegistry([], $this->test_registry);
