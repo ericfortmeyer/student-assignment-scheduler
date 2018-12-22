@@ -25,7 +25,7 @@ function createJsonAssignments(
             $month = $schedule_for_month["month"];
             $year = $schedule_for_month["year"];
 
-            $shouldAbort = isPastMonth($month) || $hasScheduleAlreadyBeenCompleted($month);
+            $shouldAbort = isPastMonth($month, $year) || $hasScheduleAlreadyBeenCompleted($month);
 
             if ($shouldAbort) {
                 return;
