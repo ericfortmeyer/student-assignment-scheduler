@@ -9,25 +9,41 @@
 <?php
 ...
 
-createJsonSchedulesFromWorkbooks(
+
+
+/**
+ * Parse pdf schedules into json
+ *
+ * Data derived from the json schedules are used
+ * when the user of the application schedules assignments
+ * and for writing out assignment forms
+ */
+
+$path_to_workbooks = $path_config["path_to_workbooks"]
+    . DIRECTORY_SEPARATOR
+    . $config["workbook_format"];
+
+$scheduleCreationNotificationFunc = jsonScheduleCreationNotification();
+
+$SetOfYearsSchedulesWereIn = createJsonSchedulesFromWorkbooks(
     $WorkbookParser,
-    $path_config["path_to_workbooks"],
-    $path_config["path_to_data"]
-);
-print green("Schedules were created from workbooks\r\n");
-
-
-
-createJsonAssignments(
-    "{$path_config["path_to_data"]}/2018",
-    "{$path_config["path_to_data"]}/assignments"
+    $path_to_workbooks,
+    $path_config["path_to_data"],
+    $scheduleCreationNotificationFunc
 );
 
-
-writeAssignmentForms(
+/**
+ * Create assignment forms
+ *
+ * The json files representing weeks of assignments are used
+ * to generate pdf assignment forms
+ */
+$which_months = writeAssignmentForms(
     $AssignmentFormWriter,
-    $path_to_json_assignments_files,
-    "{$path_config["path_to_data"]}/2018"
+    $path_to_json_assignments,
+    $path_to_json_schedules,
+    $hasScheduleAlreadyBeenCompleted,
+    false
 );
 
 ```
@@ -36,7 +52,7 @@ writeAssignmentForms(
 - [x] Create Command Line Tool
     - [] Add CLI configuration
 - [] Create Web Interface
-- [] Write test :sob:
+- [x] Write test
 
 
 ## Want to contribute?
