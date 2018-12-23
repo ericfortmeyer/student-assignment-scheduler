@@ -18,27 +18,20 @@
  * when the user of the application schedules assignments
  * and for writing out assignment forms
  */
-
-$path_to_workbooks = $path_config["path_to_workbooks"]
-    . DIRECTORY_SEPARATOR
-    . $config["workbook_format"];
-
-$scheduleCreationNotificationFunc = jsonScheduleCreationNotification();
-
-$SetOfYearsSchedulesWereIn = createJsonSchedulesFromWorkbooks(
+createJsonSchedulesFromWorkbooks(
     $WorkbookParser,
     $path_to_workbooks,
     $path_config["path_to_data"],
-    $scheduleCreationNotificationFunc
+    jsonScheduleCreationNotification()
 );
 
 /**
- * Create assignment forms
+ * Create assignment forms.
  *
  * The json files representing weeks of assignments are used
- * to generate pdf assignment forms
+ * to generate pdf assignment forms.
  */
-$which_months = writeAssignmentForms(
+writeAssignmentForms(
     $AssignmentFormWriter,
     $path_to_json_assignments,
     $path_to_json_schedules,
