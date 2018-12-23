@@ -1,21 +1,20 @@
 <?php
 
 use TalkSlipSender\Utils\PDFAssignmentFormWriter;
-use TalkSlipSender\Utils\ScheduleWriter;
+use TalkSlipSender\Utils\PdfScheduleWriter;
 use TalkSlipSender\Utils\MailSender;
 use TalkSlipSender\Models\ListOfContacts;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;
-use Smalot\PdfParser\Parser;
 
+use function TalkSlipSender\Functions\workbookParserImplementation;
 use function TalkSlipSender\Functions\createJsonSchedulesFromWorkbooks;
 use function TalkSlipSender\Functions\sendEmails;
 use function TalkSlipSender\Functions\decryptedPassword;
 use function TalkSlipSender\Functions\scheduleRecipientError;
 use function TalkSlipSender\Functions\contactSetupError;
-use function TalkSlipSender\Functions\makeDirectories;
-use function TalkSlipSender\Functions\writeSchedule;
+use function TalkSlipSender\Functions\importAssignments;
 use function TalkSlipSender\Functions\CLI\writeAssignmentForms;
 use function TalkSlipSender\Functions\CLI\createJsonAssignments;
 use function TalkSlipSender\Functions\CLI\yes;
@@ -23,6 +22,7 @@ use function TalkSlipSender\Functions\CLI\no;
 use function TalkSlipSender\Functions\CLI\red;
 use function TalkSlipSender\Functions\CLI\green;
 use function TalkSlipSender\Functions\CLI\prompt;
+use function TalkSlipSender\Functions\CLI\jsonScheduleCreationNotification;
 
 require "autoload.php";
 
@@ -53,9 +53,10 @@ $Dotenv->required([
     "from_email_key",
     "smtp_host"
 ]);
-$WorkbookParser = new Parser();
+
+$WorkbookParser = workbookParserImplementation($config);
 $AssignmentFormWriter = new PDFAssignmentFormWriter($config);
-$ScheduleWriter = new ScheduleWriter($config);
+$ScheduleWriter = new PdfScheduleWriter($config);
 $ListOfContacts = new ListOfContacts();
 $MailSender = new MailSender(
     new PHPMailer(true),
@@ -71,11 +72,20 @@ $MailSender = new MailSender(
  * when the user of the application schedules assignments
  * and for writing out assignment forms
  */
-$json_schedules_set = createJsonSchedulesFromWorkbooks(
+
+$path_to_workbooks = $path_config["path_to_workbooks"]
+    . DIRECTORY_SEPARATOR
+    . $config["workbook_format"];
+
+$scheduleCreationNotificationFunc = jsonScheduleCreationNotification();
+
+$SetOfYearsSchedulesWhereIn = createJsonSchedulesFromWorkbooks(
     $WorkbookParser,
-    $path_config["path_to_workbooks"],
-    $path_config["path_to_data"]
+    $path_to_workbooks,
+    $path_config["path_to_data"],
+    $scheduleCreationNotificationFunc
 );
+
 
 $hasScheduleAlreadyBeenCompleted = function (string $month) use ($path_config) {
     $schedule_filename = "{$path_config["path_to_schedules"]}/${month}.pdf";
@@ -90,21 +100,15 @@ $hasScheduleAlreadyBeenCompleted = function (string $month) use ($path_config) {
 $path_to_json_schedules = "{$path_config["path_to_data"]}/";
 $path_to_json_assignments = "{$path_config["path_to_assignments"]}/";
 
-/**
- * The meeting night is written on the schedule and assignment forms.
- * It is derived from adding to the first day of the month found on
- * the date in the worksheet.  The meeting night must be configured for
- * the user in order to determine the interval spec needed for DateInterval.
- */
-$meeting_night = $config["meeting_night"];
-$interval_spec_for_meeting_night = $config["interval_spec"][$meeting_night];
-
-$createJsonAssignments = function ($carry, int $year) use (
+$createJsonAssignments = function (
+    $carry,
+    int $year
+) use (
     $AssignmentFormWriter,
     &$path_to_json_schedules,
     &$path_to_json_assignments,
-    $hasScheduleAlreadyBeenCompleted,
-    $interval_spec_for_meeting_night) {
+    $hasScheduleAlreadyBeenCompleted
+) {
 
     $path_to_json_schedules .= $year;
     $path_to_json_assignments .= $year;
@@ -116,18 +120,17 @@ $createJsonAssignments = function ($carry, int $year) use (
     createJsonAssignments(
         $path_to_json_schedules,
         $path_to_json_assignments,
-        $hasScheduleAlreadyBeenCompleted,
-        $interval_spec_for_meeting_night
+        $hasScheduleAlreadyBeenCompleted
     );
 };
 
 
 /**
  * An instance of \Ds\Set so the values will be unique
- * @var \Ds\Set $json_schedules_set
+ * @var \Ds\Set $SetOfYearsSchedulesWhereIn
  */
-$json_schedules_set->remove(null);
-$json_schedules_set->reduce($createJsonAssignments);
+$SetOfYearsSchedulesWhereIn->remove(null);
+$SetOfYearsSchedulesWhereIn->reduce($createJsonAssignments);
 
 
 
@@ -145,12 +148,11 @@ $which_months = writeAssignmentForms(
     false
 );
 
-
 /**
  * Were assignments scheduled?
  */
 current($which_months)
-    ?? exit(green("It looks like you are all up-to-date.\r\nNo schedules were created.  Good Bye\r\n"));
+    || exit(green("It looks like you are all up-to-date.\r\nNo schedules were created.  Good Bye\r\n"));
 
 
 /**
@@ -159,12 +161,11 @@ current($which_months)
  * Uses the json schedule and the json assignment files
  * to generate a pdf schedule for the month
  */
-$schedule_filename = writeSchedule(
-    $ScheduleWriter,
-    $path_to_json_assignments,
-    $path_to_json_schedules,
-    current($which_months)
-);
+$month = current($which_months);
+$assignments = importAssignments($month, $path_to_json_assignments);
+$schedule = weeksFrom(importJson("{$path_config["path_to_schedules"]}/${month}"));
+
+$schedule_filename = $ScheduleWriter->create($assignments, $schedule, $month);
 
 
 $user_response = readline(
