@@ -1,5 +1,7 @@
 # Student Assignment Scheduler
 
+![alt text](https://travis-ci.org/ericfortmeyer/student-assignment-scheduler.svg?branch=master)
+
 #### A way to schedule and email student assignments for the mid-week meeting.
 
 :sunglasses:
@@ -8,8 +10,6 @@
 ```php
 <?php
 ...
-
-
 
 /**
  * Parse pdf schedules into json
