@@ -5,6 +5,8 @@ namespace TalkSlipSender\Utils;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\StreamReader;
 
+use \Ds\Map;
+
 use function TalkSlipSender\Functions\CLI\doesNotHaveWordVideo;
 
 class PdfScheduleWriter implements ScheduleWriterInterface
@@ -66,7 +68,8 @@ class PdfScheduleWriter implements ScheduleWriterInterface
         };
 
         $this->writeIndividualAssignment = function (int $week_index, array $week_of_assignments): \Closure {
-            return function (int $assignment_num, string $assignment_name) use ($week_index, $week_of_assignments) {
+            return function (int $assignment_num, string $assignment_name) use ($week_index, &$week_of_assignments) {
+
                 if (doesNotHaveWordVideo($assignment_name)) {
                     $this->writeStudentAssignment(
                         $week_index,
@@ -167,9 +170,13 @@ class PdfScheduleWriter implements ScheduleWriterInterface
         $this->writeDate($week_index, $week_of_assignments[0]["date"]);
 
         $partialFunc = $this->writeIndividualAssignment;
-        $writeAssignments = $partialFunc($week_index, $week_of_assignments);
+
+        $weekOfAssignments = new Map($week_of_assignments);
+        $weekOfAssignments->remove("year");
+
+        $writeAssignments = $partialFunc($week_index, $weekOfAssignments->toArray());
         
-        $MapOfAssignments = new \Ds\Map($assignment_map);
+        $MapOfAssignments = new Map($assignment_map);
         $MapOfAssignments->put(4, "bible_reading");
         $MapOfAssignments->hasKey("date") && $MapOfAssignments->remove("date");
         $MapOfAssignments->ksort();
