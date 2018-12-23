@@ -44,11 +44,13 @@ class RtfParser implements ParserInterface
         $parse_config = $this->getConfig();
         $date_pattern_func = $parse_config["assignment_date_pattern_func"];
         $assignment_pattern = $parse_config["rtf_assignment_pattern"];
+        $justTextWithAssignments = $parse_config["rtf_just_text_with_assignments_func"];
         $interval_spec = $parse_config["interval_spec"][$this->meeting_night];
 
         $day_of_month = getAssignmentDate($date_pattern_func($month), $textFromWorksheet, $month, $interval_spec);
+
         $mapWithDate = new Map(["date" => $day_of_month]);
-        $assignmentsMap = $this->assignments($assignment_pattern, $textFromWorksheet);
+        $assignmentsMap = $this->assignments($assignment_pattern, $justTextWithAssignments($textFromWorksheet));
 
         return $mapWithDate->union($assignmentsMap)->toArray();
     }
@@ -77,7 +79,8 @@ class RtfParser implements ParserInterface
     protected function assignments(string $assignment_pattern, string $textFromWorksheet): Map
     {
         preg_match_all($assignment_pattern, $textFromWorksheet, $matches);
-        $assignments = $matches[1];
+
+        $assignments = $matches[0];
         //skip bible reading
         $first_assignment_num = 5;
 

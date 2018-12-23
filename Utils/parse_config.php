@@ -1,13 +1,5 @@
 <?php
 
-$exclude_from_assignment_lookup = [
-    "Digging for Spiritual Gems",
-    "Bible Reading",
-    "Congregation Bible Study",
-    "Annual Service Report"
-];
-$titles_to_exclude = implode("|", $exclude_from_assignment_lookup);
-
 return [
     "interval_spec" => [
         "Monday" => "P0D",
@@ -31,13 +23,20 @@ return [
         . "(?# capture one or two digits)(\d{1,2})"
         . "(?# multiline mode)/m";
     },
-    "rtf_assignment_pattern" => "/(?# text before)\\\b "
-        . "(?# start subpattern)(?:"
-        . "(?# exclude these)(?!"
-        . $titles_to_exclude
-        . "(?# closing parentheses))"
-        . "(?# capture any number of words)(\w+[\D]*)"
-        . "(?# end subpattern))"
-        . "(?# semicolon)\:"
-        . "/"
+    "rtf_just_text_with_assignments_func" => function (string $stream): string {
+        $split_worksheet_from = "Apply Yourself to the Field Ministry";
+        $split_worksheet_to = "Living as Christians";
+        
+        return preg_split(
+            "/$split_worksheet_to/",
+            preg_split(
+                "/$split_worksheet_from/",
+                $stream
+            )[1]
+        )[0];
+    },
+    "rtf_assignment_pattern" => "/(?# backslash, b, and whitespace)(?<=\\\b )"
+        . "(?# at least one word)\w+"
+        . "(?# any number of sets of words after a whitespace)(?:\s?\w?)*"
+        . "(?# followed by a colon)(?=:)/"
 ];
