@@ -15,6 +15,7 @@ use function TalkSlipSender\Functions\decryptedPassword;
 use function TalkSlipSender\Functions\scheduleRecipientError;
 use function TalkSlipSender\Functions\contactSetupError;
 use function TalkSlipSender\Functions\importAssignments;
+use function TalkSlipSender\Functions\importSchedule;
 use function TalkSlipSender\Functions\CLI\writeAssignmentForms;
 use function TalkSlipSender\Functions\CLI\createJsonAssignments;
 use function TalkSlipSender\Functions\CLI\yes;
@@ -23,6 +24,12 @@ use function TalkSlipSender\Functions\CLI\red;
 use function TalkSlipSender\Functions\CLI\green;
 use function TalkSlipSender\Functions\CLI\prompt;
 use function TalkSlipSender\Functions\CLI\jsonScheduleCreationNotification;
+
+///////////////////////
+//
+//   BOOTSTRAPPING
+//
+//////////////////////
 
 require "autoload.php";
 
@@ -33,7 +40,6 @@ $config = require $config_file;
 $path_config = require "${config_path}path_config.php";
 $schedule_recipients_config_file = "${config_path}schedule_recipients.php";
 $contacts_file = "${config_path}contacts.php";
-
 
 // creates an empty contacts file if one has not been created yet
 !file_exists($contacts_file) && file_put_contents($contacts_file, "<?php" . PHP_EOL . "return [];" . PHP_EOL);
@@ -65,28 +71,60 @@ $MailSender = new MailSender(
     getenv("smtp_host")
 );
 
+
+
+///////////////////////
+//
+//   INITIALIZE PATHS
+//
+//////////////////////
+
+$path_to_workbooks = "{$path_config["path_to_workbooks"]}/{$config["workbook_format"]}";
+$path_to_data = $path_config["path_to_data"];
+
 /**
- * Parse pdf schedules into json
+ * These strings will be modified by an anonymous function.
  *
- * Data derived from the json schedules are used
- * when the user of the application schedules assignments
- * and for writing out assignment forms
+ * The final destination of the data is determined dynamically.
+ * For example, the year of the schedule may be appended to the path
+ * in order to make it the directory where this data is saved.
  */
+$path_to_json_schedules = "{$path_config["path_to_data"]}/";
+$path_to_json_assignments = "{$path_config["path_to_assignments"]}/";
 
-$path_to_workbooks = $path_config["path_to_workbooks"]
-    . DIRECTORY_SEPARATOR
-    . $config["workbook_format"];
 
-$scheduleCreationNotificationFunc = jsonScheduleCreationNotification();
 
-$SetOfYearsSchedulesWhereIn = createJsonSchedulesFromWorkbooks(
+/**
+ * Parses the workbooks into data that will be required
+ * later in the application.
+ *
+ * The return value of this function is required since
+ * the schedule's year is used when creating assignments.
+ * The years are used in a 'Set' so that there will be no
+ * duplicates.  The last week of December's schedule may be
+ * in the following year, in which case both years will
+ * be required when making assignments.
+ */
+$SetOfYearsSchedulesWereIn = createJsonSchedulesFromWorkbooks(
     $WorkbookParser,
     $path_to_workbooks,
-    $path_config["path_to_data"],
-    $scheduleCreationNotificationFunc
+    $path_to_data,
+    jsonScheduleCreationNotification()
 );
 
 
+
+/**
+ * This function is used to abort creating assignments.
+ *
+ * It assumes that there will be a PDF schedule with a basename
+ * being the month scheduled.  This should be changed to allow
+ * for changes in the future.  For example, the user may want to
+ * configure the application to produce schedules in other formats.
+ *
+ * An anonymous function is used in order to use variables that
+ * are in the parent scope with out requiring partial application.
+ */
 $hasScheduleAlreadyBeenCompleted = function (string $month) use ($path_config) {
     $schedule_filename = "{$path_config["path_to_schedules"]}/${month}.pdf";
 
@@ -94,12 +132,17 @@ $hasScheduleAlreadyBeenCompleted = function (string $month) use ($path_config) {
 };
 
 
-/**
- * These strings will be modified by an anonymous function
- */
-$path_to_json_schedules = "{$path_config["path_to_data"]}/";
-$path_to_json_assignments = "{$path_config["path_to_assignments"]}/";
 
+/**
+ * Used to allow the user to create assignments.
+ *
+ * Most of the UI of the application is in this function.
+ *
+ * An anonymous function is used in order to use variables that
+ * are in the parent scope with out requiring partial application.
+ * This function also modifies strings that are in the parent scope
+ * by importing references to the strings.
+ */
 $createJsonAssignments = function (
     $carry,
     int $year
@@ -110,12 +153,14 @@ $createJsonAssignments = function (
     $hasScheduleAlreadyBeenCompleted
 ) {
 
+    // Append the year to the paths
     $path_to_json_schedules .= $year;
     $path_to_json_assignments .= $year;
+
     /**
-     * Interact with the user of the application to schedule assignments
+     * Interact with the user of the application to schedule assignments.
      *
-     * A json file is created for each week of assignments
+     * A json file is created for each week of assignments.
      */
     createJsonAssignments(
         $path_to_json_schedules,
@@ -125,20 +170,23 @@ $createJsonAssignments = function (
 };
 
 
+
 /**
- * An instance of \Ds\Set so the values will be unique
- * @var \Ds\Set $SetOfYearsSchedulesWhereIn
+ * Create assignments for each year the schedules are in.
+ *
+ * The assignment creating function is where most of the
+ * user interfacing of the application is.
  */
-$SetOfYearsSchedulesWhereIn->remove(null);
-$SetOfYearsSchedulesWhereIn->reduce($createJsonAssignments);
+$SetOfYearsSchedulesWereIn->remove(null);
+$SetOfYearsSchedulesWereIn->reduce($createJsonAssignments);
 
 
 
 /**
- * Create assignment forms
+ * Create assignment forms.
  *
  * The json files representing weeks of assignments are used
- * to generate pdf assignment forms
+ * to generate pdf assignment forms.
  */
 $which_months = writeAssignmentForms(
     $AssignmentFormWriter,
@@ -148,30 +196,36 @@ $which_months = writeAssignmentForms(
     false
 );
 
-/**
- * Were assignments scheduled?
- */
+
+
+// Abort if the assignments were scheduled.
 current($which_months)
     || exit(green("It looks like you are all up-to-date.\r\nNo schedules were created.  Good Bye\r\n"));
 
 
+
 /**
- * Create the schedule for the month
+ * Create the schedule for the month.
  *
  * Uses the json schedule and the json assignment files
- * to generate a pdf schedule for the month
+ * to generate a schedule (i.e. pdf file) for the month.
  */
 $month = current($which_months);
 $assignments = importAssignments($month, $path_to_json_assignments);
-$schedule = weeksFrom(importJson("{$path_config["path_to_schedules"]}/${month}"));
+$schedule = importSchedule($path_to_json_schedules);
 
 $schedule_filename = $ScheduleWriter->create($assignments, $schedule, $month);
 
 
+
+/**
+ * Email the assignments and schedule.
+ *
+ * Determine if the user wants to send them.
+ */
 $user_response = readline(
     prompt("Do you want to send the emails")
 );
-
 
 yes($user_response)
     && sendEmails(
