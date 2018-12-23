@@ -2,8 +2,6 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.4/phpunit.xsd"
          bootstrap="vendor/autoload.php"
-         forceCoversAnnotation="true"
-         beStrictAboutCoversAnnotation="true"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
          colors="true"
@@ -16,7 +14,16 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./</directory>
+            <directory suffix=".php">./Functions</directory>
+            <directory suffix=".php">./FileRegistry</directory>
+            <directory suffix=".php">./Validation</directory>
+            <directory suffix=".php">./Utils</directory>
+            <exclude>
+                <directory>./Utils/templates</directory>
+                <file>./Utils/*config.php</file>
+                <file>./Utils/MailSender.php</file>
+                <file>./Utils/*Interface.php</file>
+            </exclude>
         </whitelist>
     </filter>
 </phpunit>
