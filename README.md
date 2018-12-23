@@ -1,6 +1,6 @@
 # Student Assignment Scheduler
 
-![alt text](https://travis-ci.org/ericfortmeyer/student-assignment-scheduler.svg?branch=master)
+[![Build Status](https://travis-ci.org/ericfortmeyer/student-assignment-scheduler.svg?branch=master)](https://travis-ci.org/ericfortmeyer/student-assignment-scheduler)
 
 #### A way to schedule and email student assignments for the mid-week meeting.
 
