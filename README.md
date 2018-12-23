@@ -21,7 +21,7 @@
 createJsonSchedulesFromWorkbooks(
     $WorkbookParser,
     $path_to_workbooks,
-    $path_config["path_to_data"],
+    $path_to_data,
     jsonScheduleCreationNotification()
 );
 
