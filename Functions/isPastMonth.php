@@ -7,10 +7,10 @@ namespace TalkSlipSender\Functions;
  * when comparing January or February for instance
  *
  * @param string $month
- * @param string|null $year
+ * @param int|null $year
  * @return bool
  */
-function isPastMonth(string $month, ?string $year = null): bool
+function isPastMonth(string $month, ?int $year = null): bool
 {
     return monthObj($month, $year) <= date_create("00:00");
 }
