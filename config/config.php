@@ -2,10 +2,19 @@
 
 namespace TalkSlipSender;
 
-$parser_namespace = __NAMESPACE__ . "\\Utils\\";
+
+$my_meeting_night = "Thursday";
+
+$my_language = "ASL";
+
+$workbook_format = "rtf";
+
+$do_not_assign_these = [
+    "Apply Yourself to Reading and Teaching",
+];
 
 return [
-    "language" => "ASL",
+    "language" => $my_language,
     "mnemonic" => [
         "ASL" => "mwbsl",
         "English" => "mwb"
@@ -13,12 +22,13 @@ return [
     "worksheet_filename_prefix" => [
         "ASL" => "mwb_ASL_",
     ],
-    "meeting_night" => "Thursday",
-    "workbook_format" => "rtf",
+    "meeting_night" => $my_meeting_night,
+    "workbook_format" => $workbook_format,
     "workbook_parser_implementations" => [
-        "pdf" => $parser_namespace . "PdfParser",
-        "rtf" => $parser_namespace . "RtfParser"
+        "pdf" => __NAMESPACE__ . "\\Utils\\" . "PdfParser",
+        "rtf" => __NAMESPACE__ . "\\Utils\\" . "RtfParser"
     ],
+    "skip_assignments_with_these_titles" => $do_not_assign_these,
     "assignment_form_template" => __DIR__ . "/../Utils/templates/S-89-E.pdf",
     "schedule_template" => __DIR__ . "/../Utils/templates/S-140-E.pdf",
     "assignment_forms_destination" => __DIR__ . "/../data/forms",
