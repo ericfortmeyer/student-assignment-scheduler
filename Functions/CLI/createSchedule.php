@@ -2,9 +2,11 @@
 
 namespace TalkSlipSender\Functions\CLI;
 
+use function TalkSlipSender\Functions\shouldMakeAssignment;
+
 function createSchedule(array $schedule_for_week, string $month)
 {
-    $date = "$month {$schedule_for_week["date"]}";
+    $date = "${month} {$schedule_for_week["date"]}";
     echo blue("Schedule for ${date}\r\n");
     return array_merge(
         [createBibleReading($date)],
@@ -15,14 +17,13 @@ function createSchedule(array $schedule_for_week, string $month)
                     $date,
                     $assignment,
                     readline("Enter student's name: "),
-                    readline("Enter counsel point: "),
                     $assignment !== "Talk" ? readline("Enter assistant's name: ") : ""
                 );
             },
             array_filter(
                 $schedule_for_week,
                 function (string $data, string $key) {
-                    return $key !== "date" && doesNotHaveWordVideo($data);
+                    return $key !== "date" && shouldMakeAssignment($data);
                 },
                 ARRAY_FILTER_USE_BOTH
             )

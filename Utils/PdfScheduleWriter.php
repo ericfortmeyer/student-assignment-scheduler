@@ -7,7 +7,7 @@ use setasign\Fpdi\PdfParser\StreamReader;
 
 use \Ds\Map;
 
-use function TalkSlipSender\Functions\CLI\doesNotHaveWordVideo;
+use function TalkSlipSender\Functions\shouldMakeAssignment;
 
 class PdfScheduleWriter implements ScheduleWriterInterface
 {
@@ -70,18 +70,21 @@ class PdfScheduleWriter implements ScheduleWriterInterface
         $this->writeIndividualAssignment = function (int $week_index, array $week_of_assignments): \Closure {
             return function (int $assignment_num, string $assignment_name) use ($week_index, &$week_of_assignments) {
 
-                if (doesNotHaveWordVideo($assignment_name)) {
+                if (shouldMakeAssignment($assignment_name)) {
+                    $data_for_current_assignment = current($week_of_assignments);
                     $this->writeStudentAssignment(
                         $week_index,
                         $assignment_num,
-                        current($week_of_assignments)
+                        $data_for_current_assignment
                     );
+                    // go to the next assignment
                     next($week_of_assignments);
                 } else {
+                    $data_for_current_assignment = $this->dataForMeetingPartsThatShouldNotBeAssigned($assignment_name);
                     $this->writeStudentAssignment(
                         $week_index,
                         $assignment_num,
-                        $this->dataForVideoDiscussion($assignment_name)
+                        $data_for_current_assignment
                     );
                 }
             };
@@ -184,7 +187,7 @@ class PdfScheduleWriter implements ScheduleWriterInterface
         $MapOfAssignments->map($writeAssignments);
     }
 
-    protected function dataForVideoDiscussion(string $assignment): array
+    protected function dataForMeetingPartsThatShouldNotBeAssigned(string $assignment): array
     {
         return [
             "assignment" => $assignment,

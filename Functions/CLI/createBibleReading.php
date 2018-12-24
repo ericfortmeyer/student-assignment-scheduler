@@ -9,8 +9,6 @@ function createBibleReading(string $date): array
     return createAssignment(
         $date,
         $assignment,
-        readline("Enter student's name: "),
-        readline("Enter counsel point: "),
-        ""
+        readline("Enter student's name: ")
     );
 }

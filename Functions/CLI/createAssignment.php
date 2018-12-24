@@ -6,8 +6,8 @@ function createAssignment(
     string $date,
     string $assignment,
     string $name,
-    string $counsel_point,
-    string $assistant
+    string $assistant = "",
+    string $counsel_point = ""
 ): array {
     $data = [
         "date" => $date,
@@ -17,13 +17,15 @@ function createAssignment(
         "assistant" => ucfirst($assistant)
     ];
     $heading = snakeCaseToUCWords($assignment);
+
     do {
         echo "\r\n",
             "Assignment: " . white($heading) . "\r\n",
             "Name: " . white($data["name"]) . "\r\n",
-            $data["assistant"] ? "Assitant: " . white($data["assistant"]) . "\r\n" : "",
-            "Counsel Point: " . white($data["counsel_point"]) . "\r\n",
+            $data["assistant"] ? "Assistant: " . white($data["assistant"]) . "\r\n" : "",
             "Date: " . white($data["date"]) . "\r\n";
+
+        // Ask the user if it is correct
         $reply = readline(isItCorrectPrompt());
 
         if (yes($reply)) {
@@ -41,8 +43,6 @@ function createAssignment(
         }
     } while (notYesOrNo($reply));
 
-    /**
-     * To suppress phan error since the function must return an array
-     */
+    // To suppress phan error since the function must return an array
     return [];
 }

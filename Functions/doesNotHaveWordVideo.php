@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\Functions\CLI;
+namespace TalkSlipSender\Functions;
 
 function doesNotHaveWordVideo(string $data): bool
 {
