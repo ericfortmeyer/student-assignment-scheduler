@@ -25,7 +25,7 @@ function sendEmails(
         $MailSender,
         $ListOfContacts,
         $contacts,
-        __DIR__ . "/../{$assignment_forms_destination}"
+        $assignment_forms_destination
     );
 
 
