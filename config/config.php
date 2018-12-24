@@ -2,7 +2,6 @@
 
 namespace TalkSlipSender;
 
-
 $my_meeting_night = "Thursday";
 
 $my_language = "ASL";
