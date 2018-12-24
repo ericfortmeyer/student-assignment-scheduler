@@ -346,18 +346,21 @@ return [
                     7.8,
                     51
                 ],
-                "First Conversation" => [
+                "Bible Reading" => [
                     7.8,
-                    55
+                    51
                 ],
                 "First Return Visit" => [
                     7.8,
                     58.8
                 ],
+                "Initial Call" => [
+                    7.8,
+                    55
+                ],
                 "Second Return Visit" => [
                     7.8,
                     62.8
-                    // 66.5
                 ],
                 "Bible Study" => [
                     48.4,
