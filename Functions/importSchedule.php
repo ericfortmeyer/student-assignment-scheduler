@@ -9,7 +9,7 @@ namespace TalkSlipSender\Functions;
  * an array containing only the information
  * representing each week of the schedule.
  */
-function importSchedule(string $path_to_schedules): array
+function importSchedule(string $filename, string $path_to_schedules): array
 {
-    return weeksFrom(importJson($path_to_schedules));
+    return weeksFrom(importJson("${path_to_schedules}/${filename}"));
 }
