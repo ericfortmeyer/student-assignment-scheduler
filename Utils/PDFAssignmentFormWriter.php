@@ -171,7 +171,7 @@ class PDFAssignmentFormWriter implements AssignmentFormWriterInterface
 
     protected function withIncrementedSuffix(string $filename): string
     {
-        return $this->addExtension(
+        return dirname($filename) . DIRECTORY_SEPARATOR . $this->addExtension(
             "{$this->removeExtension($filename)}_{$this->incrementedSuffix($filename)}"
         );
     }
