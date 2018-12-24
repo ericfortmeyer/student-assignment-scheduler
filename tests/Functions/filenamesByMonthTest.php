@@ -9,15 +9,15 @@ class FilenamesByMonthTest extends TestCase
     protected function setup()
     {
         $this->expected_files = [
-            "1108.json",
-            "1115.json",
-            "1122.json",
-            "1129.json"
+            "0110.json",
+            "0117.json",
+            "0124.json",
+            "0131.json"
         ];
     }
     public function testReturnsExpectedFiles()
     {
-        $month = "November";
+        $month = "January";
         $path_to_files = __DIR__ . "/../mocks/";
         $this->assertEquals(
             $this->expected_files,

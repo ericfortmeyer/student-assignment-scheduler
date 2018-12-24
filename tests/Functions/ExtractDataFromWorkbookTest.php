@@ -14,19 +14,6 @@ class extractDataFromWorkbookTest extends TestCase
         $this->config = include realpath(__DIR__ . "/../../config/config.php");
     }
 
-    public function testReturnsExpectedDataWhenGivenPdfParser()
-    {
-        $year_month = "201812";
-        $meeting_night = $this->config["meeting_night"];
-        $PdfParser = new PdfParser(new Parser(), $meeting_night);
-
-        
-        $this->assertEquals(
-            $this->getData($year_month),
-            extractDataFromWorkbook($PdfParser, $this->workbookFilename($year_month))
-        );
-    }
-
     public function testReturnsExpectedDataWhenGivenRtfParser()
     {
         $year_month = "201901";
