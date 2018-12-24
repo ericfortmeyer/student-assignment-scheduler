@@ -15,5 +15,10 @@ return [
     "48fcf45acc41721eb54f091a6b2ebecbc7826240" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/mocks/mwb_ASL_201812.pdf",
     "c61af8bc47f5dfad57cf7fc0965c356a0b8a9cf0" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/mocks/months/December.json",
     "ff295e06e34da21883a193537b22aaea0a7dd2f2" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/mocks/months/November.json",
-    "0b55d2f3d733f7be198caeabfdce4457e671d362" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/mocks/months/October.json"
+    "0b55d2f3d733f7be198caeabfdce4457e671d362" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/mocks/months/October.json",
+    "5fe91a9e0fb999cb85ea4798dab628194a955da7" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/mocks/0110.json",
+    "b5c5fec933d1f64ee12bf212c98d438dd0b65e14" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/mocks/0117.json",
+    "a29cb3c1d242abaf570b5f5538eda604b7777227" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/mocks/0124.json",
+    "29471dff95993d51d6f6976885161b6e2764528a" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/mocks/0131.json",
+    "bee685a717a7f04cb42450e51f2c9ef6de0e99b6" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/mocks/months/January.json"
 ];

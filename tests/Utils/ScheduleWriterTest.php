@@ -89,7 +89,7 @@ class ScheduleWriterTest extends TestCase
     {
         $writer = new PdfScheduleWriter($this->config);
         $expected_file = $this->test_schedule_filename = "{$this->config["schedules_destination"]}/{$this->test_schedule_basename}.pdf";
-        $month = "November";
+        $month = "January";
 
 
         $writer->create(
