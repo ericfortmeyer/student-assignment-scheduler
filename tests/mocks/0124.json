@@ -1,0 +1,24 @@
+{
+    "0": {
+        "date": "January 24",
+        "assignment": "bible_reading",
+        "name": "Barbara Liskov",
+        "counsel_point": "",
+        "assistant": ""
+    },
+    "1": {
+        "date": "January 24",
+        "assignment": "First Return Visit",
+        "name": "Don Knuth",
+        "counsel_point": "",
+        "assistant": "Djisktra"
+    },
+    "2": {
+        "date": "January 24",
+        "assignment": "First Return Visit",
+        "name": "John Wayne",
+        "counsel_point": "",
+        "assistant": "James Baldwin"
+    },
+    "year": "2019"
+}

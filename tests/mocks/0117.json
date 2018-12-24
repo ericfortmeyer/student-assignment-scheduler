@@ -1,0 +1,31 @@
+{
+    "0": {
+        "date": "January 17",
+        "assignment": "bible_reading",
+        "name": "John Doe",
+        "counsel_point": "",
+        "assistant": ""
+    },
+    "1": {
+        "date": "January 17",
+        "assignment": "Initial Call",
+        "name": "Jim Brown",
+        "counsel_point": "",
+        "assistant": "Tom Hanks"
+    },
+    "2": {
+        "date": "January 17",
+        "assignment": "Initial Call",
+        "name": "Tom Sawyer",
+        "counsel_point": "",
+        "assistant": "Huckleberry Finn"
+    },
+    "3": {
+        "date": "January 17",
+        "assignment": "Initial Call",
+        "name": "George Washington Carver",
+        "counsel_point": "",
+        "assistant": "Jesse Jackson"
+    },
+    "year": "2019"
+}
