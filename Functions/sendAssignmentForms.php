@@ -7,6 +7,11 @@ use TalkSlipSender\Models\ListOfContacts;
 use function TalkSlipSender\Functions\CLI\red;
 use function TalkSlipSender\Functions\Logging\emailLogger;
 
+define(
+    "NO_ASSIGNMENT_FORMS_ERROR_MSG",
+    red("Oops! It looks like there are no assignment forms to send.\r\nABORT\r\n")
+);
+
 /**
  * Sends assignment forms
  *
@@ -21,11 +26,6 @@ function sendAssignmentForms(
     array $contacts,
     string $path_to_forms
 ) {
-    
-    define(
-        "NO_ASSIGNMENT_FORMS_ERROR_MSG",
-        red("Oops! It looks like there are no assignment forms to send.\r\nABORT\r\n")
-    );
 
     $list_of_contacts = loadContacts($contacts, $ListOfContacts);
 
@@ -37,6 +37,14 @@ function sendAssignmentForms(
                 $contact = $list_of_contacts->getContactByFirstName(
                     firstNameFromFilename($file)
                 );
+
+                if (!$contact) {
+                    $message = firstNameFromFilename($file) . " could not be found in your list"
+                        . " of contacts.  Please add their name and email address"
+                        . " to your list of contacts and try running the script again.";
+
+                    throw new \Exception($message);
+                }
     
                 $attachment = "$path_to_forms/$file";
     
@@ -64,12 +72,12 @@ function sendAssignmentForms(
                 $log->info(
                     "Assignment slip deleted"
                 );
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 echo "EMAIL SEND FAILURE: {$e->getMessage()}\r\n";
                 $log->error(
                     "Email not sent to {email_address}. Reason: {error_message}",
                     [
-                            "email_address" => $contact->emailAddress(),
+                            "email_address" => $contact ? $contact->emailAddress() : "NOT CONFIGURED",
                             "error_message" => $e->getMessage()
                         ]
                 );
