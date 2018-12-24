@@ -188,17 +188,18 @@ $SetOfYearsSchedulesWereIn->reduce($createJsonAssignments);
  * The json files representing weeks of assignments are used
  * to generate pdf assignment forms.
  */
+$year = $SetOfYearsSchedulesWereIn->get(0);
+
 $which_months = writeAssignmentForms(
     $AssignmentFormWriter,
     $path_to_json_assignments,
     $path_to_json_schedules,
     $hasScheduleAlreadyBeenCompleted,
-    false
+    $year
 );
 
 
-
-// Abort if the assignments were scheduled.
+// Abort if assignments were not scheduled.
 current($which_months)
     || exit(green("It looks like you are all up-to-date.\r\nNo schedules were created.  Good Bye\r\n"));
 
@@ -211,8 +212,10 @@ current($which_months)
  * to generate a schedule (i.e. pdf file) for the month.
  */
 $month = current($which_months);
+$filename_of_schedule = "${month}.json";
+
 $assignments = importAssignments($month, $path_to_json_assignments);
-$schedule = importSchedule($path_to_json_schedules);
+$schedule = importSchedule($filename_of_schedule, $path_to_json_schedules);
 
 $schedule_filename = $ScheduleWriter->create($assignments, $schedule, $month);
 
