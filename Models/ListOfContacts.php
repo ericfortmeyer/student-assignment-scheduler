@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\Models;
+namespace StudentAssignmentScheduler\Models;
 
 class ListOfContacts
 {

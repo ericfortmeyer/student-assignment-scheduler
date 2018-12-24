@@ -1,8 +1,8 @@
 <?php
 
-namespace TalkSlipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
-use function TalkSlipSender\FileRegistry\Functions\validateFile;
+use function StudentAssignmentScheduler\FileRegistry\Functions\validateFile;
 
 function importJson(string $path_to_json, bool $test_mode = false, ?string $test_registry = null): array
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
 function scheduleRecipientError(string $schedule_recipients_config_file)
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace TalkSlipSender\Functions\CLI;
+namespace StudentAssignmentScheduler\Functions\CLI;
 
-use TalkSlipSender\Utils\AssignmentFormWriterInterface;
-use function TalkSlipSender\Functions\writeMonthOfAssignmentForms;
-use function TalkSlipSender\Functions\monthsFromScheduleFilenames;
+use StudentAssignmentScheduler\Utils\AssignmentFormWriterInterface;
+use function StudentAssignmentScheduler\Functions\writeMonthOfAssignmentForms;
+use function StudentAssignmentScheduler\Functions\monthsFromScheduleFilenames;
 
 use \Closure;
 

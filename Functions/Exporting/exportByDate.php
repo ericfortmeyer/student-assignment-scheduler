@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\Functions\Exporting;
+namespace StudentAssignmentScheduler\Functions\Exporting;
 
 use \Ds\Map;
 

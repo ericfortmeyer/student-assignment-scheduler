@@ -1,15 +1,15 @@
 <?php
 
-namespace TalkSlipSender\Utils;
+namespace StudentAssignmentScheduler\Utils;
 
 use PHPUnit\Framework\TestCase;
 
 use \Ds\Vector;
 
-use function TalkSlipSender\Functions\weeksFrom;
-use function TalkSlipSender\Functions\importJson;
-use function TalkSlipSender\Functions\importAssignments;
-use function TalkSlipSender\FileRegistry\Functions\registerFile;
+use function StudentAssignmentScheduler\Functions\weeksFrom;
+use function StudentAssignmentScheduler\Functions\importJson;
+use function StudentAssignmentScheduler\Functions\importAssignments;
+use function StudentAssignmentScheduler\FileRegistry\Functions\registerFile;
 
 class ScheduleWriterTest extends TestCase
 {

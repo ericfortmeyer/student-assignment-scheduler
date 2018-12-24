@@ -1,8 +1,8 @@
 <?php
 
-namespace TalkSlipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
-use TalkSlipSender\Utils\AssignmentFormWriterInterface;
+use StudentAssignmentScheduler\Utils\AssignmentFormWriterInterface;
 use \Ds\Map;
 use \Ds\Vector;
 

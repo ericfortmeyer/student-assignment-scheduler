@@ -1,10 +1,10 @@
 <?php
 
-namespace TalkSlipSender\Utils;
+namespace StudentAssignmentScheduler\Utils;
 
 use \Ds\Vector;
 use \Ds\Map;
-use function TalkSlipSender\Functions\getAssignmentDate;
+use function StudentAssignmentScheduler\Functions\getAssignmentDate;
 
 class RtfParser implements ParserInterface
 {

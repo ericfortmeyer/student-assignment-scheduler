@@ -1,13 +1,13 @@
 <?php
 
-namespace TalkSlipSender\Utils;
+namespace StudentAssignmentScheduler\Utils;
 
 use Smalot\PdfParser\Parser;
 use \Ds\Map;
 use \Ds\Vector;
 
-use function TalkSlipSender\Functions\getAssignmentDate;
-use function TalkSlipSender\Functions\getAssignment;
+use function StudentAssignmentScheduler\Functions\getAssignmentDate;
+use function StudentAssignmentScheduler\Functions\getAssignment;
 
 final class PdfParser implements ParserInterface
 {

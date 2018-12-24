@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\Functions\Logging;
+namespace StudentAssignmentScheduler\Functions\Logging;
 
 use Psr\Log\LoggerInterface;
 

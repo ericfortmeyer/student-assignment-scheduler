@@ -1,10 +1,10 @@
 <?php
 
-namespace TalkSlipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
-use function TalkSlipSender\Functions\Logging\fileSaveLogger;
-use function TalkSlipSender\Functions\Logging\nullLogger;
-use function TalkSlipSender\FileRegistry\Functions\registerFile;
+use function StudentAssignmentScheduler\Functions\Logging\fileSaveLogger;
+use function StudentAssignmentScheduler\Functions\Logging\nullLogger;
+use function StudentAssignmentScheduler\FileRegistry\Functions\registerFile;
 
 function save(
     array $file_data,

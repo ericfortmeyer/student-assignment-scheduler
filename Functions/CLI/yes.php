@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\Functions\CLI;
+namespace StudentAssignmentScheduler\Functions\CLI;
 
 function yes(string $reply): bool
 {

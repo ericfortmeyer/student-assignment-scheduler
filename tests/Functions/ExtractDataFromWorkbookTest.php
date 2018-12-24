@@ -1,11 +1,11 @@
 <?php
 
-namespace TalkSlipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
 use PHPUnit\Framework\TestCase;
 use Smalot\PdfParser\Parser;
-use TalkSlipSender\Utils\PdfParser;
-use TalkSlipSender\Utils\RtfParser;
+use StudentAssignmentScheduler\Utils\PdfParser;
+use StudentAssignmentScheduler\Utils\RtfParser;
 
 class extractDataFromWorkbookTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\FileRegistry\Functions;
+namespace StudentAssignmentScheduler\FileRegistry\Functions;
 
 use PHPUnit\Framework\TestCase;
 

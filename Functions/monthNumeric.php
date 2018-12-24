@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
 function monthNumeric(string $month): string
 {

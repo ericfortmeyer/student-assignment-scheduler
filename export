@@ -2,14 +2,14 @@
 
 use \Ds\Map;
 
-use function TalkSlipSender\Functions\CLI\green;
-use function TalkSlipSender\Functions\CLI\red;
-use function TalkSlipSender\Functions\CLI\white;
-use function TalkSlipSender\Functions\CLI\shortopts;
-use function TalkSlipSender\Functions\CLI\longopts;
-use function TalkSlipSender\Functions\Exporting\exportByMonth;
-use function TalkSlipSender\Functions\Exporting\exportByYear;
-use function TalkSlipSender\Functions\Exporting\exportByDate;
+use function StudentAssignmentScheduler\Functions\CLI\green;
+use function StudentAssignmentScheduler\Functions\CLI\red;
+use function StudentAssignmentScheduler\Functions\CLI\white;
+use function StudentAssignmentScheduler\Functions\CLI\shortopts;
+use function StudentAssignmentScheduler\Functions\CLI\longopts;
+use function StudentAssignmentScheduler\Functions\Exporting\exportByMonth;
+use function StudentAssignmentScheduler\Functions\Exporting\exportByYear;
+use function StudentAssignmentScheduler\Functions\Exporting\exportByDate;
 
 require "constants.php";
 require "autoload.php";

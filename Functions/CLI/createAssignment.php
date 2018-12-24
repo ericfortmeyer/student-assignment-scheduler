@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\Functions\CLI;
+namespace StudentAssignmentScheduler\Functions\CLI;
 
 function createAssignment(
     string $date,

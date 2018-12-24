@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\FileRegistry\Functions;
+namespace StudentAssignmentScheduler\FileRegistry\Functions;
 
 function validateFile(string $hash, string $path, ?string $registry_filename = null): bool
 {

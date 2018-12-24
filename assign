@@ -1,29 +1,29 @@
 <?php
 
-use TalkSlipSender\Utils\PDFAssignmentFormWriter;
-use TalkSlipSender\Utils\PdfScheduleWriter;
-use TalkSlipSender\Utils\MailSender;
-use TalkSlipSender\Models\ListOfContacts;
+use StudentAssignmentScheduler\Utils\PDFAssignmentFormWriter;
+use StudentAssignmentScheduler\Utils\PdfScheduleWriter;
+use StudentAssignmentScheduler\Utils\MailSender;
+use StudentAssignmentScheduler\Models\ListOfContacts;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;
 
-use function TalkSlipSender\Functions\workbookParserImplementation;
-use function TalkSlipSender\Functions\createJsonSchedulesFromWorkbooks;
-use function TalkSlipSender\Functions\sendEmails;
-use function TalkSlipSender\Functions\decryptedPassword;
-use function TalkSlipSender\Functions\scheduleRecipientError;
-use function TalkSlipSender\Functions\contactSetupError;
-use function TalkSlipSender\Functions\importAssignments;
-use function TalkSlipSender\Functions\importSchedule;
-use function TalkSlipSender\Functions\CLI\writeAssignmentForms;
-use function TalkSlipSender\Functions\CLI\createJsonAssignments;
-use function TalkSlipSender\Functions\CLI\yes;
-use function TalkSlipSender\Functions\CLI\no;
-use function TalkSlipSender\Functions\CLI\red;
-use function TalkSlipSender\Functions\CLI\green;
-use function TalkSlipSender\Functions\CLI\prompt;
-use function TalkSlipSender\Functions\CLI\jsonScheduleCreationNotification;
+use function StudentAssignmentScheduler\Functions\workbookParserImplementation;
+use function StudentAssignmentScheduler\Functions\createJsonSchedulesFromWorkbooks;
+use function StudentAssignmentScheduler\Functions\sendEmails;
+use function StudentAssignmentScheduler\Functions\decryptedPassword;
+use function StudentAssignmentScheduler\Functions\scheduleRecipientError;
+use function StudentAssignmentScheduler\Functions\contactSetupError;
+use function StudentAssignmentScheduler\Functions\importAssignments;
+use function StudentAssignmentScheduler\Functions\importSchedule;
+use function StudentAssignmentScheduler\Functions\CLI\writeAssignmentForms;
+use function StudentAssignmentScheduler\Functions\CLI\createJsonAssignments;
+use function StudentAssignmentScheduler\Functions\CLI\yes;
+use function StudentAssignmentScheduler\Functions\CLI\no;
+use function StudentAssignmentScheduler\Functions\CLI\red;
+use function StudentAssignmentScheduler\Functions\CLI\green;
+use function StudentAssignmentScheduler\Functions\CLI\prompt;
+use function StudentAssignmentScheduler\Functions\CLI\jsonScheduleCreationNotification;
 
 ///////////////////////
 //

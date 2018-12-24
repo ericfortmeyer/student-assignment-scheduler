@@ -1,8 +1,8 @@
 <?php
 
-namespace TalkSlipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
-use TalkSlipSender\Utils\ParserInterface;
+use StudentAssignmentScheduler\Utils\ParserInterface;
 use \Ds\Map;
 
 /**

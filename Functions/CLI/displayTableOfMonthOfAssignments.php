@@ -1,8 +1,8 @@
 <?php
 
-namespace TalkSlipSender\Functions\CLI;
+namespace StudentAssignmentScheduler\Functions\CLI;
 
-use function TalkSlipSender\Functions\monthOfAssignments;
+use function StudentAssignmentScheduler\Functions\monthOfAssignments;
 
 function displayTableOfMonthOfAssignments(
     string $month,

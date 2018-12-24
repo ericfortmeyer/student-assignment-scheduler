@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\Validation;
+namespace StudentAssignmentScheduler\Validation;
 
 use PHPUnit\Framework\TestCase;
 

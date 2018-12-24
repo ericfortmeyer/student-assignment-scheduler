@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
 use \Ds\Vector;
 use \Closure;

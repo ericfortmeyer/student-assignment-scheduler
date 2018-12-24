@@ -1,8 +1,8 @@
 <?php
 
-namespace TalkSlipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
-use TalkSlipSender\Utils\ParserInterface as Parser;
+use StudentAssignmentScheduler\Utils\ParserInterface as Parser;
 use \Ds\Set;
 use \Ds\Vector;
 

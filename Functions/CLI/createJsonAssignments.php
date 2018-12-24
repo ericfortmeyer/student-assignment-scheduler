@@ -1,13 +1,13 @@
 <?php
 
-namespace TalkSlipSender\Functions\CLI;
+namespace StudentAssignmentScheduler\Functions\CLI;
 
-use function TalkSlipSender\Functions\save;
-use function TalkSlipSender\Functions\monthNumeric;
-use function TalkSlipSender\Functions\weeksFrom;
-use function TalkSlipSender\Functions\importMultipleSchedules;
-use function TalkSlipSender\Functions\sortMonths;
-use function TalkSlipSender\Functions\isPastMonth;
+use function StudentAssignmentScheduler\Functions\save;
+use function StudentAssignmentScheduler\Functions\monthNumeric;
+use function StudentAssignmentScheduler\Functions\weeksFrom;
+use function StudentAssignmentScheduler\Functions\importMultipleSchedules;
+use function StudentAssignmentScheduler\Functions\sortMonths;
+use function StudentAssignmentScheduler\Functions\isPastMonth;
 
 /**
  * Interact with the user of the application to schedule assignments

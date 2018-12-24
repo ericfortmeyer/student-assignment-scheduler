@@ -1,6 +1,6 @@
 <?php
 
-use function TalkSlipSender\Functions\includeFilesInDirectory;
+use function StudentAssignmentScheduler\Functions\includeFilesInDirectory;
 
 require "Functions/includeFilesInDirectory.php";
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\Utils;
+namespace StudentAssignmentScheduler\Utils;
 
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\StreamReader;

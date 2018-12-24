@@ -1,9 +1,9 @@
 <?php
 
-namespace TalkSlipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
-use TalkSlipSender\Utils\MailSender;
-use TalkSlipSender\Models\ListOfContacts;
+use StudentAssignmentScheduler\Utils\MailSender;
+use StudentAssignmentScheduler\Models\ListOfContacts;
 
 function sendEmails(
     MailSender $MailSender,

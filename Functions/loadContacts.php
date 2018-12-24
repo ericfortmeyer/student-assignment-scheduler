@@ -1,9 +1,9 @@
 <?php
 
-namespace TalkSlipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
-use TalkSlipSender\Models\Contact;
-use TalkSlipSender\Models\ListOfContacts;
+use StudentAssignmentScheduler\Models\Contact;
+use StudentAssignmentScheduler\Models\ListOfContacts;
 
 function loadContacts(array $contacts, ListOfContacts $list_of_contacts)
 {

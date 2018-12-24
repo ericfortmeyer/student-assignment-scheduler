@@ -1,10 +1,10 @@
 <?php
 
-namespace TalkSlipSender\Functions\Exporting;
+namespace StudentAssignmentScheduler\Functions\Exporting;
 
 use \Ds\Map;
 
-use function TalkSlipSender\Functions\CLI\red;
+use function StudentAssignmentScheduler\Functions\CLI\red;
 
 function exportFiles(array $files, string $yearDir, Map $destination_map): void
 {

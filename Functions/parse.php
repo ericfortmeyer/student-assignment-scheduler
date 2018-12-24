@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
 function parse(string $pattern, string $subject): string
 {

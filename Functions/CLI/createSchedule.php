@@ -1,8 +1,8 @@
 <?php
 
-namespace TalkSlipSender\Functions\CLI;
+namespace StudentAssignmentScheduler\Functions\CLI;
 
-use function TalkSlipSender\Functions\shouldMakeAssignment;
+use function StudentAssignmentScheduler\Functions\shouldMakeAssignment;
 
 function createSchedule(array $schedule_for_week, string $month)
 {

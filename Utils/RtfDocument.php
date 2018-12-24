@@ -1,11 +1,11 @@
 <?php
 
-namespace TalkSlipSender\Utils;
+namespace StudentAssignmentScheduler\Utils;
 
-use function TalkSlipSender\Functions\getConfig;
-use function TalkSlipSender\Functions\getYearFromWorkbookPath;
-use function TalkSlipSender\Functions\getMonthFromWorkbookPath;
-use function TalkSlipSender\Functions\monthNumeric;
+use function StudentAssignmentScheduler\Functions\getConfig;
+use function StudentAssignmentScheduler\Functions\getYearFromWorkbookPath;
+use function StudentAssignmentScheduler\Functions\getMonthFromWorkbookPath;
+use function StudentAssignmentScheduler\Functions\monthNumeric;
 
 /**
  * Use this class for polymorphism when parsing documents

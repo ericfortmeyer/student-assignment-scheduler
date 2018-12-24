@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\Utils;
+namespace StudentAssignmentScheduler\Utils;
 
 interface ScheduleWriterInterface
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace TalkSlipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
-use TalkSlipSender\Utils\MailSender;
-use TalkSlipSender\Models\ListOfContacts;
-use function TalkSlipSender\Functions\CLI\red;
-use function TalkSlipSender\Functions\Logging\emailLogger;
+use StudentAssignmentScheduler\Utils\MailSender;
+use StudentAssignmentScheduler\Models\ListOfContacts;
+use function StudentAssignmentScheduler\Functions\CLI\red;
+use function StudentAssignmentScheduler\Functions\Logging\emailLogger;
 
 define(
     "NO_ASSIGNMENT_FORMS_ERROR_MSG",

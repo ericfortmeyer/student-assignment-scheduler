@@ -1,13 +1,13 @@
 <?php
 
-namespace TalkSlipSender\Functions\Logging;
+namespace StudentAssignmentScheduler\Functions\Logging;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Processor\PsrLogMessageProcessor;
 use Psr\Log\LoggerInterface;
 
-use function TalkSlipSender\Functions\getConfig;
+use function StudentAssignmentScheduler\Functions\getConfig;
 
 function logger(string $log_type, string $function_name = ""): LoggerInterface
 {

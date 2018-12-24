@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\Functions\Logging;
+namespace StudentAssignmentScheduler\Functions\Logging;
 
 use Monolog\Logger;
 use Monolog\Handler\NullHandler;

@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\FileRegistry\Functions;
+namespace StudentAssignmentScheduler\FileRegistry\Functions;
 
 define("__OPENING_TAG__", "<?php");
 define("__SPACE__", " ");

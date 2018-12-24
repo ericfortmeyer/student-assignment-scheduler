@@ -42,6 +42,6 @@
         "files": [
             "functions.php"
         ],
-        "psr-4": {"TalkSlipSender\\": "./"}
+        "psr-4": {"StudentAssignmentScheduler\\": "./"}
     }
 }

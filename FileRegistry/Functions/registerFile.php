@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender\FileRegistry\Functions;
+namespace StudentAssignmentScheduler\FileRegistry\Functions;
 
 function registerFile(string $key, string $filename, ?string $registry_filename = null)
 {

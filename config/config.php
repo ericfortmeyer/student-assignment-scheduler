@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkSlipSender;
+namespace StudentAssignmentScheduler;
 
 $my_meeting_night = "Thursday";
 

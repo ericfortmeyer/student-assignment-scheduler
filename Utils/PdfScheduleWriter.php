@@ -1,13 +1,13 @@
 <?php
 
-namespace TalkSlipSender\Utils;
+namespace StudentAssignmentScheduler\Utils;
 
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\StreamReader;
 
 use \Ds\Map;
 
-use function TalkSlipSender\Functions\shouldMakeAssignment;
+use function StudentAssignmentScheduler\Functions\shouldMakeAssignment;
 
 class PdfScheduleWriter implements ScheduleWriterInterface
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace TalkSlipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
-use function TalkSlipSender\Functions\CLI\white;
+use function StudentAssignmentScheduler\Functions\CLI\white;
 
 function importMultipleSchedules(string $path_to_json_schedules): array
 {

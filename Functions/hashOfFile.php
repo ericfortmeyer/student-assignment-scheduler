@@ -1,6 +1,6 @@
 <?php
 
-namespace TalkslipSender\Functions;
+namespace StudentAssignmentScheduler\Functions;
 
 function hashOfFile(string $filename): string
 {
