@@ -14,6 +14,7 @@ before_script:
 script:
   - vendor/bin/phan
   - vendor/bin/phpcs --standard=PSR1,PSR2,PSR12 assign Utils/ Functions/ FileRegistry/Functions/ config/ Models/ Validation/
+  - vendor/bin/phpcs --standard=PSR12 assign
   - vendor/bin/phpunit
 
 notifications:
