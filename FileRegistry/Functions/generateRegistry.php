@@ -45,8 +45,24 @@ function generateRegistry(array $data, string $filename = "", $asJSON = false)
         $string .= __CLOSING_BRACKET__;
         $string .= __SEMICOLON__;
         $file = $filename ? $filename : $registry_filename . ".php";
+
+        /**
+         * Necessary to run tests on builds without versioning the test registry.
+         * 
+         * The registry is not committed since it exposes absolute paths
+         * of files in the registry.
+         */
+        createDirectoryOfRegistryIfNotExists($file);
+
         file_put_contents($file, $string);
     }
+}
+
+function createDirectoryOfRegistryIfNotExists(string $file): void
+{
+    $directory_of_registry = dirname($file);
+    !file_exists($directory_of_registry)
+        && mkdir($directory_of_registry, 0700);
 }
 
 function withQuotes(string $string): string
