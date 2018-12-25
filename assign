@@ -1,29 +1,31 @@
 <?php
 
-use StudentAssignmentScheduler\Utils\PDFAssignmentFormWriter;
-use StudentAssignmentScheduler\Utils\PdfScheduleWriter;
-use StudentAssignmentScheduler\Utils\MailSender;
-use StudentAssignmentScheduler\Models\ListOfContacts;
+declare(strict_types=1);
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;
 
-use function StudentAssignmentScheduler\Functions\workbookParserImplementation;
-use function StudentAssignmentScheduler\Functions\createJsonSchedulesFromWorkbooks;
-use function StudentAssignmentScheduler\Functions\sendEmails;
-use function StudentAssignmentScheduler\Functions\decryptedPassword;
-use function StudentAssignmentScheduler\Functions\scheduleRecipientError;
-use function StudentAssignmentScheduler\Functions\contactSetupError;
-use function StudentAssignmentScheduler\Functions\importAssignments;
-use function StudentAssignmentScheduler\Functions\importSchedule;
-use function StudentAssignmentScheduler\Functions\CLI\writeAssignmentForms;
-use function StudentAssignmentScheduler\Functions\CLI\createJsonAssignments;
-use function StudentAssignmentScheduler\Functions\CLI\yes;
-use function StudentAssignmentScheduler\Functions\CLI\no;
-use function StudentAssignmentScheduler\Functions\CLI\red;
-use function StudentAssignmentScheduler\Functions\CLI\green;
-use function StudentAssignmentScheduler\Functions\CLI\prompt;
-use function StudentAssignmentScheduler\Functions\CLI\jsonScheduleCreationNotification;
+use StudentAssignmentScheduler\Utils\{PDFAssignmentFormWriter, PDFScheduleWriter, MailSender};
+use StudentAssignmentScheduler\Models\ListOfContacts;
+
+use function StudentAssignmentScheduler\Functions\{
+    workbookParserImplementation,
+    createJsonSchedulesFromWorkbooks,
+    sendEmails,
+    decryptedPassword,
+    scheduleRecipientError,
+    contactSetupError,
+    importAssignments,
+    importSchedule,
+    CLI\writeAssignmentForms,
+    CLI\createJsonAssignments,
+    CLI\yes,
+    CLI\no,
+    CLI\red,
+    CLI\green,
+    CLI\prompt,
+    CLI\jsonScheduleCreationNotification
+};
 
 ///////////////////////
 //
