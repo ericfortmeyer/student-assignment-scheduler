@@ -48,7 +48,7 @@ function generateRegistry(array $data, string $filename = "", $asJSON = false)
 
         /**
          * Necessary to run tests on builds without versioning the test registry.
-         * 
+         *
          * The registry is not committed since it exposes absolute paths
          * of files in the registry.
          */
