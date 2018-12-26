@@ -35,12 +35,6 @@ use function StudentAssignmentScheduler\Functions\{
 
 require "autoload.php";
 
-
-print_r(
-    new PdfScheduleWriter([])
-);
-
-exit();
 // load configuration files
 $config_path = "config/";
 $config_file = "${config_path}config.php";
