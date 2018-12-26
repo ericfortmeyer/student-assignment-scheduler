@@ -31,7 +31,7 @@ function createJsonSchedulesFromWorkbooks(
 
     $workbooks_not_downloaded_msg = "It looks like the workbooks haven't been set up yet." . PHP_EOL
         . "Make sure that the workbooks of {$parser->getFileType()} are"
-        . " located in ${path_to_workbooks}";
+        . " located in ${path_to_workbooks}" . PHP_EOL;
 
     $VectorOfWorkbooks = new Vector(
         filenamesInDirectory(
