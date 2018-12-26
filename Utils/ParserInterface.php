@@ -37,4 +37,11 @@ interface ParserInterface
      * @return array Data parsed from the text.
      */
     public function getAssignments(string $textFromWorksheet, string $month): array;
+
+    /**
+     * The target file type to be parsed.
+     * 
+     * Can be used in certain contexts where knowing the file type is helpful.
+     */
+    public function getFileType(): string;
 }
