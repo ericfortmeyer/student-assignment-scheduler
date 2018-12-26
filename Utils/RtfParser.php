@@ -186,8 +186,9 @@ class RtfParser implements ParserInterface
         return $vector->map($getContents)->toArray();
     }
 
-    public function getErrorMsg(): string
+    public function getErrorMsg(string $context): string
     {
+        $path = $context;
         return "It looks like the workbooks haven't been downloaded to ${path} yet." . PHP_EOL
             . "Make sure that the unzipped directory of the workbooks, which should be " 
             . self::FILE_TYPE . " files"

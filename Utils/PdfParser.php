@@ -86,8 +86,9 @@ final class PdfParser implements ParserInterface
         return include "parse_config.php";
     }
 
-    public function getErrorMsg(string $path): string
+    public function getErrorMsg(string $context): string
     {
+        $path = $context;
         return "It looks like the workbooks haven't been downloaded to ${path} yet." . PHP_EOL
             . "Make sure that the workbooks, which should be " . self::FILE_TYPE . " files"
             . " and should have their original filenames,"

@@ -43,5 +43,5 @@ interface ParserInterface
      *
      * Can be used in certain contexts where knowing the file type is helpful.
      */
-    public function getErrorMsg(): string;
+    public function getErrorMsg(string $context): string;
 }
