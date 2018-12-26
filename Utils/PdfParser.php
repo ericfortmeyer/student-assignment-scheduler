@@ -27,7 +27,6 @@ final class PdfParser implements ParserInterface
     {
         $this->parser = $parser;
         $this->meeting_night = $meeting_night;
-
     }
 
     public function parseFile(string $filename): DocumentWrapper

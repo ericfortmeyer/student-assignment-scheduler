@@ -190,7 +190,7 @@ class RtfParser implements ParserInterface
     {
         $path = $context;
         return "It looks like the workbooks haven't been downloaded to ${path} yet." . PHP_EOL
-            . "Make sure that the unzipped directory of the workbooks, which should be " 
+            . "Make sure that the unzipped directory of the workbooks, which should be "
             . self::FILE_TYPE . " files"
             . " and should have their original filenames,"
             . " is located in ${path}" . PHP_EOL;
