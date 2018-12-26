@@ -145,6 +145,9 @@ $hasScheduleAlreadyBeenCompleted = function (string $month) use ($path_config) {
  * This function also modifies strings that are in the parent scope
  * by importing references to the strings.
  */
+
+$assignmentsWereMade = false;
+
 $createJsonAssignments = function (
     $carry,
     int $year
@@ -152,6 +155,7 @@ $createJsonAssignments = function (
     $AssignmentFormWriter,
     &$path_to_json_schedules,
     &$path_to_json_assignments,
+    &$assignmentsWereMade,
     $hasScheduleAlreadyBeenCompleted
 ) {
 
@@ -164,7 +168,7 @@ $createJsonAssignments = function (
      *
      * A json file is created for each week of assignments.
      */
-    createJsonAssignments(
+     $assignmentsWereMade = createJsonAssignments(
         $path_to_json_schedules,
         $path_to_json_assignments,
         $hasScheduleAlreadyBeenCompleted
@@ -192,6 +196,10 @@ $SetOfYearsSchedulesWereIn->reduce($createJsonAssignments);
  */
 $year = $SetOfYearsSchedulesWereIn->get(0);
 
+// Abort if assignments were not made
+$assignmentsWereMade
+    || exit(green("No assignments were made. Good Bye.\r\n"));
+
 $which_months = writeAssignmentForms(
     $AssignmentFormWriter,
     $path_to_json_assignments,
@@ -201,7 +209,7 @@ $which_months = writeAssignmentForms(
 );
 
 
-// Abort if assignments were not scheduled.
+// Abort if assignment forms were not written
 current($which_months)
     || exit(green("It looks like you are all up-to-date.\r\nNo schedules were created.  Good Bye\r\n"));
 

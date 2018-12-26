@@ -18,9 +18,16 @@ function createJsonAssignments(
     string $path_to_json_schedules,
     string $data_destination,
     \Closure $hasScheduleAlreadyBeenCompleted
-) {
+): bool {
+    
+    $were_assignments_made = false;
+
     array_map(
-        function (array $schedule_for_month) use ($data_destination, $hasScheduleAlreadyBeenCompleted) {
+        function (array $schedule_for_month) use (
+            $data_destination,
+            $hasScheduleAlreadyBeenCompleted,
+            &$were_assignments_made
+        ) {
 
             $month = $schedule_for_month["month"];
             $year = $schedule_for_month["year"];
@@ -89,9 +96,14 @@ function createJsonAssignments(
                         weeksFrom($schedule_for_month),
                         array_keys(weeksFrom($schedule_for_month))
                     );
+
+                    $were_assignments_made = true;
+
                 } elseif (no($reply)) {
                     echo "ok\r\n";
-                    return;
+
+                    $were_assignments_made =  false;
+
                 } else {
                     echo "Please enter yes or no\r\n";
                     $reply = readline(
@@ -99,9 +111,11 @@ function createJsonAssignments(
                     );
                 }
             } while (notYesOrNo($reply));
+
         },
         sortMonths(
             importMultipleSchedules($path_to_json_schedules)
-        )
-    );
+            )
+        );
+    return $were_assignments_made;
 }
