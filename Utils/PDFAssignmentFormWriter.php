@@ -8,7 +8,7 @@ use setasign\Fpdi\PdfParser\StreamReader;
 /**
  * Writes the PDF assignments forms for the students
  */
-class PDFAssignmentFormWriter implements AssignmentFormWriterInterface
+class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
 {
     /**
      * @var Fpdi
