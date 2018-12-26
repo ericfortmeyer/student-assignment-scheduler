@@ -40,7 +40,7 @@ interface ParserInterface
 
     /**
      * The target file type to be parsed.
-     * 
+     *
      * Can be used in certain contexts where knowing the file type is helpful.
      */
     public function getFileType(): string;
