@@ -5,7 +5,7 @@ declare(strict_types=1);
 use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;
 
-use StudentAssignmentScheduler\Utils\{PDFAssignmentFormWriter, PDFScheduleWriter, MailSender};
+use StudentAssignmentScheduler\Utils\{PdfAssignmentFormWriter, PdfScheduleWriter, MailSender};
 use StudentAssignmentScheduler\Models\ListOfContacts;
 
 use function StudentAssignmentScheduler\Functions\{
@@ -35,6 +35,12 @@ use function StudentAssignmentScheduler\Functions\{
 
 require "autoload.php";
 
+
+print_r(
+    new PdfScheduleWriter([])
+);
+
+exit();
 // load configuration files
 $config_path = "config/";
 $config_file = "${config_path}config.php";
