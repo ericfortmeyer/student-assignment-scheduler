@@ -39,9 +39,9 @@ interface ParserInterface
     public function getAssignments(string $textFromWorksheet, string $month): array;
 
     /**
-     * The target file type to be parsed.
+     * An error message.
      *
      * Can be used in certain contexts where knowing the file type is helpful.
      */
-    public function getFileType(): string;
+    public function getErrorMsg(): string;
 }

@@ -27,6 +27,7 @@ final class PdfParser implements ParserInterface
     {
         $this->parser = $parser;
         $this->meeting_night = $meeting_night;
+
     }
 
     public function parseFile(string $filename): DocumentWrapper
@@ -85,8 +86,11 @@ final class PdfParser implements ParserInterface
         return include "parse_config.php";
     }
 
-    public function getFileType(): string
+    public function getErrorMsg(string $path): string
     {
-        return self::FILE_TYPE;
+        return "It looks like the workbooks haven't been downloaded to ${path} yet." . PHP_EOL
+            . "Make sure that the workbooks, which should be " . self::FILE_TYPE . " files"
+            . " and should have their original filenames,"
+            . " are located in ${path}";
     }
 }
