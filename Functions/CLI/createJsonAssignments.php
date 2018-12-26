@@ -98,12 +98,10 @@ function createJsonAssignments(
                     );
 
                     $were_assignments_made = true;
-
                 } elseif (no($reply)) {
                     echo "ok\r\n";
 
                     $were_assignments_made =  false;
-
                 } else {
                     echo "Please enter yes or no\r\n";
                     $reply = readline(
@@ -111,11 +109,10 @@ function createJsonAssignments(
                     );
                 }
             } while (notYesOrNo($reply));
-
         },
         sortMonths(
             importMultipleSchedules($path_to_json_schedules)
-            )
-        );
+        )
+    );
     return $were_assignments_made;
 }
