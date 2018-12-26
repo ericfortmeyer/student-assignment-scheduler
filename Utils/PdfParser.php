@@ -11,6 +11,8 @@ use function StudentAssignmentScheduler\Functions\getAssignment;
 
 final class PdfParser implements ParserInterface
 {
+    protected const FILE_TYPE = "pdf";
+
     /**
      * @var Parser|null
      */
@@ -81,5 +83,10 @@ final class PdfParser implements ParserInterface
     protected function getConfig(): array
     {
         return include "parse_config.php";
+    }
+
+    public function getFileType(): string
+    {
+        return self::FILE_TYPE;
     }
 }

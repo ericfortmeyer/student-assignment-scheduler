@@ -6,6 +6,11 @@ use StudentAssignmentScheduler\Utils\ParserInterface as Parser;
 use \Ds\Set;
 use \Ds\Vector;
 
+define("WORKBOOKS_NOT_DOWNLOADED_ERROR_MSG", "It looks like the workbooks haven't been set up yet." . PHP_EOL
+    . "Make sure that the workbooks of {$parser->getFileType()} are"
+    . " located in ${path_to_workbooks}"
+);
+
 /**
  * Parse workbooks into json for use later in the application.
  *
@@ -28,8 +33,14 @@ function createJsonSchedulesFromWorkbooks(
     string $data_destination,
     \Closure $scheduleCreationNotificationFunc
 ): Set {
-    
-    $VectorOfWorkbooks = new Vector(filenamesInDirectory($path_to_workbooks));
+
+    $VectorOfWorkbooks = new Vector(
+        filenamesInDirectory(
+            $path_to_workbooks,
+            WORKBOOKS_NOT_DOWNLOADED_ERROR_MSG,
+            true
+        )
+    );
     
     // Use set so that there will not be duplicate years returned
     return new Set($VectorOfWorkbooks->map(

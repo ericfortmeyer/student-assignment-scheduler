@@ -8,6 +8,8 @@ use function StudentAssignmentScheduler\Functions\getAssignmentDate;
 
 class RtfParser implements ParserInterface
 {
+    protected const FILE_TYPE = "rtf";
+
     /**
      * @var string
      */
@@ -182,5 +184,10 @@ class RtfParser implements ParserInterface
         $vector = new Vector($filenames);
 
         return $vector->map($getContents)->toArray();
+    }
+
+    public function getFileType(): string
+    {
+        return self::FILE_TYPE;
     }
 }
