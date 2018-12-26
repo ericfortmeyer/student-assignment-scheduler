@@ -63,7 +63,7 @@ $Dotenv->required([
 ]);
 
 $WorkbookParser = workbookParserImplementation($config);
-$AssignmentFormWriter = new PDFAssignmentFormWriter($config);
+$AssignmentFormWriter = new PdfAssignmentFormWriter($config);
 $ScheduleWriter = new PdfScheduleWriter($config);
 $ListOfContacts = new ListOfContacts();
 $MailSender = new MailSender(
