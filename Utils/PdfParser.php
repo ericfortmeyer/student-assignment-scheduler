@@ -92,6 +92,6 @@ final class PdfParser implements ParserInterface
         return "It looks like the workbooks haven't been downloaded to ${path} yet." . PHP_EOL
             . "Make sure that the workbooks, which should be " . self::FILE_TYPE . " files"
             . " and should have their original filenames,"
-            . " are located in ${path}";
+            . " are located in ${path}" . PHP_EOL;
     }
 }
