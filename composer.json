@@ -2,7 +2,16 @@
     "name": "ericfortmeyer/student-assignment-scheduler",
     "description": "Dependency and configuration for this project",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Eric Fortmeyer",
+            "email": "e.fortmeyer01@gmail.com"
+        }
+    ],
     "require": {
+        "php": "^7.1",
+        "ext-ast": "*",
+        "ext-ds": "*",
         "phpmailer/phpmailer": "^6.0",
         "vlucas/phpdotenv": "^2.5",
         "setasign/fpdi": "^2.1",
