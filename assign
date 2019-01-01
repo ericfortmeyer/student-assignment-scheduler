@@ -35,13 +35,8 @@ use function StudentAssignmentScheduler\Functions\{
 
 //run installation script if needed
 file_exists("vendor")
-    || $should_install = readline(prompt("Can we go ahead and install composer dependencies?"));
-
-yes($should_install)
+    || print("Installing dependencies...\r\n")
     && system("sh bin/install.sh");
-
-no($should_install)
-    && exit(red("Ok exiting the program for now.  Please run composer install or try again."));
 
 require "autoload.php";
 
