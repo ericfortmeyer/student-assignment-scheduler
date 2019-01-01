@@ -34,7 +34,14 @@ use function StudentAssignmentScheduler\Functions\{
 //////////////////////
 
 //run installation script if needed
-file_exists("vendor") || system("sh bin/install.sh");
+file_exists("vendor")
+    || $should_install = readline(prompt("Can we go ahead and install composer dependencies?"));
+
+yes($should_install)
+    && system("sh bin/install.sh");
+
+no($should_install)
+    && exit(red("Ok exiting the program for now.  Please run composer install or try again."));
 
 require "autoload.php";
 
@@ -47,7 +54,15 @@ $schedule_recipients_config_file = "${config_path}schedule_recipients.php";
 $contacts_file = "${config_path}contacts.php";
 
 // creates an empty contacts file if one has not been created yet
-!file_exists($contacts_file) && file_put_contents($contacts_file, "<?php" . PHP_EOL . "return [];" . PHP_EOL);
+!file_exists($contacts_file)
+    && $should_add_contacts = readline(prompt("Contacts must be setup first.  Are you ready to set them up?"));
+
+yes($should_add_contacts)
+    && setupContacts($contacts_file);
+
+no($should_add_contacts)
+    && red("Ok. You can set them up later.")
+    && file_put_contents($contacts_file, "<?php" . PHP_EOL . "return [];" . PHP_EOL);
 
 // the contacts file and schedule recipients must be setup first
 empty($contacts = require $contacts_file)
