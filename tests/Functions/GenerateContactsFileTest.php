@@ -38,7 +38,7 @@ class GenerateContactsFileTest extends TestCase
         $generate_file_name = bin2hex(\random_bytes(12)) . ".php";
 
         $this->tmp_folder = __DIR__ . "/../tmp";
-        $should_make_tmp_folder = $this->should_remove_tmp_folder = file_exists($this->tmp_folder);
+        $should_make_tmp_folder = $this->should_remove_tmp_folder = !file_exists($this->tmp_folder);
 
         $should_make_tmp_folder && mkdir($this->tmp_folder);
 
