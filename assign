@@ -113,6 +113,8 @@ $required_directories = new Vector([
     "data/assignments",
     "data/forms",
     "data/schedules",
+    "workbooks/pdf",
+    "workbooks/rtf",
     "tmp",
     "log"
 ]);
