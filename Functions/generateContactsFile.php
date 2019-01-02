@@ -18,7 +18,7 @@ function generateContactsFile(array $data, string $path_to_contacts_file)
 
     $items = $vector->reduce($add_item);
 
-    $file_content = formatDataForWriting($items);
+    $file_content = $items ? formatDataForWriting($items) : contentForEmptyArray();
 
 
     file_put_contents($path_to_contacts_file, $file_content);
@@ -34,6 +34,12 @@ function defineContants(): void
     define(__NAMESPACE__ . "\__SPACES__", "    ");
     define(__NAMESPACE__ . "\__PHP_TAG__", "<?php");
     define(__NAMESPACE__ . "\__SPACE__", " ");
+}
+
+function contentForEmptyArray(): string
+{
+    return __PHP_TAG__ . PHP_EOL . PHP_EOL . __RETURN_KEYWORD__ . __SPACE__
+    . __OPEN_SQUARE_BRACKET__ . __CLOSED_SQUARE_BRACKET__ . __SEMICOLON__;
 }
 
 function formatDataForWriting(string $data_as_string): string
