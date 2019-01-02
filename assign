@@ -93,11 +93,13 @@ try {
     $Dotenv->load();
 } catch (\Dotenv\Exception\InvalidPathException $e) {
     $message = red("It looks like you haven't setup your email credentials yet") . PHP_EOL
-        . "You will need to email address you will be using to send emails," . PHP_EOL
-        . "the smtp host of the email," . PHP_EOL
-        . "and the password" . PHP_EOL;
+        . "You will need:" . PHP_EOL
+        . "1) the email address you will be using to send emails," . PHP_EOL
+        . "2) the smtp host of the email, and" . PHP_EOL
+        . "3) the password to the email account" . PHP_EOL;
     print $message;
-    setupEmail($env_dir);
+    $reply = readline(prompt("Are you ready to enter the information for your the email address you will be using?"));
+    yes($reply) && setupEmail($env_dir);
 }
 
 $Dotenv->required([
