@@ -16,6 +16,16 @@ class GenerateContactsFileTest extends TestCase
      */
     protected $path_to_data;
 
+    /**
+     * @var bool
+     */
+    protected $should_remove_tmp_folder;
+
+    /**
+     * @var string
+     */
+    protected $tmp_folder;
+
     protected function setup()
     {
         $this->list_of_contacts = [
@@ -27,7 +37,12 @@ class GenerateContactsFileTest extends TestCase
 
         $generate_file_name = bin2hex(\random_bytes(12)) . ".php";
 
-        $this->path_to_data = __DIR__ . "/../tmp/${generate_file_name}";
+        $this->tmp_folder = __DIR__ . "/../tmp";
+        $should_make_tmp_folder = $this->should_remove_tmp_folder = file_exists($this->tmp_folder);
+
+        $should_make_tmp_folder && mkdir($this->tmp_folder);
+
+        $this->path_to_data = "{$this->tmp_folder}/${generate_file_name}";
     }
 
     protected function teardown()
@@ -36,6 +51,8 @@ class GenerateContactsFileTest extends TestCase
 
         file_exists($generated_contact_file)
             && unlink($generated_contact_file);
+
+        $this->should_remove_tmp_folder && unlink($this->tmp_folder);
     }
 
     public function testGeneratedContactFileHasExpectedData()
