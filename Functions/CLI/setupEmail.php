@@ -60,7 +60,7 @@ function setupEmail(string $env_dir, string $env_filename = ".env"): void
 
     
     if (file_exists($env_file)) {
-        $prompt = prompt("Are you sure you want to replace the data on your env file?");
+        $prompt = prompt("Are you sure you want to replace the data on your env file");
         $reply = readline($prompt);
         yes($reply) && file_put_contents($env_file, $file_contents);
     } else {
