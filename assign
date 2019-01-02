@@ -98,7 +98,7 @@ try {
         . "2) the smtp host of the email, and" . PHP_EOL
         . "3) the password to the email account" . PHP_EOL;
     print $message;
-    $reply = readline(prompt("Are you ready to enter the information for your the email address you will be using?"));
+    $reply = readline(prompt("Are you ready to enter the information for your the email address you will be using"));
     yes($reply) && setupEmail($env_dir);
     no($reply) && exit(red("Ok. See you later. Bye.") . PHP_EOL);
 
