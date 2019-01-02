@@ -17,6 +17,7 @@ use function StudentAssignmentScheduler\Functions\{
     contactSetupError,
     importAssignments,
     importSchedule,
+    generateContactsFile,
     CLI\writeAssignmentForms,
     CLI\createJsonAssignments,
     CLI\yes,
@@ -24,7 +25,8 @@ use function StudentAssignmentScheduler\Functions\{
     CLI\red,
     CLI\green,
     CLI\prompt,
-    CLI\jsonScheduleCreationNotification
+    CLI\jsonScheduleCreationNotification,
+    CLI\setupContacts
 };
 
 ///////////////////////
@@ -57,7 +59,7 @@ if (!file_exists($contacts_file)) {
     
     no($should_add_contacts)
         && red("Ok. You can set them up later.")
-        && file_put_contents($contacts_file, "<?php" . PHP_EOL . "return [];" . PHP_EOL);
+        && generateContactsFile([], $contacts_file);
 }
 
 // the contacts file and schedule recipients must be setup first
