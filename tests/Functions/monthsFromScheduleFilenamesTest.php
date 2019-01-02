@@ -10,6 +10,7 @@ class MonthsFromScheduleFilenamesTest extends TestCase
     {
         $this->expected = array_filter(
             [
+                ["month" => "January"],
                 ["month" => "October"],
                 ["month" => "November"],
                 ["month" => "December"]
