@@ -62,6 +62,19 @@ if (!file_exists($contacts_file)) {
         && generateContactsFile([], $contacts_file);
 }
 
+// does the user want to setup schedule recipients now
+if (!file_exists($schedule_recipients_contacts_file)) {
+    $should_add_contacts = readline(prompt("Who would you like to recieve the full schedule for each month?.  Are you ready to set that up?"));
+
+    yes($should_add_contacts)
+        && setupContacts($schedule_recipients_contacts_file);
+    
+    no($should_add_contacts)
+        && red("Ok. You can set it up later.")
+        && generateContactsFile([], $schedule_reciptients_contacts_file);
+}
+
+
 // the contacts file and schedule recipients must be setup first
 empty($contacts = require $contacts_file)
     && exit(red(contactSetupError($contacts_file)));
