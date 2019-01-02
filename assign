@@ -85,7 +85,16 @@ if (empty($schedule_recipients = require $schedule_recipients_config_file)) {
 
 
 $Dotenv = new Dotenv(__DIR__);
-$Dotenv->load();
+
+try {
+    $Dotenv->load();
+} catch (Dotenv\Exception\InvalidPathException $e) {
+    $message = red("It looks like you haven't setup your email credentials yet") . PHP_EOL
+        . red("They must be stored in a .env file in the projects root folder") . PHP_EOL
+        . red("The required fields are: from_email, from_email_password, smtp_host");
+    exit($message);
+}
+
 $Dotenv->required([
     "from_email",
     "from_email_password",
