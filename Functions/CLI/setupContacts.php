@@ -14,8 +14,8 @@ function setupContacts(string $path_to_contacts_file, ?string $retry_message = n
     print $retry_message ? $retry_message . PHP_EOL : purple("Now setting up contacts") . PHP_EOL . PHP_EOL;
 
     $prompts = [
-        "first_name" => "Enter first name " . yellow(QUIT_MESSAGE) . ":  ",
-        "last_name" => "Enter last name . " . yellow(QUIT_MESSAGE) . ":  ",
+        "first_name" => "Enter first name" . yellow(QUIT_MESSAGE) . ":  ",
+        "last_name" => "Enter last name" . yellow(QUIT_MESSAGE) . ":  ",
         "email_address" => "Enter email address" . yellow(QUIT_MESSAGE) . ":  "
     ];
 
@@ -63,17 +63,22 @@ function setupContacts(string $path_to_contacts_file, ?string $retry_message = n
         $contacts->add($contact_string);
     };
 
-    print PHP_EOL;
-    ($contacts->isEmpty() && exit()) || $contacts->reduce($display_result);
-    print PHP_EOL;
+    // @phan-suppress-next-line PhanPluginUnreachableCode
+    $shouldNotQuit = !$contacts->isEmpty();
+    if ($shouldNotQuit) {
+        print PHP_EOL;
+        print purple("Here's what you entered:") . PHP_EOL;
+        $contacts->reduce($display_result);
 
-    $reply = readline(prompt("Does everything look good?"));
+        $reply = readline(prompt("Does everything look good?"));
+    
+        yes($reply) && generateContactsFile($contacts->toArray(), $path_to_contacts_file);
+    
+        $retry_message = red("Ok try again");
+    
+        no($reply) && setupContacts($path_to_contacts_file, $retry_message);
+    }
 
-    yes($reply) && generateContactsFile($contacts->toArray(), $path_to_contacts_file);
-
-    $retry_message = red("Ok try again");
-
-    no($reply) && setupContacts($path_to_contacts_file, $retry_message);
 }
 
 function checkFilteredReply(

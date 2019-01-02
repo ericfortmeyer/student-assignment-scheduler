@@ -37,8 +37,7 @@ use function StudentAssignmentScheduler\Functions\{
 
 // run installation script if needed
 file_exists("vendor")
-    || print("Installing dependencies...\r\n")
-    && system("sh bin/install.sh");
+    || system("sh bin/install.sh");
 
 require "autoload.php";
 
