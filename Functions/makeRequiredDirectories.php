@@ -13,5 +13,4 @@ function makeRequiredDirectories(array $required_directories)
         file_exists($path) || mkdir($path, 0770, true);
     };
     $RequiredDirectories->map($make_dir);
-    
 }
