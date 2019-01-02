@@ -28,6 +28,15 @@ return [
         "rtf" => __NAMESPACE__ . "\\Utils\\" . "RtfParser"
     ],
     "skip_assignments_with_these_titles" => $do_not_assign_these,
+    "make_these_directories" => [
+        "data/assignments",
+        "data/forms",
+        "data/schedules",
+        "workbooks/pdf",
+        "workbooks/rtf",
+        "tmp",
+        "log"
+    ],
     "assignment_form_template" => __DIR__ . "/../Utils/templates/S-89-E.pdf",
     "schedule_template" => __DIR__ . "/../Utils/templates/S-140-E.pdf",
     "assignment_forms_destination" => __DIR__ . "/../data/forms",

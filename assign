@@ -52,55 +52,38 @@ $path_config = require "${config_path}path_config.php";
 $schedule_recipients_config_file = "${config_path}schedule_recipients.php";
 $contacts_file = "${config_path}contacts.php";
 
+
+/////////////////////////
+//
+// User configuration
+//
+/////////////////////////
+
 // the contacts file and schedule recipients must be setup first
+
+// 1. Contacts
 // does the user want to setup contacts now
-if (!file_exists($contacts_file)) {
-    $should_add_contacts = readline(prompt("Contacts must be setup first.  Are you ready to set them up?"));
+file_exists($contacts_file)
+    || !empty($contacts = require $contacts_file)
+    || setupContacts($contacts_file);
 
-    yes($should_add_contacts)
-        && setupContacts($contacts_file);
-    
-    no($should_add_contacts)
-        && red("Ok. You can set them up later.")
-        && generateContactsFile([], $contacts_file);
-}
-empty($contacts = require $contacts_file)
-    && exit(red(contactSetupError($contacts_file)));
-
-$add_schedule_recipients_prompt = prompt("Who would you like to recieve the full schedule for each month?.  Are you ready to set that up?");
+// 2. Who should receive the full schedule for the month
 // does the user want to setup schedule recipients now
-if (!file_exists($schedule_recipients_config_file)) {
-    $should_add_contacts = readline($add_schedule_recipients_prompt);
+file_exists($schedule_recipients_config_file)
+    || !empty($schedule_recipients = require $schedule_recipients_config_file)
+    || setupScheduleRecipients($schedule_recipients_config_file);
 
-    yes($should_add_contacts)
-        && setupContacts($schedule_recipients_config_file);
-    
-    no($should_add_contacts)
-        && red("Ok. You can set it up later.")
-        && generateContactsFile([], $schedule_recipients_config_file);
-}
 
-if (empty($schedule_recipients = require $schedule_recipients_config_file)) {
-    $should_add_contacts = readline($add_schedule_recipients_prompt);
-    yes($should_add_contacts) && setupContacts($schedule_recipients_config_file);
-    no($should_add_contacts) && exit(red(scheduleRecipientError($schedule_recipients_config_file)));
-}
-
+// 3. email configuration
+// there must be a .env file with email configuration
 $env_dir = __DIR__;
 $Dotenv = new Dotenv($env_dir);
 
 try {
     $Dotenv->load();
 } catch (\Dotenv\Exception\InvalidPathException $e) {
-    $message = red("It looks like you haven't setup your email credentials yet") . PHP_EOL
-        . "You will need:" . PHP_EOL
-        . "1) the email address you will be using to send emails," . PHP_EOL
-        . "2) the smtp host of the email, and" . PHP_EOL
-        . "3) the password to the email account" . PHP_EOL;
-    print $message;
-    $reply = readline(prompt("Are you ready to enter the information for your the email address you will be using"));
-    yes($reply) && setupEmail($env_dir);
-    no($reply) && exit(red("Ok. See you later. Bye.") . PHP_EOL);
+
+    setupEmail($env_dir);
 
     $Dotenv = new Dotenv($env_dir);
     $Dotenv->load();
