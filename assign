@@ -33,7 +33,7 @@ use function StudentAssignmentScheduler\Functions\{
 //
 //////////////////////
 
-//run installation script if needed
+// run installation script if needed
 file_exists("vendor")
     || print("Installing dependencies...\r\n")
     && system("sh bin/install.sh");
@@ -48,16 +48,17 @@ $path_config = require "${config_path}path_config.php";
 $schedule_recipients_config_file = "${config_path}schedule_recipients.php";
 $contacts_file = "${config_path}contacts.php";
 
-// creates an empty contacts file if one has not been created yet
-!file_exists($contacts_file)
-    && $should_add_contacts = readline(prompt("Contacts must be setup first.  Are you ready to set them up?"));
+// does the user want to setup contacts now
+if (!file_exists($contacts_file)) {
+    $should_add_contacts = readline(prompt("Contacts must be setup first.  Are you ready to set them up?"));
 
-yes($should_add_contacts)
-    && setupContacts($contacts_file);
-
-no($should_add_contacts)
-    && red("Ok. You can set them up later.")
-    && file_put_contents($contacts_file, "<?php" . PHP_EOL . "return [];" . PHP_EOL);
+    yes($should_add_contacts)
+        && setupContacts($contacts_file);
+    
+    no($should_add_contacts)
+        && red("Ok. You can set them up later.")
+        && file_put_contents($contacts_file, "<?php" . PHP_EOL . "return [];" . PHP_EOL);
+}
 
 // the contacts file and schedule recipients must be setup first
 empty($contacts = require $contacts_file)
