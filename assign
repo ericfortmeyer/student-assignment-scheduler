@@ -26,7 +26,8 @@ use function StudentAssignmentScheduler\Functions\{
     CLI\green,
     CLI\prompt,
     CLI\jsonScheduleCreationNotification,
-    CLI\setupContacts
+    CLI\setupContacts,
+    CLI\setupEmail
 };
 
 ///////////////////////
@@ -83,17 +84,18 @@ if (empty($schedule_recipients = require $schedule_recipients_config_file)) {
     no($should_add_contacts) && exit(red(scheduleRecipientError($schedule_recipients_config_file)));
 }
 
-
-$Dotenv = new Dotenv(__DIR__);
+$env_dir = __DIR__;
+$Dotenv = new Dotenv($env_dir);
 
 try {
     $Dotenv->load();
 } catch (\Dotenv\Exception\InvalidPathException $e) {
     $message = red("It looks like you haven't setup your email credentials yet") . PHP_EOL
-        . red("They must be stored in a .env file in the projects root folder") . PHP_EOL
-        . red("The required fields are: from_email, from_email_password, smtp_host") . PHP_EOL
-        . $e->getMessage() . PHP_EOL;
-    exit($message);
+        . "You will need to email address you will be using to send emails," . PHP_EOL
+        . "the smtp host of the email," . PHP_EOL
+        . "and the password" . PHP_EOL;
+    print $message;
+    setupEmail($env_dir);
 }
 
 $Dotenv->required([

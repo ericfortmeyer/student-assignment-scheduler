@@ -78,7 +78,6 @@ function setupContacts(string $path_to_contacts_file, ?string $retry_message = n
     
         no($reply) && setupContacts($path_to_contacts_file, $retry_message);
     }
-
 }
 
 function checkFilteredReply(
