@@ -2,6 +2,8 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI;
 
+use function StudentAssignmentScheduler\Functions\generateContactsFile;
+
 function setupScheduleRecipients(string $schedule_recipients_config_file)
 {
     $message = "Who would you like to recieve the full schedule for each month?.  Are you ready to set that up";
