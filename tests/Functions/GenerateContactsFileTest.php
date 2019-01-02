@@ -52,7 +52,7 @@ class GenerateContactsFileTest extends TestCase
         file_exists($generated_contact_file)
             && unlink($generated_contact_file);
 
-        $this->should_remove_tmp_folder && unlink($this->tmp_folder);
+        $this->should_remove_tmp_folder && rmdir($this->tmp_folder);
     }
 
     public function testGeneratedContactFileHasExpectedData()
