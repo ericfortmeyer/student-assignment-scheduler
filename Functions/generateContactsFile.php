@@ -2,7 +2,6 @@
 
 namespace StudentAssignmentScheduler\Functions;
 
-
 function generateContactsFile(array $data, string $path_to_contacts_file)
 {
     defineContants();
@@ -34,7 +33,7 @@ function defineContants(): void
     define(__NAMESPACE__ . "\__RETURN_KEYWORD__", "return");
     define(__NAMESPACE__ . "\__SPACES__", "    ");
     define(__NAMESPACE__ . "\__PHP_TAG__", "<?php");
-    define( __NAMESPACE__ . "\__SPACE__", " ");
+    define(__NAMESPACE__ . "\__SPACE__", " ");
 }
 
 function formatDataForWriting(string $data_as_string): string

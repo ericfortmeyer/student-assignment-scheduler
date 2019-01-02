@@ -14,7 +14,7 @@ function setupContacts(string $path_to_contacts_file, ?string $retry_message = n
     print $retry_message ? $retry_message . PHP_EOL : purple("Now setting up contacts") . PHP_EOL . PHP_EOL;
 
     $prompts = [
-        "first_name" => "Enter first name " . yellow(QUIT_MESSAGE) . ":  ", 
+        "first_name" => "Enter first name " . yellow(QUIT_MESSAGE) . ":  ",
         "last_name" => "Enter last name . " . yellow(QUIT_MESSAGE) . ":  ",
         "email_address" => "Enter email address" . yellow(QUIT_MESSAGE) . ":  "
     ];
@@ -35,11 +35,9 @@ function setupContacts(string $path_to_contacts_file, ?string $retry_message = n
     };
 
     while (true) {
-
         $replies = new Vector();
 
         foreach ($prompts as $input_type => $prompt) {
-
             // user's response
             $tuple = $get_data_from_user($prompt, $input_type);
             $user_input = $tuple[0];
@@ -100,7 +98,6 @@ function checkFilteredReply(
             $ui_func,
             $prompt
         );
-
     } else {
         return $filtered_reply;
     }
