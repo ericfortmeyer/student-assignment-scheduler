@@ -5,8 +5,6 @@ declare(strict_types=1);
 use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;
 
-use \Ds\Vector;
-
 use StudentAssignmentScheduler\Utils\{PdfAssignmentFormWriter, PdfScheduleWriter, MailSender};
 use StudentAssignmentScheduler\Models\ListOfContacts;
 
