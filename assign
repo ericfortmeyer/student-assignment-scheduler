@@ -62,11 +62,11 @@ if (!file_exists($contacts_file)) {
 }
 
 // does the user want to setup schedule recipients now
-if (!file_exists($schedule_recipients_contacts_file)) {
+if (!file_exists($schedule_recipients_config_file)) {
     $should_add_contacts = readline(prompt("Who would you like to recieve the full schedule for each month?.  Are you ready to set that up?"));
 
     yes($should_add_contacts)
-        && setupContacts($schedule_recipients_contacts_file);
+        && setupContacts($schedule_recipients_config_file);
     
     no($should_add_contacts)
         && red("Ok. You can set it up later.")
