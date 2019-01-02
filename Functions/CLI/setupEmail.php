@@ -13,11 +13,14 @@ function setupEmail(string $env_dir, string $env_filename = ".env"): void
     ]);
 
     $get_user_input = function (string $field_name, string $prompt) {
-        return readline($prompt);
+            
+        return $field_name === "from_email_password"
+            ? system('read -r -s -p "Enter email password: " PASSWORD; echo $PASSWORD')
+            : readline($prompt);
     };
 
     $encode_for_writing = function (string $field_name, string $binary_data): string {
-        return \base64_encode($binary_data);
+        return base64_encode($binary_data);
     };
 
     $prepare_contents = function ($carry, string $field_name, string $data) {
@@ -55,7 +58,7 @@ function setupEmail(string $env_dir, string $env_filename = ".env"): void
 
     $env_file = $env_dir . DIRECTORY_SEPARATOR . $env_filename;
 
-    $prompt = prompt("Are you sure you want to replace your the data on your env file?");
+    $prompt = prompt("Are you sure you want to replace the data on your env file?");
     file_exists($env_file) && $reply = readline($prompt);
 
     yes($reply ?? "") && file_put_contents($env_file, $file_contents);
