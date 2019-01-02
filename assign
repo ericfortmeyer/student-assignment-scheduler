@@ -88,10 +88,11 @@ $Dotenv = new Dotenv(__DIR__);
 
 try {
     $Dotenv->load();
-} catch (Dotenv\Exception\InvalidPathException $e) {
+} catch (\Dotenv\Exception\InvalidPathException $e) {
     $message = red("It looks like you haven't setup your email credentials yet") . PHP_EOL
         . red("They must be stored in a .env file in the projects root folder") . PHP_EOL
-        . red("The required fields are: from_email, from_email_password, smtp_host");
+        . red("The required fields are: from_email, from_email_password, smtp_host") . PHP_EOL
+        . $e->getMessage() . PHP_EOL;
     exit($message);
 }
 
