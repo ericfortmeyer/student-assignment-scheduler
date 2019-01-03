@@ -28,6 +28,7 @@ use function StudentAssignmentScheduler\Functions\{
     CLI\prompt,
     CLI\jsonScheduleCreationNotification,
     CLI\setupContacts,
+    CLI\setupScheduleRecipients,
     CLI\setupEmail
 };
 
