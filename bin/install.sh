@@ -4,4 +4,6 @@ set -e
 
 command composer -v >/dev/null 2>&1 || { echo >&2 "Composer is required: https://getcomposer.org/"; exit 1; }
 
-composer -q install
+echo "Welcome!"
+echo "Now installing dependecies..."
+composer --no-progress --no-suggest install
