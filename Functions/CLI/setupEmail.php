@@ -6,7 +6,7 @@ use \Ds\Map;
 
 function setupEmail(string $env_dir, string $env_filename = ".env"): void
 {
-    $message = red("It looks like you haven't setup your email credentials yet") . PHP_EOL
+    $message = purple("It looks like you haven't setup your email credentials yet") . PHP_EOL
         . "You will need:" . PHP_EOL
         . "1) the email address you will be using to send emails," . PHP_EOL
         . "2) the smtp host of the email, and" . PHP_EOL
@@ -76,4 +76,6 @@ function setupEmail(string $env_dir, string $env_filename = ".env"): void
     } else {
         file_put_contents($env_file, $file_contents);
     }
+
+    print PHP_EOL;
 }
