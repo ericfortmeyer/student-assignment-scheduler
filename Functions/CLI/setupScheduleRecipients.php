@@ -6,10 +6,9 @@ use function StudentAssignmentScheduler\Functions\generateContactsFile;
 
 function setupScheduleRecipients(string $schedule_recipients_config_file)
 {
-    $message = "Who would you like to recieve the full schedule for each month?." . PHP_EOL
-        . "Are you ready to set that up";
+    print purple("Who would you like to recieve the full schedule for each month?") . PHP_EOL;
 
-    $add_schedule_recipients_prompt = prompt($message);
+    $add_schedule_recipients_prompt = prompt("Are you ready to set that up");
 
     $should_add_contacts = readline($add_schedule_recipients_prompt);
 
