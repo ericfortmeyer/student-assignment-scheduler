@@ -42,7 +42,7 @@ function defineContants(): void
 
     $define = function (string $const, string $value) {
         $const_namespaced = __NAMESPACE__ . "\\$const";
-        defined($const_namespaced) || define($const, $value);
+        defined($const_namespaced) || define($const_namespaced, $value);
     };
 
     (new Map($constants))->map($define);
