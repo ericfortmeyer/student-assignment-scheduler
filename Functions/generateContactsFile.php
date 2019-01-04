@@ -2,6 +2,9 @@
 
 namespace StudentAssignmentScheduler\Functions;
 
+use \Ds\Map;
+use \Ds\Vector;
+
 function generateContactsFile(array $data, string $path_to_contacts_file)
 {
     defineContants();
@@ -14,7 +17,7 @@ function generateContactsFile(array $data, string $path_to_contacts_file)
             : $string;
     };
 
-    $vector = new \Ds\Vector($data);
+    $vector = new Vector($data);
 
     $items = $vector->reduce($add_item);
 
@@ -26,14 +29,23 @@ function generateContactsFile(array $data, string $path_to_contacts_file)
 
 function defineContants(): void
 {
-    define(__NAMESPACE__ . "\__COMMA__", ",");
-    define(__NAMESPACE__ . "\__OPEN_SQUARE_BRACKET__", "[");
-    define(__NAMESPACE__ . "\__CLOSED_SQUARE_BRACKET__", "]");
-    define(__NAMESPACE__ . "\__SEMICOLON__", ";");
-    define(__NAMESPACE__ . "\__RETURN_KEYWORD__", "return");
-    define(__NAMESPACE__ . "\__SPACES__", "    ");
-    define(__NAMESPACE__ . "\__PHP_TAG__", "<?php");
-    define(__NAMESPACE__ . "\__SPACE__", " ");
+    $constants = [
+        "__COMMA__" => ",",
+        "__OPEN_SQUARE_BRACKET__" => "[",
+        "__CLOSED_SQUARE_BRACKET__" => "]",
+        "__SEMICOLON__" => ";",
+        "__RETURN_KEYWORD__" => "return",
+        "__SPACES__" => "    ",
+        "__PHP_TAG__" => "<?php",
+        "__SPACE__" => " "
+    ];
+
+    $define = function (string $const, string $value) {
+        $const_namespaced = __NAMESPACE__ . "\\$const";
+        defined($const_namespaced) || define($const, $value);
+    };
+
+    (new Map($constants))->map($define);
 }
 
 function contentForEmptyArray(): string
