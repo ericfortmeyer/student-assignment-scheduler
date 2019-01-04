@@ -29,13 +29,13 @@ return [
     ],
     "skip_assignments_with_these_titles" => $do_not_assign_these,
     "make_these_directories" => [
-        "data/assignments",
-        "data/forms",
-        "data/schedules",
-        "workbooks/pdf",
-        "workbooks/rtf",
-        "tmp",
-        "log"
+        __DIR__ . "/../data/assignments",
+        __DIR__ . "/../data/forms",
+        __DIR__ . "/../data/schedules",
+        __DIR__ . "/../workbooks/pdf",
+        __DIR__ . "/../workbooks/rtf",
+        __DIR__ . "/../tmp",
+        __DIR__ . "/../log"
     ],
     "assignment_form_template" => __DIR__ . "/../Utils/templates/S-89-E.pdf",
     "schedule_template" => __DIR__ . "/../Utils/templates/S-140-E.pdf",
