@@ -6,4 +6,8 @@ command composer -v >/dev/null 2>&1 || { echo >&2 "Composer is required: https:/
 
 echo "Welcome!"
 echo "Now installing dependecies..."
-composer --no-progress --no-suggest install
+sleep 0.5
+
+composer -q install
+
+echo -e "You're all set!\n\n"

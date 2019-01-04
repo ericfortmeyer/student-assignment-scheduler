@@ -65,13 +65,15 @@ $contacts_file = "${config_path}contacts.php";
 // does the user want to setup contacts now
 file_exists($contacts_file)
     && !empty($contacts = require $contacts_file)
-    || setupContacts($contacts_file);
+    || setupContacts($contacts_file)
+    && $contacts = require $contacts_file;
 
 // 2. Who should receive the full schedule for the month
 // does the user want to setup schedule recipients now
 file_exists($schedule_recipients_config_file)
     && !empty($schedule_recipients = require $schedule_recipients_config_file)
-    || setupScheduleRecipients($schedule_recipients_config_file);
+    || setupScheduleRecipients($schedule_recipients_config_file)
+    && $schedule_recipients = require $schedule_recipients_config_file;
 
 
 // 3. email configuration
