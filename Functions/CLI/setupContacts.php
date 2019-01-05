@@ -23,7 +23,8 @@ function setupContacts(string $path_to_contacts_file, ?string $retry_message = n
     $contacts = new Set();
 
     $get_data_from_user = function (string $prompt, string $input_type): array {
-        $tuple = readline($prompt);
+        $tuple = exec("read $prompt input; echo \$input");
+        print PHP_EOL;
 
         return $input_type === "email_address"
             ? [$tuple, filter_var($tuple, FILTER_VALIDATE_EMAIL)]

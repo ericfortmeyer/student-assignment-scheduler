@@ -14,18 +14,28 @@ function setupEmail(string $env_dir, string $env_filename = ".env"): void
     print $message;
 
     $reply = readline(prompt("Are you ready to enter the information for your the email address you will be using"));
+
     $prompts = new Map([
         "from_email" => "Enter your 'from' email address: ",
-        "from_email_password" => "Enter the password to the email account ",
-        "smtp_host" => "Enter the smtp host of the email account "
+        "from_email_password" => "Enter the password to the email account: ",
+        "smtp_host" => "Enter the smtp host of the email account: "
     ]);
 
     no($reply) && exit(red("Ok. See you later. Bye.") . PHP_EOL);
 
-    $get_user_input = function (string $field_name, string $prompt) {
+    $get_user_input = function (string $field_name, string $prompt): string {
             
+        // this is the cleanest way to place a newline after the prompt
+        $passwordPrompt = function (string $command) use ($prompt): string {
+            print $prompt;
+            $result = exec($command);
+            print PHP_EOL;
+            return $result;
+        };
+
+        // we don't want the password to show up in the terminal
         return $field_name === "from_email_password"
-            ? system('read -r -s -p "Enter email password: " PASSWORD; echo $PASSWORD')
+            ? $passwordPrompt("read -r -s PASSWORD; echo \$PASSWORD")
             : readline($prompt);
     };
 
@@ -33,15 +43,17 @@ function setupEmail(string $env_dir, string $env_filename = ".env"): void
         return base64_encode($binary_data);
     };
 
-    $prepare_contents = function ($carry, string $field_name, string $data) {
+    $prepare_contents = function ($carry, string $field_name, string $data): string {
         return $carry . "${field_name}=${data}" . PHP_EOL;
     };
 
     // the replies from the user
     $replies = $prompts->map($get_user_input);
 
-    // encrypt the password
+    // this needs to be encrypted
     $plaintext_password = $replies->remove("from_email_password");
+    
+    // encrypt the password
     $key = sodium_crypto_secretbox_keygen();
     $nonce = random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
     $encrypted_password = sodium_crypto_secretbox(
@@ -50,14 +62,14 @@ function setupEmail(string $env_dir, string $env_filename = ".env"): void
         $key
     );
 
-    // it's not a good idea to save this to the filesystem
+    // saving binary data to the filesytem is unreliable
     $binary_data = new Map([
         "from_email_password" => $encrypted_password,
         "from_email_key" => $key,
         "from_email_nonce" => $nonce
     ]);
 
-    // base 64 encoded
+    // base 64 encode the binary data so that the data can be reliably saved
     $encoded = $binary_data->map($encode_for_writing);
     
     // combine the maps
@@ -68,14 +80,13 @@ function setupEmail(string $env_dir, string $env_filename = ".env"): void
 
     $env_file = $env_dir . DIRECTORY_SEPARATOR . $env_filename;
 
-    
-    if (file_exists($env_file)) {
-        $prompt = prompt("Are you sure you want to replace the data on your env file");
-        $reply = readline($prompt);
-        yes($reply) && file_put_contents($env_file, $file_contents);
-    } else {
-        file_put_contents($env_file, $file_contents);
-    }
+
+    $prompt = prompt("Are you sure you want to replace the data on your env file");
+
+    file_exists($env_file) && $resplyWasYes = yes(readline($prompt))
+        ? $replyWasYes && file_put_contents($env_file, $file_contents)
+        : file_put_contents($env_file, $file_contents);
+
 
     print PHP_EOL;
 }
