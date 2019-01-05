@@ -10,4 +10,4 @@ sleep 0.5
 
 composer -q install
 
-echo $'You\'re all set!\n\n'
+echo "You're all set!\n\n"
