@@ -33,9 +33,18 @@ function setupEmail(string $env_dir, string $env_filename = ".env"): void
             return $result;
         };
 
+        /**
+         * This script is necessary since the application uses 'read -s'
+         * If this application is used with 'sh' on the CLI instead of 'bash'
+         * the -s flag is unavailable and will throw and error
+         * The readline function in PHP exposes the password which is the reason for using 'read -s' 
+         */
+        $passwd_prompt_script = __DIR__ . "/../../bin/passwd_prompt.sh";
+
+
         // we don't want the password to show up in the terminal
         return $field_name === "from_email_password"
-            ? $passwordPrompt("read -r -s PASSWORD; echo \$PASSWORD")
+            ? $passwordPrompt("bash " . escapeshellcmd($passwd_prompt_script))
             : readline($prompt);
     };
 
