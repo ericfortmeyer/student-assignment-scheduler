@@ -1,0 +1,29 @@
+.vscode
+.DS_Store
+
+/vendor
+/log
+/tmp
+
+composer.lock
+
+# secrets
+.env
+
+# contact information for students and recipients of the schedule that will be used to send emails
+config/contacts.php
+config/schedule_recipients.php
+FileRegistry/registry.php
+tests/tmp/registry.php
+
+# folders containing schedule data for each year
+data/20*
+
+# schedule data created from schedules that were created by the user
+data/forms/*
+data/schedules/*
+data/assignments/*
+
+# do not include downloaded content from the website per user agreement
+workbooks/pdf/*
+workbooks/rtf/*
