@@ -1,7 +1,10 @@
 # Student Assignment Scheduler
 
 [![Build Status](https://travis-ci.org/ericfortmeyer/student-assignment-scheduler.svg?branch=master)](https://travis-ci.org/ericfortmeyer/student-assignment-scheduler)
-
+[![Latest Stable Version](https://poser.pugx.org/ericfortmeyer/student-assignment-scheduler/v/stable?format=flat-square)](https://packagist.org/packages/ericfortmeyer/student-assignment-scheduler)
+[![Total Downloads](https://poser.pugx.org/ericfortmeyer/student-assignment-scheduler/downloads?format=flat-square)](https://packagist.org/packages/ericfortmeyer/student-assignment-scheduler)
+[![License](https://poser.pugx.org/ericfortmeyer/student-assignment-scheduler/license?format=flat-square)](https://packagist.org/packages/ericfortmeyer/student-assignment-scheduler)
+[![composer.lock](https://poser.pugx.org/ericfortmeyer/student-assignment-scheduler/composerlock?format=flat-square)](https://packagist.org/packages/ericfortmeyer/student-assignment-scheduler)
 #### A way to schedule and email student assignments for the mid-week meeting.
 
 :sunglasses:
