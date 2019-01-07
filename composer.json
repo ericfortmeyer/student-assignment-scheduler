@@ -2,6 +2,7 @@
     "name": "ericfortmeyer/student-assignment-scheduler",
     "description": "Dependency and configuration for this project",
     "license": "MIT",
+    "keywords": ["meeting", "LAMM", "assignments", "students", "life and ministry meeting", "student assignments", "mid-week meeting"],
     "authors": [
         {
             "name": "Eric Fortmeyer",
