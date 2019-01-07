@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @phan-file-suppress PhanUndeclaredConstant
+ */
 namespace StudentAssignmentScheduler\Functions;
 
 use \Ds\Map;
@@ -41,8 +43,8 @@ function defineContants(): void
     ];
 
     $define = function (string $const, string $value) {
-        $const_namespaced = __NAMESPACE__ . "\\$const";
-        defined($const_namespaced) || define($const_namespaced, $value);
+        // PhanUndeclaredVariable is raised by setting a variable with __NAMESPACE__ . "\\$const"
+        defined(__NAMESPACE__ . "\\$const") || define(__NAMESPACE__ . "\\$const", $value);
     };
 
     (new Map($constants))->map($define);

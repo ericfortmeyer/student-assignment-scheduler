@@ -36,12 +36,10 @@ function setupContacts(string $path_to_contacts_file, ?string $retry_message = n
     };
 
     while (true) {
-
         $replies = new Vector();
 
         foreach ($prompts as $input_type => $prompt) {
-            
-            $prompt .= yellow(QUIT_MESSAGE) . ":  "; 
+            $prompt .= yellow(QUIT_MESSAGE) . ":  ";
 
             // user's response
             $tuple = $get_data_from_user($prompt, $input_type);
@@ -72,7 +70,6 @@ function setupContacts(string $path_to_contacts_file, ?string $retry_message = n
     $shouldNotQuit = !$contacts->isEmpty();
 
     if ($shouldNotQuit) {
-
         print PHP_EOL . purple("Here's what you entered:") . PHP_EOL;
 
         $contacts->reduce($display_result);

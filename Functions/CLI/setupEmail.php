@@ -37,7 +37,7 @@ function setupEmail(string $env_dir, string $env_filename = ".env"): void
          * This script is necessary since the application uses 'read -s'
          * If this application is used with 'sh' on the CLI instead of 'bash'
          * the -s flag is unavailable and will throw and error
-         * The readline function in PHP exposes the password which is the reason for using 'read -s' 
+         * The readline function in PHP exposes the password which is the reason for using 'read -s'
          */
         $passwd_prompt_script = __DIR__ . "/../../bin/passwd_prompt.sh";
 
