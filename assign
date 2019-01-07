@@ -42,10 +42,18 @@ use function StudentAssignmentScheduler\Functions\{
 file_exists("vendor")
     || system("sh bin/install.sh");
 
-require "autoload.php";
+$autoload_file = file_exists("autoload.php")
+    ? "autoload.php"
+    : "vendor/autoload.php";
+
+require $autoload_file;
+
+$config_dir = file_exists("config")
+    ? "config/"
+    : "vendor/ericfortmeyer/student-assignment-scheduler/config/";
 
 // load configuration files
-$config_path = "config/";
+$config_path = $config_dir;
 $config_file = "${config_path}config.php";
 $config = require $config_file;
 $path_config = require "${config_path}path_config.php";
