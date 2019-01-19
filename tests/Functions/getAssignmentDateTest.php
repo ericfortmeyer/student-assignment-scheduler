@@ -79,6 +79,52 @@ class GetAssignmentDateTest extends TestCase
         }
     }
 
+    public function testDateParsingOfRtfFiles()
+    {
+        /**
+         * should capture (1) the month and (2) the date
+         * Rtf files have dates embedded in escaped encodings
+         * \b February\u160?4-10
+         * \b February\u160?25\u8122?March\u3
+         *
+         */
+        $testPattern = "/\\\\b\s{1}(\w{4,9})\\\\u160\?\d{1,2}[-]{1}|\S{6}([\w]{4,9}+|\d{1,2})/";
+
+        $testCases = new \Ds\Vector([
+            '\b February\u160?4-10',
+            '\b February\u160?25\u8211?March',
+            '\b January\u160?24\u8211?Feburary',
+            '\b July\u160?3-7',
+            '\b June\u160?30\u8122?July'
+        ]);
+
+        $testPattern = "/\\\\b\s{1}(\w{4,9})\\\\u160\?(\d{1,2})(?:-|\\\\u8211\?)(?:[\w]{4,9}|\d{1,2})/";
+        
+        $map = new \Ds\Map();
+
+        $map->put($testCases[0], [$testCases[0], 'February', '4']);
+        $map->put($testCases[1], [$testCases[1], 'February', '25']);        
+        $map->put($testCases[2], [$testCases[2], 'January', '24']);        
+        $map->put($testCases[3], [$testCases[3], 'July', '3']);        
+        $map->put($testCases[4], [$testCases[4], 'June', '30']);        
+        
+        $runTests = function (string $test_case, array $expectedMatches) use ($testPattern): void {
+            $this->assertThat(
+                $test_case,
+                $this->matchesRegularExpression($testPattern)
+            );
+
+
+            preg_match($testPattern, $test_case, $matches);
+            $this->assertEquals(
+                $expectedMatches,
+                $matches
+            );
+        };
+
+        $map->apply($runTests);
+    }
+
     public function testPregSplitResult()
     {
         $month = "October";

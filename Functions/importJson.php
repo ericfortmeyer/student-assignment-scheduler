@@ -9,10 +9,17 @@ function importJson(string $path_to_json, bool $test_mode = false, ?string $test
 
     $logger = whichLogger(__FUNCTION__, $test_mode);
     $context = ["file" => $path_to_json];
+
+    try {
+        validateFile(hashOfFile($path_to_json), $path_to_json, $test_registry);
+
+    } catch (\Exception $e) {
+        fileInvalidAction($path_to_json, $logger, $context);
+
+    }
+
+    return fileValidAction($path_to_json, $logger, $context);
     
-    return validateFile(hashOfFile($path_to_json), $path_to_json, $test_registry)
-            ? fileValidAction($path_to_json, $logger, $context)
-            : fileInvalidAction($path_to_json, $logger, $context);
 }
 
 function fileValidAction(string $path, $logger, array $context)
@@ -29,5 +36,6 @@ function fileValidAction(string $path, $logger, array $context)
 function fileInvalidAction(string $path, $logger, array $context)
 {
     $logger->critical("FILE {file} invalid", $context);
+    throw new \Exception("File ${path} invalid");
     return [];
 }
