@@ -7,6 +7,7 @@ use function StudentAssignmentScheduler\Functions\writeMonthOfAssignmentForms;
 use function StudentAssignmentScheduler\Functions\monthsFromScheduleFilenames;
 
 use \Closure;
+use \Ds\Set;
 
 /**
  * Create assignment forms
@@ -21,7 +22,7 @@ use \Closure;
  * @param int $year Required to avoid January being considered after December
  * @param bool $do_past_months
  *
- * @return array  Which months of assignment forms were created?
+ * @return Set  Which months of assignment forms were created?
  */
 function writeAssignmentForms(
     AssignmentFormWriterInterface $AssignmentFormWriter,
@@ -30,48 +31,46 @@ function writeAssignmentForms(
     Closure $hasScheduleAlreadyBeenCompleted,
     int $year,
     bool $do_past_months = false
-): array {
+): Set {
 
-    return array_map(
-        function (array $arr) use (
-            $AssignmentFormWriter,
-            $path_to_json_assignments_files,
-            $hasScheduleAlreadyBeenCompleted
-        ) {
+    $writeForms = function (array $arr) use (
+        $AssignmentFormWriter,
+        $path_to_json_assignments_files,
+        $hasScheduleAlreadyBeenCompleted
+    ): ?string {
 
-            $month = $arr["month"];
+        $month = $arr["month"];
 
-            if ($hasScheduleAlreadyBeenCompleted($month)) {
-                return;
-            }
+        if ($hasScheduleAlreadyBeenCompleted($month)) {
+            return null;
+        }
 
-            $didDisplay = displayTableOfMonthOfAssignments(
+        $didDisplay = displayTableOfMonthOfAssignments(
+            $month,
+            $path_to_json_assignments_files
+        );
+
+        $reply = $didDisplay
+            ? readline(prompt("Does the schedule look good"))
+            : "";
+
+        if (yes($reply)) {
+            writeMonthOfAssignmentForms(
+                $AssignmentFormWriter,
                 $month,
                 $path_to_json_assignments_files
             );
 
+            print green("Assignment forms for ${month} were created.\r\n");
 
+             // Use to determine which month(s) were scheduled
+            return $month;
+        } else {
+            return null;
+        }
+    };
 
-            $reply = $didDisplay
-                ? readline(prompt("Does the schedule look good"))
-                : "";
+    $MonthsOfWrittenAssignmentForms = new Set(monthsFromScheduleFilenames($path_to_json_schedules, $year, $do_past_months));
 
-
-            if (yes($reply)) {
-                writeMonthOfAssignmentForms(
-                    $AssignmentFormWriter,
-                    $month,
-                    $path_to_json_assignments_files
-                );
-
-                print green("Assignment forms for ${month} were created.\r\n");
-
-                
-
-                 // Use to determine which month(s) were scheduled
-                return $month;
-            }
-        },
-        monthsFromScheduleFilenames($path_to_json_schedules, $year, $do_past_months)
-    );
+    return $MonthsOfWrittenAssignmentForms->map($writeForms)->remove(null);
 }
