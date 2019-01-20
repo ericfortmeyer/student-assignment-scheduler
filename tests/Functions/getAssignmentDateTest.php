@@ -88,14 +88,13 @@ class GetAssignmentDateTest extends TestCase
          * \b February\u160?25\u8122?March\u3
          *
          */
-        $testPattern = "/\\\\b\s{1}(\w{4,9})\\\\u160\?\d{1,2}[-]{1}|\S{6}([\w]{4,9}+|\d{1,2})/";
 
         $testCases = new \Ds\Vector([
             '\b February\u160?4-10',
             '\b February\u160?25\u8211?March',
             '\b January\u160?24\u8211?Feburary',
             '\b July\u160?3-7',
-            '\b June\u160?30\u8122?July'
+            '\b June\u160?30\u8211?July'
         ]);
 
         $testPattern = "/\\\\b\s{1}(\w{4,9})\\\\u160\?(\d{1,2})(?:-|\\\\u8211\?)(?:[\w]{4,9}|\d{1,2})/";
