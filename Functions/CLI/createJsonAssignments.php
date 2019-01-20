@@ -6,6 +6,7 @@ use function StudentAssignmentScheduler\Functions\save;
 use function StudentAssignmentScheduler\Functions\monthNumeric;
 use function StudentAssignmentScheduler\Functions\weeksFrom;
 use function StudentAssignmentScheduler\Functions\importMultipleSchedules;
+use function StudentAssignmentScheduler\Functions\importAssignments;
 use function StudentAssignmentScheduler\Functions\sortMonths;
 use function StudentAssignmentScheduler\Functions\isPastMonth;
 
@@ -32,9 +33,20 @@ function createJsonAssignments(
             $month = $schedule_for_month["month"];
             $year = $schedule_for_month["year"];
 
-            $shouldAbort = isPastMonth($month, $year) || $hasScheduleAlreadyBeenCompleted($month);
+            $haveAssignmentsAlreadyBeenCreated = function (string $month) use ($year, $data_destination): bool {
+                $weeksOfAssignments = importAssignments($month, $data_destination);
 
-            if ($shouldAbort) {
+                return count($weeksOfAssignments) > 2;
+            };
+
+
+            // do the assignments need to be created?
+            $shouldAbort = isPastMonth($month, $year) || $hasScheduleAlreadyBeenCompleted($month);
+            $skipCreatingAssignments = $haveAssignmentsAlreadyBeenCreated($month) && !$hasScheduleAlreadyBeenCompleted($month);
+            
+            if ($shouldAbort || $skipCreatingAssignments) {
+                // important to set this
+                $were_assignments_made = $shouldAbort ? false : true;
                 return;
             }
 
