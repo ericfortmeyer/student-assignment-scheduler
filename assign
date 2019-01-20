@@ -267,7 +267,7 @@ $MonthsOfFormsWritten = writeAssignmentForms(
 
 // Abort if assignment forms were not written
 $MonthsOfFormsWritten->isEmpty()
-    || exit(green("It looks like you are all up-to-date.\r\nNo schedules were created.  Good Bye\r\n"));
+    && exit(green("It looks like you are all up-to-date.\r\nNo schedules were created.  Good Bye\r\n"));
 
 
 
