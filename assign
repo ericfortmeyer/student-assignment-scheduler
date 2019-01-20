@@ -177,18 +177,18 @@ $SetOfYearsSchedulesWereIn = createJsonSchedulesFromWorkbooks(
 /**
  * This function is used to abort creating assignments.
  *
- * It assumes that there will be a PDF schedule with a basename
- * being the month scheduled.  This should be changed to allow
- * for changes in the future.  For example, the user may want to
- * configure the application to produce schedules in other formats.
- *
  * An anonymous function is used in order to use variables that
  * are in the parent scope with out requiring partial application.
  */
-$hasScheduleAlreadyBeenCompleted = function (string $month) use ($path_config) {
-    $schedule_filename = "{$path_config["path_to_schedules"]}/${month}.pdf";
+$path_to_monthly_schedules = $path_config["path_to_schedules"];
+$monthly_schedules_file_extension = $config["monthly_schedule_format"];
 
-    return file_exists($schedule_filename);
+$monthly_schedule_filename = function (string $month) use ($path_to_monthly_schedules, $monthly_schedules_file_extension): string {
+    return "${path_to_monthly_schedules}/${month}.${monthly_schedules_file_extension}";
+};
+
+$hasScheduleAlreadyBeenCompleted = function (string $month) use ($monthly_schedule_filename) {
+    return file_exists($monthly_schedule_filename($month));
 };
 
 
