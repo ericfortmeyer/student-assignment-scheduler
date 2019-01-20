@@ -8,6 +8,8 @@ $my_language = "ASL";
 
 $workbook_format = "rtf";
 
+$monthly_schedule_format = "pdf";
+
 $do_not_assign_these = [
     "Apply Yourself to Reading and Teaching",
 ];
@@ -22,6 +24,7 @@ return [
         "ASL" => "mwb_ASL_",
     ],
     "meeting_night" => $my_meeting_night,
+    "monthly_schedule_format" => $monthly_schedule_format,
     "workbook_format" => $workbook_format,
     "workbook_parser_implementations" => [
         "pdf" => __NAMESPACE__ . "\\Utils\\" . "PdfParser",
