@@ -13,11 +13,8 @@ use function StudentAssignmentScheduler\Functions\{
     createJsonSchedulesFromWorkbooks,
     sendEmails,
     decryptedPassword,
-    scheduleRecipientError,
-    contactSetupError,
     importAssignments,
     importSchedule,
-    generateContactsFile,
     makeRequiredDirectories,
     CLI\writeAssignmentForms,
     CLI\createJsonAssignments,
@@ -101,7 +98,6 @@ try {
     $Dotenv = new Dotenv($env_dir);
     $Dotenv->load();
 } catch (\Dotenv\Exception\InvalidPathException $e) {
-
     // user interaction
     setupEmail($env_dir);
 
@@ -183,7 +179,10 @@ $SetOfYearsSchedulesWereIn = createJsonSchedulesFromWorkbooks(
 $path_to_monthly_schedules = $path_config["path_to_schedules"];
 $monthly_schedules_file_extension = $config["monthly_schedule_format"];
 
-$monthly_schedule_filename = function (string $month) use ($path_to_monthly_schedules, $monthly_schedules_file_extension): string {
+$monthly_schedule_filename = function (string $month) use (
+    $path_to_monthly_schedules,
+    $monthly_schedules_file_extension
+): string {
     return "${path_to_monthly_schedules}/${month}.${monthly_schedules_file_extension}";
 };
 
@@ -227,10 +226,10 @@ $createJsonAssignments = function (
      * A json file is created for each week of assignments.
      */
      $assignmentsWereMade = createJsonAssignments(
-        $path_to_json_schedules,
-        $path_to_json_assignments,
-        $hasScheduleAlreadyBeenCompleted
-    );
+         $path_to_json_schedules,
+         $path_to_json_assignments,
+         $hasScheduleAlreadyBeenCompleted
+     );
 };
 
 
@@ -258,7 +257,7 @@ $year = $SetOfYearsSchedulesWereIn->get(0);
 $assignmentsWereMade
     || exit(green("No assignments were made. Good Bye.\r\n"));
 
-$which_months = writeAssignmentForms(
+$MonthsOfFormsWritten = writeAssignmentForms(
     $AssignmentFormWriter,
     $path_to_json_assignments,
     $path_to_json_schedules,
@@ -266,9 +265,8 @@ $which_months = writeAssignmentForms(
     $year
 );
 
-
 // Abort if assignment forms were not written
-current($which_months)
+$MonthsOfFormsWritten->isEmpty()
     || exit(green("It looks like you are all up-to-date.\r\nNo schedules were created.  Good Bye\r\n"));
 
 
@@ -279,14 +277,23 @@ current($which_months)
  * Uses the json schedule and the json assignment files
  * to generate a schedule (i.e. pdf file) for the month.
  */
-$month = current($which_months);
-$filename_of_schedule = "${month}.json";
 
-$assignments = importAssignments($month, $path_to_json_assignments);
-$schedule = importSchedule($filename_of_schedule, $path_to_json_schedules);
+$createSchedule = function (string $month) use (
+    $ScheduleWriter,
+    $path_to_json_assignments,
+    $path_to_json_schedules
+): string {
 
-$schedule_filename = $ScheduleWriter->create($assignments, $schedule, $month);
+    $filename_of_schedule = "${month}.json";
+    
+    $assignments = importAssignments($month, $path_to_json_assignments);
+    $schedule = importSchedule($filename_of_schedule, $path_to_json_schedules);
+    
+    $schedule_filename = $ScheduleWriter->create($assignments, $schedule, $month);
+    return $schedule_filename;
+};
 
+$MonthsOfFormsWritten->map($createSchedule);
 
 
 /**
@@ -294,19 +301,31 @@ $schedule_filename = $ScheduleWriter->create($assignments, $schedule, $month);
  *
  * Determine if the user wants to send them.
  */
-$user_response = readline(
-    prompt("Do you want to send the emails")
-);
 
-yes($user_response)
-    && sendEmails(
-        $MailSender,
-        $ListOfContacts,
-        $contacts,
-        $config["assignment_forms_destination"],
-        $schedule_recipients,
-        $schedule_filename
+$emailAssignmentsAndSchedule = function (string $schedule_filename) use (
+    $MailSender,
+    $ListOfContacts,
+    $contacts,
+    $config,
+    $schedule_recipients
+): void {
+
+    $user_response = readline(
+        prompt("Do you want to send the emails")
     );
+    
+    yes($user_response)
+        && sendEmails(
+            $MailSender,
+            $ListOfContacts,
+            $contacts,
+            $config["assignment_forms_destination"],
+            $schedule_recipients,
+            $schedule_filename
+        );
+    
+    no($user_response)
+        && print red("Ok. Emails were not sent.\r\n");
+};
 
-no($user_response)
-    && print red("Ok. Emails were not sent.\r\n");
+$MonthsOfFormsWritten->map($emailAssignmentsAndSchedule);

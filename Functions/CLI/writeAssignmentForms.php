@@ -8,6 +8,7 @@ use function StudentAssignmentScheduler\Functions\monthsFromScheduleFilenames;
 
 use \Closure;
 use \Ds\Set;
+use \Ds\Vector;
 
 /**
  * Create assignment forms
@@ -22,7 +23,7 @@ use \Ds\Set;
  * @param int $year Required to avoid January being considered after December
  * @param bool $do_past_months
  *
- * @return Set  Which months of assignment forms were created?
+ * @return Vector  Which months of assignment forms were created?
  */
 function writeAssignmentForms(
     AssignmentFormWriterInterface $AssignmentFormWriter,
@@ -31,7 +32,7 @@ function writeAssignmentForms(
     Closure $hasScheduleAlreadyBeenCompleted,
     int $year,
     bool $do_past_months = false
-): Set {
+): Vector {
 
     $writeForms = function (array $arr) use (
         $AssignmentFormWriter,
@@ -70,7 +71,15 @@ function writeAssignmentForms(
         }
     };
 
-    $MonthsOfWrittenAssignmentForms = new Set(monthsFromScheduleFilenames($path_to_json_schedules, $year, $do_past_months));
+    // first we use a vector for to map function
+    $MonthsOfWrittenAssignmentForms = new Vector(
+        monthsFromScheduleFilenames($path_to_json_schedules, $year, $do_past_months)
+    );
 
-    return $MonthsOfWrittenAssignmentForms->map($writeForms)->remove(null);
+    // then we use set to make values distinct and to remove null
+    $Set = new Set($MonthsOfWrittenAssignmentForms->map($writeForms));
+    $Set->remove(null);
+
+    // finally we return a vector for mapping functions later in the program
+    return new Vector($Set);
 }
