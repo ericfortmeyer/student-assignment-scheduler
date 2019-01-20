@@ -42,7 +42,8 @@ function createJsonAssignments(
 
             // do the assignments need to be created?
             $shouldAbort = isPastMonth($month, $year) || $hasScheduleAlreadyBeenCompleted($month);
-            $skipCreatingAssignments = $haveAssignmentsAlreadyBeenCreated($month) && !$hasScheduleAlreadyBeenCompleted($month);
+            $skipCreatingAssignments = $haveAssignmentsAlreadyBeenCreated($month)
+                && !$hasScheduleAlreadyBeenCompleted($month);
             
             if ($shouldAbort || $skipCreatingAssignments) {
                 // important to set this
