@@ -4,12 +4,12 @@ namespace StudentAssignmentScheduler\Functions\CLI;
 
 use function StudentAssignmentScheduler\Functions\shouldMakeAssignment;
 
-function createSchedule(array $schedule_for_week, string $month)
+function createSchedule(array $schedule_for_week, string $month): array
 {
     $date = "${month} {$schedule_for_week["date"]}";
     echo blue("Schedule for ${date}\r\n");
     // use the union operator (+) instead of array_merge in order to preserve numeric keys
-    $test = [createBibleReading($date)] +
+    return [createBibleReading($date)] +
         array_map(
             function (string $assignment) use ($date) {
                 echo heading($assignment);
