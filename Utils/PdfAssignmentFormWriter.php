@@ -267,6 +267,16 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
         $this->pdfCreator->Write(0, $string);
     }
 
+    /**
+     * Uses the string passed as an argument to determine where to write on the form.
+     * 
+     * The parameter should be a key in the configuration.
+     * This method will throw an exception if the key is not present.
+     * 
+     * @param string $which_position
+     * @return array
+     * @throws \RuntimeException
+     */
     protected function setXYFromConfig(string $which_position): array
     {
         try {
@@ -276,8 +286,6 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
                 . PHP_EOL . "You'll have to add the coordinates of $which_position for the pdf assignment"
                 . PHP_EOL . "form in the config file.");
         }
-        // suppresses phan error
-        return [];
     }
 
     protected function font(string $font): void
