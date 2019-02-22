@@ -4,7 +4,6 @@ namespace StudentAssignmentScheduler\Functions;
 
 use StudentAssignmentScheduler\Utils\AssignmentFormWriterInterface;
 use \Ds\Map;
-use \Ds\Vector;
 
 function writeAssignmentFormsFromArrayOfAssignments(
     AssignmentFormWriterInterface $Writer,
