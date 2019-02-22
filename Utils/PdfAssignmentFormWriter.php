@@ -48,7 +48,7 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
      * @param mixed[] $data
      * @return void
      */
-    public function create(array $data): void
+    public function create(string $assignment_number, array $data): void
     {
         /**
          * Must do this each time you call the create method.
@@ -63,11 +63,17 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
         $this->writeAssistant($data["assistant"]);
         $this->writeDate($data["date"]);
 
-        if ($this->config["talk_slip"]["version"] === "10.17") {
-            $this->writeCounselPoint($data["counsel_point"]);
+        // obsolete
+        // if ($this->config["talk_slip"]["version"] === "10.17") {
+        //     $this->writeCounselPoint($data["counsel_point"]);
+        // }
+        
+        if ($this->assignmentNumberIsRequired($data["assignment"])) {
+            $this->addAssignmentNumber($assignment_number, $data["assignment"]);
         }
 
         $this->markAssignment($data["assignment"]);
+        
         $this->createPDF(
             "{$this->config["assignment_forms_destination"]}/{$this->filenameFromStudentName($data["name"])}"
         );
@@ -103,6 +109,19 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
         $this->write(
             $this->config["assignment_mark"]
         );
+    }
+
+    protected function addAssignmentNumber(string $assignment_number, string $assignment_name): void
+    {
+        $this->position($assignment_name . "_number");
+        $this->write(
+            "#$assignment_number"
+        );
+    }
+
+    protected function assignmentNumberIsRequired(string $assignment_name): bool
+    {
+        return in_array($assignment_name, $this->config["assignments_requiring_assignment_number_on_form"]);
     }
 
     /**
@@ -250,7 +269,15 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
 
     protected function setXYFromConfig(string $which_position): array
     {
-        return $this->config["talk_slip"]["fields"]["position"][$which_position];
+        try {
+            return $this->config["talk_slip"]["fields"]["position"][$which_position];
+        } catch (\Exception $e) {
+            throw new \RuntimeException("It looks like $which_position hasn't been configured yet."
+                . PHP_EOL . "You'll have to add the coordinates of $which_position for the pdf assignment"
+                . PHP_EOL . "form in the config file.");
+        }
+        // suppresses phan error
+        return [];
     }
 
     protected function font(string $font): void

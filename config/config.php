@@ -51,6 +51,11 @@ return [
     "font" => "Helvetica",
     "font_color" => "blue",
     "assignment_mark" => "x",
+    "assignments_requiring_assignment_number_on_form" => [
+        "Initial Call",
+        "First Return Visit",
+        "Second Return Visit"
+    ],
     "colors" => [
         "black" => [
             0,
@@ -358,20 +363,40 @@ return [
                     7.8,
                     51
                 ],
+                "bible_reading_number" => [
+                    5,
+                    51
+                ],
                 "Bible Reading" => [
                     7.8,
                     51
                 ],
-                "First Return Visit" => [
-                    7.8,
-                    58.8
+                "Bible Reading_number" => [
+                    5,
+                    51
                 ],
                 "Initial Call" => [
                     7.8,
                     55
                 ],
+                "Initial Call_number" => [
+                    2.5,
+                    55
+                ],
+                "First Return Visit" => [
+                    7.8,
+                    58.8
+                ],
+                "First Return Visit_number" => [
+                    2.5,
+                    58.8
+                ],
                 "Second Return Visit" => [
                     7.8,
+                    62.8
+                ],
+                "Second Return Visit_number" => [
+                    2.5,
                     62.8
                 ],
                 "Bible Study" => [

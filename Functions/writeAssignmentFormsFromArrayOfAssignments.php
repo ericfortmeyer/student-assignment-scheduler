@@ -14,11 +14,11 @@ function writeAssignmentFormsFromArrayOfAssignments(
         return $key !== "year";
     };
 
-    $write_assignments = function (array $assignment) use ($Writer) {
-        writeAssignmentFormFromAssignment($Writer, $assignment);
+    $write_assignments = function (string $assignment_number, array $assignment) use ($Writer) {
+        writeAssignmentFormFromAssignment($Writer, $assignment_number, $assignment);
     };
 
-    (new Vector(
-        (new Map($assignments))->filter($filter_year_key)
-    ))->map($write_assignments);
+    (new Map($assignments))
+        ->filter($filter_year_key)
+        ->map($write_assignments);
 }
