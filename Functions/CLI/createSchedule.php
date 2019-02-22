@@ -8,8 +8,8 @@ function createSchedule(array $schedule_for_week, string $month)
 {
     $date = "${month} {$schedule_for_week["date"]}";
     echo blue("Schedule for ${date}\r\n");
-    return array_merge(
-        [createBibleReading($date)],
+    // use the union operator (+) instead of array_merge in order to preserve numeric keys
+    $test = [createBibleReading($date)] +
         array_map(
             function (string $assignment) use ($date) {
                 echo heading($assignment);
@@ -27,6 +27,5 @@ function createSchedule(array $schedule_for_week, string $month)
                 },
                 ARRAY_FILTER_USE_BOTH
             )
-        )
-    );
+        );
 }
