@@ -269,10 +269,10 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
 
     /**
      * Uses the string passed as an argument to determine where to write on the form.
-     * 
+     *
      * The parameter should be a key in the configuration.
      * This method will throw an exception if the key is not present.
-     * 
+     *
      * @param string $which_position
      * @return array
      * @throws \RuntimeException
