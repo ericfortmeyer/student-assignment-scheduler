@@ -7,15 +7,16 @@ final class ApiOpts extends ConfigArrayValue
     protected const REQUIRED_KEYS = [
         CURLOPT_HEADER,
         CURLOPT_RETURNTRANSFER,
-        CURLOPT_USERAGENT
+        CURLOPT_USERAGENT,
+        CURLOPT_URL
     ];
 
     public function __construct(array $incomplete_opts, ApiUrl $url)
     {
-        $this->container = $incomplete_opts;
-
-        $this->container[CURLOPT_URL] = (string) $url;
-    }
+        $complete_opts = $incomplete_opts + [CURLOPT_URL => (string) $url];
+        
+        parent::__construct($complete_opts);
+     }
 
     public function withUrl(ApiUrl $url): self
     {
