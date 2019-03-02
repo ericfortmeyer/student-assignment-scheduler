@@ -7,7 +7,7 @@ final class ApiUrl
     /**
      * @var string $value
      */
-    private $value = "";
+    // private $value = "";
 
     /**
      * @var string $params
@@ -25,7 +25,8 @@ final class ApiUrl
     
     private function completeConstructionOnlyIfUrlIsValid(string $url)
     {
-        $this->validateUrl($url) && $this->value = $url;
+        parent::__construct($url);
+        //$this->validateUrl($url) && $this->value = $url;
     }
 
     public function __toString()
