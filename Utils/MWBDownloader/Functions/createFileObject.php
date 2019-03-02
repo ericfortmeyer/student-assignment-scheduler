@@ -6,7 +6,6 @@ use StudentAssignmentScheduler\Utils\MWBDownloader\Config\DownloadConfig;
 use StudentAssignmentScheduler\Utils\MWBDownloader\Fileinfo;
 use StudentAssignmentScheduler\Utils\MWBDownloader\RTFZipFile;
 
-
 function createFileObject(object $payload, DownloadConfig $config)
 {
     $FileData = extractFileDataFromPayload($payload, $config);

@@ -25,7 +25,6 @@ function download(Month $month, DownloadConfig $config): void
         $fileObj
             ->downloadToDirectory($config->workbook_download_destination)
             ->handleFileValidation();
-
     } catch (\Exception $e) {
         echo $e->getMessage();
     }

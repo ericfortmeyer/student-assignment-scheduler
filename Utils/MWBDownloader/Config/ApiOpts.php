@@ -2,7 +2,6 @@
 
 namespace StudentAssignmentScheduler\Utils\MWBDownloader\Config;
 
-
 final class ApiOpts extends ConfigArrayValue
 {
     protected const REQUIRED_KEYS = [
