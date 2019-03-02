@@ -3,7 +3,6 @@
 namespace StudentAssignmentScheduler\Utils\MWBDownloader\Utils;
 
 use StudentAssignmentScheduler\Utils\MWBDownloader\Config\ApiOpts;
-use StudentAssignmentScheduler\Utils\MWBDownloader\Config\ApiUrl;
 
 final class ApiService
 {
