@@ -51,7 +51,7 @@ final class Curl
         }
     }
 
-    public function __invoke(string $url, ConfigArrayValue $opts)
+    public function __invoke(ConfigArrayValue $opts)
     {
         $ch = curl_init();
         
