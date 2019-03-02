@@ -95,7 +95,7 @@ class RTFZipFile
 
         $curl = new Utils\Curl();
 
-        $curl($this->fileinfo->url, $options);
+        $curl($options);
         
         // important
         fclose($fp);
@@ -143,7 +143,7 @@ class RTFZipFile
     {
         return dirname($filename)
             . DIRECTORY_SEPARATOR
-            . basename($filename, ".zip");
+            . $this->filename();
     }
 
     private function validationHandlingMap(): array
