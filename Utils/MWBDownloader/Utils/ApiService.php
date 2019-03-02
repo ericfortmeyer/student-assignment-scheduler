@@ -23,18 +23,18 @@ final class ApiService
         $this->curl = new Curl();
     }
 
-    public function getPayloadAsString(ApiUrl $url): string
+    public function getPayloadAsString(): string
     {
         $curl = $this->curl;
-        return $curl($url, $this->api_opts);
+        return $curl($this->api_opts);
     }
 
-    public function getPayloadAsObject(ApiUrl $url): object
+    public function getPayloadAsObject(): object
     {
         $curl = $this->curl;
         
         return json_decode(
-            $curl($url, $this->api_opts)
+            $curl($this->api_opts)
         );
     }
 }
