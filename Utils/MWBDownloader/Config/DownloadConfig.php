@@ -1,0 +1,129 @@
+<?php
+
+namespace StudentAssignmentScheduler\Utils\MWBDownloader\Config;
+
+use \Ds\Vector;
+use \Ds\Map;
+
+/**
+ * Representation of the configuration for the Downloader class.
+ *
+ * Used to ensure that required fields are present
+ * and to prevent some bugs that may be added to the configuration.
+ */
+final class DownloadConfig
+{
+    private const REQUIRED = [
+        "apiUrl",
+        "apiOpts",
+        "apiQueryParams",
+        "language",
+        "workbook_format",
+        "workbook_download_destination",
+        "useragent"
+    ];
+
+    private const CLASSNAME_MAP = [
+        "apiUrl" => ApiUrl::class,
+        "apiQueryParams" => ApiQueryParams::class,
+        "workbook_format" => Filetype::class
+    ];
+
+    /**
+     * @var ApiUrl $apiUrl
+     */
+    private $apiUrl;
+    
+    /**
+     * @var array $incompleteApiOpts
+     */
+    private $incompleteApiOpts;
+
+    /**
+     * @var ApiQueryParams $apiQueryParams
+     */
+    private $apiQueryParams;
+
+    /**
+     * @var string $language
+     */
+    private $language = "";
+
+    /**
+     * @var string $useragent
+     */
+    private $useragent = "";
+
+    /**
+     * @var Filetype $filetype
+     */
+    private $workbook_format;
+
+    /**
+     * @var string $workbook_download_destination
+     */
+    private $workbook_download_destination = "";
+
+    private $path_to_config_file = "";
+
+    public function __construct(array $config, string $path_to_config_file = "")
+    {
+        $this->path_to_config_file = $path_to_config_file;
+
+        $config_map = new Map($config);
+        $required = new Vector(self::REQUIRED);
+
+        $requiredKeysPresent = $required->reduce(
+            function ($carry, $value) use ($config_map) {
+                return $carry !== false
+                    ? $config_map->hasKey($value)
+                    : $carry;
+            }
+        );
+
+        if (!$requiredKeysPresent) {
+            throw new InvalidConfigurationException(
+                "Check your configuration for these required keys in "
+                    . __CLASS__
+                    . PHP_EOL
+                    . json_encode(self::REQUIRED)
+            );
+        }
+
+        $createInstance = function (string $key, $value) use ($path_to_config_file) {
+            $class = self::CLASSNAME_MAP[$key];
+            return new $class($value, $path_to_config_file);
+        };
+
+        $setProps = function (string $key, $value) use ($createInstance) {
+            if ($key == "apiOpts") {
+                $this->incompleteApiOpts = $value;
+                return;
+            }
+            
+            $this->$key = array_key_exists($key, self::CLASSNAME_MAP)
+                ? $createInstance($key, $value)
+                : $value;
+        };
+
+        $onlyRequired = function ($value) use ($required) {
+            // since find method returns 0 if the index is zero
+            // we'll have to make sure that it does not return false
+            return $required->find($value) !== false;
+        };
+
+        $required_configs = $config_map->filter($onlyRequired);
+
+        $required_configs->apply($setProps);
+    }
+
+    public function __get($value)
+    {
+        return $this->$value;
+    }
+
+    public function apiOpts(ApiUrl $url): ApiOpts
+    {
+        return new ApiOpts($this->incompleteApiOpts, $url);
+    }
+}

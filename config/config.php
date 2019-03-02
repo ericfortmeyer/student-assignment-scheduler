@@ -14,6 +14,8 @@ $do_not_assign_these = [
     "Apply Yourself to Reading and Teaching",
 ];
 
+$useragent = "LAMM-Scheduler";
+
 return [
     "language" => $my_language,
     "mnemonic" => [
@@ -26,9 +28,25 @@ return [
     "meeting_night" => $my_meeting_night,
     "monthly_schedule_format" => $monthly_schedule_format,
     "workbook_format" => $workbook_format,
+    "workbook_download_destination" => __DIR__ . "/../workbooks/$workbook_format",
     "workbook_parser_implementations" => [
         "pdf" => __NAMESPACE__ . "\\Utils\\" . "PdfParser",
         "rtf" => __NAMESPACE__ . "\\Utils\\" . "RtfParser"
+    ],
+    /// api options
+    "apiUrl" => "https://apps.jw.org/GETPUBMEDIALINKS",
+    "useragent" => $useragent,
+    "apiOpts" => [
+        CURLOPT_HEADER => false,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_USERAGENT => $useragent
+    ],
+    "apiQueryParams" => [
+        "output" => "json",
+        "fileformat" => "RTF",
+        "pub" => "mwb",
+        "alllangs" => 0,
+        "langwritten" => "ASL"
     ],
     "skip_assignments_with_these_titles" => $do_not_assign_these,
     "make_these_directories" => [
