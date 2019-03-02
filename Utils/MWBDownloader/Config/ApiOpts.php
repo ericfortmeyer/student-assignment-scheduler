@@ -16,7 +16,7 @@ final class ApiOpts extends ConfigArrayValue
         $complete_opts = $incomplete_opts + [CURLOPT_URL => (string) $url];
         
         parent::__construct($complete_opts);
-     }
+    }
 
     public function withUrl(ApiUrl $url): self
     {
