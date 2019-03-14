@@ -3,7 +3,9 @@
 namespace StudentAssignmentScheduler\Utils\MWBDownloader;
 
 use function StudentAssignmentScheduler\Functions\Logging\logger;
+use \Ds\Map;
 
+define("NO_ERROR", 0);
 define("FILESIZE", 6);
 define("CHECKSUM", 8);
 
@@ -91,16 +93,17 @@ abstract class File implements Downloadable, Validatable
      * Provide the full path to the file in case
      * error handling requires that it be deleted.
      *
+     * @suppress PhanTypeArraySuspicious
      * @param string|null $full_path_of_file
+     * @return void
      */
     public function handleValidation(?string $full_path_of_file = null): void
     {
-        $errorHandling = $this->validationHandlingMap(
-            $full_path_of_file ?? $this->destination
-        );
+        $errorCase = function (bool $filesizeIsInvalid, bool $checksumDidNotPass): int {
+            return $filesizeIsInvalid ? FILESIZE : ($checksumDidNotPass ? CHECKSUM : NO_ERROR);
+        };
 
-        $this->filesizeIsValid || $errorHandling[FILESIZE]();
-        $this->checksumPassed || $errorHandling[CHECKSUM]();
+        $this->errorHandlingMap($full_path_of_file ?? $this->destination)[$errorCase(!$this->filesizeIsValid, !$this->checksumPassed)]();
     }
 
     /**
@@ -178,9 +181,17 @@ abstract class File implements Downloadable, Validatable
         fclose($fp);
     }
 
-    protected function validationHandlingMap(string $full_path_of_file): array
+    /**
+     * A map of error handling functions.
+     * 
+     * The keys are constants representing error cases.
+     * 
+     * @param string $full_path_of_file May be required if the file needs to be deleted.
+     * @return Map A map of error handling functions.
+     * @throws InvalidFilesizeException|InvalidChecksumException
+     */
+    protected function errorHandlingMap(string $full_path_of_file): Map
     {
-        
         $logger = logger("invalid_file");
         
         $exceptionMessage = function (string $type) use ($full_path_of_file): string {
@@ -209,7 +220,10 @@ abstract class File implements Downloadable, Validatable
          * the expected value, the actual value that caused the error,
          * the full path, and url used to download the file.
          */
-        return [
+        return new Map([
+            NO_ERROR => function() {
+                // no op
+            },
             FILESIZE => function () use ($logFunc, $exceptionMessage, $full_path_of_file) {
                 $tuple = $this->filesizeTuple($full_path_of_file);
                 unlink($full_path_of_file);
@@ -224,6 +238,6 @@ abstract class File implements Downloadable, Validatable
                 $logFunc("checksum", $tuple);
                 throw new InvalidChecksumException($exceptionMessage);
             }
-        ];
+        ]);
     }
 }
