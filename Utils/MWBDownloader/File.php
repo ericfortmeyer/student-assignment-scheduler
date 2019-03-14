@@ -103,7 +103,9 @@ abstract class File implements Downloadable, Validatable
             return $filesizeIsInvalid ? FILESIZE : ($checksumDidNotPass ? CHECKSUM : NO_ERROR);
         };
 
-        $this->errorHandlingMap($full_path_of_file ?? $this->destination)[$errorCase(!$this->filesizeIsValid, !$this->checksumPassed)]();
+        $this->errorHandlingMap(
+            $full_path_of_file ?? $this->destination
+        )[$errorCase(!$this->filesizeIsValid, !$this->checksumPassed)]();
     }
 
     /**
@@ -183,9 +185,9 @@ abstract class File implements Downloadable, Validatable
 
     /**
      * A map of error handling functions.
-     * 
+     *
      * The keys are constants representing error cases.
-     * 
+     *
      * @param string $full_path_of_file May be required if the file needs to be deleted.
      * @return Map A map of error handling functions.
      * @throws InvalidFilesizeException|InvalidChecksumException
@@ -221,7 +223,7 @@ abstract class File implements Downloadable, Validatable
          * the full path, and url used to download the file.
          */
         return new Map([
-            NO_ERROR => function() {
+            NO_ERROR => function () {
                 // no op
             },
             FILESIZE => function () use ($logFunc, $exceptionMessage, $full_path_of_file) {
