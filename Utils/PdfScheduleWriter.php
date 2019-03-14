@@ -127,7 +127,9 @@ class PdfScheduleWriter implements ScheduleWriterInterface
 
         $partialFunc = $this->writeWeekOfAssignments;
         $writeAssignments = $partialFunc($schedule);
-        $schedule_filename = "{$this->config["schedules_destination"]}/{$this->addExtension($filename)}";
+        
+        $schedule_filename = 
+        "{$this->config["schedules_destination"]}/{$this->addExtension($filename)}";
 
         $this->preparePDF(
             $writeAssignments,
@@ -346,7 +348,7 @@ class PdfScheduleWriter implements ScheduleWriterInterface
 
     protected function removeExtension(string $filename): string
     {
-        return str_replace(".pdf", "", $filename);
+        return basename($filename, ".pdf");
     }
 
     protected function allCaps(string $string): string
