@@ -3,9 +3,12 @@
 namespace StudentAssignmentScheduler\Utils\MWBDownloader\Functions;
 
 use \DateTimeImmutable;
-use StudentAssignmentScheduler\Utils\MWBDownloader\Month;
-use StudentAssignmentScheduler\Utils\MWBDownloader\Config\ApiQueryParams;
-use StudentAssignmentScheduler\Utils\MWBDownloader\Config\ApiUrl;
+
+use StudentAssignmentScheduler\Utils\MWBDownloader\{
+    Month,
+    Config\ApiUrl,
+    Config\ApiQueryParams
+};
 
 /**
  * @param Month $month

@@ -2,16 +2,19 @@
 
 namespace StudentAssignmentScheduler\Utils\MWBDownloader\Functions;
 
-use StudentAssignmentScheduler\Utils\MWBDownloader\Config\DownloadConfig;
-use StudentAssignmentScheduler\Utils\MWBDownloader\Month;
-use StudentAssignmentScheduler\Utils\MWBDownloader\Utils\ApiService;
+use StudentAssignmentScheduler\Utils\MWBDownloader\{
+    Month,
+    Utils\ApiService,
+    Config\DownloadConfig
+};
 
 /**
  * @param Month $month
  * @param DownloadConfig $config
+ * @param string|null $destination
  * @throws \Exception
  */
-function download(Month $month, DownloadConfig $config): void
+function download(Month $month, DownloadConfig $config, ?string $destination = null): void
 {
     $url = buildUrlUsingMonth(
         $month,
@@ -25,7 +28,5 @@ function download(Month $month, DownloadConfig $config): void
         $config
     );
 
-    $fileObj
-        ->downloadToDirectory($config->workbook_download_destination)
-        ->handleFileValidation();
+    $fileObj->downloadTo($destination ?? $config->workbook_download_destination);
 }

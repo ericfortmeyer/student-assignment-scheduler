@@ -4,6 +4,10 @@ namespace StudentAssignmentScheduler\Utils\MWBDownloader\Utils;
 
 use StudentAssignmentScheduler\Utils\MWBDownloader\Config\ConfigArrayValue;
 
+/**
+ * Encapsulates all option setting, function calls, and error handling
+ * provided by PHP's native curl library.
+ */
 final class Curl
 {
     private static function resultHandlingMap(): array
@@ -57,8 +61,6 @@ final class Curl
         
         self::setOpts($ch, $opts);
 
-        $info = curl_getinfo($ch);
-        
         $result = curl_exec($ch);
         
         $response_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);

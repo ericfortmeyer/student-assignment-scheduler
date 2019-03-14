@@ -2,7 +2,7 @@
 
 namespace StudentAssignmentScheduler\Utils\MWBDownloader;
 
-class Fileinfo
+final class Fileinfo
 {
     private $url;
     private $checksum;

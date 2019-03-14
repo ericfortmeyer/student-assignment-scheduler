@@ -65,6 +65,7 @@ return [
     "email_log" => __DIR__ . "/../log/email.log",
     "file_save_log" => __DIR__ . "/../log/info.log",
     "file_import_log" => __DIR__ . "/../log/info.log",
+    "invalid_file_log" => __DIR__ . "/../log/invalid_file.log",
     "schedule_font_size" => 10,
     "font" => "Helvetica",
     "font_color" => "blue",

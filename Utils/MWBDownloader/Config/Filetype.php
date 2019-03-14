@@ -14,7 +14,6 @@ final class Filetype
      */
     private $value = "";
 
-
     private $path_to_config_file;
 
     public function __construct(string $filetype, string $path_to_config_file = "")

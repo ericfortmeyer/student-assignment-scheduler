@@ -2,11 +2,14 @@
 
 namespace StudentAssignmentScheduler\Utils\MWBDownloader\Functions;
 
-use StudentAssignmentScheduler\Utils\MWBDownloader\Config\DownloadConfig;
-use StudentAssignmentScheduler\Utils\MWBDownloader\Fileinfo;
-use StudentAssignmentScheduler\Utils\MWBDownloader\RTFZipFile;
+use StudentAssignmentScheduler\Utils\MWBDownloader\{
+    Fileinfo,
+    RTFZipFile,
+    File,
+    Config\DownloadConfig
+};
 
-function createFileObject(object $payload, DownloadConfig $config)
+function createFileObject(object $payload, DownloadConfig $config): File
 {
     $FileData = extractFileDataFromPayload($payload, $config);
     
@@ -22,9 +25,12 @@ function createFileObject(object $payload, DownloadConfig $config)
 
 function extractFileDataFromPayload(object $payload, DownloadConfig $config): object
 {
-    $lang = $config->language;
-    $filetype = \strtoupper($config->workbook_format->toString());
-    return $payload->files->$lang->$filetype[0];
+    return current(
+        $payload
+            ->files
+            ->{$config->language}
+            ->{strtoupper($config->workbook_format->toString())}
+    );
 }
 
 function url(object $FileData): string
