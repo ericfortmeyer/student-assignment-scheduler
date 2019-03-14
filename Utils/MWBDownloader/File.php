@@ -70,14 +70,20 @@ abstract class File implements Downloadable, Validatable
     }
 
     /**
-     * A required method that must be implemented by instances
-     * of this class.
-     *
      * The return type is omitted for contravariance
      *
      * @param $directory
      */
-    abstract public function downloadTo(string $directory);
+    public function downloadTo(string $directory)
+    {
+        $this->destination = "$directory/{$this->filename()}";
+
+        $this->download($this->destination);
+
+        $this->setFileValidationFlags($this->destination);
+
+        $this->handleValidation();
+    }
 
     /**
      * An implementation for file validation handling

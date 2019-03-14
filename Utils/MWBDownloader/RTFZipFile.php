@@ -11,17 +11,14 @@ final class RTFZipFile extends File
     /**
      * A chainable implementation.
      *
-     * This implementation also extracts the zip file.
+     * Extend the base class's implementation so that
+     * we can extract the zip file.
      */
     public function downloadTo(string $directory): self
     {
-        $this->destination = "$directory/{$this->filename()}";
+        parent::downloadTo($directory);
 
-        $this->download($this->destination);
-
-        $this->setFileValidationFlags($this->destination);
-
-        $this->validateAndExtract($this->destination);
+        $this->extract($this->destination);
         
         return $this;
     }
@@ -34,14 +31,8 @@ final class RTFZipFile extends File
      * @param string $filename
      * @return void
      */
-    private function validateAndExtract(string $filename): void
+    private function extract(string $filename): void
     {
-        /**
-         * file validation needs to be handled here or this implementation
-         * will attempt to extract a zip file that may not exist
-         */
-        $this->handleValidation();
-
         $zip = new ZipArchive();
         $destination_directory = $this->destinationDirFromFilename($filename);
 
