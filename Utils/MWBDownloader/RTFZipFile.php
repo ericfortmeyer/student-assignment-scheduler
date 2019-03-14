@@ -21,28 +21,27 @@ final class RTFZipFile extends File
 
         $this->setFileValidationFlags($this->destination);
 
+        $this->validateAndExtract($this->destination);
+        
+        return $this;
+    }
+    
+    /**
+     * Extract the zip file.
+     *
+     * Keep this method private so that polymorphism can be enforced.
+     *
+     * @param string $filename
+     * @return void
+     */
+    private function validateAndExtract(string $filename): void
+    {
         /**
          * file validation needs to be handled here or this implementation
          * will attempt to extract a zip file that may not exist
          */
         $this->handleValidation();
 
-        $this->extract($this->destination);
-
-        return $this;
-    }
-
-    /**
-     * Extract the zip file.
-     *
-     * This method can only be accessed from this class to
-     * enforce polymorphism.
-     *
-     * @param string $filename
-     * @return void
-     */
-    private function extract(string $filename): void
-    {
         $zip = new ZipArchive();
         $destination_directory = $this->destinationDirFromFilename($filename);
 
