@@ -11,19 +11,19 @@ use StudentAssignmentScheduler\Utils\MWBDownloader\{
 
 function createFileObject(object $payload, DownloadConfig $config): File
 {
-    $FileData = extractFileDataFromPayload($payload, $config);
+    $FileData = _extractFileDataFromPayload($payload, $config);
     
     $fileinfo = new Fileinfo(
-        url($FileData),
-        checksum($FileData),
+        _url($FileData),
+        _checksum($FileData),
         _filesize($FileData),
-        mimetype($FileData)
+        _mimetype($FileData)
     );
 
     return new RTFZipFile($fileinfo, $config);
 }
 
-function extractFileDataFromPayload(object $payload, DownloadConfig $config): object
+function _extractFileDataFromPayload(object $payload, DownloadConfig $config): object
 {
     return current(
         $payload
@@ -33,12 +33,12 @@ function extractFileDataFromPayload(object $payload, DownloadConfig $config): ob
     );
 }
 
-function url(object $FileData): string
+function _url(object $FileData): string
 {
     return $FileData->file->url;
 }
 
-function checksum(object $FileData): string
+function _checksum(object $FileData): string
 {
     return $FileData->file->checksum;
 }
@@ -48,7 +48,7 @@ function _filesize(object $FileData): int
     return $FileData->filesize;
 }
 
-function mimetype(object $FileData): string
+function _mimetype(object $FileData): string
 {
     return $FileData->mimetype;
 }
