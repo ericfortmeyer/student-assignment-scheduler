@@ -6,7 +6,7 @@ use \Ds\Vector;
 use \Ds\Map;
 
 /**
- * Representation of the configuration for the Downloader class.
+ * Representation of the configuration for a method or function used to download.
  *
  * Used to ensure that required fields are present
  * and to prevent some bugs that may be added to the configuration.
@@ -122,8 +122,8 @@ final class DownloadConfig
         return $this->$value;
     }
 
-    public function apiOpts(ApiUrl $url): ApiOpts
+    public function apiOpts(ApiUrl $url): ApiCurlOptions
     {
-        return new ApiOpts($this->incompleteApiOpts, $url);
+        return new ApiCurlOptions($this->incompleteApiOpts, $url);
     }
 }

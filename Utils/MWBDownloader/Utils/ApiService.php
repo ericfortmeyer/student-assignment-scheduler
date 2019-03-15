@@ -2,7 +2,7 @@
 
 namespace StudentAssignmentScheduler\Utils\MWBDownloader\Utils;
 
-use StudentAssignmentScheduler\Utils\MWBDownloader\Config\ApiOpts;
+use StudentAssignmentScheduler\Utils\MWBDownloader\Config\ApiCurlOptions;
 
 final class ApiService
 {
@@ -12,11 +12,11 @@ final class ApiService
     private $curl;
 
     /**
-     * @var ApiOpts $api_opts
+     * @var ApiCurlOptions $api_opts
      */
     private $api_opts;
 
-    public function __construct(ApiOpts $api_opts)
+    public function __construct(ApiCurlOptions $api_opts)
     {
         $this->api_opts = $api_opts;
         $this->curl = new Curl();

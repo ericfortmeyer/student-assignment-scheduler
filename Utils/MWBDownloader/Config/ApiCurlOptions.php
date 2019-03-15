@@ -2,7 +2,7 @@
 
 namespace StudentAssignmentScheduler\Utils\MWBDownloader\Config;
 
-final class ApiOpts extends ConfigArrayValue
+final class ApiCurlOptions extends ConfigArrayValue
 {
     protected const REQUIRED_KEYS = [
         CURLOPT_HEADER,
@@ -12,7 +12,7 @@ final class ApiOpts extends ConfigArrayValue
 
     public function __construct(array $incomplete_opts, ApiUrl $url)
     {
-        $this->container = $incomplete_opts;
+        parent::__construct($incomplete_opts);
 
         $this->container[CURLOPT_URL] = (string) $url;
     }

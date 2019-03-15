@@ -2,7 +2,7 @@
 
 namespace StudentAssignmentScheduler\Utils\MWBDownloader\Config;
 
-final class DownloadOptions extends ConfigArrayValue
+final class DownloadCurlOptions extends ConfigArrayValue
 {
     protected const REQUIRED_KEYS = [
         CURLOPT_URL,

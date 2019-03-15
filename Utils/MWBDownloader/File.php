@@ -167,7 +167,7 @@ abstract class File implements Downloadable, Validatable
     {
         $fp = fopen($destination_filename, "w+");
 
-        $curl_options = new Config\DownloadOptions([
+        $curl_options = new Config\DownloadCurlOptions([
             CURLOPT_URL => $this->fileinfo->url,
             CURLOPT_HEADER => false,
             CURLOPT_FILE => $fp,
