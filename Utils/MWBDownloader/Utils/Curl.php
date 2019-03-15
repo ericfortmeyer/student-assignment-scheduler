@@ -13,35 +13,36 @@ final class Curl
     private static function resultHandlingMap(): array
     {
         return [
-            // boolean converts to int keys
-            0 => function ($result, string $error) {
-                throw new \RuntimeException(
-                    "Session Failure."
-                        . PHP_EOL
-                        . "Curl Error: $error"
-                );
+            0 => function (bool $result, string $error) {
+                throw new InvalidUrlException($error);
             },
-            1 => function ($result) {
+            500 => function ($result, string $error) {
+                throw new ServerFailureException($error);
+            },
+            200 => function ($result) {
                 return $result;
             },
-            404 => function ($code) {
-                throw new \Exception(
-                    "Page not found"
-                    . PHP_EOL
-                );
+            404 => function ($result, string $error) {
+                throw new PageNotFoundException($error);
+            },
+            400 => function ($result, string $error) {
+                throw new BadRequestException($error);
             }
         ];
     }
 
-    private static function handleResult($result, int $response_code, string $last_error)
+    /**
+     * Return result on success, handle errors on failure.
+     * 
+     * @suppress PhanTypeArrayAccess
+     * @param mixed $result Typically a string on success, false on failure
+     * @param int $response_code
+     * @param string $last_error
+     * @return string
+     */
+    private static function handleResult($result, int $response_code, string $last_error): string
     {
-        $resultHandlingMap = self::resultHandlingMap();
-        $resultKey = (int) (bool) $result;
-
-        array_key_exists($response_code, $resultHandlingMap)
-            && $resultHandlingMap[$response_code]($result, $last_error);
-
-        return $resultHandlingMap[$resultKey]($result, $last_error);
+        return self::resultHandlingMap()[$response_code]($result, $last_error);
     }
 
     private static function setOpts(&$curl, ConfigArrayValue $config)
@@ -66,9 +67,13 @@ final class Curl
         $response_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
         
         $last_error = curl_error($ch);
+
+        $errorMessage = empty($last_error)
+            ? "Url was {$opts[CURLOPT_URL]}"
+            : $last_error;
         
         curl_close($ch);
         
-        return self::handleResult($result, $response_code, $last_error);
+        return self::handleResult($result, $response_code, $errorMessage);
     }
 }
