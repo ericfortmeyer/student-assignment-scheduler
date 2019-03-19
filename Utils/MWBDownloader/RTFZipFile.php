@@ -62,4 +62,18 @@ final class RTFZipFile extends File
             . DIRECTORY_SEPARATOR
             . basename($this->filename(), ".zip");
     }
+
+    /**
+     * The zip extension is removed before checking
+     * if file exists.
+     *
+     * @param string $destination_filename
+     * @return bool
+     */
+    protected function fileDoesNotExist(string $destination_filename): bool
+    {
+        return !file_exists(
+            $this->destinationDirFromFilename($destination_filename)
+        );
+    }
 }

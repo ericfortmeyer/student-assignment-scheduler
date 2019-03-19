@@ -29,6 +29,13 @@ use function StudentAssignmentScheduler\Functions\{
     CLI\setupEmail
 };
 
+use StudentAssignmentScheduler\Utils\MWBDownloader\{
+    Month,
+    Config\DownloadConfig
+};
+
+use function StudentAssignmentScheduler\Utils\MWBDownloader\Functions\download;
+
 ///////////////////////
 //
 //   BOOTSTRAPPING
@@ -148,6 +155,28 @@ $path_to_data = $path_config["path_to_data"];
 $path_to_json_schedules = "{$path_config["path_to_data"]}/";
 $path_to_json_assignments = "{$path_config["path_to_assignments"]}/";
 
+/**
+ * Download the workbook that will be used to make the schedule.
+ * 
+ * We download the workbooks for the current month and next month if they
+ * have not been downloaded yet.
+ */
+
+$downloadWorkbookForMonth = function (Month $month) use ($config, $config_file): void {
+    download(
+        $month,
+        new DownloadConfig($config, $config_file)
+    );
+};
+
+// the current month and following month
+$dt = new DateTimeImmutable();
+$months = new \Ds\Vector([
+    new Month($dt->format("F")),
+    new Month($dt->add(new DateInterval("P1M"))->format("F"))
+]);
+
+$months->apply($downloadWorkbookForMonth);
 
 
 /**
@@ -320,7 +349,7 @@ $emailAssignmentsAndSchedule = function (string $schedule_filename) use (
     // $schedule_filename may not have the filename extension appended
 
     $debugging_response = readline(
-        prompt("****DEBUGGING**** Is the pdf extension on the filename")
+        prompt("****DEBUGGING**** Is the pdf extension on the filename: $schedule_filename")
     );
 
     no($debugging_response)

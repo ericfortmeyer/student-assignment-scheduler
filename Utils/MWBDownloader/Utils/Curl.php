@@ -33,7 +33,7 @@ final class Curl
 
     /**
      * Return result on success, handle errors on failure.
-     * 
+     *
      * @suppress PhanTypeArrayAccess
      * @param mixed $result Typically a string on success, false on failure
      * @param int $response_code

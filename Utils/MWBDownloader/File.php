@@ -72,7 +72,7 @@ abstract class File implements Downloadable, Validatable
     }
 
     /**
-     * The return type is omitted for contravariance
+     * The return type is omitted for contravariance.
      *
      * @param $directory
      */
@@ -80,11 +80,7 @@ abstract class File implements Downloadable, Validatable
     {
         $this->destination = "$directory/{$this->filename()}";
 
-        $this->download($this->destination);
-
-        $this->setFileValidationFlags($this->destination);
-
-        $this->handleValidation();
+        $this->downloadIfNotExists($this->destination);
     }
 
     /**
@@ -94,18 +90,20 @@ abstract class File implements Downloadable, Validatable
      * error handling requires that it be deleted.
      *
      * @suppress PhanTypeArraySuspicious
-     * @param string|null $full_path_of_file
+     * @param string $full_path_of_file
      * @return void
      */
-    public function handleValidation(?string $full_path_of_file = null): void
+    public function handleValidation(string $full_path_of_file): void
     {
-        $errorCase = function (bool $filesizeIsInvalid, bool $checksumDidNotPass): int {
+        $determineErrorCase = function (bool $filesizeIsInvalid, bool $checksumDidNotPass): int {
             return $filesizeIsInvalid ? FILESIZE : ($checksumDidNotPass ? CHECKSUM : NO_ERROR);
         };
+        $errorCase = $determineErrorCase(
+            !$this->validateFilesize($full_path_of_file),
+            !$this->verifyChecksum($full_path_of_file)
+        );
 
-        $this->errorHandlingMap(
-            $full_path_of_file ?? $this->destination
-        )[$errorCase(!$this->filesizeIsValid, !$this->checksumPassed)]();
+        $this->errorHandlingMap($full_path_of_file)[$errorCase]();
     }
 
     /**
@@ -116,12 +114,13 @@ abstract class File implements Downloadable, Validatable
      * if desired
      *
      * @param string $destination
-     * @return void
+     * @return static
      */
-    protected function setFileValidationFlags(string $destination): void
+    protected function setFileValidationFlags(string $destination)
     {
         $this->filesizeIsValid = $this->validateFilesize($destination);
         $this->checksumPassed = $this->verifyChecksum($destination);
+        return $this;
     }
 
     protected function validateFilesize(string $filename): bool
@@ -163,7 +162,16 @@ abstract class File implements Downloadable, Validatable
         return $matches[1];
     }
 
-    protected function download(string $destination_filename): void
+    abstract protected function fileDoesNotExist(string $destination_filename): bool;
+
+    protected function downloadIfNotExists(string $destination_filename): void
+    {
+        $this->fileDoesNotExist($destination_filename)
+            && $this->download($destination_filename)
+                    ->handleValidation($destination_filename);
+    }
+
+    protected function download(string $destination_filename)
     {
         $fp = fopen($destination_filename, "w+");
 
@@ -181,6 +189,8 @@ abstract class File implements Downloadable, Validatable
         
         // important
         fclose($fp);
+
+        return $this;
     }
 
     /**
