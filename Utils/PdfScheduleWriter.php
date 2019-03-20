@@ -128,7 +128,7 @@ class PdfScheduleWriter implements ScheduleWriterInterface
         $partialFunc = $this->writeWeekOfAssignments;
         $writeAssignments = $partialFunc($schedule);
         
-        $schedule_filename = 
+        $schedule_filename =
         "{$this->config["schedules_destination"]}/{$this->addExtension($filename)}";
 
         $this->preparePDF(
