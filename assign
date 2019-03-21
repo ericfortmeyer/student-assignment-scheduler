@@ -306,7 +306,6 @@ $MonthsOfFormsWritten->isEmpty()
  * Uses the json schedule and the json assignment files
  * to generate a schedule (i.e. pdf file) for the month.
  */
-
 $createSchedule = function (string $month) use (
     $ScheduleWriter,
     $path_to_json_assignments,
@@ -322,15 +321,11 @@ $createSchedule = function (string $month) use (
     return $schedule_filename;
 };
 
-$MonthsOfFormsWritten->map($createSchedule);
-
-
 /**
  * Email the assignments and schedule.
  *
  * Determine if the user wants to send them.
  */
-
 $emailAssignmentsAndSchedule = function (string $schedule_filename) use (
     $MailSender,
     $ListOfContacts,
@@ -342,22 +337,6 @@ $emailAssignmentsAndSchedule = function (string $schedule_filename) use (
     $user_response = readline(
         prompt("Do you want to send the emails")
     );
-    //***********************************************
-    // DEBUGGING
-    $start_line = __LINE__;
-    
-    // $schedule_filename may not have the filename extension appended
-
-    $debugging_response = readline(
-        prompt("****DEBUGGING**** Is the pdf extension on the filename: $schedule_filename")
-    );
-
-    no($debugging_response)
-        && $schedule_filename .= ".pdf";
-
-    yes($debugging_response)
-        && print "You can remove the debugging code between ${start_line} and " . __LINE__;
-    //***********************************************
 
     yes($user_response)
         && sendEmails(
@@ -373,4 +352,6 @@ $emailAssignmentsAndSchedule = function (string $schedule_filename) use (
         && print red("Ok. Emails were not sent.\r\n");
 };
 
-$MonthsOfFormsWritten->map($emailAssignmentsAndSchedule);
+$MonthsOfFormsWritten
+    ->map($createSchedule)
+    ->map($emailAssignmentsAndSchedule);

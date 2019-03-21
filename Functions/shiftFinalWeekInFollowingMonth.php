@@ -32,11 +32,9 @@ function shiftFinalWeekInFollowingMonth(array $files): array
     $firstAndSecondWeekAreLessThanAWeekApart = $second_week - $first_week < 7;
     $moreThan4weeksTotal = count($dates) > 4;
     
-    $mustShift = $firstAndSecondWeekAreLessThanAWeekApart
-        || $moreThan4weeksTotal;
+    $mustShift = $moreThan4weeksTotal || $firstAndSecondWeekAreLessThanAWeekApart;
 
     $vector = new Vector($files);
-
     
     if ($mustShift) {
         // just to be safe
