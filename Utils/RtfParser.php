@@ -60,13 +60,12 @@ class RtfParser implements ParserInterface
     /**
      * A vector of page numbers required when creating a document representing the file parsed
      *
-     * @param $filename
+     * @param $filename A directory of rtf files
      * @return Vector
      */
     public function pageNumbers(string $filename): Vector
     {
-        $directory = $filename;
-        return new Vector($this->zeroIndexedRangeOfPageNumbers($directory));
+        return new Vector($this->zeroIndexedRangeOfPageNumbers($filename));
     }
     
     /**
@@ -132,6 +131,9 @@ class RtfParser implements ParserInterface
      */
     protected function parse(string $directory): RtfDocument
     {
+        /**
+         * @var string[] $pages
+         */
         $pages = $this->contentOfAllFiles(
             $this->justWeeks($this->filenames($directory)),
             $directory
