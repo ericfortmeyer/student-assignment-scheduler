@@ -33,7 +33,7 @@ function shiftFinalWeekInFollowingMonth(array $files): array
     $moreThan4weeksTotal = count($dates) > 4;
     
     $mustShift = $firstAndSecondWeekAreLessThanAWeekApart
-        && $moreThan4weeksTotal;
+        || $moreThan4weeksTotal;
 
     $vector = new Vector($files);
 
