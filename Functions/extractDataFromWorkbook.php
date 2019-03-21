@@ -24,17 +24,13 @@ function extractDataFromWorkbook(ParserInterface $parser, string $filename): arr
         return $parser->parseFile($filename)->getPages()[$page_number]->getText();
     };
 
-    $onlyPagesWithSchedules = function (string $text) {
-        return strlen($text) > 400;
-    };
-
     $getAssignmentsFromText = function (string $textFromWorksheet) use ($parser, $month): array {
         return $parser->getAssignments($textFromWorksheet, $month);
     };
 
     $VectorOfPageNumbers = $parser->pageNumbers($filename);
 
-    $VectorOfTextFromWorksheet = $VectorOfPageNumbers->map($getTextFromWorksheets)->filter($onlyPagesWithSchedules);
+    $VectorOfTextFromWorksheet = $VectorOfPageNumbers->map($getTextFromWorksheets);
 
     $MapOfAssignments = new Map($VectorOfTextFromWorksheet->map($getAssignmentsFromText));
 
