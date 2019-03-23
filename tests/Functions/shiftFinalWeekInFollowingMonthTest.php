@@ -16,6 +16,13 @@ class ShiftFinalWeekInFollowingMonthTest extends TestCase
             "1227.json"
         ];
 
+        $this->weeks_needing_shifting_2 = [
+            "0402.json",
+            "0406.json",
+            "0411.json",
+            "0425.json"
+        ];
+
         $this->weeks_not_needing_shifting = [
             "1108.json",
             "1115.json",
@@ -26,16 +33,26 @@ class ShiftFinalWeekInFollowingMonthTest extends TestCase
 
     public function testShiftsFinalWeekAsExpected()
     {
-        $result = shiftFinalWeekInFollowingMonth($this->weeks_needing_shifting);
-        $first_element_before_shifting = $this->weeks_needing_shifting[0];
-        $last_element_after_shifting = end($result);
+        $testCases = new \Ds\Vector([
+            $this->weeks_needing_shifting,
+            $this->weeks_needing_shifting_2
+        ]);
 
-        $this->assertThat(
-            $first_element_before_shifting,
-            $this->identicalTo(
-                $last_element_after_shifting
-            )
+        $testCases->map(
+            function (array $weeks_needing_shifting) {
+                $result = shiftFinalWeekInFollowingMonth($weeks_needing_shifting);
+                $first_element_before_shifting = $weeks_needing_shifting[0];
+                $last_element_after_shifting = end($result);
+        
+                $this->assertThat(
+                    $first_element_before_shifting,
+                    $this->identicalTo(
+                        $last_element_after_shifting
+                    )
+                );
+            }
         );
+        
     }
 
     public function testDoesNotShiftNormalMonth()
