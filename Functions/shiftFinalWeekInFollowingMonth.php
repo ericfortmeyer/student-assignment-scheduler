@@ -14,6 +14,7 @@ function shiftFinalWeekInFollowingMonth(array $files): array
      * Evidence that the array needs to be shifted:
      * (1) the difference of the first two elements is less than 7
      * (2) the count is over 4
+     * (3) not empty
      */
     $dates = array_map(
         function (string $filename) {
@@ -31,8 +32,10 @@ function shiftFinalWeekInFollowingMonth(array $files): array
 
     $firstAndSecondWeekAreLessThanAWeekApart = $second_week - $first_week < 7;
     $moreThan4weeksTotal = count($dates) > 4;
+    $notEmpty = !empty($dates);
     
-    $mustShift = $moreThan4weeksTotal || $firstAndSecondWeekAreLessThanAWeekApart;
+    $mustShift = $notEmpty
+        && ($moreThan4weeksTotal || $firstAndSecondWeekAreLessThanAWeekApart);
 
     $vector = new Vector($files);
     
