@@ -36,7 +36,8 @@ function createJsonAssignments(
             $haveAssignmentsAlreadyBeenCreated = function (string $month) use ($year, $data_destination): bool {
                 $weeksOfAssignments = importAssignments($month, $data_destination);
 
-                return count($weeksOfAssignments) > 2;
+                // we could test for a higher count here
+                return count($weeksOfAssignments) > 1;
             };
 
 
