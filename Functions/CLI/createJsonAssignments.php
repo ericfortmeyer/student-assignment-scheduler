@@ -2,13 +2,29 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI;
 
-use function StudentAssignmentScheduler\Functions\save;
-use function StudentAssignmentScheduler\Functions\monthNumeric;
-use function StudentAssignmentScheduler\Functions\weeksFrom;
-use function StudentAssignmentScheduler\Functions\importMultipleSchedules;
-use function StudentAssignmentScheduler\Functions\importAssignments;
-use function StudentAssignmentScheduler\Functions\sortMonths;
-use function StudentAssignmentScheduler\Functions\isPastMonth;
+use function StudentAssignmentScheduler\Functions\{
+    save,
+    monthNumeric,
+    weeksFrom,
+    importAssignments,
+    importMultipleSchedules,
+    sortMonths,
+    isPastMonth,
+    Filenaming\jsonAssignmentFilename
+};
+
+use StudentAssignmentScheduler\Classes\{
+    Destination,
+    Month,
+    DayOfMonth
+};
+
+use StudentAssignmentScheduler\Rules\{
+    JsonAssignmentFilenamePolicy,
+    JsonAssignmentFilenamePolicy as Key,
+    Context
+};
+
 
 /**
  * Interact with the user of the application to schedule assignments
@@ -66,12 +82,22 @@ function createJsonAssignments(
                         ) use (
                             $month,
                             $year,
-                            $data_destination
+                            $data_destination,
+                            $schedule_for_month
                         ) {
 
-                            $filename = "${data_destination}/"
-                                . monthNumeric($month)
-                                . "{$schedule_for_week["date"]}.json";
+                            $filename = jsonAssignmentFilename(
+                                new Destination($data_destination),
+                                new Month($month),
+                                new DayOfMonth($schedule_for_week["date"]),
+                                new JsonAssignmentFilenamePolicy(
+                                    new Context([
+                                        Key::SCHEDULE_FOR_MONTH => $schedule_for_month,
+                                        Key::MONTH => new Month($month),
+                                        Key::DAY_OF_MONTH => new DayOfMonth($schedule_for_week["date"])
+                                    ])
+                                )
+                            );
 
 
                             if (file_exists($filename)) {
