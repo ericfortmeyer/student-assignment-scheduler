@@ -24,9 +24,7 @@ function importAssignments(string $month, string $path_to_json_assignments, ?Clo
 
     $importJson = $partialFunc($path_to_json_assignments);
 
-    $filenames = shiftFinalWeekInFollowingMonth(
-        filenamesByMonth($month, $path_to_json_assignments)
-    );
+    $filenames = filenamesByMonth($month, $path_to_json_assignments);
 
     return (new Vector($filenames))->map($importJson)->toArray();
 }
