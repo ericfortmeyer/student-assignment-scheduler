@@ -46,6 +46,11 @@ function writeAssignmentForms(
             return null;
         }
 
+        /**
+         * TODO: import the assignments files here
+         * instead of in the two functions below
+         */
+
         $didDisplay = displayTableOfMonthOfAssignments(
             $month,
             $path_to_json_assignments_files

@@ -16,7 +16,8 @@ class Destination
         $this->value = $destination;
     }
     
-    private function validateArg(string $arg): void {
+    private function validateArg(string $arg): void
+    {
         if (!is_dir($arg)) {
             throw new \InvalidArgumentException("$arg is not a directory");
         }

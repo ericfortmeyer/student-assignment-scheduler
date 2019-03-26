@@ -10,6 +10,8 @@ use \DateTimeImmutable;
  */
 abstract class DateType
 {
+    protected static $error_message_example = "";
+
     /**
      * @var string $value
      */
@@ -27,7 +29,7 @@ abstract class DateType
 
     /**
      * @param string $value
-     * @throws InvalidMonthArgumentException
+     * @throws InvalidDateTypeArgumentException
      */
     public function __construct(string $value)
     {
@@ -43,7 +45,11 @@ abstract class DateType
         );
 
         if (!$dt) {
-            throw new InvalidMonthArgumentException($value);
+            throw new InvalidDateTypeArgumentException(
+                $value,
+                static::class,
+                static::$error_message_example
+            );
         } else {
             $this->value = $dt->format(
                 $this->dt_format

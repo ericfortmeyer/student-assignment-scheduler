@@ -2,8 +2,6 @@
 
 namespace StudentAssignmentScheduler\Rules;
 
-use \Closure;
-
 abstract class AbstractRule implements RuleInterface
 {
     /**

@@ -13,7 +13,7 @@ function displayTableOfMonthOfAssignments(
     $array_of_month_of_assignments = $partial($path_to_assignments_files);
 
     // remove unwanted keys and modify titles that need fixing
-    $fixMonthOfAssignments = function (array $week) {
+    $fixMonthOfAssignments = function (array $week): array {
         $removeIfMatchesKeyYear = function ($key, $value) {
             return $key !== "year";
         };

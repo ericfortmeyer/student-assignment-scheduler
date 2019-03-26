@@ -15,7 +15,7 @@ final class JsonAssignmentFilenamePolicy extends AbstractRule
     /**
      * A map of values required to enforce the logic
      * represented by this class.
-     * 
+     *
      * @var Context $context
      */
     protected $context;
@@ -42,7 +42,8 @@ final class JsonAssignmentFilenamePolicy extends AbstractRule
     {
         if (!$this->monthIsAsExpected(
             $context[self::MONTH],
-            $context[self::SCHEDULE_FOR_MONTH][self::MONTH])
+            $context[self::SCHEDULE_FOR_MONTH][self::MONTH]
+        )
         ) {
             $errorMessage = "The Context object [" . Context::class . "]"
                 . " was given a schedule for month that is not compatible"
@@ -61,7 +62,7 @@ final class JsonAssignmentFilenamePolicy extends AbstractRule
 
     /**
      * Determine which be in the filename.
-     * 
+     *
      * A week can be ignored unless it overlaps two months.
      */
     public function result(): Result

@@ -4,7 +4,6 @@ namespace StudentAssignmentScheduler\Functions\CLI;
 
 use function StudentAssignmentScheduler\Functions\{
     save,
-    monthNumeric,
     weeksFrom,
     importAssignments,
     importMultipleSchedules,

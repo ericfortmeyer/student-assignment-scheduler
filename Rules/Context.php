@@ -17,7 +17,7 @@ final class Context implements \ArrayAccess
 
     /**
      * Uses either an array or Traversable object
-     * 
+     *
      * @param Traversable|array $values
      */
     public function __construct($values)
@@ -25,7 +25,6 @@ final class Context implements \ArrayAccess
         $this->validateArgs($values);
 
         $this->container = new Map($values);
-
     }
     protected function validateArgs($args)
     {
@@ -40,21 +39,21 @@ final class Context implements \ArrayAccess
 
     public function offsetExists($offset): bool
     {
-        return key_exists($this->container[$offset]);
+        return $this->container->hasKey($offset);
     }
 
     public function offsetGet($offset)
     {
-        return $this->container[$offset];
+        return $this->container->get($offset);
     }
 
     public function offsetSet($offset, $value)
     {
-        $this->container[$offset] = $value;
+        $this->container->put($offset, $value);
     }
 
     public function offsetUnset($offset)
     {
-        unset($this->container[$offset]);
+        $this->container->remove($offset);
     }
 }

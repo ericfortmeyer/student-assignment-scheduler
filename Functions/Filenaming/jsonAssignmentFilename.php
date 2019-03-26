@@ -9,7 +9,7 @@ use StudentAssignmentScheduler\Classes\{
 };
 
 use StudentAssignmentScheduler\Rules\RuleInterface;
-/* 
+/*
     This function receives as input:
     (1) destination of assignments
     (2) Two digit month of the assignments' schedule
@@ -18,9 +18,9 @@ use StudentAssignmentScheduler\Rules\RuleInterface;
         since it may overlap two months.
 
     This function should output:
-    directory + month + underscore 
+    directory + month + underscore
     + week's actual month + day of the month + file extension
-    
+
     In the case of May 2, 2019 (which is included in April's schdule)
     we should get "04_0502.json"
 
