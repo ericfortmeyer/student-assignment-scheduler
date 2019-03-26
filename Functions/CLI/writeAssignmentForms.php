@@ -46,15 +46,10 @@ function writeAssignmentForms(
             return null;
         }
 
-        /**
-         * TODO: import the assignments files here
-         * instead of in the two functions below
-         */
+        $partial = monthOfAssignments($month);
+        $array_of_month_of_assignments = $partial($path_to_json_assignments_files);
 
-        $didDisplay = displayTableOfMonthOfAssignments(
-            $month,
-            $path_to_json_assignments_files
-        );
+        $didDisplay = displayTableOfMonthOfAssignments($array_of_month_of_assignments);
 
         $reply = $didDisplay
             ? readline(prompt("Does the schedule look good"))
@@ -63,8 +58,7 @@ function writeAssignmentForms(
         if (yes($reply)) {
             writeMonthOfAssignmentForms(
                 $AssignmentFormWriter,
-                $month,
-                $path_to_json_assignments_files
+                $array_of_month_of_assignments
             );
 
             print green("Assignment forms for ${month} were created.\r\n");

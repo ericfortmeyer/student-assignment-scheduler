@@ -6,13 +6,9 @@ use StudentAssignmentScheduler\Utils\AssignmentFormWriterInterface;
 
 function writeMonthOfAssignmentForms(
     AssignmentFormWriterInterface $AssignmentFormWriter,
-    string $month,
-    string $path_to_json_assignments_files
+    array $array_of_month_of_assignments
 ): void {
     
-    $partial = monthOfAssignments($month);
-    $assignments = $partial($path_to_json_assignments_files);
-
     array_map(
         function (array $week_of_assignments) use ($AssignmentFormWriter) {
             writeAssignmentFormsFromArrayOfAssignments(
@@ -20,6 +16,6 @@ function writeMonthOfAssignmentForms(
                 $week_of_assignments
             );
         },
-        $assignments
+        $array_of_month_of_assignments
     );
 }
