@@ -5,6 +5,7 @@ namespace StudentAssignmentScheduler\Functions\CLI;
 use StudentAssignmentScheduler\Utils\AssignmentFormWriterInterface;
 use function StudentAssignmentScheduler\Functions\writeMonthOfAssignmentForms;
 use function StudentAssignmentScheduler\Functions\monthsFromScheduleFilenames;
+use function StudentAssignmentScheduler\Functions\monthOfAssignments;
 
 use \Closure;
 use \Ds\Set;
