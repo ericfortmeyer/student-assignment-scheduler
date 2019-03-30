@@ -2,8 +2,6 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI;
 
-use function StudentAssignmentScheduler\Functions\monthOfAssignments;
-
 function displayTableOfMonthOfAssignments(array $array_of_month_of_assignments): bool
 {
     // remove unwanted keys and modify titles that need fixing

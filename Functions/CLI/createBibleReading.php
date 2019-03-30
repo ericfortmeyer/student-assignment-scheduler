@@ -4,7 +4,7 @@ namespace StudentAssignmentScheduler\Functions\CLI;
 
 function createBibleReading(string $date): array
 {
-    $assignment = "bible_reading";
+    $assignment = "Bible Reading";
     echo heading($assignment);
     return createAssignment(
         $date,
