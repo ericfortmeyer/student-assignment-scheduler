@@ -60,7 +60,6 @@ final class AssignmentMonthFieldPolicy extends AbstractRule
 
     public function result(): Result
     {
-
         $DayOfMonth = $this->context[self::DAY_OF_MONTH];
         $date_in_first_week = $this->dateInFirstWeekOfSchedule($this->context);
         $Month = $this->context[self::MONTH];
@@ -89,11 +88,6 @@ final class AssignmentMonthFieldPolicy extends AbstractRule
     {
         return (string) new Month($value_in_schedule) === (string) $value_in_context;
     }
-
-    // private function dayOfMonthIsNotInFirstWeek(DayOfMonth $DayOfMonth, string $date_in_first_week): bool
-    // {
-    //     return (string) $DayOfMonth != $date_in_first_week;
-    // }
 
     private function dayOfMonthIsLessThanDateInFirstWeek(DayOfMonth $DayOfMonth, string $date_in_first_week): bool
     {

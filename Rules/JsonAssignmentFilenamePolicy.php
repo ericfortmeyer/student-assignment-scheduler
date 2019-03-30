@@ -67,32 +67,23 @@ final class JsonAssignmentFilenamePolicy extends AbstractRule
      */
     public function result(): Result
     {
-
         $DayOfMonth = $this->context[self::DAY_OF_MONTH];
         $date = $this->dateInFirstWeekOfSchedule($this->context);
         $Month = $this->context[self::MONTH];
 
-        return (
-            $this->dayOfMonthIsNotInFirstWeek($DayOfMonth, $date)
-                && $this->dayOfMonthIsLessThanDateInFirstWeek($DayOfMonth, $date)
-        )
-        
+        return $this->dayOfMonthIsLessThanDateInFirstWeek($DayOfMonth, $date)
             ? $this->resultIfTrue($Month)
             : $this->resultIfFalse($Month);
     }
 
     private function resultIfTrue(Month $month): Result
     {
-        return new Result(
-            DateTimeImmutable::createFromFormat("m", $month)
-                ->add(new DateInterval("P1M"))
-                ->format("m")
-        );
+        return new Result($month->add(1));
     }
 
     private function resultIfFalse(Month $month): Result
     {
-        return new Result((string) $month);
+        return new Result($month);
     }
 
     private function dateInFirstWeekOfSchedule(Context $context): string
@@ -103,11 +94,6 @@ final class JsonAssignmentFilenamePolicy extends AbstractRule
     private function monthIsAsExpected(Month $value_in_context, string $value_in_schedule): bool
     {
         return (string) new Month($value_in_schedule) === (string) $value_in_context;
-    }
-
-    private function dayOfMonthIsNotInFirstWeek(DayOfMonth $DayOfMonth, string $date_in_first_week): bool
-    {
-        return (string) $DayOfMonth != $date_in_first_week;
     }
 
     private function dayOfMonthIsLessThanDateInFirstWeek(DayOfMonth $DayOfMonth, string $date_in_first_week): bool
