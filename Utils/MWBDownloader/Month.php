@@ -12,9 +12,9 @@ use \DateTimeImmutable;
 final class Month
 {
     /**
-     * @var string $month
+     * @var DateTimeImmutable $month
      */
-    private $month = "";
+    private $month;
 
     /**
      * @var array $valid_month_formats
@@ -30,6 +30,9 @@ final class Month
      * @var string $valid_to_string_month_format
      */
     private $dt_month_format = "m";
+
+    private const FORMAT_FULL_TEXT = "F";
+    private const FORMAT_NUMERIC = "m";
 
     /**
      * @param string $month
@@ -51,14 +54,17 @@ final class Month
         if (!$dt) {
             throw new InvalidMonthArgumentException($month);
         } else {
-            $this->month = $dt->format(
-                $this->dt_month_format
-            );
+            $this->month = $dt;
         }
     }
 
     public function __toString()
     {
-        return $this->month;
+        return $this->month->format(self::FORMAT_NUMERIC);
+    }
+
+    public function asText(): string
+    {
+        return $this->month->format(self::FORMAT_FULL_TEXT);
     }
 }
