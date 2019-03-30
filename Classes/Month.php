@@ -2,6 +2,9 @@
 
 namespace StudentAssignmentScheduler\Classes;
 
+use \DateTimeImmutable;
+use \DateInterval;
+
 final class Month extends DateType
 {
     /**
@@ -28,4 +31,32 @@ final class Month extends DateType
      * @var string $dt_format
      */
     protected $dt_format = "m";
+
+    private const FORMAT_FULL_TEXT = "F";
+
+    /**
+     * Full textual representation of the month.
+     *
+     * @return string
+     */
+    public function asText(): string
+    {
+        return (DateTimeImmutable::createFromFormat($this->dt_format, $this->value))
+            ->format(self::FORMAT_FULL_TEXT);
+    }
+
+    /**
+     * Immutability preserved when adding.
+     *
+     * @param int $num_months
+     * @return Month
+     */
+    public function add(int $num_months): Month
+    {
+        return new Month(
+            DateTimeImmutable::createFromFormat($this->dt_format, $this->value)
+                ->add(new DateInterval("P${num_months}M"))
+                ->format($this->dt_format)
+        );
+    }
 }
