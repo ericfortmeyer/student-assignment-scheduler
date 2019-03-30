@@ -37,18 +37,6 @@ class JsonAssignmentFilenameTest extends TestCase
         use of the filename for information about the week of assignments.
     */
 
-    protected function setup()
-    {
-        $context = new Context([1]);
-    }
-
-    public function testTrue()
-    {
-        $this->assertTrue(
-            true
-        );
-    }
-
     public function testReturnsExpectedFilenameWhenWeekOverlaps()
     {
         $month_string = "April";
