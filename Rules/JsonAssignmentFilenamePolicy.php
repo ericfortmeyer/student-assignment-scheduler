@@ -7,9 +7,6 @@ use StudentAssignmentScheduler\Classes\{
     DayOfMonth,
 };
 
-use \DateTimeImmutable;
-use \DateInterval;
-
 final class JsonAssignmentFilenamePolicy extends AbstractRule
 {
     /**
