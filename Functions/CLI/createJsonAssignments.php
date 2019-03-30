@@ -2,31 +2,24 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI;
 
-use function StudentAssignmentScheduler\Functions\{
-    save,
-    weeksFrom,
-    importAssignments,
-    importMultipleSchedules,
-    sortMonths,
-    isPastMonth,
-    assignmentDateField,
-    Filenaming\jsonAssignmentFilename
-};
+use function StudentAssignmentScheduler\Functions\save;
+use function StudentAssignmentScheduler\Functions\weeksFrom;
+use function StudentAssignmentScheduler\Functions\importAssignments;
+use function StudentAssignmentScheduler\Functions\importMultipleSchedules;
+use function StudentAssignmentScheduler\Functions\sortMonths;
+use function StudentAssignmentScheduler\Functions\isPastMonth;
+use function StudentAssignmentScheduler\Functions\assignmentDateField;
+use function StudentAssignmentScheduler\Functions\Filenaming\jsonAssignmentFilename;
 
-use StudentAssignmentScheduler\Classes\{
-    Destination,
-    Month,
-    DayOfMonth
-};
+use StudentAssignmentScheduler\Classes\Destination;
+use StudentAssignmentScheduler\Classes\Month;
+use StudentAssignmentScheduler\Classes\DayOfMonth;
 
-use StudentAssignmentScheduler\Rules\{
-    JsonAssignmentFilenamePolicy,
-    JsonAssignmentFilenamePolicy as Key,
-    AssignmentMonthFieldPolicy,
-    AssignmentMonthFieldPolicy as Key2,
-    Context
-};
-
+use StudentAssignmentScheduler\Rules\JsonAssignmentFilenamePolicy;
+use StudentAssignmentScheduler\Rules\JsonAssignmentFilenamePolicy as Key;
+use StudentAssignmentScheduler\Rules\AssignmentMonthFieldPolicy;
+use StudentAssignmentScheduler\Rules\AssignmentMonthFieldPolicy as Key2;
+use StudentAssignmentScheduler\Rules\Context;
 
 /**
  * Interact with the user of the application to schedule assignments

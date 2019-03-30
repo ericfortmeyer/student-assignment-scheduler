@@ -2,13 +2,12 @@
 
 namespace StudentAssignmentScheduler\Functions\Filenaming;
 
-use StudentAssignmentScheduler\Classes\{
-    Destination,
-    Month,
-    DayOfMonth
-};
+use StudentAssignmentScheduler\Classes\Destination;
+use StudentAssignmentScheduler\Classes\Month;
+use StudentAssignmentScheduler\Classes\DayOfMonth;
 
 use StudentAssignmentScheduler\Rules\RuleInterface;
+
 /*
     This function receives as input:
     (1) destination of assignments
