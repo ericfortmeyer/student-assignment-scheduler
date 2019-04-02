@@ -16,18 +16,12 @@ function userCreatesWeekOfAssignments(
 ): array {
     echo blue("Schedule for ${assignment_date}\r\n");
     
-    $userAssignsAssistant = function (string $assignment) {
-        return $assignment !== "Talk"
-            ? retryUntilFullnameIsValid(new Fullname(readline("Enter assistant's name: ")))
-            : "";
-    };
-
     return array_merge(
         ["year" => $year],
         // use the union operator (+) instead of array_merge in order to preserve numeric keys
         [createBibleReading($assignment_date)] +
         array_map(
-            function (string $assignment) use ($assignment_date, $userAssignsAssistant) {
+            function (string $assignment) use ($assignment_date) {
                 echo heading($assignment);
                 return createAssignment(
                     $assignment_date,
@@ -37,7 +31,7 @@ function userCreatesWeekOfAssignments(
                             readline("Enter student's name: ")
                         )
                     ),
-                    $userAssignsAssistant($assignment)
+                    userAssignsAssistant($assignment)
                 );
             },
             array_filter(

@@ -2,6 +2,8 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI;
 
+use StudentAssignmentScheduler\Classes\Fullname;
+
 function createAssignment(
     string $date,
     string $assignment,
@@ -34,9 +36,13 @@ function createAssignment(
             return createAssignment(
                 $date,
                 $assignment,
-                $name,
-                $counsel_point,
-                $assistant
+                retryUntilFullnameIsValid(
+                    new Fullname(
+                        readline("Enter student's name: ")
+                    )
+                ),
+                userAssignsAssistant($assignment),
+                $counsel_point
             );
         } else {
             echo "Please enter yes or no\r\n";
