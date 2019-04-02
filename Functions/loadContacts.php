@@ -2,8 +2,10 @@
 
 namespace StudentAssignmentScheduler\Functions;
 
-use StudentAssignmentScheduler\Models\Contact;
-use StudentAssignmentScheduler\Models\ListOfContacts;
+use StudentAssignmentScheduler\Classes\{
+    Contact,
+    ListOfContacts
+};
 
 function loadContacts(array $contacts, ListOfContacts $list_of_contacts)
 {

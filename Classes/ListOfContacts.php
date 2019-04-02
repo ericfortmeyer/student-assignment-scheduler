@@ -1,6 +1,6 @@
 <?php
 
-namespace StudentAssignmentScheduler\Models;
+namespace StudentAssignmentScheduler\Classes;
 
 class ListOfContacts
 {
@@ -10,12 +10,34 @@ class ListOfContacts
                  
     protected $contacts = [];
 
+    public function __construct(array $contacts = [])
+    {
+        $this->contacts = array_map(
+            function (string $contact_info): Contact {
+                return new Contact($contact_info);
+            },
+            $contacts
+        );
+    }
+
     public function are(): array
     {
         return $this->contacts;
     }
 
-    public function addContact(Contact $contact)
+    public function contains(string $value): bool
+    {
+        return $this->getContactByFirstName($value)
+            || $this->getContactByLastName($value)
+            || $this->getContactByEmailAddress($value)
+            || (function (array $nameSplit) {
+                    return count($nameSplit) > 1
+                        ? $this->getContactByFullName($nameSplit[0], $nameSplit[1])
+                        : false;
+            })(explode(" ", $value));
+    }
+
+    public function addContact(Contact $contact): void
     {
         $this->contacts[] = $contact;
     }
@@ -28,6 +50,11 @@ class ListOfContacts
     public function getContactByLastName(string $last_name)
     {
         return $this->searchByType($this->contacts, CONTACT::LAST_NAME, $last_name);
+    }
+
+    public function getContactByEmailAddress(string $email_address)
+    {
+        return $this->searchByType($this->contacts, Contact::EMAIL_ADDRESS, $email_address);
     }
 
     public function getContactByFullName(string $first_name, string $last_name)
@@ -44,6 +71,10 @@ class ListOfContacts
         );
     }
 
+    /**
+     *
+     * @return Contact|bool
+     */
     protected function searchByType(
         array $haystack,
         string $type = "",
@@ -55,7 +86,7 @@ class ListOfContacts
             throw new \Exception(static::NOT_SETUP_YET);
         }
 
-        $array_of_filtered_emails = $use_fullname === false
+        $result = $use_fullname === false
             ? array_filter(
                 $haystack,
                 function ($contact) use ($needle, $type) {
@@ -65,14 +96,14 @@ class ListOfContacts
             : array_filter(
                 $haystack,
                 function ($contact) use ($both) {
-                    return $contact->get(Contact::FIRST_NAME) === strtolower($both[Contact::FIRST_NAME] ?? "")
-                        && $contact->get(Contact::LAST_NAME) === strtolower($both[Contact::LAST_NAME] ?? "");
+                    return $contact->get(Contact::FIRST_NAME) === strtolower($both[Contact::FIRST_NAME])
+                        && $contact->get(Contact::LAST_NAME) === strtolower($both[Contact::LAST_NAME]);
                 }
             );
 
-        return count($array_of_filtered_emails) > 1
+        return count($result) > 1
                 ? $this->throwTooManyReturned()
-                : current($array_of_filtered_emails);
+                : current($result);
     }
 
     protected function throwTooManyReturned()

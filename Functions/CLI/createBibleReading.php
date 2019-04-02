@@ -2,6 +2,8 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI;
 
+use StudentAssignmentScheduler\Classes\Fullname;
+
 function createBibleReading(string $date): array
 {
     $assignment = "Bible Reading";
@@ -9,6 +11,6 @@ function createBibleReading(string $date): array
     return createAssignment(
         $date,
         $assignment,
-        readline("Enter student's name: ")
+        retryUntilFullnameIsValid(new Fullname(readline("Enter student's name: ")))
     );
 }

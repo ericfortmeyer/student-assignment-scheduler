@@ -6,7 +6,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;
 
 use StudentAssignmentScheduler\Utils\{PdfAssignmentFormWriter, PdfScheduleWriter, MailSender};
-use StudentAssignmentScheduler\Models\ListOfContacts;
+use StudentAssignmentScheduler\Classes\ListOfContacts;
 
 use function StudentAssignmentScheduler\Functions\{
     workbookParserImplementation,

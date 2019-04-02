@@ -4,6 +4,8 @@ namespace StudentAssignmentScheduler\Functions\CLI;
 
 use function StudentAssignmentScheduler\Functions\shouldMakeAssignment;
 
+use StudentAssignmentScheduler\Classes\Fullname;
+
 /**
  * Creates data representing a week of assignments
  */
@@ -13,18 +15,29 @@ function userCreatesWeekOfAssignments(
     string $year
 ): array {
     echo blue("Schedule for ${assignment_date}\r\n");
+    
+    $userAssignsAssistant = function (string $assignment) {
+        return $assignment !== "Talk"
+            ? retryUntilFullnameIsValid(new Fullname(readline("Enter assistant's name: ")))
+            : "";
+    };
+
     return array_merge(
         ["year" => $year],
         // use the union operator (+) instead of array_merge in order to preserve numeric keys
         [createBibleReading($assignment_date)] +
         array_map(
-            function (string $assignment) use ($assignment_date) {
+            function (string $assignment) use ($assignment_date, $userAssignsAssistant) {
                 echo heading($assignment);
                 return createAssignment(
                     $assignment_date,
                     $assignment,
-                    readline("Enter student's name: "),
-                    $assignment !== "Talk" ? readline("Enter assistant's name: ") : ""
+                    retryUntilFullnameIsValid(
+                        new Fullname(
+                            readline("Enter student's name: ")
+                        )
+                    ),
+                    $userAssignsAssistant($assignment)
                 );
             },
             array_filter(

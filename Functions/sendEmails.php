@@ -3,7 +3,7 @@
 namespace StudentAssignmentScheduler\Functions;
 
 use StudentAssignmentScheduler\Utils\MailSender;
-use StudentAssignmentScheduler\Models\ListOfContacts;
+use StudentAssignmentScheduler\Classes\ListOfContacts;
 
 function sendEmails(
     MailSender $MailSender,
