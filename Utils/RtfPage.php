@@ -33,7 +33,7 @@ class RtfPage
 
     protected function parseDate(string $text): array
     {
-        $date = "/\\\\b\s{1}(\w{4,9})\\\\u160\?(\d{1,2})(?:-|\\\\u8211\?)(?:[\w]{3,9}|\d{1,2})/";
+        $date = "/\\\\b\s{1}(\w{3,9})\\\\u160\?(\d{1,2})(?:-|\\\\u8211\?)(?:[\w]{3,9}|\d{1,2})/";
 
         preg_match($date, $text, $matches);
 
