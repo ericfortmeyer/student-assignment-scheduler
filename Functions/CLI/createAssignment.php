@@ -2,9 +2,13 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI;
 
-use StudentAssignmentScheduler\Classes\Fullname;
+use StudentAssignmentScheduler\Classes\{
+    Fullname,
+    ListOfContacts
+};
 
 function createAssignment(
+    ListOfContacts $ListOfContacts,
     string $date,
     string $assignment,
     string $name,
@@ -34,14 +38,16 @@ function createAssignment(
             return $data;
         } elseif (no($reply)) {
             return createAssignment(
+                $ListOfContacts,
                 $date,
                 $assignment,
                 retryUntilFullnameIsValid(
                     new Fullname(
                         readline("Enter student's name: ")
-                    )
+                    ),
+                    $ListOfContacts
                 ),
-                userAssignsAssistant($assignment),
+                userAssignsAssistant($assignment, $ListOfContacts),
                 $counsel_point
             );
         } else {
