@@ -2,6 +2,11 @@
 
 namespace StudentAssignmentScheduler\Functions\Exporting;
 
+use const StudentAssignmentScheduler\{
+    EXPORT_LOCAL,
+    EXPORT_REMOTE
+};
+
 use \Ds\Map;
 
 use function StudentAssignmentScheduler\Functions\CLI\red;
