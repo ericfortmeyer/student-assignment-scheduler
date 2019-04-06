@@ -2,6 +2,8 @@
 
 namespace StudentAssignmentScheduler\Utils;
 
+use function StudentAssignmentScheduler\Functions\Localization\Language\DateTime\dateLocalized;
+
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\StreamReader;
 
@@ -61,7 +63,6 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
 
         $this->writeName($data["name"]);
         $this->writeAssistant($data["assistant"]);
-        $this->writeDate($data["date"]);
 
         if ($this->assignmentNumberIsRequired($data["assignment"])) {
             $this->addAssignmentNumber($assignment_number, $data["assignment"]);
