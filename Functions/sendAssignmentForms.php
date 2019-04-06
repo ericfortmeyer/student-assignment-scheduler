@@ -27,14 +27,12 @@ function sendAssignmentForms(
     string $path_to_forms
 ) {
 
-    $list_of_contacts = loadContacts($contacts, $ListOfContacts);
-
     $log = emailLogger(__FUNCTION__);
 
     array_map(
-        function (string $file) use ($MailSender, $list_of_contacts, $log, $path_to_forms) {
+        function (string $file) use ($MailSender, $ListOfContacts, $log, $path_to_forms) {
             try {
-                $contact = $list_of_contacts->getContactByFirstName(
+                $contact = $ListOfContacts->getContactByFirstName(
                     firstNameFromFilename($file)
                 );
 

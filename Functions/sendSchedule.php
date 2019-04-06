@@ -14,18 +14,16 @@ function sendSchedule(
     array $contacts,
     string $schedule_filename
 ) {
-    $list_of_contacts = loadContacts($contacts, $ListOfContacts);
-
     $log = emailLogger(__FUNCTION__);
 
     array_map(
         function (string $recipient) use (
             $MailSender,
-            $list_of_contacts,
+            $ListOfContacts,
             $log,
             $schedule_filename
         ) {
-            $contact = $list_of_contacts->getContactByFullname(
+            $contact = $ListOfContacts->getContactByFullname(
                 ...splitFullName($recipient)
             );
 
