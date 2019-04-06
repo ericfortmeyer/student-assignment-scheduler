@@ -238,7 +238,6 @@ $createJsonAssignments = function (
     $carry,
     int $year
 ) use (
-    $AssignmentFormWriter,
     &$path_to_json_schedules,
     &$path_to_json_assignments,
     &$assignmentsWereMade,
