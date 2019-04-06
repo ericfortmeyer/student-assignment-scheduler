@@ -5,8 +5,7 @@ namespace StudentAssignmentScheduler\Functions;
 function getDateFromWorkbookPath(string $path): object
 {
     $config = getConfig();
-    $language = $config["language"];
-    $worksheet_prefix = $config["worksheet_filename_prefix"][$language];
+    $worksheet_prefix = $config["worksheet_filename_prefix"];
     return date_create_from_format(
         "Ym",
         preg_split(
