@@ -3,7 +3,6 @@
 namespace StudentAssignmentScheduler;
 
 use StudentAssignmentScheduler\Classes\Language;
-
 use function StudentAssignmentScheduler\Functions\Localization\Language\PublicationReferences\{
     mnemonic,
     worksheetFilenamePrefix,
