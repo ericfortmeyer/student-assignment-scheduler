@@ -56,11 +56,9 @@ class RtfDocument
     public function getDetails(): array
     {
         $config = getConfig();
-        $language = $config["language"];
-        $mnemonic = $config["mnemonic"][$language];
         //keep the result compatible with the result of parsing pdf files
         return [
-            "Title" => "$mnemonic{$this->year()}.{$this->month()}-ASL"
+            "Title" => "{$config["mnemonic"]}{$this->year()}.{$this->month()}-{$config["language"]}"
         ];
     }
 
