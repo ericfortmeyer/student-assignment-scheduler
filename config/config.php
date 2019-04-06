@@ -2,9 +2,31 @@
 
 namespace StudentAssignmentScheduler;
 
+use StudentAssignmentScheduler\Classes\Language;
+use function StudentAssignmentScheduler\Functions\Localization\Language\PublicationReferences\{
+    mnemonic,
+    worksheetFilenamePrefix,
+    assignmentForm,
+    scheduleTemplate
+};
+
+require_once __DIR__. "/../autoload.php";
+
+$useragent = "LAMM-Scheduler";
+
+$api_url = "https://apps.jw.org/GETPUBMEDIALINKS";
+
 $my_meeting_night = "Thursday";
 
-$my_language = "ASL";
+$meeting_language = Language::ASL;
+
+$default_written_language = Language::ENGLISH;
+
+$written_language = Language::SPANISH;
+
+$assignment_form_language = $written_language;
+
+$assignment_form_date_format = "%B %d"; // April 01 or abril 01
 
 $workbook_format = "rtf";
 
@@ -14,17 +36,13 @@ $do_not_assign_these = [
     "Apply Yourself to Reading and Teaching",
 ];
 
-$useragent = "LAMM-Scheduler";
+$path_to_templates = __DIR__ . "/../Utils/templates";
 
 return [
-    "language" => $my_language,
-    "mnemonic" => [
-        "ASL" => "mwbsl",
-        "English" => "mwb"
-    ],
-    "worksheet_filename_prefix" => [
-        "ASL" => "mwb_ASL_",
-    ],
+    "language" => $meeting_language,
+    "written_language" => $written_language,
+    "mnemonic" => mnemonic($meeting_language),
+    "worksheet_filename_prefix" => worksheetFilenamePrefix($meeting_language),
     "meeting_night" => $my_meeting_night,
     "monthly_schedule_format" => $monthly_schedule_format,
     "workbook_format" => $workbook_format,
@@ -34,7 +52,7 @@ return [
         "rtf" => __NAMESPACE__ . "\\Utils\\" . "RtfParser"
     ],
     /// api options
-    "apiUrl" => "https://apps.jw.org/GETPUBMEDIALINKS",
+    "apiUrl" => $api_url,
     "useragent" => $useragent,
     "apiOpts" => [
         CURLOPT_HEADER => false,
@@ -44,9 +62,9 @@ return [
     "apiQueryParams" => [
         "output" => "json",
         "fileformat" => "RTF",
-        "pub" => "mwb",
+        "pub" => WORKBOOK_ABBR,
         "alllangs" => 0,
-        "langwritten" => "ASL"
+        "langwritten" => $meeting_language
     ],
     "skip_assignments_with_these_titles" => $do_not_assign_these,
     "make_these_directories" => [
@@ -58,8 +76,10 @@ return [
         __DIR__ . "/../tmp",
         __DIR__ . "/../log"
     ],
-    "assignment_form_template" => __DIR__ . "/../Utils/templates/S-89-E.pdf",
-    "schedule_template" => __DIR__ . "/../Utils/templates/S-140-E.pdf",
+    "assignment_form_template" => assignmentForm($written_language, $path_to_templates),
+    "assignment_form_date_format" => $assignment_form_date_format,
+    // "schedule_template" => scheduleTemplate($written_language, $path_to_templates),
+    "schedule_template" => scheduleTemplate(Language::ENGLISH, $path_to_templates),
     "assignment_forms_destination" => __DIR__ . "/../data/forms",
     "schedules_destination" => __DIR__ . "/../data/schedules",
     "email_log" => __DIR__ . "/../log/email.log",
@@ -367,7 +387,7 @@ return [
         "fields" => [
             "position" => [
                 "name" => [
-                    18,
+                    24,
                     16
                 ],
                 "assistant" => [
@@ -375,7 +395,7 @@ return [
                     24
                 ],
                 "date" => [
-                    16,
+                    22,
                     33
                 ],
                 "bible_reading" => [
