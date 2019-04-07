@@ -47,7 +47,7 @@ function sendAssignmentForms(
                 $attachment = "$path_to_forms/$file";
     
                 $MailSender
-                    ->addBody("Hola hermano,\r\n\r\nUsted se ha asignado:.\r\n\r\nGracias!")
+                    ->addBody("Hola hermano/a,\r\n\r\nUsted se ha asignado:.\r\n\r\nGracias!")
                     ->withRecipient($contact->emailAddress(), $contact->fullname())
                     ->addAttachment($attachment)
                     ->send();
