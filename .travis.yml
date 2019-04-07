@@ -13,8 +13,8 @@ before_script:
 
 script:
   - vendor/bin/phan
-  - vendor/bin/phpcs --standard=PSR1,PSR2,PSR12 FileRegistry/Functions/ config/ Models/ Validation/
-  - vendor/bin/phpcs --standard=PSR12 Functions/ Utils/
+  - vendor/bin/phpcs --standard=PSR1,PSR2,PSR12 FileRegistry/Functions/ Models/ Validation/
+  - vendor/bin/phpcs --standard=PSR12 Functions/ Utils/ config/
   - vendor/bin/phpcs --standard=PSR12 assign
   - vendor/bin/phpunit
 
