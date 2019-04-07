@@ -29,9 +29,8 @@ function sendSchedule(
 
             try {
                 $MailSender
-                    ->addBody("Dear {$contact->firstName()},\r\n\r\nHere's the schedule for next month.\r\n\r\nThanks!")
+                    ->addBody("Hola hermano,\r\n\r\n")
                     ->withRecipient($contact->emailAddress(), $contact->fullname())
-                    ->addSubject("Schedule for next month")
                     ->addAttachment($schedule_filename)
                     ->send();
 
