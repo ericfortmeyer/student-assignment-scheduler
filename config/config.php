@@ -3,6 +3,7 @@
 namespace StudentAssignmentScheduler;
 
 use StudentAssignmentScheduler\Classes\Language;
+
 use function StudentAssignmentScheduler\Functions\Localization\Language\PublicationReferences\{
     mnemonic,
     worksheetFilenamePrefix,
@@ -10,7 +11,7 @@ use function StudentAssignmentScheduler\Functions\Localization\Language\Publicat
     scheduleTemplate
 };
 
-require_once __DIR__. "/../autoload.php";
+require_once __DIR__ . "/../autoload.php";
 
 $useragent = "LAMM-Scheduler";
 
