@@ -63,11 +63,6 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
         $this->writeAssistant($data["assistant"]);
         $this->writeDate($data["date"]);
 
-        // obsolete
-        // if ($this->config["talk_slip"]["version"] === "10.17") {
-        //     $this->writeCounselPoint($data["counsel_point"]);
-        // }
-        
         if ($this->assignmentNumberIsRequired($data["assignment"])) {
             $this->addAssignmentNumber($assignment_number, $data["assignment"]);
         }
