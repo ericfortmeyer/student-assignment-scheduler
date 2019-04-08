@@ -6,7 +6,7 @@ use \Ds\Map;
 
 require "autoload.php";
 
-$path_to_contacts = "test_contacts.php";
+$path_to_contacts = "config/contacts.php";
 
 $command = (new Map($argv))->get(1, "");
 
