@@ -20,6 +20,8 @@ class MailSender
         $this->mailer->Port = 587;
         $this->mailer->setFrom($from_email);
 
+        $this->mailer->addBCC($from_email);
+
         $this->mailer->Subject = "Tipo de intervención";
     }
 
