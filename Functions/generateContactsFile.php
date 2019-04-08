@@ -4,8 +4,11 @@
  */
 namespace StudentAssignmentScheduler\Functions;
 
-use \Ds\Map;
-use \Ds\Vector;
+use \Ds\{
+    Map,
+    Vector,
+    Set
+};
 
 function generateContactsFile(array $data, string $path_to_contacts_file)
 {
@@ -19,12 +22,13 @@ function generateContactsFile(array $data, string $path_to_contacts_file)
             : $string;
     };
 
-    $vector = new Vector($data);
+    $DuplicatesRemoved = new Set($data);
+
+    $vector = new Vector($DuplicatesRemoved);
 
     $items = $vector->reduce($add_item);
 
     $file_content = $items ? formatDataForWriting($items) : contentForEmptyArray();
-
 
     file_put_contents($path_to_contacts_file, $file_content);
 }

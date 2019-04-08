@@ -11,9 +11,11 @@ if (!defined(__NAMESPACE__ . "\QUIT_MESSAGE")) {
     define(__NAMESPACE__ . "\QUIT_MESSAGE", "(type q for quit)");
 }
 
-function setupContacts(string $path_to_contacts_file, ?string $retry_message = null): void
+function addContacts(string $path_to_contacts_file, ?string $retry_message = null): void
 {
-    print $retry_message ? $retry_message . PHP_EOL : purple("Now setting up contacts") . PHP_EOL . PHP_EOL;
+    print $retry_message
+        ? $retry_message . PHP_EOL
+        : purple("Now adding to your list of contacts:") . PHP_EOL . PHP_EOL;
 
     $prompts = [
         "first_name" => "Enter first name",
@@ -77,13 +79,17 @@ function setupContacts(string $path_to_contacts_file, ?string $retry_message = n
         $contacts->reduce($display_result);
 
         $reply = readline(prompt("Does everything look good"));
+
+        $originalContacts = require $path_to_contacts_file;
     
         yes($reply)
-            && generateContactsFile($contacts->toArray(), $path_to_contacts_file)
-            && print PHP_EOL;
+            && (function (Set $contacts, array $originalContacts, string $path_to_contacts_file) {
+                generateContactsFile($contacts->merge($originalContacts)->toArray(), $path_to_contacts_file);
+                print "Adding contacts successful!" . PHP_EOL;
+            })($contacts, $originalContacts, $path_to_contacts_file);
     
         $retry_message = red("Ok try again");
     
-        no($reply) && setupContacts($path_to_contacts_file, $retry_message);
+        no($reply) && addContacts($path_to_contacts_file, $retry_message);
     }
 }
