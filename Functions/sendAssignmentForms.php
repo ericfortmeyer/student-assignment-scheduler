@@ -47,7 +47,13 @@ function sendAssignmentForms(
                 $attachment = "$path_to_forms/$file";
     
                 $MailSender
-                    ->addBody("Hola hermano/a,\r\n\r\nUsted se ha asignado:.\r\n\r\nGracias!")
+                    ->addBody(
+                        "Hola hermano/a," . PHP_EOL . PHP_EOL
+                            . "Se adjunta tu próxima asignación para la escuela" . PHP_EOL . PHP_EOL
+                            . "POR FAVOR CONFIRME QUE HA RECIBIDO"
+                            . " ESTA ASIGNACIóN POR CORREO ELECTRóNICO" . PHP_EOL . PHP_EOL
+                            . "Gracias!"
+                    )
                     ->withRecipient($contact->emailAddress(), $contact->fullname())
                     ->addAttachment($attachment)
                     ->send();
