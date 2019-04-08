@@ -29,8 +29,8 @@ function setupContacts(string $path_to_contacts_file, ?string $retry_message = n
         print PHP_EOL;
 
         return $input_type === "email_address"
-            ? [$tuple, filter_var($tuple, FILTER_VALIDATE_EMAIL)]
-            : [$tuple, ucfirst($tuple)];
+            ? [$tuple, filter_var(trim($tuple), FILTER_VALIDATE_EMAIL)]
+            : [$tuple, ucfirst(trim($tuple))];
     };
 
     $display_result = function ($carry, string $contact): void {
