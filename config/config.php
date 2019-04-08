@@ -3,7 +3,10 @@
 namespace StudentAssignmentScheduler;
 
 use StudentAssignmentScheduler\Classes\Language;
+<<<<<<< HEAD
 
+=======
+>>>>>>> Use multiple translations of forms and schedules in Utils/templates folder.  Localize date before printing to form. Move assignment form values to line up with Spanish forms.  Add localization to configuration.
 use function StudentAssignmentScheduler\Functions\Localization\Language\PublicationReferences\{
     mnemonic,
     worksheetFilenamePrefix,
@@ -11,7 +14,11 @@ use function StudentAssignmentScheduler\Functions\Localization\Language\Publicat
     scheduleTemplate
 };
 
+<<<<<<< HEAD
 require_once __DIR__ . "/../autoload.php";
+=======
+require_once __DIR__. "/../autoload.php";
+>>>>>>> Use multiple translations of forms and schedules in Utils/templates folder.  Localize date before printing to form. Move assignment form values to line up with Spanish forms.  Add localization to configuration.
 
 $useragent = "LAMM-Scheduler";
 
