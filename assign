@@ -173,7 +173,9 @@ $downloadWorkbookForMonth = function (Month $month) use ($config, $config_file):
 $dt = new DateTimeImmutable();
 $months = new \Ds\Vector([
     new Month($dt->format("F")),
-    new Month($dt->add(new DateInterval("P1M"))->format("F"))
+    new Month($dt->add(new DateInterval("P1M"))->format("F")),
+    new Month($dt->add(new DateInterval("P2M"))->format("F")),
+    new Month($dt->add(new DateInterval("P3M"))->format("F"))
 ]);
 
 $months->apply($downloadWorkbookForMonth);
