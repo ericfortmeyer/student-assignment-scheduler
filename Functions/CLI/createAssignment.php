@@ -18,9 +18,9 @@ function createAssignment(
     $data = [
         "date" => $date,
         "assignment" => $assignment,
-        "name" => ucfirst($name),
+        "name" => $name,
         "counsel_point" => $counsel_point,
-        "assistant" => ucfirst($assistant)
+        "assistant" => $assistant
     ];
     $heading = snakeCaseToUCWords($assignment);
 

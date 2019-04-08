@@ -19,7 +19,7 @@ final class Fullname
      */
     public function __construct(string $name, string $last_name = "")
     {
-        $this->fullname = $last_name ? $this->fullname($name, $last_name) : $name;
+        $this->fullname = $last_name ? ucwords($this->fullname($name, $last_name)) : ucwords($name);
     }
 
     private function fullname(string $first_name, string $last_name): string
