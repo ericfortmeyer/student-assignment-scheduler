@@ -88,7 +88,6 @@ class Contact
 
     public function fullname(): string
     {
-        
         return ucwords("{$this->first_name} {$this->last_name}");
     }
 }
