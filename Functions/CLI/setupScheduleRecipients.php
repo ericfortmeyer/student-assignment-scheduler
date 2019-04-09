@@ -3,6 +3,7 @@
 namespace StudentAssignmentScheduler\Functions\CLI;
 
 use function StudentAssignmentScheduler\Functions\generateContactsFile;
+use function StudentAssignmentScheduler\Functions\promptsForScheduleRecipients;
 
 function setupScheduleRecipients(string $schedule_recipients_config_file)
 {
@@ -13,7 +14,7 @@ function setupScheduleRecipients(string $schedule_recipients_config_file)
     $should_add_contacts = readline($add_schedule_recipients_prompt);
 
     yes($should_add_contacts)
-        && setupContacts($schedule_recipients_config_file);
+        && addContacts($schedule_recipients_config_file, promptsForScheduleRecipients());
     
     no($should_add_contacts)
         && red("Ok. You can set it up later.")

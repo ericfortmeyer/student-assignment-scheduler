@@ -6,7 +6,7 @@ use \Ds\Map;
 
 require "autoload.php";
 
-$path_to_contacts = __DIR__ . "/config/contacts.php";
+$path_to_contacts = __DIR__ . '/config/schedule_recipients.php';
 
 $command = (new Map($argv))->get(1, "");
 

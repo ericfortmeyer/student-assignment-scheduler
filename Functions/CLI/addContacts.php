@@ -8,20 +8,15 @@ use \Ds\Vector;
 use \Ds\Set;
 
 if (!defined(__NAMESPACE__ . "\QUIT_MESSAGE")) {
-    define(__NAMESPACE__ . "\QUIT_MESSAGE", "(type q for quit)");
+    define(
+        __NAMESPACE__ . "\QUIT_MESSAGE",
+        "(type q after you have finished entering the contacts)"
+    );
 }
 
-function addContacts(string $path_to_contacts_file, ?string $retry_message = null): void
+function addContacts(string $path_to_contacts_file, array $prompts = []): void
 {
-    print $retry_message
-        ? $retry_message . PHP_EOL
-        : purple("Now adding to your list of contacts:") . PHP_EOL . PHP_EOL;
-
-    $prompts = [
-        "first_name" => "Enter first name",
-        "last_name" => "Enter last name",
-        "email_address" => "Enter email address"
-    ];
+    print purple("Now adding to your list of contacts:") . PHP_EOL . PHP_EOL;
 
     // use Set to prevent duplicates
     $contacts = new Set();
@@ -90,6 +85,6 @@ function addContacts(string $path_to_contacts_file, ?string $retry_message = nul
     
         $retry_message = red("Ok try again");
     
-        no($reply) && addContacts($path_to_contacts_file, $retry_message);
+        no($reply) && addContacts($path_to_contacts_file, $prompts);
     }
 }

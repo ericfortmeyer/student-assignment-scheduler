@@ -15,15 +15,9 @@ function editContact(
     Set $OriginalContacts,
     int $key_of_original_contact,
     string $path_to_contacts_file,
-    ?string $retry_message = null
+    array $prompts
 ): void {
     print  purple("Now changing {$OriginalContacts->get($key_of_original_contact)}") . PHP_EOL . PHP_EOL;
-
-    $prompts = [
-        "first_name" => "Enter first name",
-        "last_name" => "Enter last name",
-        "email_address" => "Enter email address"
-    ];
 
     // use Set to prevent duplicates
     $contacts = new Set();
@@ -97,7 +91,17 @@ function editContact(
 
     $retry_message = red("Ok try again");
 
-    no($reply) && (function (Set $OriginalContacts, int $key_of_original_contact, string $path_to_contacts_file) {
-        editContact($OriginalContacts, $key_of_original_contact, $path_to_contacts_file);
-    });
+    no($reply) && (function (
+        Set $OriginalContacts,
+        int $key_of_original_contact,
+        string $path_to_contacts_file,
+        array $prompts
+    ) {
+        editContact(
+            $OriginalContacts,
+            $key_of_original_contact,
+            $path_to_contacts_file,
+            $prompts
+        );
+    })($OriginalContacts, $key_of_original_contact, $path_to_contacts_file, $prompts);
 }
