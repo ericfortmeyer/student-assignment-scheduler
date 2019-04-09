@@ -39,8 +39,8 @@ function commandMap(): Map
                 );
             }
             ]
-        );
-    }
+    );
+}
     
 function getPrompts(string $path_to_contacts): array
 {
