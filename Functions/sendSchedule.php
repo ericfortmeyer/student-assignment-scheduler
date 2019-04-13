@@ -11,7 +11,6 @@ function sendSchedule(
     MailSender $MailSender,
     ListOfContacts $ListOfContacts,
     array $schedule_recipients,
-    array $contacts,
     string $schedule_filename
 ) {
     $log = emailLogger(__FUNCTION__);

@@ -330,7 +330,6 @@ $createSchedule = function (string $month) use (
 $emailAssignmentsAndSchedule = function (string $schedule_filename) use (
     $MailSender,
     $ListOfContacts,
-    $contacts,
     $config,
     $schedule_recipients
 ): void {
@@ -343,7 +342,6 @@ $emailAssignmentsAndSchedule = function (string $schedule_filename) use (
         && sendEmails(
             $MailSender,
             $ListOfContacts,
-            $contacts,
             $config["assignment_forms_destination"],
             $schedule_recipients,
             $schedule_filename

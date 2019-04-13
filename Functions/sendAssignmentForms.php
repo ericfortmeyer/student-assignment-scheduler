@@ -23,7 +23,6 @@ define(
 function sendAssignmentForms(
     MailSender $MailSender,
     ListOfContacts $ListOfContacts,
-    array $contacts,
     string $path_to_forms
 ) {
 

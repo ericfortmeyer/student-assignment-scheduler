@@ -8,7 +8,6 @@ use StudentAssignmentScheduler\Classes\ListOfContacts;
 function sendEmails(
     MailSender $MailSender,
     ListOfContacts $ListOfContacts,
-    array $contacts,
     string $assignment_forms_destination,
     array $schedule_recipients,
     string $schedule_filename
@@ -24,7 +23,6 @@ function sendEmails(
     sendAssignmentForms(
         $MailSender,
         $ListOfContacts,
-        $contacts,
         $assignment_forms_destination
     );
 
@@ -33,7 +31,6 @@ function sendEmails(
         $clone_of_mail_sender,
         $clone_of_list_of_contacts,
         $schedule_recipients,
-        $contacts,
         $schedule_filename
     );
 }
