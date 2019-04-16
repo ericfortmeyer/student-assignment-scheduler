@@ -62,7 +62,7 @@ $config_dir = file_exists("config")
 
 list($config, $path_config) = loadConfigurationFiles(
     new \Ds\Vector([
-        buildPath(__DIR__, $config_dir, "config.php"),
+        $config_file = buildPath(__DIR__, $config_dir, "config.php"),
         buildPath(__DIR__, $config_dir, "path_config.php")
     ])
 )->toArray();
