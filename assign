@@ -37,7 +37,6 @@ use StudentAssignmentScheduler\Utils\MWBDownloader\{
 use function StudentAssignmentScheduler\Utils\MWBDownloader\Functions\download;
 
 use function StudentAssignmentScheduler\Functions\Bootstrapping\{
-    runInstallationScriptIfNecessary,
     loadConfigurationFiles,
     buildPath
 };
@@ -48,16 +47,14 @@ use function StudentAssignmentScheduler\Functions\Bootstrapping\{
 //
 //////////////////////
 
-// run installation script if needed
-runInstallationScriptIfNecessary(
-    buildPath(__DIR__, "vendor")
-);
+// do this first
+file_exists($path_to_vendor_folder)
+        || system("sh bin/install.sh");
 
-$autoload_filename = file_exists("autoload.php")
+// then this
+require file_exists("autoload.php")
     ? "autoload.php"
     : buildPath("vendor", "autoload.php");
-
-require $autoload_filename;
 
 $config_dir = file_exists("config")
     ? "config"
