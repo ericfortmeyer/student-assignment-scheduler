@@ -40,11 +40,8 @@ function makeDir(string $directory, $logger)
 
 function success(string $filename, $logger, array $context, ?string $test_registry)
 {
-    registerFile(
-        hashOfFile($filename),
-        $filename,
-        $test_registry
-    );
+    $test_registry
+        ? registerFile(hashOfFile($filename), $filename, $test_registry): registerFile(hashOfFile($filename), $filename);
 
     $logger->info("File {file} created", $context);
 }
