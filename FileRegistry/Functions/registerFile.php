@@ -2,11 +2,12 @@
 
 namespace StudentAssignmentScheduler\FileRegistry\Functions;
 
-function registerFile(string $key, string $filename, ?string $registry_filename = null)
+function registerFile(string $key, string $filename, string $registry_filename = __DIR__ . "/../registry.php")
 {
-    $registry_filename && !file_exists($registry_filename) && generateRegistry([], $registry_filename);
+    !file_exists($registry_filename)
+        && generateRegistry([], $registry_filename);
 
-    $registry = include $registry_filename ?? __DIR__ . "/../registry.php";
+    $registry = include $registry_filename;
 
     generateRegistry(
         array_merge($registry, [$key => $filename]),
