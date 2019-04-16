@@ -11,7 +11,7 @@ if (!defined(__NAMESPACE__ . "\QUIT_MESSAGE")) {
     define(__NAMESPACE__ . "\QUIT_MESSAGE", "(type q for quit)");
 }
 
-function setupContacts(string $path_to_contacts_file, ?string $retry_message = null): void
+function setupContacts(string $path_to_contacts_file, ?string $retry_message = null): bool
 {
     print $retry_message ? $retry_message . PHP_EOL : purple("Now setting up contacts") . PHP_EOL . PHP_EOL;
 
@@ -78,9 +78,11 @@ function setupContacts(string $path_to_contacts_file, ?string $retry_message = n
 
         $reply = readline(prompt("Does everything look good"));
     
-        yes($reply)
-            && generateContactsFile($contacts->toArray(), $path_to_contacts_file)
-            && print PHP_EOL;
+        if(yes($reply)) {
+            generateContactsFile($contacts->toArray(), $path_to_contacts_file);
+            print PHP_EOL;
+            return true;
+        }
     
         $retry_message = red("Ok try again");
     
