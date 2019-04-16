@@ -48,7 +48,7 @@ use function StudentAssignmentScheduler\Functions\Bootstrapping\{
 //////////////////////
 
 // do this first
-file_exists($path_to_vendor_folder)
+file_exists("vendor")
         || system("sh bin/install.sh");
 
 // then this
