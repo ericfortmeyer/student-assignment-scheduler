@@ -18,7 +18,20 @@ class RegisterFileTest extends TestCase
     protected function tearDown()
     {
         unlink($this->test_registry);
-        unset($this->test_registry);
+    }
+
+    public function testCreatesRegistryIfNotExistsWhenAttemptingToRegisterFile()
+    {
+        $fake_registry = __DIR__ . "/../mocks/ima_fake_registry.php";
+
+        $file_key = "just_a_fake_file";
+        $file_to_be_registered = "ima_fake_file.php";
+
+        registerFile($file_key, $file_to_be_registered, $fake_registry);
+
+        $this->assertFileExists($fake_registry);
+
+        unlink($fake_registry);
     }
 
     public function testRegistryHasHashedOfValueAsFilesKey()
