@@ -74,14 +74,19 @@ function addContacts(string $path_to_contacts_file, array $prompts = []): void
         $contacts->reduce($display_result);
 
         $reply = readline(prompt("Does everything look good"));
-
-        $originalContacts = require $path_to_contacts_file;
     
         yes($reply)
             && (function (Set $contacts, array $originalContacts, string $path_to_contacts_file) {
-                generateContactsFile($contacts->merge($originalContacts)->toArray(), $path_to_contacts_file);
+                $originalContactsOrEmptyArray = file_exists($path_to_contacts_file)
+                    ? require $path_to_contacts_file
+                    : [];
+
+                generateContactsFile(
+                    $contacts->merge($originalContactsOrEmptyArray)->toArray(),
+                    $path_to_contacts_file
+                );
                 print "Adding contacts successful!" . PHP_EOL;
-            })($contacts, $originalContacts, $path_to_contacts_file);
+            })($contacts, $path_to_contacts_file);
     
         $retry_message = red("Ok try again");
     
