@@ -76,7 +76,7 @@ function addContacts(string $path_to_contacts_file, array $prompts = []): void
         $reply = readline(prompt("Does everything look good"));
     
         yes($reply)
-            && (function (Set $contacts, array $originalContacts, string $path_to_contacts_file) {
+            && (function (Set $contacts, string $path_to_contacts_file) {
                 $originalContactsOrEmptyArray = file_exists($path_to_contacts_file)
                     ? require $path_to_contacts_file
                     : [];
