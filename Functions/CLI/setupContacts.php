@@ -78,7 +78,7 @@ function setupContacts(string $path_to_contacts_file, ?string $retry_message = n
 
         $reply = readline(prompt("Does everything look good"));
     
-        if(yes($reply)) {
+        if (yes($reply)) {
             generateContactsFile($contacts->toArray(), $path_to_contacts_file);
             print PHP_EOL;
             return true;
