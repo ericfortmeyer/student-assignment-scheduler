@@ -1,0 +1,80 @@
+<?php
+
+namespace StudentAssignmentScheduler\Functions\CLI\Commands\Amend;
+
+use PHPMailer\PHPMailer\PHPMailer;
+use Dotenv\Dotenv;
+
+use function StudentAssignmentScheduler\Functions\Bootstrapping\{
+    loadConfigurationFiles,
+    buildPath
+};
+
+use function StudentAssignmentScheduler\Functions\decryptedPassword;
+
+use StudentAssignmentScheduler\{
+    Classes\ListOfContacts,
+    Utils\PdfAssignmentFormWriter,
+    Utils\PdfScheduleWriter,
+    Utils\MailSender
+};
+
+require "autoload.php";
+
+list($config, $path_config) = loadConfigurationFiles(
+    new \Ds\Vector([
+        buildPath(__DIR__, "config", "config.php"),
+        buildPath(__DIR__, "config", "path_config.php"),
+    ])
+)->toArray();
+
+// there must be a .env file with email configuration
+$env_dir = __DIR__;
+// these fields are required in the .env file
+$env_required_fields = [
+    "from_email",
+    "from_email_password",
+    "from_email_nonce",
+    "from_email_key",
+    "smtp_host"
+];
+
+
+$Dotenv = new Dotenv($env_dir);
+$Dotenv->load();
+
+$Dotenv->required($env_required_fields);
+
+
+$AssignmentFormWriter = new PdfAssignmentFormWriter($config);
+$ScheduleWriter = new PdfScheduleWriter($config);
+$ListOfContacts = new ListOfContacts(require buildPath(__DIR__, "config", "contacts.php"));
+$MailSender = new MailSender(
+    new PHPMailer(true),
+    getenv("from_email"),
+    decryptedPassword(),
+    getenv("smtp_host")
+);
+
+
+$month = key_exists(1, $argv)
+    ? retryUntilUserGivesValidMonth($argv[1])
+    : retryUntilUserGivesValidMonth(
+        promptUserForMonth()
+    );
+
+// TODO remove hardcoded year
+$year = "2019";
+
+main(
+    $month,
+    $ListOfContacts,
+    $AssignmentFormWriter,
+    $ScheduleWriter,
+    $MailSender,
+    buildPath($path_config["path_to_assignments"], $year),
+    buildPath($path_config["path_to_data"], $year),
+    $path_config["path_to_forms"],
+    $path_config["path_to_schedules"],
+    require buildPath(__DIR__, "config", "schedule_recipients.php")
+);

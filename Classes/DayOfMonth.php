@@ -20,7 +20,8 @@ final class DayOfMonth extends DateType
     protected $valid_formats = [
         "d",
         "j",
-        "z"
+        "z",
+        "md"
     ];
 
     /**

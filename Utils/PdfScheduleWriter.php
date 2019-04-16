@@ -172,18 +172,18 @@ class PdfScheduleWriter implements ScheduleWriterInterface
         array $assignment_map
     ): void {
 
-        $this->writeDate($week_index, $week_of_assignments[0]["date"]);
+        $this->writeDate($week_index, current($week_of_assignments)["date"]);
 
         $partialFunc = $this->writeIndividualAssignment;
 
         $weekOfAssignments = new Map($week_of_assignments);
-        $weekOfAssignments->remove("year");
+        $weekOfAssignments->remove("year", null);
 
         $writeAssignments = $partialFunc($week_index, $weekOfAssignments->toArray());
         
         $MapOfAssignments = new Map($assignment_map);
         $MapOfAssignments->put(4, "bible_reading");
-        $MapOfAssignments->hasKey("date") && $MapOfAssignments->remove("date");
+        $MapOfAssignments->remove("date", null);
         $MapOfAssignments->ksort();
 
         $MapOfAssignments->map($writeAssignments);
