@@ -21,7 +21,7 @@ use StudentAssignmentScheduler\{
 
 require "autoload.php";
 
-list($config, $path_config) = loadConfigurationFiles(
+[$config, $path_config] = loadConfigurationFiles(
     new \Ds\Vector([
         buildPath(__DIR__, "config", "config.php"),
         buildPath(__DIR__, "config", "path_config.php"),

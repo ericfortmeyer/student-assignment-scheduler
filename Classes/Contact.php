@@ -16,7 +16,7 @@ class Contact
     public function __construct(string $space_separated_contact_info = "")
     {
         $separated = explode(" ", $space_separated_contact_info);
-        list($first_name, $last_name, $email_address) = $this->validate($separated);
+        [$first_name, $last_name, $email_address] = $this->validate($separated);
 
         $this->first_name = $first_name;
         $this->last_name = $last_name;

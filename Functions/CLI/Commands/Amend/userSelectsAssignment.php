@@ -6,7 +6,7 @@ use \Ds\{Map, Vector};
 
 function userSelectsAssignment(array $monthOfAssignments): array
 {
-    list($LookupTable, $ListOfAssignments) = (function (Vector $ListOfAssignments, Vector $Original): array {
+    [$LookupTable, $ListOfAssignments] = (function (Vector $ListOfAssignments, Vector $Original): array {
         $LookupTable = new Map();
         foreach ($Original as $first_step => $week) {
             foreach ($week as $last_step => $assignment) {
@@ -29,7 +29,7 @@ function userSelectsAssignment(array $monthOfAssignments): array
         );
     }
 
-    list($first_step, $last_step) = $pathToOriginal = $LookupTable[$userSelectedAssignmentIndex];
+    [$first_step, $last_step] = $pathToOriginal = $LookupTable[$userSelectedAssignmentIndex];
     $original_key = $last_step;
     
     return [

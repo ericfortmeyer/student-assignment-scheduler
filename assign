@@ -60,7 +60,7 @@ $config_dir = file_exists("config")
     ? "config"
     : buildPath("vendor", "ericfortmeyer", "student-assignment-scheduler", "config");
 
-list($config, $path_config) = loadConfigurationFiles(
+[$config, $path_config] = loadConfigurationFiles(
     new \Ds\Vector([
         $config_file = buildPath(__DIR__, $config_dir, "config.php"),
         buildPath(__DIR__, $config_dir, "path_config.php")
