@@ -26,6 +26,11 @@ function main(string $command)
     // use a registry of names of "histories"
     $filename_of_registry = \base64_encode("registry");
 
+    $special_events_directory = $config["special_events_location"];
+
+    // for new installations and upgrades we'll have to make the directory
+    !file_exists($special_events_directory) && mkdir($special_events_directory, 0700);
+
     // the registry is a stream of histories persisted immutably
     $location_of_registry_of_special_events_history_filenames = buildPath(
         $config["special_events_location"],
