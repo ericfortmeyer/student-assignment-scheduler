@@ -93,13 +93,13 @@ function createJsonAssignments(
 
                             $filename = jsonAssignmentFilename(
                                 new Destination($data_destination),
-                                new Month($month),
-                                new DayOfMonth($schedule_for_week["date"]),
+                                $Month = new Month($month),
+                                new DayOfMonth($Month, $schedule_for_week["date"]),
                                 new JsonAssignmentFilenamePolicy(
                                     new Context([
                                         Key::SCHEDULE_FOR_MONTH => $schedule_for_month,
                                         Key::MONTH => new Month($month),
-                                        Key::DAY_OF_MONTH => new DayOfMonth($schedule_for_week["date"])
+                                        Key::DAY_OF_MONTH => new DayOfMonth($Month, $schedule_for_week["date"])
                                     ])
                                 )
                             );
@@ -114,12 +114,12 @@ function createJsonAssignments(
                                 userCreatesWeekOfAssignments(
                                     $schedule_for_week,
                                     assignmentDateField(
-                                        new DayOfMonth($schedule_for_week["date"]),
+                                        new DayOfMonth($Month, $schedule_for_week["date"]),
                                         new AssignmentMonthFieldPolicy(
                                             new Context([
                                                 Key2::SCHEDULE_FOR_MONTH => $schedule_for_month,
                                                 Key2::MONTH => new Month($month),
-                                                Key2::DAY_OF_MONTH => new DayOfMonth($schedule_for_week["date"])
+                                                Key2::DAY_OF_MONTH => new DayOfMonth($Month, $schedule_for_week["date"])
                                             ])
                                         )
                                     ),

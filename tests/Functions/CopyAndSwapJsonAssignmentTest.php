@@ -39,13 +39,13 @@ class CopyAndSwapJsonAssignmentTest extends TestCase
         // create mock json assignment file
         $filename = Filenaming\jsonAssignmentFilename(
             new Destination($path_to_mock_assignments),
-            new Month($month),
-            new DayOfMonth($day_of_month),
+            $Month = new Month($month),
+            new DayOfMonth($Month, $day_of_month),
             new JsonAssignmentFilenamePolicy(
                 new Context(
                     [
                         JsonAssignmentFilenamePolicy::SCHEDULE_FOR_MONTH => $schedule_for_month,
-                        JsonAssignmentFilenamePolicy::DAY_OF_MONTH => new DayOfMonth($day_of_month),
+                        JsonAssignmentFilenamePolicy::DAY_OF_MONTH => new DayOfMonth($Month, $day_of_month),
                         JsonAssignmentFilenamePolicy::MONTH => new Month($month)
                     ]
                 )

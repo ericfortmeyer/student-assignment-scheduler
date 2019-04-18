@@ -43,7 +43,7 @@ class JsonAssignmentFilenameTest extends TestCase
         $day_of_month_string = "02";
 
         $Month = new Month($month_string);
-        $DayOfMonth = new DayOfMonth($day_of_month_string);
+        $DayOfMonth = new DayOfMonth($Month, $day_of_month_string);
 
         // only what's needed to test
         $schedule_for_month = [
@@ -77,7 +77,7 @@ class JsonAssignmentFilenameTest extends TestCase
         $day_of_month_string = "04";
 
         $Month = new Month($month_string);
-        $DayOfMonth = new DayOfMonth($day_of_month_string);
+        $DayOfMonth = new DayOfMonth($Month, $day_of_month_string);
 
         // only what's needed to test
         $schedule_for_month = [

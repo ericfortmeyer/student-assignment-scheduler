@@ -18,14 +18,21 @@ final class DayOfMonth extends DateType
      * @var array $valid_formats
      */
     protected $valid_formats = [
-        "d",
+        "Md",
+        "MD",
+        "mD",
+        "md",
         "j",
-        "z",
-        "md"
+        "z"
     ];
 
     /**
      * @var string $dt_format
      */
     protected $dt_format = "d";
+
+    public function __construct(Month $month, string $day_of_month)
+    {
+        parent::__construct("${month}${day_of_month}");
+    }
 }

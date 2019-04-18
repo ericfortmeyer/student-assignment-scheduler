@@ -29,12 +29,12 @@ class AssignmentDateFieldTest extends TestCase
 
         
         $actual = assignmentDateField(
-            new DayOfMonth($given_day_of_month),
+            new DayOfMonth(new Month($given_month), $given_day_of_month),
             new AssignmentMonthFieldPolicy(
                 new Context([
                     AssignmentMonthFieldPolicy::SCHEDULE_FOR_MONTH => $mock_schedule,
                     AssignmentMonthFieldPolicy::MONTH => new Month($given_month),
-                    AssignmentMonthFieldPolicy::DAY_OF_MONTH => new DayOfMonth($given_day_of_month)
+                    AssignmentMonthFieldPolicy::DAY_OF_MONTH => new DayOfMonth(new Month($given_month), $given_day_of_month)
                 ])
             )
         );
@@ -57,10 +57,10 @@ class AssignmentDateFieldTest extends TestCase
                 $expected = "$given_month $given_day_of_month";
         
                 $actual = assignmentDateField(
-                    new DayOfMonth($given_day_of_month),
+                    new DayOfMonth(new Month($given_month), $given_day_of_month),
                     new AssignmentMonthFieldPolicy(
                         new Context([
-                            AssignmentMonthFieldPolicy::DAY_OF_MONTH => new DayOfMonth($given_day_of_month),
+                            AssignmentMonthFieldPolicy::DAY_OF_MONTH => new DayOfMonth(new Month($given_month), $given_day_of_month),
                             AssignmentMonthFieldPolicy::SCHEDULE_FOR_MONTH => $mock_schedule,
                             AssignmentMonthFieldPolicy::MONTH => new Month($given_month)
                         ])

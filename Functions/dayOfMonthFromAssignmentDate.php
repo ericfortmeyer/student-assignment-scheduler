@@ -2,9 +2,13 @@
 
 namespace StudentAssignmentScheduler\Functions;
 
-use StudentAssignmentScheduler\Classes\DayOfMonth;
+use StudentAssignmentScheduler\Classes\{
+    DayOfMonth,
+    Month
+};
 
 function dayOfMonthFromAssignmentDate(string $assignment_date): DayOfMonth
 {
-    return new DayOfMonth(explode(" ", $assignment_date)[1]);
+    [$month, $day] = explode(" ", $assignment_date);
+    return new DayOfMonth(new Month($month), $day);
 }
