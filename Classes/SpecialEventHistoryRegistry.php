@@ -170,6 +170,7 @@ final class SpecialEventHistoryRegistry implements ImmutableRegistryInterface
         $serialized = \serialize($this->names_of_histories);
         $encoded = \base64_encode($serialized);
         \file_put_contents($this->pathToRegistry(), $encoded, LOCK_EX);
+        chmod($this->pathToRegistry(), 0600);
     }
 
     private function pathToRegistry(): string

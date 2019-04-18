@@ -112,5 +112,6 @@ final class SpecialEventHistory implements Saveable, Retrievable, ImmutableModif
         $serialized = \serialize($this);
         $encoded = \base64_encode($serialized);
         \file_put_contents($location, $encoded, LOCK_EX);
+        chmod($location, 0600);
     }
 }
