@@ -28,10 +28,10 @@ abstract class DateType
     protected $dt_format = "";
 
     /**
-     * @param string $value
+     * @param int|string $value
      * @throws InvalidDateTypeArgumentException
      */
-    public function __construct(string $value)
+    public function __construct($value)
     {
         $dt = DateTimeImmutable::createFromFormat($this->dt_format, $value);
 
