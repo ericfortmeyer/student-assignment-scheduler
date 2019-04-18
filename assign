@@ -14,6 +14,7 @@ use function StudentAssignmentScheduler\Functions\{
     sendEmails,
     decryptedPassword,
     importAssignments,
+    removeYearKey,
     importSchedule,
     makeRequiredDirectories,
     CLI\writeAssignmentForms,
@@ -325,7 +326,11 @@ $createSchedule = function (string $month) use (
     $assignments = importAssignments($month, $path_to_json_assignments);
     $schedule = importSchedule($filename_of_schedule, $path_to_json_schedules);
     
-    $schedule_filename = $ScheduleWriter->create($assignments, $schedule, $month);
+    $schedule_filename = $ScheduleWriter->create(
+        removeYearKey($assignments),
+        $schedule,
+        $month
+    );
     return $schedule_filename;
 };
 

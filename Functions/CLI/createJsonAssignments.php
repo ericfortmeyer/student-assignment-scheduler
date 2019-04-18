@@ -53,12 +53,10 @@ function createJsonAssignments(
             $month = $schedule_for_month["month"];
             $year = $schedule_for_month["year"];
 
+            !file_exists($data_destination) && mkdir($data_destination, 0700);
+
             $haveAssignmentsAlreadyBeenCreated = function (string $month) use ($year, $data_destination): bool {
                 
-                if (!file_exists($data_destination)) {
-                    return false;
-                }
-
                 $weeksOfAssignments = importAssignments($month, $data_destination);
 
                 // we could test for a higher count here
