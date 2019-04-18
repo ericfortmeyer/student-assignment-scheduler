@@ -1,0 +1,9 @@
+<?php
+
+namespace StudentAssignmentScheduler\Persistence;
+
+interface ImmutableRegistryInterface
+{
+    public function register(Saveable $saveable): self;
+    public function latest(): object;
+}

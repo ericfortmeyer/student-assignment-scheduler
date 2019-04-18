@@ -1,0 +1,11 @@
+<?php
+
+namespace StudentAssignmentScheduler\Functions\CLI\Commands\SpecialEvents;
+
+use \Ds\Map;
+
+require "autoload.php";
+
+$command = (new Map($argv))->get(1, "");
+
+main($command);

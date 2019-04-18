@@ -6,6 +6,13 @@ $my_meeting_night = "Thursday";
 
 $my_language = "ASL";
 
+$special_events = [
+    "CO Visit",
+    "Assembly",
+    "Regional Convention",
+    "Memorial"
+];
+
 $workbook_format = "rtf";
 
 $monthly_schedule_format = "pdf";
@@ -26,6 +33,7 @@ return [
         "ASL" => "mwb_ASL_",
     ],
     "meeting_night" => $my_meeting_night,
+    "special_events" => $special_events,
     "monthly_schedule_format" => $monthly_schedule_format,
     "workbook_format" => $workbook_format,
     "workbook_download_destination" => __DIR__ . "/../workbooks/$workbook_format",
@@ -53,11 +61,13 @@ return [
         __DIR__ . "/../data/assignments",
         __DIR__ . "/../data/forms",
         __DIR__ . "/../data/schedules",
+        $special_events_location = __DIR__ . "/../data/special_events",
         __DIR__ . "/../workbooks/pdf",
         __DIR__ . "/../workbooks/rtf",
         __DIR__ . "/../tmp",
         __DIR__ . "/../log"
     ],
+    "special_events_location" => $special_events_location,
     "assignment_form_template" => __DIR__ . "/../Utils/templates/S-89-E.pdf",
     "schedule_template" => __DIR__ . "/../Utils/templates/S-140-E.pdf",
     "assignment_forms_destination" => __DIR__ . "/../data/forms",
