@@ -74,6 +74,7 @@ class ScheduleWriterTest extends TestCase
     protected function teardown()
     {
         file_exists($this->test_schedule_filename) && unlink($this->test_schedule_filename);
+        unlink($this->mock_registry);
     }
 
     public function testPdfWriterImplementationExists()
