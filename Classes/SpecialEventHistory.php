@@ -110,7 +110,7 @@ final class SpecialEventHistory implements Saveable, Retrievable, ImmutableModif
 
     /**
      * Persists the SpecialEventHistory object
-     * 
+     *
      * Events are arranged in chronological order before saving.
      * @param string $location
      * @return void

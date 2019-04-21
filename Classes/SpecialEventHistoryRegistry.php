@@ -52,10 +52,10 @@ final class SpecialEventHistoryRegistry implements ImmutableRegistryInterface
 
     /**
      * Provides a representation of the contents of the registry.
-     * 
+     *
      * Returns a stack of names given to the special event histories
      * that have been persisted.
-     * 
+     *
      * @return Stack Names of histories
      */
     private function read(): Stack
