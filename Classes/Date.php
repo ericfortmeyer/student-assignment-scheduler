@@ -48,7 +48,7 @@ final class Date extends DateType
     /**
      * @var string $dt_format
      */
-    protected $dt_format = "Y-M-d";
+    protected $dt_format = "Y-m-d";
 
 
     public function __construct(
