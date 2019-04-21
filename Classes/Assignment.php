@@ -20,7 +20,7 @@ final class Assignment
         $this->name = $name;
     }
 
-    public function __toArray(): array
+    public function toArray(): array
     {
         return [
             $this->number,
