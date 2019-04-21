@@ -50,6 +50,14 @@ final class SpecialEventHistoryRegistry implements ImmutableRegistryInterface
         return $this->names_of_histories->toArray();
     }
 
+    /**
+     * Provides a representation of the contents of the registry.
+     * 
+     * Returns a stack of names given to the special event histories
+     * that have been persisted.
+     * 
+     * @return Stack Names of histories
+     */
     private function read(): Stack
     {
         return \unserialize(
