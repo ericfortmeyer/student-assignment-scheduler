@@ -24,7 +24,7 @@ function main(string $command)
 
     // keep persistance layer immutable for easily adding undo later
     // use a registry of names of "histories"
-    $filename_of_registry = \base64_encode("registry");
+    $filename_of_registry = $config["special_events_registry_filename"];
 
     $special_events_directory = $config["special_events_location"];
 

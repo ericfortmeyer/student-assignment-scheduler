@@ -6,7 +6,9 @@ use function StudentAssignmentScheduler\Functions\shouldMakeAssignment;
 
 use StudentAssignmentScheduler\Classes\{
     Fullname,
-    ListOfContacts
+    ListOfContacts,
+    WeekOfAssignments,
+    Assignment
 };
 
 /**
@@ -17,39 +19,39 @@ use StudentAssignmentScheduler\Classes\{
  * @suppress PhanTypeInvalidUnaryOperandNumeric
  */
 function userCreatesWeekOfAssignments(
-    array $schedule_for_week,
+    WeekOfAssignments $schedule_for_week,
     string $assignment_date,
     string $year,
     ListOfContacts $ListOfContacts
 ): array {
     echo blue("Schedule for ${assignment_date}\r\n");
-    
+
+    $userCreatesAssignments = function (string $key, Assignment $assignment) use ($assignment_date, $ListOfContacts) {
+        $assignment_name = (string) $assignment;
+        echo heading($assignment_name);
+        return createAssignment(
+            $ListOfContacts,
+            $assignment_date,
+            $assignment_name,
+            retryUntilFullnameIsValid(
+                new Fullname(
+                    readline("Enter student's name: ")
+                ),
+                $ListOfContacts
+            ),
+            userAssignsAssistant($assignment_name, $ListOfContacts)
+        );
+    };
+
+    $onlyAssignmentsThatShouldBeScheduled = function (string $key, Assignment $assignment) {
+        return shouldMakeAssignment((string) $assignment);
+    };
+
     // use the union operator (+) instead of array_merge in order to preserve numeric keys
-    return
-        ["year" => $year] +
+    return ["year" => $year]
             + [createBibleReading($assignment_date, $ListOfContacts)]
-            + array_map(
-                function (string $assignment) use ($assignment_date, $ListOfContacts) {
-                    echo heading($assignment);
-                    return createAssignment(
-                        $ListOfContacts,
-                        $assignment_date,
-                        $assignment,
-                        retryUntilFullnameIsValid(
-                            new Fullname(
-                                readline("Enter student's name: ")
-                            ),
-                            $ListOfContacts
-                        ),
-                        userAssignsAssistant($assignment, $ListOfContacts)
-                    );
-                },
-                array_filter(
-                    $schedule_for_week,
-                    function (string $data, string $key) {
-                        return $key !== "date" && shouldMakeAssignment($data);
-                    },
-                    ARRAY_FILTER_USE_BOTH
-                )
-            );
+            + $schedule_for_week->assignments()
+                ->filter($onlyAssignmentsThatShouldBeScheduled)
+                ->map($userCreatesAssignments)
+                ->toArray();
 }

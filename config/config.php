@@ -13,6 +13,8 @@ $special_events = [
     "Memorial"
 ];
 
+$special_events_registry_filename = \base64_encode("registry");
+
 $workbook_format = "rtf";
 
 $monthly_schedule_format = "pdf";
@@ -68,6 +70,7 @@ return [
         __DIR__ . "/../log"
     ],
     "special_events_location" => $special_events_location,
+    "special_events_registry_filename" => $special_events_registry_filename,
     "assignment_form_template" => __DIR__ . "/../Utils/templates/S-89-E.pdf",
     "schedule_template" => __DIR__ . "/../Utils/templates/S-140-E.pdf",
     "assignment_forms_destination" => __DIR__ . "/../data/forms",

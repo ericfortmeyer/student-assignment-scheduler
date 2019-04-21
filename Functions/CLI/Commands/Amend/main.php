@@ -6,7 +6,10 @@ use \DateTimeImmutable;
 
 use StudentAssignmentScheduler\Classes\{
     Month,
+    Date,
     Destination,
+    WeekOfAssignments,
+    MonthOfAssignments,
     ListOfContacts,
     Fullname
 };
@@ -80,15 +83,26 @@ function main(
         )
     ];
 
-    $schedule_for_month = importSchedule($month->asText() . ".json", $path_to_json_schedules);
+    $schedule_for_month = new MonthOfAssignments(
+        importSchedule($month->asText() . ".json", $path_to_json_schedules)
+    );
+
+    $day_of_month = dayOfMonthFromAssignmentDate($userSelectedAssignment["date"]);
 
     copyAndSwapJsonAssignment(
         $userSelectedAssignment,
         $newAssignment,
-        $userSelectedWeek,
+        new WeekOfAssignments(
+            $schedule_for_month->month(),
+            $day_of_month,
+            new \Ds\Map($userSelectedWeek)
+        ),
         $schedule_for_month,
-        $month,
-        dayOfMonthFromAssignmentDate($userSelectedAssignment["date"]),
+        new Date(
+            $schedule_for_month->month(),
+            $day_of_month,
+            $schedule_for_month->year()
+        ),
         new Destination($path_to_json_assignments),
         new DateTimeImmutable()
     );
@@ -102,7 +116,7 @@ function main(
     $scheduleFilename = redoSchedule(
         $ScheduleWriter,
         $month,
-        $schedule_for_month,
+        $schedule_for_month->toArray(),
         $path_to_schedules,
         $path_to_json_assignments
     );
