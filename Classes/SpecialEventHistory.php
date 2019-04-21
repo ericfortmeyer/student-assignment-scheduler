@@ -114,4 +114,10 @@ final class SpecialEventHistory implements Saveable, Retrievable, ImmutableModif
         \file_put_contents($location, $encoded, LOCK_EX);
         chmod($location, 0600);
     }
+
+    public function hasFutureEvents(): bool
+    {
+        return !$this->history()->isEmpty()
+            && !$this->history()->peek()->date()->isPast();
+    }
 }

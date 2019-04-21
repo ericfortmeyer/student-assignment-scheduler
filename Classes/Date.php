@@ -2,6 +2,8 @@
 
 namespace StudentAssignmentScheduler\Classes;
 
+use \DateTimeImmutable;
+
 final class Date extends DateType
 {
     /**
@@ -61,5 +63,30 @@ final class Date extends DateType
         $params_as_string = "${year}-${month}-${day_of_month}";
 
         parent::__construct($params_as_string);
+    }
+
+    public function isPast(): bool
+    {
+        return new DateTimeImmutable($this) < new DateTimeImmutable("00:00");
+    }
+
+    public function asText(): string
+    {
+        return "{$this->month->asText()} {$this->day_of_month}";
+    }
+
+    public function month(): Month
+    {
+        return $this->month;
+    }
+
+    public function dayOfMonth(): DayOfMonth
+    {
+        return $this->day_of_month;
+    }
+
+    public function year(): Year
+    {
+        return $this->year;
     }
 }

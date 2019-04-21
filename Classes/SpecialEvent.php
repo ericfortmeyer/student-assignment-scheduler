@@ -60,4 +60,14 @@ final class SpecialEvent
     {
         return $this->type;
     }
+
+    public function date(): Date
+    {
+        return $this->date;
+    }
+
+    public function isPast(): bool
+    {
+        return $this->date->isPast();
+    }
 }
