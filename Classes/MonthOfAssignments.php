@@ -90,6 +90,17 @@ final class MonthOfAssignments
     {
         return ["month" => $this->month]
             + ["year" => $this->year]
-            + $this->WeeksOfAssignments->toArray();
+            + $this->WeeksOfAssignments
+                ->values()
+                ->map(
+                    function (WeekOfAssignments $week) {
+                        return $week->assignments()->map(
+                            function (int $key, Assignment $assignment) {
+                                return (string) $assignment;
+                            }
+                        )->toArray();
+                    }
+                )
+                ->toArray();
     }
 }
