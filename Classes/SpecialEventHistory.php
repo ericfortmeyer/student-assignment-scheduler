@@ -4,7 +4,8 @@ namespace StudentAssignmentScheduler\Classes;
 
 use \Ds\{
     Stack,
-    Map
+    Map,
+    Vector
 };
 
 use StudentAssignmentScheduler\Persistence\{
@@ -107,12 +108,37 @@ final class SpecialEventHistory implements Saveable, Retrievable, ImmutableModif
             ->add($new_item);
     }
 
+    /**
+     * Persists the SpecialEventHistory object
+     * 
+     * Events are arranged in chronological order before saving.
+     * @param string $location
+     * @return void
+     */
     public function save(string $location): void
     {
-        $serialized = \serialize($this);
+        $copy = clone $this;
+        $copy->history = $this->sortEventsInChronologicalOrder($copy->history());
+
+        $serialized = \serialize($copy);
         $encoded = \base64_encode($serialized);
         \file_put_contents($location, $encoded, LOCK_EX);
         chmod($location, 0600);
+    }
+
+    private function sortEventsInChronologicalOrder(Stack $original_history): Stack
+    {
+        $fromGreatestToLeast = function (SpecialEvent $a, SpecialEvent $b): int {
+            return $a->date() <=> $b->date();
+        };
+
+        return new Stack(
+            (new Vector($original_history))
+                // since we are using a stack and want the greatest
+                // date on the top of the stack, we will have to sort
+                // from greatest to least
+                ->sorted($fromGreatestToLeast)
+        );
     }
 
     public function hasFutureEvents(): bool
