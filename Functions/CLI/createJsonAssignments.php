@@ -70,8 +70,8 @@ function createJsonAssignments(
             $isPastMonth = new DateTimeImmutable("${year}-${month}") < new DateTimeImmutable("00:00");
 
             // do the assignments need to be created?
-            $shouldAbort = $isPastMonth || $MonthOfAssignments->weeks()->count() > 1;
-            $skipCreatingAssignments = $MonthOfAssignments->weeks()->count() > 1
+            $shouldAbort = $isPastMonth || $MonthOfAssignments->weeks()->count() < 2;
+            $skipCreatingAssignments = $MonthOfAssignments->weeks()->count() < 2
                 && !$hasScheduleAlreadyBeenCompleted($month);
             
         if ($shouldAbort || $skipCreatingAssignments) {
@@ -81,7 +81,7 @@ function createJsonAssignments(
         }
 
             $reply = readline(
-                readyForSchedulePrompt($month)
+                readyForSchedulePrompt($month->asText())
             );
 
         do {
