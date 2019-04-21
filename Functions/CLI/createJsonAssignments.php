@@ -48,8 +48,13 @@ function createJsonAssignments(
     $removeSpecialEventsFromSchedule = function (
         MonthOfAssignments $assignments
     ) use ($SpecialEventHistory): MonthOfAssignments {
+        
+        // we have to clone here since we will need to traverse
+        // the stack to check each schedule for special events
+        $CopyOfSpecialEventHistory = clone $SpecialEventHistory;
+        
         return removeSpecialEventsFromSchedule(
-            $SpecialEventHistory,
+            $CopyOfSpecialEventHistory,
             $assignments
         );
     };
@@ -87,7 +92,7 @@ function createJsonAssignments(
         do {
             if (yes($reply)) {
                 echo creatingScheduleMessage($month);
-                $MonthOfAssignments->weeks()->map(
+                $MonthOfAssignments->weeks()->apply(
                     function (
                         Date $date,
                         WeekOfAssignments $WeekOfAssignments
@@ -95,7 +100,7 @@ function createJsonAssignments(
                         $data_destination,
                         $ListOfContacts,
                         $MonthOfAssignments
-                    ) {
+                    ): void {
 
                         $filename = jsonAssignmentFilename(
                             new Destination($data_destination),
@@ -106,7 +111,9 @@ function createJsonAssignments(
                             )
                         );
 
-                        userDecidesToAbortOrRedoIfScheduleExists($filename, $date);
+                        if (scheduleExistsAndUserDoesNotWantToRedo($filename, $date)) {
+                            return;
+                        }
                             
                         save(
                             userCreatesWeekOfAssignments(
@@ -149,10 +156,10 @@ function createJsonAssignments(
     return $were_assignments_made;
 }
 
-function userDecidesToAbortOrRedoIfScheduleExists(
+function scheduleExistsAndUserDoesNotWantToRedo(
     string $filename_of_schedule,
     Date $date
-): void {
+): bool {
     if (file_exists($filename_of_schedule)) {
         echo green(
             "It looks like the schedule for {$date->asText()} is already complete." . PHP_EOL
@@ -161,16 +168,15 @@ function userDecidesToAbortOrRedoIfScheduleExists(
             prompt("Would you like to redo this week")
         );
 
-        do {
-            if (no($redo)) {
-                echo "ok\r\n";
-                return;
-            } elseif (yes($redo)) {
-                echo red("Redoing schedule for {$date->asText()}" . PHP_EOL);
-            } else {
-                echo "Please enter yes or no" . PHP_EOL;
-                $redo = readline(prompt("Redo"));
-            }
-        } while (notYesOrNo($redo));
+        if (no($redo)) {
+            echo "ok\r\n";
+            return true;
+        } elseif (yes($redo)) {
+            echo red("Redoing schedule for {$date->asText()}" . PHP_EOL);
+            return false;
+        } else {
+            echo "Please enter yes or no" . PHP_EOL;
+            return scheduleExistsAndUserDoesNotWantToRedo($filename_of_schedule, $date);
+        }
     }
 }
