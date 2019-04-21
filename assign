@@ -10,7 +10,8 @@ use StudentAssignmentScheduler\Classes\{
     ListOfContacts,
     Destination,
     SpecialEventHistory,
-    SpecialEventHistoryLocation
+    SpecialEventHistoryLocation,
+    SpecialEventHistoryRegistry
 };
 
 use function StudentAssignmentScheduler\Functions\{
@@ -247,6 +248,15 @@ $hasScheduleAlreadyBeenCompleted = function (string $month) use ($monthly_schedu
 
 $assignmentsWereMade = false;
 
+$special_events_directory = new Destination($config["special_events_location"]);
+
+$SpecialEventsRegistry = new SpecialEventHistoryRegistry(
+    buildPath((string) $special_events_directory, $config["special_events_registry_filename"]),
+    $special_events_directory
+);
+
+$SpecialEventHistory = $SpecialEventsRegistry->latest();
+
 $createJsonAssignments = function (
     $carry,
     int $year
@@ -254,6 +264,7 @@ $createJsonAssignments = function (
     &$path_to_json_schedules,
     &$path_to_json_assignments,
     &$assignmentsWereMade,
+    $SpecialEventHistory,
     $hasScheduleAlreadyBeenCompleted,
     $ListOfContacts
 ) {
@@ -272,12 +283,7 @@ $createJsonAssignments = function (
          $path_to_json_assignments,
          $hasScheduleAlreadyBeenCompleted,
          $ListOfContacts,
-         new SpecialEventHistory(
-             new SpecialEventHistoryLocation(
-                 new Destination($config["special_events_location"]),
-                 $config["special_events_registry_filename"]
-             )
-        )
+         $SpecialEventHistory
      );
 };
 
