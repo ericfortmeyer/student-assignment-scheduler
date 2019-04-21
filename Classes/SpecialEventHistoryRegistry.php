@@ -50,7 +50,7 @@ final class SpecialEventHistoryRegistry implements ImmutableRegistryInterface
         return $this->names_of_histories->toArray();
     }
 
-    private function read(): iterable
+    private function read(): Stack
     {
         return \unserialize(
             \base64_decode(
