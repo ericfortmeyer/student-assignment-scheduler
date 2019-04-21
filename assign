@@ -9,6 +9,7 @@ use StudentAssignmentScheduler\Utils\{PdfAssignmentFormWriter, PdfScheduleWriter
 use StudentAssignmentScheduler\Classes\{
     ListOfContacts,
     Destination,
+    MonthOfAssignments,
     SpecialEventHistory,
     SpecialEventHistoryLocation,
     SpecialEventHistoryRegistry
@@ -21,7 +22,9 @@ use function StudentAssignmentScheduler\Functions\{
     decryptedPassword,
     importAssignments,
     removeYearKey,
-    importSchedule,
+    removeSpecialEventsFromSchedule,
+    importJson,
+    weeksFrom,
     makeRequiredDirectories,
     CLI\writeAssignmentForms,
     CLI\createJsonAssignments,
@@ -334,15 +337,22 @@ $MonthsOfFormsWritten->isEmpty()
  */
 $createSchedule = function (string $month) use (
     $ScheduleWriter,
+    $SpecialEventHistory,
     $path_to_json_assignments,
     $path_to_json_schedules
 ): string {
 
-    $filename_of_schedule = "${month}.json";
+    $filename_of_schedule = buildPath($path_to_json_schedules, "${month}.json");
     
+    $schedule = weeksFrom(removeSpecialEventsFromSchedule(
+        $SpecialEventHistory,
+        new MonthOfAssignments(
+            importJson($filename_of_schedule)
+        )
+    )->toArray());
+
     $assignments = importAssignments($month, $path_to_json_assignments);
-    $schedule = importSchedule($filename_of_schedule, $path_to_json_schedules);
-    
+        
     $schedule_filename = $ScheduleWriter->create(
         removeYearKey($assignments),
         $schedule,
