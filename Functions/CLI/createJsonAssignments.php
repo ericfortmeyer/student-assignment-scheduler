@@ -179,4 +179,5 @@ function scheduleExistsAndUserDoesNotWantToRedo(
             return scheduleExistsAndUserDoesNotWantToRedo($filename_of_schedule, $date);
         }
     }
+    return false;
 }
