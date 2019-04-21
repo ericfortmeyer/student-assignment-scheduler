@@ -6,7 +6,12 @@ use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;
 
 use StudentAssignmentScheduler\Utils\{PdfAssignmentFormWriter, PdfScheduleWriter, MailSender};
-use StudentAssignmentScheduler\Classes\ListOfContacts;
+use StudentAssignmentScheduler\Classes\{
+    ListOfContacts,
+    Destination,
+    SpecialEventHistory,
+    SpecialEventHistoryLocation
+};
 
 use function StudentAssignmentScheduler\Functions\{
     workbookParserImplementation,
@@ -263,10 +268,16 @@ $createJsonAssignments = function (
      * A json file is created for each week of assignments.
      */
      $assignmentsWereMade = createJsonAssignments(
-         $path_to_json_schedules,
+         new Destination($path_to_json_schedules),
          $path_to_json_assignments,
          $hasScheduleAlreadyBeenCompleted,
-         $ListOfContacts
+         $ListOfContacts,
+         new SpecialEventHistory(
+             new SpecialEventHistoryLocation(
+                 new Destination($config["special_events_location"]),
+                 $config["special_events_registry_filename"]
+             )
+        )
      );
 };
 

@@ -11,17 +11,22 @@ use StudentAssignmentScheduler\Rules\{
 
 use StudentAssignmentScheduler\Classes\{
     Month,
-    DayOfMonth
+    Date,
+    DayOfMonth,
+    Year,
+    MonthOfAssignments
 };
 
 class AssignmentDateFieldTest extends TestCase
 {
     public function testDateIsMovedToNextMonthWhenWeekOverlaps()
     {
-        $given_month = "April";
-        $given_day_of_month = "02";
+        $given_month = new Month("April");
+        $given_day_of_month = new DayOfMonth($given_month, "02");
+        $given_year = new Year(2058);
         $mock_schedule = $this->mockSchedule(
-            $given_month,
+            $given_year,
+            $given_month->asText(),
             ["04", "11", "25", "02"]
         );
 
@@ -29,13 +34,16 @@ class AssignmentDateFieldTest extends TestCase
 
         
         $actual = assignmentDateField(
-            new DayOfMonth(new Month($given_month), $given_day_of_month),
+            $given_day_of_month,
             new AssignmentMonthFieldPolicy(
-                new Context([
-                    AssignmentMonthFieldPolicy::SCHEDULE_FOR_MONTH => $mock_schedule,
-                    AssignmentMonthFieldPolicy::MONTH => new Month($given_month),
-                    AssignmentMonthFieldPolicy::DAY_OF_MONTH => new DayOfMonth(new Month($given_month), $given_day_of_month)
-                ])
+                new MonthOfAssignments(
+                    $mock_schedule
+                ),
+                new Date(
+                    $given_month,
+                    $given_day_of_month,
+                    $given_year
+                )
             )
         );
                 
@@ -44,26 +52,34 @@ class AssignmentDateFieldTest extends TestCase
     
     public function testDateIsNotMovedToNextMonthWhenWeekDoesNotOverlap()
     {
-        $given_month = "April";
+        $given_month = new Month("April");
+        $given_year = new Year(2058);
         $date_in_schedule = ["04", "11", "25", "02"];
 
         $mock_schedule = $this->mockSchedule(
-            $given_month,
+            $given_year,
+            $given_month->asText(),
             $date_in_schedule
         );
         
         array_map(
-            function(string $given_day_of_month) use ($given_month, $mock_schedule) {
-                $expected = "$given_month $given_day_of_month";
+            function(string $given_day_of_month_string) use ($given_month, $given_year, $mock_schedule) {
+                $expected = "{$given_month->asText()} $given_day_of_month_string";
+
+                $given_day_of_month = new DayOfMonth($given_month, $given_day_of_month_string);
+
         
                 $actual = assignmentDateField(
-                    new DayOfMonth(new Month($given_month), $given_day_of_month),
+                    $given_day_of_month,
                     new AssignmentMonthFieldPolicy(
-                        new Context([
-                            AssignmentMonthFieldPolicy::DAY_OF_MONTH => new DayOfMonth(new Month($given_month), $given_day_of_month),
-                            AssignmentMonthFieldPolicy::SCHEDULE_FOR_MONTH => $mock_schedule,
-                            AssignmentMonthFieldPolicy::MONTH => new Month($given_month)
-                        ])
+                        new MonthOfAssignments(
+                            $mock_schedule
+                        ),
+                        new Date(
+                            $given_month,
+                            $given_day_of_month,
+                            $given_year
+                        )
                     )
                 );
         
@@ -81,10 +97,11 @@ class AssignmentDateFieldTest extends TestCase
 
     }
     
-    public function mockSchedule(string $given_month, array $dates_in_schedule): array
+    public function mockSchedule(string $given_year, string $given_month, array $dates_in_schedule): array
     {
         // only what's needed to test
         return [
+            "year" => $given_year,
             "month" => $given_month,
             [ "date" => $dates_in_schedule[0] ],
             [ "date" => $dates_in_schedule[1] ],

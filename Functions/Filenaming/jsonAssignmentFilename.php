@@ -3,8 +3,7 @@
 namespace StudentAssignmentScheduler\Functions\Filenaming;
 
 use StudentAssignmentScheduler\Classes\Destination;
-use StudentAssignmentScheduler\Classes\Month;
-use StudentAssignmentScheduler\Classes\DayOfMonth;
+use StudentAssignmentScheduler\Classes\Date;
 
 use StudentAssignmentScheduler\Rules\RuleInterface;
 
@@ -29,10 +28,9 @@ use StudentAssignmentScheduler\Rules\RuleInterface;
 */
 function jsonAssignmentFilename(
     Destination $destination,
-    Month $month,
-    DayOfMonth $day_of_month,
+    Date $date,
     RuleInterface $rule
 ): string {
     $ext = ".json";
-    return "${destination}/${month}_{$rule->result()->is()}${day_of_month}${ext}";
+    return "${destination}/{$date->month()}_{$rule->result()->is()}{$date->dayOfMonth()}${ext}";
 }

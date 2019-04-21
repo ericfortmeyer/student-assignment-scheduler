@@ -3,10 +3,10 @@
 namespace StudentAssignmentScheduler\Functions;
 
 use StudentAssignmentScheduler\{
-    Classes\Month,
-    Classes\DayOfMonth,
+    Classes\Date,
+    Classes\MonthOfAssignments,
+    Classes\WeekOfAssignments,
     Classes\Destination,
-    Rules\Context,
     Rules\JsonAssignmentFilenamePolicy
 };
 
@@ -15,10 +15,9 @@ use \DateTimeImmutable;
 function copyAndSwapJsonAssignment(
     array $original_assignment,
     array $new_assignment,
-    array $week_of_assignments,
-    array $schedule_for_month,
-    Month $Month,
-    DayOfMonth $DayOfMonth,
+    WeekOfAssignments $week_of_assignments,
+    MonthOfAssignments $schedule_for_month,
+    Date $date,
     Destination $path_to_json_assignments,
     DateTimeImmutable $date_time,
     bool $test_mode = false,
@@ -29,39 +28,30 @@ function copyAndSwapJsonAssignment(
         __NAMESPACE__ . "\\ORIGINAL_FILENAME",
         // filename of original
         (function (
-            array $schedule_for_month,
+            MonthOfAssignments $schedule_for_month,
             Destination $path_to_json_assignments,
-            Month $Month,
-            DayOfMonth $DayOfMonth
+            Date $date
         ): string {
-
-
-            $schedule_for_month[JsonAssignmentFilenamePolicy::MONTH] = $Month->asText();
 
             return Filenaming\jsonAssignmentFilename(
                 $path_to_json_assignments,
-                $Month,
-                $DayOfMonth,
+                $date,
                 new JsonAssignmentFilenamePolicy(
-                    new Context(
-                        [
-                            JsonAssignmentFilenamePolicy::SCHEDULE_FOR_MONTH => $schedule_for_month,
-                            JsonAssignmentFilenamePolicy::DAY_OF_MONTH => $DayOfMonth,
-                            JsonAssignmentFilenamePolicy::MONTH => $Month
-                        ]
-                    )
+                    $schedule_for_month,
+                    $date
                 )
             );
         })(
             $schedule_for_month,
             $path_to_json_assignments,
-            $Month,
-            $DayOfMonth
+            $date
         )
     );
 
+    $week_of_assignments_as_array = $week_of_assignments->toArrayWithYearKey($date->year());
+
     save(
-        $week_of_assignments,
+        $week_of_assignments_as_array,
         Filenaming\jsonAssignmentCopyFilename(
             $path_to_json_assignments,
             $date_time,
@@ -82,8 +72,8 @@ function copyAndSwapJsonAssignment(
         unlink($filename);
         save($replaced_assignment, $filename, $test_mode, $test_registry);
     })(
-        array_replace($week_of_assignments, $new_assignment),
-        $week_of_assignments,
+        array_replace($week_of_assignments_as_array, $new_assignment),
+        $week_of_assignments_as_array,
         ORIGINAL_FILENAME,
         $test_mode,
         $test_registry

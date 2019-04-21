@@ -12,8 +12,11 @@ use \DateTimeImmutable;
 
 use StudentAssignmentScheduler\{
     Rules\JsonAssignmentFilenamePolicy,
-    Rules\Context,
     Classes\Destination,
+    Classes\MonthOfAssignments,
+    Classes\WeekOfAssignments,
+    Classes\Date,
+    Classes\Year,
     Classes\Month,
     Classes\DayOfMonth
 };
@@ -30,25 +33,29 @@ class CopyAndSwapJsonAssignmentTest extends TestCase
     {
         $path_to_mock_assignments = buildPath(__DIR__, "..", "mocks");
         $this->test_registry = buildPath($path_to_mock_assignments, sha1("test") . ".php");
-        $month = "January";
-        $day_of_month = "31";
+        $month = new Month("January");
+        $day_of_month = new DayOfMonth($month, "31");
+        $year = new Year(2019);
+
+        $date = new Date(
+            $month,
+            $day_of_month,
+            $year
+        );
+
         $schedule_for_month = json_decode(
-            file_get_contents(buildPath($path_to_mock_assignments, "months", "${month}.json")),
+            file_get_contents(buildPath($path_to_mock_assignments, "months", "{$month->asText()}.json")),
             true
         );
         // create mock json assignment file
         $filename = Filenaming\jsonAssignmentFilename(
             new Destination($path_to_mock_assignments),
-            $Month = new Month($month),
-            new DayOfMonth($Month, $day_of_month),
+            $date,
             new JsonAssignmentFilenamePolicy(
-                new Context(
-                    [
-                        JsonAssignmentFilenamePolicy::SCHEDULE_FOR_MONTH => $schedule_for_month,
-                        JsonAssignmentFilenamePolicy::DAY_OF_MONTH => new DayOfMonth($Month, $day_of_month),
-                        JsonAssignmentFilenamePolicy::MONTH => new Month($month)
-                    ]
-                )
+                new MonthOfAssignments(
+                    $schedule_for_month
+                ),
+                $date
             )
         );
 
@@ -88,10 +95,13 @@ class CopyAndSwapJsonAssignmentTest extends TestCase
         copyAndSwapJsonAssignment(
             $original_assignment,
             $this->newAssignment($key_of_original_assignment, $original_assignment),
-            $mock_original_weeks_of_assignments,
-            $schedule_for_month,
-            new Month($month),
-            dayOfMonthFromAssignmentDate($original_assignment["date"]),
+            new WeekOfAssignments($month, $day_of_month, new \Ds\Map($mock_original_weeks_of_assignments)),
+            new MonthOfAssignments($schedule_for_month),
+            new Date(
+                $month,
+                dayOfMonthFromAssignmentDate($original_assignment["date"]),
+                $year
+            ),
             new Destination($path_to_mock_assignments),
             $date_time,
             true,
@@ -157,6 +167,7 @@ class CopyAndSwapJsonAssignmentTest extends TestCase
     protected function originalData(): array
     {
         return [
+            "year" => "2019",
             4 => [
                 "date" => "January 31",
                 "assignment" => "Bible Reading",
@@ -177,8 +188,7 @@ class CopyAndSwapJsonAssignmentTest extends TestCase
                 "name" => "Forrest Gump",
                 "counsel point" => "",
                 "assistant" => ""
-            ],
-            "year" => "2019"
+            ]
         ];
     }
 
