@@ -85,13 +85,13 @@ function createJsonAssignments(
             return;
         }
 
-            $reply = readline(
-                readyForSchedulePrompt($month->asText())
-            );
+        $reply = readline(
+            readyForSchedulePrompt($month->asText())
+        );
 
         do {
             if (yes($reply)) {
-                echo creatingScheduleMessage($month);
+                echo creatingScheduleMessage($month->asText());
                 $MonthOfAssignments->weeks()->apply(
                     function (
                         Date $date,

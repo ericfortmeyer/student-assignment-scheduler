@@ -27,7 +27,6 @@ function removeSpecialEventsFromSchedule(
                     // remove it
                     return false;
                 }
-
             }
             return true;
         }
