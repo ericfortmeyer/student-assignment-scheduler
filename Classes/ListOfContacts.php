@@ -55,6 +55,18 @@ class ListOfContacts
         return $copyOfContacts;
     }
 
+    public function map(\Closure $callable): self
+    {
+        $copyOfContacts = clone $this;
+        $copyOfContacts->contacts = new Set(
+            array_map(
+                $callable,
+                $copyOfContacts->toArray()
+            )
+        );
+        return $copyOfContacts;
+    }
+
     public function reduce(\Closure $callable)
     {
         return $this->contacts->reduce($callable);

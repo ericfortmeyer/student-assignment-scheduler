@@ -18,8 +18,8 @@ if (!defined(__NAMESPACE__ . "\QUIT_MESSAGE")) {
 function editContact(
     ListOfContacts $OriginalContacts,
     int $key_of_original_contact,
-    string $secret_key,
     string $path_to_contacts_file,
+    string $secret_key,
     array $prompts
 ): void {
     print  purple("Now changing {$OriginalContacts->get($key_of_original_contact)}") . PHP_EOL . PHP_EOL;
@@ -113,5 +113,5 @@ function editContact(
             $path_to_contacts_file,
             $prompts
         );
-    })($OriginalContacts, $key_of_original_contact, $path_to_contacts_file, $secret_key, $prompts);
+    })($OriginalContacts, $key_of_original_contact, $secret_key, $path_to_contacts_file, $prompts);
 }

@@ -153,7 +153,12 @@ file_exists($contacts_file)
 
 file_exists($schedule_recipients_file)
     || setupScheduleRecipients(
-        $schedule_recipients_file
+        $schedule_recipients_file,
+        secretKey(
+            getenv("s"),
+            masterKey(getenv("m"))
+        )
+
     )
     && $schedule_recipients = getScheduleRecipients(
         $schedule_recipients_file,

@@ -6,6 +6,7 @@ use function StudentAssignmentScheduler\Functions\{
     buildPath,
     Encryption\masterKey,
     Encryption\secretKey,
+    Encryption\unbox,
     Bootstrapping\setupKeys
 };
 

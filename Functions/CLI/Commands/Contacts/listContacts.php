@@ -2,9 +2,22 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI\Commands\Contacts;
 
-use StudentAssignmentScheduler\Classes\ListOfContacts;
+use StudentAssignmentScheduler\Classes\{
+    ListOfContacts,
+    Contact
+};
+
+use function StudentAssignmentScheduler\Functions\CLI\displayList;
 
 function listContacts(ListOfContacts $contacts)
 {
-    print_r($contacts->toArray());
+    displayList(
+        $contacts
+            ->map(
+                function (Contact $contact): string {
+                    return (string) $contact;
+                }
+            )
+            ->toArray()
+    );
 }

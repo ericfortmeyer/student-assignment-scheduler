@@ -83,7 +83,7 @@ class Contact
 
     public function lastName(): string
     {
-        return ucfirst($this->first_name);
+        return ucfirst($this->last_name);
     }
 
     public function emailAddress(): string

@@ -7,7 +7,12 @@ use \Ds\{
     Set
 };
 
-use function StudentAssignmentScheduler\Functions\Encryption\box;
+use StudentAssignmentScheduler\Classes\ListOfContacts;
+
+use function StudentAssignmentScheduler\Functions\Encryption\{
+    box,
+    unbox
+};
 
 if (!defined(__NAMESPACE__ . "\QUIT_MESSAGE")) {
     define(
@@ -79,11 +84,9 @@ function addContacts(string $path_to_contacts_file, string $key, array $prompts 
     
         yes($reply)
             && (function (Set $contacts, string $path_to_contacts_file, string $key) {
-                $originalContactsOrEmptyArray = file_exists($path_to_contacts_file)
-                    ? require $path_to_contacts_file
-                    : [];
+
                 box(
-                    $contacts->merge($originalContactsOrEmptyArray)->toArray(),
+                    sensitiveData($contacts, $path_to_contacts_file, $key),
                     $path_to_contacts_file,
                     $key
                 );
@@ -95,4 +98,16 @@ function addContacts(string $path_to_contacts_file, string $key, array $prompts 
     
         no($reply) && addContacts($path_to_contacts_file, $key, $prompts);
     }
+}
+
+function sensitiveData(Set $contacts, string $path_to_contacts_file, string $key)
+{
+    $original_data = unbox(
+        $path_to_contacts_file,
+        $key
+    );
+
+    return basename($path_to_contacts_file) === "schedule_recipients"
+        ? $contacts->merge(new Set($original_data))->toArray()
+        : (new ListOfContacts($contacts->toArray()))->union($original_data);
 }
