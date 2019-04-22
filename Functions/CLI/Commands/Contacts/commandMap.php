@@ -32,6 +32,7 @@ function commandMap(string $key): Map
                 );
             },
             "add" => function (ListOfContacts $contacts, string $path_to_contacts) use ($key) {
+                !file_exists(dirname($path_to_contacts)) && mkdir(dirname($path_to_contacts));
                 addContacts(
                     $path_to_contacts,
                     $key,
