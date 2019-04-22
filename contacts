@@ -5,7 +5,8 @@ namespace StudentAssignmentScheduler\Functions\CLI\Commands\Contacts;
 use function StudentAssignmentScheduler\Functions\{
     buildPath,
     Encryption\masterKey,
-    Encryption\secretKey
+    Encryption\secretKey,
+    Bootstrapping\setupKeys
 };
 
 use \Ds\Map;
