@@ -43,8 +43,8 @@ $command = (new Map($argv))->get(1, "");
 
 
 $key = secretKey(
-    buildPath($path_to_secrets, getenv("s")),
-    masterKey($path_to_secrets, getenv("m"))
+    getenv("s"),
+    masterKey(getenv("m"))
 );
 
 main($contacts_file, $key, $command);

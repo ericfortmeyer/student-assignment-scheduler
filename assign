@@ -137,8 +137,8 @@ file_exists($contacts_file)
     || setupContacts(
         $contacts_file,
         secretKey(
-            buildPath($path_to_secrets, getenv("s")),
-            masterKey($path_to_secrets, getenv("m"))
+            getenv("s"),
+            masterKey(getenv("m"))
         )
     )
     && $ListOfContacts = getContacts(
