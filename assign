@@ -19,6 +19,7 @@ use function StudentAssignmentScheduler\Functions\{
     workbookParserImplementation,
     createJsonSchedulesFromWorkbooks,
     sendEmails,
+    getContacts,
     Bootstrapping\setupKeys,
     Encryption\secretKey,
     Encryption\masterKey,
