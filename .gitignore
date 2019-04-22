@@ -24,6 +24,8 @@ data/forms/*
 data/schedules/*
 data/assignments/*
 data/special_events/*
+data/contacts/*
+data/secrets/*
 
 # do not include downloaded content from the website per user agreement
 workbooks/pdf/*

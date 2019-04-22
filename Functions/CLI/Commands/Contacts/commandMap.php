@@ -6,45 +6,45 @@ use function StudentAssignmentScheduler\Functions\CLI\addContacts;
 use function StudentAssignmentScheduler\Functions\promptsForContacts;
 use function StudentAssignmentScheduler\Functions\promptsForScheduleRecipients;
 
+use StudentAssignmentScheduler\Classes\ListOfContacts;
+use \Ds\Map;
 
-use \Ds\{
-    Map,
-    Set
-};
-
-function commandMap(): Map
+function commandMap(string $key): Map
 {
     return new Map(
         [
-            "list" => function (Set $contacts) {
+            "list" => function (ListOfContacts $contacts) {
                 listContacts($contacts);
             },
-            "edit" => function (Set $contacts, string $path_to_contacts) {
+            "edit" => function (ListOfContacts $contacts, string $path_to_contacts) use ($key) {
                 editMode(
                     $contacts,
                     $path_to_contacts,
+                    $key,
                     getPrompts($path_to_contacts)
                 );
             },
-            "remove" => function (Set $contacts, string $path_to_contacts) {
+            "remove" => function (ListOfContacts $contacts, string $path_to_contacts) use ($key) {
                 deleteMode(
                     $contacts,
-                    $path_to_contacts
+                    $path_to_contacts,
+                    $key
                 );
             },
-            "add" => function (Set $contacts, string $path_to_contacts) {
+            "add" => function (ListOfContacts $contacts, string $path_to_contacts) use ($key) {
                 addContacts(
                     $path_to_contacts,
+                    $key,
                     getPrompts($path_to_contacts)
                 );
             }
-            ]
+        ]
     );
 }
     
 function getPrompts(string $path_to_contacts): array
 {
-    return basename($path_to_contacts) === "schedule_recipients.php"
+    return basename($path_to_contacts) === "schedule_recipients"
         ? promptsForScheduleRecipients()
         : promptsForContacts();
 }

@@ -2,9 +2,11 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI\Commands\Contacts;
 
-use \Ds\Set;
+use function StudentAssignmentScheduler\Functions\Encryption\unbox;
 
-function main(string $path_to_contacts, string $command)
+use StudentAssignmentScheduler\Classes\ListOfContacts;
+
+function main(string $path_to_contacts, string $key, string $command)
 {
     if (!file_exists($path_to_contacts)) {
         echo "It looks like the contacts haven't been setup." . PHP_EOL
@@ -12,13 +14,13 @@ function main(string $path_to_contacts, string $command)
         return;
     }
 
-    $contacts = new Set(require $path_to_contacts);
+    $contacts = unbox($path_to_contacts, $key);
 
-    $orDefault = function (Set $contacts, string $path_to_contacts) {
+    $orDefault = function (ListOfContacts $contacts, string $path_to_contacts) {
         listContacts($contacts);
     };
 
-    $selectedCommand = commandMap()->get($command, $orDefault);
+    $selectedCommand = commandMap($key)->get($command, $orDefault);
 
     $selectedCommand($contacts, $path_to_contacts);
 }

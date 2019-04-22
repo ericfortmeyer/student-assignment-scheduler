@@ -2,7 +2,8 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI;
 
-use function \StudentAssignmentScheduler\Functions\generateContactsFile;
+use function StudentAssignmentScheduler\Functions\Encryption\box;
+use StudentAssignmentScheduler\Classes\ListOfContacts;
 
 use \Ds\Vector;
 use \Ds\Set;
@@ -11,7 +12,7 @@ if (!defined(__NAMESPACE__ . "\QUIT_MESSAGE")) {
     define(__NAMESPACE__ . "\QUIT_MESSAGE", "(type q for quit)");
 }
 
-function setupContacts(string $path_to_contacts_file, ?string $retry_message = null): bool
+function setupContacts(string $path_to_contacts_file, string $key, ?string $retry_message = null): bool
 {
     print $retry_message ? $retry_message . PHP_EOL : purple("Now setting up contacts") . PHP_EOL . PHP_EOL;
 
@@ -79,13 +80,19 @@ function setupContacts(string $path_to_contacts_file, ?string $retry_message = n
         $reply = readline(prompt("Does everything look good"));
     
         if (yes($reply)) {
-            generateContactsFile($contacts->toArray(), $path_to_contacts_file);
+            box(
+                new ListOfContacts(
+                    $contacts->toArray()
+                ),
+                $path_to_contacts_file,
+                $key
+            );
             print PHP_EOL;
             return true;
         }
     
         $retry_message = red("Ok try again");
     
-        no($reply) && setupContacts($path_to_contacts_file, $retry_message);
+        no($reply) && setupContacts($path_to_contacts_file, $key, $retry_message);
     }
 }

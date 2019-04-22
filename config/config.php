@@ -63,10 +63,11 @@ return [
         __DIR__ . "/../data/assignments",
         __DIR__ . "/../data/forms",
         __DIR__ . "/../data/schedules",
-        $special_events_location = __DIR__ . "/../data/special_events",
+        __DIR__ . "/../data/contacts",
         __DIR__ . "/../workbooks/pdf",
         __DIR__ . "/../workbooks/rtf",
         __DIR__ . "/../tmp",
+        $special_events_location = __DIR__ . "/../data/special_events",
         __DIR__ . "/../log"
     ],
     "special_events_location" => $special_events_location,

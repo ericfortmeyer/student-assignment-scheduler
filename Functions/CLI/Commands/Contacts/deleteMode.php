@@ -2,11 +2,11 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI\Commands\Contacts;
 
-use function StudentAssignmentScheduler\Functions\generateContactsFile;
+use StudentAssignmentScheduler\Classes\ListOfContacts;
 
-use \Ds\Set;
+use function StudentAssignmentScheduler\Functions\Encryption\box;
 
-function deleteMode(Set $contacts, string $path_to_contacts)
+function deleteMode(ListOfContacts $contacts, string $path_to_contacts, string $key)
 {
     listContacts($contacts);
 
@@ -17,14 +17,15 @@ function deleteMode(Set $contacts, string $path_to_contacts)
 
         $contacts->remove($selected);
 
-        generateContactsFile(
-            $contacts->toArray(),
-            $path_to_contacts
+        box(
+            $contacts,
+            $path_to_contacts,
+            $key
         );
 
         print "${selected} has been deleted." . PHP_EOL;
     } catch (\OutOfRangeException $e) {
         print "Oops! It looks like ${index} is not on the list." . PHP_EOL;
-        deleteMode($contacts, $path_to_contacts);
+        deleteMode($contacts, $path_to_contacts, $key);
     }
 }

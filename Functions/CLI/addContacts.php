@@ -2,10 +2,12 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI;
 
-use function \StudentAssignmentScheduler\Functions\generateContactsFile;
+use \Ds\{
+    Vector,
+    Set
+};
 
-use \Ds\Vector;
-use \Ds\Set;
+use function StudentAssignmentScheduler\Functions\Encryption\box;
 
 if (!defined(__NAMESPACE__ . "\QUIT_MESSAGE")) {
     define(
@@ -14,7 +16,7 @@ if (!defined(__NAMESPACE__ . "\QUIT_MESSAGE")) {
     );
 }
 
-function addContacts(string $path_to_contacts_file, array $prompts = []): void
+function addContacts(string $path_to_contacts_file, string $key, array $prompts = []): void
 {
     print purple("Now adding to your list of contacts:") . PHP_EOL . PHP_EOL;
 
@@ -76,20 +78,21 @@ function addContacts(string $path_to_contacts_file, array $prompts = []): void
         $reply = readline(prompt("Does everything look good"));
     
         yes($reply)
-            && (function (Set $contacts, string $path_to_contacts_file) {
+            && (function (Set $contacts, string $path_to_contacts_file, string $key) {
                 $originalContactsOrEmptyArray = file_exists($path_to_contacts_file)
                     ? require $path_to_contacts_file
                     : [];
-
-                generateContactsFile(
+                box(
                     $contacts->merge($originalContactsOrEmptyArray)->toArray(),
-                    $path_to_contacts_file
+                    $path_to_contacts_file,
+                    $key
                 );
+        
                 print "Adding contacts successful!" . PHP_EOL;
-            })($contacts, $path_to_contacts_file);
+            })($contacts, $path_to_contacts_file, $key);
     
         $retry_message = red("Ok try again");
     
-        no($reply) && addContacts($path_to_contacts_file, $prompts);
+        no($reply) && addContacts($path_to_contacts_file, $key, $prompts);
     }
 }

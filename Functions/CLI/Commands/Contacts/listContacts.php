@@ -2,9 +2,9 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI\Commands\Contacts;
 
-use \Ds\Set;
+use StudentAssignmentScheduler\Classes\ListOfContacts;
 
-function listContacts(Set $contacts)
+function listContacts(ListOfContacts $contacts)
 {
     print_r($contacts->toArray());
 }

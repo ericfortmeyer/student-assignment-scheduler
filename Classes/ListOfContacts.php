@@ -2,27 +2,67 @@
 
 namespace StudentAssignmentScheduler\Classes;
 
+use \Ds\Set;
+
 class ListOfContacts
 {
     public const NOT_SETUP_YET = "no emails set up yet",
                  TOO_MANY_EMAILS_RETURNED = "too many returned";
                 
-                 
-    protected $contacts = [];
+    /**
+     * @var Set $contacts
+     */
+    protected $contacts;
 
     public function __construct(array $contacts = [])
     {
-        $this->contacts = array_map(
+        $this->contacts = new Set(array_map(
             function (string $contact_info): Contact {
                 return new Contact($contact_info);
             },
             $contacts
-        );
+        ));
     }
 
     public function are(): array
     {
+        return $this->contacts->toArray();
+    }
+
+    public function toSet(): Set
+    {
         return $this->contacts;
+    }
+
+    public function get(int $index): Contact
+    {
+        return $this->contacts->get($index);
+    }
+
+    public function remove(Contact $contact): void
+    {
+        $this->contacts->remove($contact);
+    }
+
+    public function union(self $ListOfContacts): self
+    {
+        $copyOfContacts = clone $this;
+        $copyOfContacts->contacts = $copyOfContacts
+            ->toSet()
+            ->union(
+                $ListOfContacts->toSet()
+            );
+        return $copyOfContacts;
+    }
+
+    public function reduce(\Closure $callable)
+    {
+        return $this->contacts->reduce($callable);
+    }
+
+    public function toArray(): array
+    {
+        return $this->contacts->toArray();
     }
 
     public function contains(string $value): bool
@@ -39,7 +79,7 @@ class ListOfContacts
 
     public function addContact(Contact $contact): void
     {
-        $this->contacts[] = $contact;
+        $this->contacts->add($contact);
     }
 
     public function getContactByFirstName(string $first_name)
@@ -73,37 +113,33 @@ class ListOfContacts
 
     /**
      *
-     * @return Contact|bool
+     * @suppress PhanTypeMismatchReturn
+     * @throws \Exception
+     * @return Contact
      */
     protected function searchByType(
-        array $haystack,
+        Set $haystack,
         string $type = "",
         string $needle = "",
         bool $use_fullname = false,
         array $both = [Contact::FIRST_NAME => "", Contact::LAST_NAME => ""]
-    ) {
-        if (empty($haystack)) {
+    ): Contact {
+        if ($haystack->isEmpty()) {
             throw new \Exception(static::NOT_SETUP_YET);
         }
 
-        $result = $use_fullname === false
-            ? array_filter(
-                $haystack,
-                function ($contact) use ($needle, $type) {
+        return $use_fullname === false
+            ? $haystack->filter(
+                function ($contact) use ($needle, $type): bool {
                     return $contact->get($type) === strtolower($needle);
                 }
-            )
-            : array_filter(
-                $haystack,
-                function ($contact) use ($both) {
+            )->first()
+            : $haystack->filter(
+                function ($contact) use ($both): bool {
                     return $contact->get(Contact::FIRST_NAME) === strtolower($both[Contact::FIRST_NAME])
                         && $contact->get(Contact::LAST_NAME) === strtolower($both[Contact::LAST_NAME]);
                 }
-            );
-
-        return count($result) > 1
-                ? $this->throwTooManyReturned()
-                : current($result);
+            )->first();
     }
 
     protected function throwTooManyReturned()

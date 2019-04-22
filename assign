@@ -19,6 +19,9 @@ use function StudentAssignmentScheduler\Functions\{
     workbookParserImplementation,
     createJsonSchedulesFromWorkbooks,
     sendEmails,
+    Bootstrapping\setupKeys,
+    Encryption\secretKey,
+    Encryption\masterKey,
     decryptedPassword,
     importAssignments,
     removeYearKey,
@@ -84,55 +87,82 @@ $config_dir = file_exists("config")
 //
 /////////////////////////
 
+// setup email and secret keys if they haven't already been setup
+try {
+    $path_to_secrets = buildPath(__DIR__, "data", "secrets");
+    $env_dir = __DIR__;
+    $email_vars = [
+        "from_email",
+        "from_email_password",
+        "from_email_nonce",
+        "from_email_key",
+        "smtp_host",
+    ];
+    $secrets_vars = [
+        "m",
+        "s"
+    ];
+    $Dotenv = new Dotenv($env_dir);
+    $Dotenv->load();
+} catch (\Dotenv\Exception\InvalidPathException $e) {
+    setupEmail($env_dir); // user interaction
+    setupKeys($path_to_secrets, $env_dir);
+    $Dotenv->load();
+}
+
+try {
+    $Dotenv->required($email_vars);
+} catch (\Dotenv\Exception\ValidationException $e) {
+    setupEmail($env_dir);
+    $Dotenv->load();
+}
+
+try {
+    $Dotenv->required($secrets_vars);
+} catch (\Dotenv\Exception\ValidationException $e) {
+    setupKeys($path_to_secrets, $env_dir);
+    $Dotenv->load();
+}
+
 // the contacts file and schedule recipients must be setup first
 
 // 1. Contacts
 // does the user want to setup contacts now
-$contacts_file = buildPath(__DIR__, $config_dir, "contacts.php");
+
+$contacts_dir = buildPath(__DIR__, "data", "contacts");
+$contacts_file = buildPath($contacts_dir, "contacts");
+$schedule_recipients_file = buildPath($contacts_dir, "schedule_recipients");
 
 file_exists($contacts_file)
-    && !empty($contacts = require $contacts_file)
-    || setupContacts($contacts_file)
-    && $contacts = require $contacts_file;
+    || setupContacts(
+        $contacts_file,
+        secretKey(
+            buildPath($path_to_secrets, getenv("s")),
+            masterKey($path_to_secrets, getenv("m"))
+        )
+    )
+    && $ListOfContacts = getContacts(
+        $contacts_file,
+        getenv("m"),
+        getenv("s")
+    );
 
 // 2. Who should receive the full schedule for the month
 // does the user want to setup schedule recipients now
-$schedule_recipients_config_file = buildPath(__DIR__, $config_dir, "schedule_recipients.php");
 
-file_exists($schedule_recipients_config_file)
-    && !empty($schedule_recipients = require $schedule_recipients_config_file)
-    || setupScheduleRecipients($schedule_recipients_config_file)
-    && $schedule_recipients = require $schedule_recipients_config_file;
-
-
-// 3. email configuration
-// there must be a .env file with email configuration
-$env_dir = __DIR__;
-// these fields are required in the .env file
-$env_required_fields = [
-    "from_email",
-    "from_email_password",
-    "from_email_nonce",
-    "from_email_key",
-    "smtp_host"
-];
-
-
-try {
-    $Dotenv = new Dotenv($env_dir);
-    $Dotenv->load();
-} catch (\Dotenv\Exception\InvalidPathException $e) {
-    // user interaction
-    setupEmail($env_dir);
-
-    $Dotenv = new Dotenv($env_dir);
-    $Dotenv->load();
-}
-
-$Dotenv->required($env_required_fields);
+file_exists($schedule_recipients_file)
+    || setupScheduleRecipients(
+        $schedule_recipients_file
+    )
+    && $schedule_recipients = getScheduleRecipients(
+        $schedule_recipients_file,
+        getenv("m"),
+        getenv("s")
+    );
 
 // 4. make required directories
 makeRequiredDirectories($config["make_these_directories"]);
+
 
 //////////////////////////
 //
@@ -143,7 +173,6 @@ makeRequiredDirectories($config["make_these_directories"]);
 $WorkbookParser = workbookParserImplementation($config);
 $AssignmentFormWriter = new PdfAssignmentFormWriter($config);
 $ScheduleWriter = new PdfScheduleWriter($config);
-$ListOfContacts = new ListOfContacts($contacts);
 $MailSender = new MailSender(
     new PHPMailer(true),
     getenv("from_email"),

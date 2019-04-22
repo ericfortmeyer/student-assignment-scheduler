@@ -81,6 +81,11 @@ class Contact
         return ucfirst($this->first_name);
     }
 
+    public function lastName(): string
+    {
+        return ucfirst($this->first_name);
+    }
+
     public function emailAddress(): string
     {
         return $this->email_address;
@@ -88,6 +93,11 @@ class Contact
 
     public function fullname(): string
     {
-        return ucwords("{$this->first_name} {$this->last_name}");
+        return ucwords("{$this->firstName()} {$this->lastName()}");
+    }
+
+    public function __toString()
+    {
+        return "{$this->fullname()} {$this->emailAddress()}";
     }
 }

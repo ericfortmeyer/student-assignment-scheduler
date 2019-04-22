@@ -2,25 +2,27 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI;
 
-use function \StudentAssignmentScheduler\Functions\generateContactsFile;
+use function StudentAssignmentScheduler\Functions\Encryption\box;
+
+use StudentAssignmentScheduler\Classes\{
+    ListOfContacts,
+    Contact
+};
 
 use \Ds\Vector;
-use \Ds\Set;
 
 if (!defined(__NAMESPACE__ . "\QUIT_MESSAGE")) {
     define(__NAMESPACE__ . "\QUIT_MESSAGE", "(type q for quit)");
 }
 
 function editContact(
-    Set $OriginalContacts,
+    ListOfContacts $OriginalContacts,
     int $key_of_original_contact,
+    string $secret_key,
     string $path_to_contacts_file,
     array $prompts
 ): void {
     print  purple("Now changing {$OriginalContacts->get($key_of_original_contact)}") . PHP_EOL . PHP_EOL;
-
-    // use Set to prevent duplicates
-    $contacts = new Set();
 
     $get_data_from_user = function (string $prompt, string $input_type): array {
         $tuple = exec("read -p '${prompt} ' input; echo \$input");
@@ -31,11 +33,11 @@ function editContact(
             : [$tuple, ucfirst($tuple)];
     };
 
-    $display_old = function (string $contact): void {
+    $display_old = function (Contact $contact): void {
         print red("-->") . " ${contact}" . PHP_EOL;
     };
 
-    $display_new = function ($carry, string $contact): void {
+    $display_new = function ($carry, Contact $contact): void {
         print green("-->") . " ${contact}" . PHP_EOL;
     };
 
@@ -58,15 +60,17 @@ function editContact(
 
         $replies->push($reply_checked);
     };
-    
-    $contacts->add($replies->join(" "));
 
+    
+    $ModifiedContacts = new ListOfContacts(
+        [new Contact($replies->join(" "))]
+    );
 
     print PHP_EOL . purple("Here's the old contact:") . PHP_EOL;
     $display_old($OriginalContacts->get($key_of_original_contact));
 
     print PHP_EOL . purple("Here's the what you entered:") . PHP_EOL;
-    $contacts->reduce($display_new);
+    $ModifiedContacts->reduce($display_new);
 
 
     $reply = readline(prompt("Does everything look good"));
@@ -74,34 +78,40 @@ function editContact(
 
     yes($reply)
         && (function (
-            Set $contacts,
-            Set $OriginalContacts,
+            ListOfContacts $ModifiedContacts,
+            ListOfContacts $OriginalContacts,
             int $key_of_original_contact,
+            string $secret_key,
             string $path_to_contacts_file
         ) {
                 $OriginalContacts->remove(
                     $OriginalContacts->get($key_of_original_contact)
                 );
-                
-                
-                generateContactsFile($contacts->union($OriginalContacts)->toArray(), $path_to_contacts_file);
+
+                box(
+                    $ModifiedContacts->union($OriginalContacts),
+                    $path_to_contacts_file,
+                    $secret_key
+                );
                 
                 print "Editing contact successful!" . PHP_EOL;
-        })($contacts, $OriginalContacts, $key_of_original_contact, $path_to_contacts_file);
+        })($ModifiedContacts, $OriginalContacts, $key_of_original_contact, $secret_key, $path_to_contacts_file);
 
     $retry_message = red("Ok try again");
 
     no($reply) && (function (
-        Set $OriginalContacts,
+        ListOfContacts $OriginalContacts,
         int $key_of_original_contact,
+        string $secret_key,
         string $path_to_contacts_file,
         array $prompts
     ) {
         editContact(
             $OriginalContacts,
             $key_of_original_contact,
+            $secret_key,
             $path_to_contacts_file,
             $prompts
         );
-    })($OriginalContacts, $key_of_original_contact, $path_to_contacts_file, $prompts);
+    })($OriginalContacts, $key_of_original_contact, $path_to_contacts_file, $secret_key, $prompts);
 }
