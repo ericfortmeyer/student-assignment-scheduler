@@ -86,11 +86,11 @@ function addContacts(string $path_to_contacts_file, string $key, array $prompts 
             && (function (Set $contacts, string $path_to_contacts_file, string $key) {
 
                 box(
-                    sensitiveData($contacts, $path_to_contacts_file, $key),
+                    $test = sensitiveData($contacts, $path_to_contacts_file, $key),
                     $path_to_contacts_file,
                     $key
                 );
-        
+
                 print "Adding contacts successful!" . PHP_EOL;
             })($contacts, $path_to_contacts_file, $key);
     
@@ -102,12 +102,17 @@ function addContacts(string $path_to_contacts_file, string $key, array $prompts 
 
 function sensitiveData(Set $contacts, string $path_to_contacts_file, string $key)
 {
-    $original_data = unbox(
-        $path_to_contacts_file,
-        $key
-    );
-
     return basename($path_to_contacts_file) === "schedule_recipients"
-        ? $contacts->merge(new Set($original_data))->toArray()
-        : (new ListOfContacts($contacts->toArray()))->union($original_data);
+        ? $contacts->merge(
+            new Set(
+                file_exists($path_to_contacts_file)
+                    ? unbox($path_to_contacts_file, $key)
+                    : []
+            )
+        )->toArray()
+        : (new ListOfContacts($contacts->toArray()))->union(
+            file_exits($path_to_contacts_file)
+                ? unbox($path_to_contacts_file, $key)
+                : new ListOfContacts([])
+        );
 }

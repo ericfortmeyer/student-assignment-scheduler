@@ -141,12 +141,13 @@ file_exists($contacts_file)
             getenv("s"),
             masterKey(getenv("m"))
         )
-    )
-    && $ListOfContacts = getContacts(
-        $contacts_file,
-        getenv("m"),
-        getenv("s")
     );
+
+$ListOfContacts = getContacts(
+    $contacts_file,
+    getenv("m"),
+    getenv("s")
+);
 
 // 2. Who should receive the full schedule for the month
 // does the user want to setup schedule recipients now
