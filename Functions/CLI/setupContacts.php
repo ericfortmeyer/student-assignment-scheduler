@@ -78,6 +78,9 @@ function setupContacts(string $path_to_contacts_file, string $key, ?string $retr
         $contacts->reduce($display_result);
 
         $reply = readline(prompt("Does everything look good"));
+
+        !\file_exists(dirname($path_to_contacts_file))
+            && mkdir(dirname($path_to_contacts_file));
     
         if (yes($reply)) {
             box(
