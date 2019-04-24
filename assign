@@ -353,6 +353,7 @@ $assignmentsWereMade
 
 $MonthsOfFormsWritten = writeAssignmentForms(
     $AssignmentFormWriter,
+    $ListOfContacts,
     $path_to_json_assignments,
     $path_to_json_schedules,
     $hasScheduleAlreadyBeenCompleted,
