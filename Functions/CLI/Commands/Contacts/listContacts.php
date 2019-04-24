@@ -11,13 +11,9 @@ use function StudentAssignmentScheduler\Functions\CLI\displayList;
 
 function listContacts(ListOfContacts $contacts)
 {
-    displayList(
-        $contacts
-            ->map(
-                function (Contact $contact): string {
-                    return (string) $contact;
-                }
-            )
-            ->toArray()
-    );
+    $toString = function (Contact $contact): string {
+        return (string) $contact;
+    };
+    
+    displayList($contacts->map($toString)->toArray());
 }
