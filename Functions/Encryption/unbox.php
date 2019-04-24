@@ -6,7 +6,7 @@ function unbox(
     string $path_to_sensitive_data,
     string $key,
     string $associated_data = "studentassignmentscheduler"
-): object {
+) {
     return wakeup(
         decrypt(
             \base64_decode(
