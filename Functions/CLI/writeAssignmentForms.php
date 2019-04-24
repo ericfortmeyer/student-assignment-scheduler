@@ -2,6 +2,7 @@
 
 namespace StudentAssignmentScheduler\Functions\CLI;
 
+use StudentAssignmentScheduler\Classes\ListOfContacts;
 use StudentAssignmentScheduler\Utils\AssignmentFormWriterInterface;
 use function StudentAssignmentScheduler\Functions\writeMonthOfAssignmentForms;
 use function StudentAssignmentScheduler\Functions\monthsFromScheduleFilenames;
@@ -28,6 +29,7 @@ use \Ds\Vector;
  */
 function writeAssignmentForms(
     AssignmentFormWriterInterface $AssignmentFormWriter,
+    ListOfContacts $ListOfContacts,
     string $path_to_json_assignments_files,
     string $path_to_json_schedules,
     Closure $hasScheduleAlreadyBeenCompleted,
@@ -37,6 +39,7 @@ function writeAssignmentForms(
 
     $writeForms = function (array $arr) use (
         $AssignmentFormWriter,
+        $ListOfContacts,
         $path_to_json_assignments_files,
         $hasScheduleAlreadyBeenCompleted
     ): ?string {
@@ -59,6 +62,7 @@ function writeAssignmentForms(
         if (yes($reply)) {
             writeMonthOfAssignmentForms(
                 $AssignmentFormWriter,
+                $ListOfContacts,
                 $array_of_month_of_assignments
             );
 

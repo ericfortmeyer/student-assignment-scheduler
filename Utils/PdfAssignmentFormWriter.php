@@ -48,8 +48,11 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
      * @param mixed[] $data
      * @return void
      */
-    public function create(string $assignment_number, array $data): void
-    {
+    public function create(
+        string $assignment_number,
+        array $data,
+        string $basename_of_target_file_with_ext
+    ): void {
         /**
          * Must do this each time you call the create method.
          * Since the Fpdi object closes the document each time you output a pdf,
@@ -70,7 +73,7 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
         $this->markAssignment($data["assignment"]);
         
         $this->createPDF(
-            "{$this->config["assignment_forms_destination"]}/{$this->filenameFromStudentName($data["name"])}"
+            "{$this->config["assignment_forms_destination"]}/${basename_of_target_file_with_ext}"
         );
     }
 
