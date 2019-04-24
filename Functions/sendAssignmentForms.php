@@ -3,9 +3,11 @@
 namespace StudentAssignmentScheduler\Functions;
 
 use StudentAssignmentScheduler\Utils\MailSender;
-use StudentAssignmentScheduler\Classes\ListOfContacts;
+use StudentAssignmentScheduler\Classes\Contact;
 use function StudentAssignmentScheduler\Functions\CLI\red;
 use function StudentAssignmentScheduler\Functions\Logging\emailLogger;
+
+use \Ds\Map;
 
 define(
     "NO_ASSIGNMENT_FORMS_ERROR_MSG",
@@ -22,68 +24,48 @@ define(
  */
 function sendAssignmentForms(
     MailSender $MailSender,
-    ListOfContacts $ListOfContacts,
-    string $path_to_forms
+    Map $MapOfAttachmentFilenamesToTheirRecipients
 ) {
 
     $log = emailLogger(__FUNCTION__);
 
-    array_map(
-        function (string $file) use ($MailSender, $ListOfContacts, $log, $path_to_forms) {
-            try {
-                $contact = $ListOfContacts->getContactByFirstName(
-                    firstNameFromFilename($file)
-                );
+    $emailAssignmentForms = function (string $filename_of_attachment, Contact $contact) use ($MailSender, $log) {
+        try {
+            $MailSender
+                ->addBody("Dear {$contact->firstName()},\r\n\r\nHere's your next assignment.\r\n\r\nThanks!")
+                ->withRecipient($contact->emailAddress(), $contact->fullname())
+                ->addAttachment($filename_of_attachment)
+                ->send();
 
-                if (!$contact) {
-                    $message = firstNameFromFilename($file) . " could not be found in your list"
-                        . " of contacts.  Please add their name and email address"
-                        . " to your list of contacts and try running the script again.";
+            echo "Email sent: {$contact->emailAddress()}\r\n";
 
-                    throw new \Exception($message);
-                }
-    
-                $attachment = "$path_to_forms/$file";
-    
-                $MailSender
-                    ->addBody("Dear {$contact->firstName()},\r\n\r\nHere's your next assignment.\r\n\r\nThanks!")
-                    ->withRecipient($contact->emailAddress(), $contact->fullname())
-                    ->addAttachment($attachment)
-                    ->send();
-    
-                echo "Email sent: {$contact->emailAddress()}\r\n";
+            $log->info(
+                "Email sent: {email_address}",
+                ["email_address" => $contact->emailAddress()]
+            );
 
-                $log->info(
-                    "Email sent: {email_address}",
-                    ["email_address" => $contact->emailAddress()]
-                );
+            /**
+             * Delete attachment
+             *
+             * Since assignment slips are created and this function is called each time the script is run,
+             * the file needs to be deleted or duplicates will be created
+             */
+            unlink($filename_of_attachment);
 
-                /**
-                 * Delete attachment
-                 *
-                 * Since assignment slips are created and this function is called each time the script is run,
-                 * the file needs to be deleted or duplicates will be created
-                 */
-                unlink($attachment);
+            $log->info(
+                "Assignment slip deleted"
+            );
+        } catch (\Throwable $e) {
+            echo "EMAIL SEND FAILURE: {$e->getMessage()}\r\n";
+            $log->error(
+                "Email not sent to {email_address}. Reason: {error_message}",
+                [
+                        "email_address" => $contact ? $contact->emailAddress() : "NOT CONFIGURED",
+                        "error_message" => $e->getMessage()
+                    ]
+            );
+        }
+    };
 
-                $log->info(
-                    "Assignment slip deleted"
-                );
-            } catch (\Throwable $e) {
-                echo "EMAIL SEND FAILURE: {$e->getMessage()}\r\n";
-                $log->error(
-                    "Email not sent to {email_address}. Reason: {error_message}",
-                    [
-                            "email_address" => $contact ? $contact->emailAddress() : "NOT CONFIGURED",
-                            "error_message" => $e->getMessage()
-                        ]
-                );
-            }
-        },
-        filenamesInDirectory(
-            $path_to_forms,
-            NO_ASSIGNMENT_FORMS_ERROR_MSG,
-            true
-        )
-    );
+    $MapOfAttachmentFilenamesToTheirRecipients->map($emailAssignmentForms);
 }

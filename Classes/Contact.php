@@ -2,6 +2,8 @@
 
 namespace StudentAssignmentScheduler\Classes;
 
+use \Ds\Set;
+
 class Contact
 {
     public const FIRST_NAME = "first_name",
@@ -9,18 +11,52 @@ class Contact
                  EMAIL      = "email_address",
                  EMAIL_ADDRESS = "email_address";
 
+    /**
+     * @var Guid $guid
+     */
+    protected $guid;
+
+    /**
+     * @var string $first_name
+     */
     protected $first_name;
+    
+    /**
+     * @var string $last_name
+     */
     protected $last_name;
+
+    /**
+     * @var Fullname $fullname
+     */
+    protected $fullname;
+    
+    /**
+     * @var string $email_addrss
+     */
     protected $email_address;
+
+    /**
+     * @var Set $contact_info
+     */
+    protected $contact_info;
 
     public function __construct(string $space_separated_contact_info = "")
     {
         $separated = explode(" ", $space_separated_contact_info);
-        [$first_name, $last_name, $email_address] = $this->validate($separated);
+        $contact_info = [$first_name, $last_name, $email_address] = $this->validate($separated);
+
+
 
         $this->first_name = $first_name;
         $this->last_name = $last_name;
         $this->email_address = $email_address;
+
+        $this->fullname = new Fullname($first_name, $last_name);
+
+        $this->guid = new Guid();
+
+        $this->contact_info = new Set(array_merge($contact_info, [$this->fullname()]));
     }
 
     private function validate(array $contact_info): array
@@ -50,30 +86,35 @@ class Contact
             $first_name, $last_name, $email_address
         ];
     }
+
+    public function is(Fullname $fullname): bool
+    {
+        return (string) $this->fullname === (string) $fullname;
+    }
+
+    public function hasGuid(Guid $guid): bool
+    {
+        return (string) $this->guid === (string) $guid;
+    }
+
+    public function contains(string $value): bool
+    {
+        return $this->contact_info->contains($value);
+    }
     
     private function invalidArgumentMessage(string $type, array $contact_info): string
     {
         return "${type} not set in contact info for " . implode(" ", $contact_info);
     }
 
-    public function addFirstName(string $first_name)
-    {
-        $this->first_name = strtolower($first_name);
-    }
-
-    public function addLastName(string $last_name)
-    {
-        $this->last_name = strtolower($last_name);
-    }
-
-    public function addEmailAddress(string $email_address)
-    {
-        $this->email_address = strtolower($email_address);
-    }
-
     public function get(string $property): string
     {
         return $this->$property;
+    }
+
+    public function guid(): Guid
+    {
+        return $this->guid;
     }
 
     public function firstName(): string
@@ -93,7 +134,7 @@ class Contact
 
     public function fullname(): string
     {
-        return ucwords("{$this->firstName()} {$this->lastName()}");
+        return $this->fullname;
     }
 
     public function __toString()

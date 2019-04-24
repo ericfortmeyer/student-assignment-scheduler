@@ -5,6 +5,8 @@ namespace StudentAssignmentScheduler\Functions;
 use StudentAssignmentScheduler\Utils\MailSender;
 use StudentAssignmentScheduler\Classes\ListOfContacts;
 
+use \Ds\Set;
+
 function sendEmails(
     MailSender $MailSender,
     ListOfContacts $ListOfContacts,
@@ -22,8 +24,12 @@ function sendEmails(
 
     sendAssignmentForms(
         $MailSender,
-        $ListOfContacts,
-        $assignment_forms_destination
+        filenamesMappedToTheirRecipient(
+            new Set(
+                filenamesInDirectory($assignment_forms_destination)
+            ),
+            $ListOfContacts
+        )
     );
 
 
