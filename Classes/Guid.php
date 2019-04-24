@@ -33,7 +33,7 @@ final class Guid
      * Perform validation of Guid string.
      *
      * @throws \InvalidArgumentException
-     * @param string $guid_string Value to test
+     * @param string $string_to_test Value to test
      * @return void
      */
     private function validate(string $string_to_test): void
