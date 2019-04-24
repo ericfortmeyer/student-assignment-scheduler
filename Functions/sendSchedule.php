@@ -22,7 +22,7 @@ function sendSchedule(
             $log,
             $schedule_filename
         ) {
-            $contact = $ListOfContacts->getContactByFullname(
+            $contact = $ListOfContacts->findByFullname(
                 ...splitFullName($recipient)
             );
 

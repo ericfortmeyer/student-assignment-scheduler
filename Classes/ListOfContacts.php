@@ -14,14 +14,26 @@ class ListOfContacts
      */
     protected $contacts;
 
+    /**
+     * @throws \InvalidArgumentException
+     * @param array<int,string|Contact> $contacts
+     */
     public function __construct(array $contacts = [])
     {
-        $this->contacts = new Set(array_map(
-            function (string $contact_info): Contact {
-                return new Contact($contact_info);
-            },
-            $contacts
-        ));
+        $validContactsOrThrowException = function ($contact_info) {
+            return is_string($contact_info)
+                ? new Contact($contact_info)
+                : (
+                    is_a($contact_info, Contact::class)
+                        ? $contact_info
+                        : (function () {
+                            $message = "Contact info should be of type string or " . Contact::class;
+                            throw new \InvalidArgumentException($message);
+                        })()
+                    );
+        };
+
+        $this->contacts = new Set(array_map($validContactsOrThrowException, $contacts));
     }
 
     public function are(): array
@@ -79,79 +91,60 @@ class ListOfContacts
 
     public function contains(string $value): bool
     {
-        return $this->getContactByFirstName($value)
-            || $this->getContactByLastName($value)
-            || $this->getContactByEmailAddress($value)
-            || (function (array $nameSplit) {
-                    return count($nameSplit) > 1
-                        ? $this->getContactByFullName($nameSplit[0], $nameSplit[1])
-                        : false;
-            })(explode(" ", $value));
-    }
+        $hasContactContainingTheValue = function ($carry, Contact $contact) use ($value): bool {
+            return $carry or $contact->contains($value);
+        };
 
-    public function addContact(Contact $contact): void
-    {
-        $this->contacts->add($contact);
-    }
-
-    public function getContactByFirstName(string $first_name)
-    {
-        return $this->searchByType($this->contacts, CONTACT::FIRST_NAME, $first_name);
-    }
-
-    public function getContactByLastName(string $last_name)
-    {
-        return $this->searchByType($this->contacts, CONTACT::LAST_NAME, $last_name);
-    }
-
-    public function getContactByEmailAddress(string $email_address)
-    {
-        return $this->searchByType($this->contacts, Contact::EMAIL_ADDRESS, $email_address);
-    }
-
-    public function getContactByFullName(string $first_name, string $last_name)
-    {
-        return $this->searchByType(
-            $this->contacts,
-            "",
-            "",
-            true,
-            [
-                Contact::FIRST_NAME => $first_name,
-                Contact::LAST_NAME => $last_name
-            ]
-        );
+        return $this->reduce($hasContactContainingTheValue);
     }
 
     /**
+     * Creates a new instance of ListOfContacts having the contact that was given.
      *
-     * @suppress PhanTypeMismatchReturn
-     * @throws \Exception
-     * @return Contact
+     * @param Contact $contact
+     * @return self
      */
-    protected function searchByType(
-        Set $haystack,
-        string $type = "",
-        string $needle = "",
-        bool $use_fullname = false,
-        array $both = [Contact::FIRST_NAME => "", Contact::LAST_NAME => ""]
-    ): Contact {
-        if ($haystack->isEmpty()) {
-            throw new \Exception(static::NOT_SETUP_YET);
-        }
+    public function withContact(Contact $contact): self
+    {
+        return $this->union(new self([$contact]));
+    }
 
-        return $use_fullname === false
-            ? $haystack->filter(
-                function ($contact) use ($needle, $type): bool {
-                    return $contact->get($type) === strtolower($needle);
-                }
-            )->first()
-            : $haystack->filter(
-                function ($contact) use ($both): bool {
-                    return $contact->get(Contact::FIRST_NAME) === strtolower($both[Contact::FIRST_NAME])
-                        && $contact->get(Contact::LAST_NAME) === strtolower($both[Contact::LAST_NAME]);
-                }
-            )->first();
+    /**
+     * @param Fullname $fullname
+     * @return Contact|bool
+     */
+    public function findByFullname(Fullname $fullname)
+    {
+        $searchUsingFullname = function ($alreadyFound, Contact $contact) use ($fullname) {
+            $fullnameMatches = function (Fullname $fullname, Contact $contact): bool {
+                return $contact->is($fullname);
+            };
+
+            return $alreadyFound
+                ? $alreadyFound
+                : ($fullnameMatches($fullname, $contact) ? $contact : false);
+        };
+
+        return $this->reduce($searchUsingFullname);
+    }
+
+    /**
+     * @param Guid $guid
+     * @return Contact|bool
+     */
+    public function findByGuid(Guid $guid)
+    {
+        $searchUsingGuid = function ($alreadyFound, Contact $contact) use ($guid) {
+            $guidMatches = function (Guid $guid, Contact $contact) {
+                return $contact->hasGuid($guid);
+            };
+
+            return $alreadyFound
+                ? $alreadyFound
+                : ($guidMatches($guid, $contact) ? $contact : false);
+        };
+
+        return $this->reduce($searchUsingGuid);
     }
 
     protected function throwTooManyReturned()
