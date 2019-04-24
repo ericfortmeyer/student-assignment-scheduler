@@ -28,6 +28,7 @@ use function StudentAssignmentScheduler\Functions\{
     removeYearKey,
     redoSchedule,
     dayOfMonthFromAssignmentDate,
+    Filenaming\assignmentFormFilename,
     CLI\createAssignment,
     CLI\userAssignsAssistant,
     CLI\retryUntilFullnameIsValid
@@ -110,7 +111,11 @@ function main(
     writeAssignmentFormFromAssignment(
         $AssignmentFormWriter,
         $assignment_number,
-        $newAssignment[$assignment_number]
+        $newAssignment[$assignment_number],
+        assignmentFormFilename(
+            new Fullname(...explode(" ", $newAssignment[$assignment_number]["name"])),
+            $ListOfContacts
+        )
     );
 
     $scheduleFilename = redoSchedule(
