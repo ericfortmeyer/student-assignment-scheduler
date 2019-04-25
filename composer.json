@@ -10,9 +10,10 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "ext-ast": "*",
-        "ext-ds": "*",
+        "php": "^7.2",
+        "ext-ast": "^1.0",
+        "ext-ds": "^1.2",
+        "ext-zip": "^1.15",
         "phpmailer/phpmailer": "^6.0",
         "vlucas/phpdotenv": "^2.5",
         "setasign/fpdi": "^2.1",
