@@ -20,6 +20,7 @@ class ListOfContacts
      */
     public function __construct(array $contacts = [])
     {
+        $this->contacts = new Set();
         $validContactsOrThrowException = function ($contact_info) {
             return is_string($contact_info)
                 ? new Contact($contact_info)
@@ -56,14 +57,28 @@ class ListOfContacts
         $this->contacts->remove($contact);
     }
 
+    /**
+     * Combine two ListOfContact instances.
+     *
+     * A new ListOfContacts containing all of the values of
+     * the current instance as well as the values of
+     * another ListOfContacts.
+     *
+     * @suppress PhanPossiblyNullTypeMismatchProperty
+     *
+     * @param self $ListOfContacts
+     * @return self
+     */
     public function union(self $ListOfContacts): self
     {
         $copyOfContacts = clone $this;
+
         $copyOfContacts->contacts = $copyOfContacts
             ->toSet()
             ->union(
                 $ListOfContacts->toSet()
-            );
+            ); // \Ds\Set::union triggers Phan error
+
         return $copyOfContacts;
     }
 
