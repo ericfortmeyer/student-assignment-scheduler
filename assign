@@ -85,6 +85,7 @@ $config_dir = file_exists("config")
 // USER CONFIGURATION
 //
 /////////////////////////
+makeRequiredDirectories($config["make_these_directories"]);
 
 // setup email and secret keys if they haven't already been setup
 try {
@@ -164,12 +165,6 @@ $schedule_recipients = getScheduleRecipients(
     getenv("m"),
     getenv("s")
 );
-
-// 4. make required directories
-makeRequiredDirectories($config["make_these_directories"]);
-
-
-$one = 1;
 
 //////////////////////////
 //
