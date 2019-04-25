@@ -13,11 +13,11 @@ function includeFilesInDirectory(string $directory)
         function (string $filename) use ($directory) {
             is_dir("${directory}/${filename}")
                 ? includeFilesInDirectory("${directory}/${filename}")
-                : include_once "${directory}/${filename}";
+                : require_once "${directory}/${filename}";
         },
         array_diff(
             scandir($directory),
-            [".", "..", ".DS_Store", __FILE__]
+            [".", "..", ".DS_Store", basename(__FILE__)]
         )
     );
 }
