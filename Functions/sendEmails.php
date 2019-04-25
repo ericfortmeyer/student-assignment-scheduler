@@ -8,7 +8,10 @@ use StudentAssignmentScheduler\Classes\{
     ListOfScheduleRecipients
 };
 
-use \Ds\Set;
+use \Ds\{
+    Set,
+    Vector
+};
 
 function sendEmails(
     MailSender $MailSender,
