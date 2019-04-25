@@ -7,8 +7,6 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Processor\PsrLogMessageProcessor;
 use Psr\Log\LoggerInterface;
 
-use function StudentAssignmentScheduler\Functions\getConfig;
-
 function logger(string $log_type, string $function_name = ""): LoggerInterface
 {
     $log_config = require __DIR__ . "/log_config.php";
