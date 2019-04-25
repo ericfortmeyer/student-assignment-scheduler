@@ -88,19 +88,22 @@ final class MonthOfAssignments
 
     public function toArray(): array
     {
-        return ["month" => $this->month]
-            + ["year" => $this->year]
+        $assignmentAsString = function (string $key, Assignment $assignment) {
+            return (string) $assignment;
+        };
+
+        $weekOfAssignmentToRequiredArrayFormat = function (WeekOfAssignments $week) use ($assignmentAsString) {
+            return ["date" => (string) $week->dayOfMonth()]
+                + $week->assignments()
+                    ->map($assignmentAsString)
+                    ->toArray();
+        };
+
+        return ["month" => $this->month->asText()]
+            + ["year" => (string) $this->year]
             + $this->WeeksOfAssignments
                 ->values()
-                ->map(
-                    function (WeekOfAssignments $week) {
-                        return $week->assignments()->map(
-                            function (int $key, Assignment $assignment) {
-                                return (string) $assignment;
-                            }
-                        )->toArray();
-                    }
-                )
+                ->map($weekOfAssignmentToRequiredArrayFormat)
                 ->toArray();
     }
 }
