@@ -53,7 +53,6 @@ class Contact
         $this->fullname = new Fullname($first_name, $last_name);
         $this->contact_info = new Set(array_merge($contact_info, [strtolower($this->fullname)]));
         $this->guid = new Guid();
-
     }
 
     private function validate(array $contact_info): array
