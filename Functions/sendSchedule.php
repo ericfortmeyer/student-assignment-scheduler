@@ -5,7 +5,9 @@ namespace StudentAssignmentScheduler\Functions;
 use StudentAssignmentScheduler\Utils\MailSender;
 use StudentAssignmentScheduler\Classes\{
     ListOfContacts,
-    ListOfScheduleRecipients
+    ListOfScheduleRecipients,
+    ScheduleRecipient,
+    Fullname
 };
 
 use function StudentAssignmentScheduler\Functions\Logging\emailLogger;
@@ -19,14 +21,14 @@ function sendSchedule(
     $log = emailLogger(__FUNCTION__);
 
     array_map(
-        function (string $recipient) use (
+        function (ScheduleRecipient $recipient) use (
             $MailSender,
             $ListOfContacts,
             $log,
             $schedule_filename
         ) {
             $contact = $ListOfContacts->findByFullname(
-                ...splitFullName($recipient)
+                new Fullname($recipient->firstName(), $recipient->lastName())
             );
 
             try {
