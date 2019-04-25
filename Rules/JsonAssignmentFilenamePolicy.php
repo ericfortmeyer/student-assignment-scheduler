@@ -61,11 +61,6 @@ final class JsonAssignmentFilenamePolicy implements RuleInterface
         return $this->schedule_for_month->weeks()->keys()->first()->dayOfMonth();
     }
 
-    private function monthIsAsExpected(Month $value_in_context, string $value_in_schedule): bool
-    {
-        return (string) new Month($value_in_schedule) === (string) $value_in_context;
-    }
-
     private function dayOfMonthIsLessThanDateInFirstWeek(DayOfMonth $DayOfMonth, string $date_in_first_week): bool
     {
         return (string) $DayOfMonth < $date_in_first_week;
