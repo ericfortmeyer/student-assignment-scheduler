@@ -15,6 +15,10 @@ class FilenamesByMonthTest extends TestCase
             "0131.json"
         ];
     }
+    
+    /**
+     * @covers ::\StudentAssignmentScheduler\Functions\filenamesByMonth
+     */
     public function testReturnsExpectedFiles()
     {
         $month = "January";

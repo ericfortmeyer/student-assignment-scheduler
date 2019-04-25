@@ -1,0 +1,25 @@
+{
+    "month": "January",
+    "year": "2019",
+    "4": {
+        "date": "31",
+        "assignment": "bible_reading",
+        "name": "Forrest Gump",
+        "counsel_point": "",
+        "assistant": ""
+    },
+    "6": {
+        "date": "31",
+        "assignment": "Second Return Visit",
+        "name": "Donny Hathaway",
+        "counsel_point": "",
+        "assistant": "Art Tatum"
+    },
+    "7": {
+        "date": "31",
+        "assignment": "Bible Study",
+        "name": "Jeremiah Bullfrog",
+        "counsel_point": "",
+        "assistant": "Joy to the world"
+    }
+}

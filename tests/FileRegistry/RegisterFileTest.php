@@ -34,6 +34,9 @@ class RegisterFileTest extends TestCase
         unlink($fake_registry);
     }
 
+    /**
+     * @covers ::StudentAssignmentScheduler\FileRegistry\Functions\validateFile
+     */
     public function testRegistryHasHashedOfValueAsFilesKey()
     {
         $test_file = current($this->getTestFiles($this->path_to_test_files));
@@ -56,6 +59,14 @@ class RegisterFileTest extends TestCase
         $this->assertSame(
             $hash,
             sha1_file($test_file)
+        );
+
+        $this->assertTrue(
+            validateFile(
+                $hash,
+                $test_file,
+                $this->test_registry
+            )
         );
     }
 
