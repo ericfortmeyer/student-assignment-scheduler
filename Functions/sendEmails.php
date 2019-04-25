@@ -25,11 +25,16 @@ function sendEmails(
     $clone_of_mail_sender = clone $MailSender;
     $clone_of_list_of_contacts = clone $ListOfContacts;
 
+    $appendDestinationToFilename = function (string $basename) use ($assignment_forms_destination): string {
+        return buildPath($assignment_forms_destination, $basename);
+    };
+
     sendAssignmentForms(
         $MailSender,
         filenamesMappedToTheirRecipient(
             new Set(
-                filenamesInDirectory($assignment_forms_destination)
+                (new Vector(filenamesInDirectory($assignment_forms_destination)))
+                    ->map($appendDestinationToFilename)
             ),
             $ListOfContacts
         )
