@@ -44,19 +44,16 @@ class Contact
     public function __construct(string $space_separated_contact_info = "")
     {
         $separated = explode(" ", $space_separated_contact_info);
+        
+        // each value is stored in lower case to simplify comparisons
         $contact_info = [$first_name, $last_name, $email_address] = $this->validate($separated);
-
-
-
         $this->first_name = $first_name;
         $this->last_name = $last_name;
         $this->email_address = $email_address;
-
         $this->fullname = new Fullname($first_name, $last_name);
-
+        $this->contact_info = new Set(array_merge($contact_info, [strtolower($this->fullname)]));
         $this->guid = new Guid();
 
-        $this->contact_info = new Set(array_merge($contact_info, [$this->fullname()]));
     }
 
     private function validate(array $contact_info): array
@@ -87,6 +84,12 @@ class Contact
         ];
     }
 
+    private function invalidArgumentMessage(string $type, array $contact_info): string
+    {
+        return "${type} not set in contact info for " . implode(" ", $contact_info);
+    }
+
+
     public function is(Fullname $fullname): bool
     {
         return (string) $this->fullname === (string) $fullname;
@@ -94,24 +97,14 @@ class Contact
 
     public function hasGuid(Guid $guid): bool
     {
-        return (string) $this->guid === (string) $guid;
+        return $this->guid == $guid;
     }
 
     public function contains(string $value): bool
     {
-        return $this->contact_info->contains($value);
+        return $this->contact_info->contains(strtolower($value));
     }
     
-    private function invalidArgumentMessage(string $type, array $contact_info): string
-    {
-        return "${type} not set in contact info for " . implode(" ", $contact_info);
-    }
-
-    public function get(string $property): string
-    {
-        return $this->$property;
-    }
-
     public function guid(): Guid
     {
         return $this->guid;
@@ -137,6 +130,9 @@ class Contact
         return $this->fullname;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function __toString()
     {
         return "{$this->fullname()} {$this->emailAddress()}";
