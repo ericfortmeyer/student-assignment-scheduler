@@ -2,9 +2,15 @@
 
 namespace StudentAssignmentScheduler;
 
-$my_meeting_night = "Thursday";
+$filename_of_app_config = __DIR__ . "/app_config.json";
+if (!\file_exists($filename_of_app_config)) {
+    require_once __DIR__ . "/../bin/app_config_setup";
+}
+$app_config = json_decode(file_get_contents($filename_of_app_config));
+$my_meeting_night = $app_config->meeting_night;
+$my_language = $app_config->language;
 
-$my_language = "ASL";
+
 
 $special_events = [
     "CO Visit",
@@ -76,10 +82,6 @@ return [
     "schedule_template" => __DIR__ . "/../Utils/templates/S-140-E.pdf",
     "assignment_forms_destination" => __DIR__ . "/../data/forms",
     "schedules_destination" => __DIR__ . "/../data/schedules",
-    "email_log" => __DIR__ . "/../log/email.log",
-    "file_save_log" => __DIR__ . "/../log/info.log",
-    "file_import_log" => __DIR__ . "/../log/info.log",
-    "invalid_file_log" => __DIR__ . "/../log/invalid_file.log",
     "schedule_font_size" => 10,
     "font" => "Helvetica",
     "font_color" => "blue",

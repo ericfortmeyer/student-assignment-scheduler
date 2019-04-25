@@ -12,6 +12,7 @@ composer.lock
 
 # contact information for students and recipients of the schedule that will be used to send emails
 config/contacts.php
+config/app_config.json
 config/schedule_recipients.php
 FileRegistry/registry.php
 tests/tmp/registry.php
@@ -31,3 +32,5 @@ data/secrets/*
 workbooks/pdf/*
 workbooks/rtf/*
 /workbooks
+
+test_email.php
