@@ -6,8 +6,14 @@ use function StudentAssignmentScheduler\Functions\Logging\fileSaveLogger;
 use function StudentAssignmentScheduler\Functions\Logging\nullLogger;
 use function StudentAssignmentScheduler\FileRegistry\Functions\registerFile;
 
+/**
+ * @param object|array $file_data
+ * @param string $filename
+ * @param bool $test_mode
+ * @param string|null $test_registry
+ */
 function save(
-    array $file_data,
+    $file_data,
     string $filename,
     bool $test_mode = false,
     ?string $test_registry = null
@@ -20,7 +26,13 @@ function save(
     !file_exists($filename) && createFile($file_data, $filename, $logger, $test_registry);
 }
 
-function createFile(array $file_data, string $filename, $logger, ?string $test_registry)
+/**
+ * @param object|array $file_data
+ * @param string $filename
+ * @param mixed $logger
+ * @param string|null $test_registry
+ */
+function createFile($file_data, string $filename, $logger, ?string $test_registry)
 {
     $context = ["file" => $filename];
 

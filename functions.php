@@ -1,8 +1,8 @@
 <?php
 
-use function StudentAssignmentScheduler\Functions\includeFilesInDirectory;
+namespace StudentAssignmentScheduler\Functions;
 
-require "Functions/includeFilesInDirectory.php";
+require_once "Functions/includeFilesInDirectory.php";
 
 includeFilesInDirectory(__DIR__ . "/Functions");
 includeFilesInDirectory(__DIR__ . "/FileRegistry/Functions");
