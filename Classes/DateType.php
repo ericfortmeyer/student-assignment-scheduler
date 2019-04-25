@@ -28,8 +28,9 @@ abstract class DateType
     protected $dt_format = "";
 
     /**
-     * @param int|string $value
+     * @codeCoverageIgnore
      * @throws InvalidDateTypeArgumentException
+     * @param int|string $value
      */
     public function __construct($value)
     {

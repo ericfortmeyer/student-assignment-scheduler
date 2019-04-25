@@ -8,6 +8,9 @@ final class SpecialEventType
 {
     private $type = "";
 
+    /**
+     * @throws InvalidSpecialEventTypeException
+     */
     public function __construct(iterable $allowed_types, string $type)
     {
         $VectorOfAllowedTypes = new Vector($allowed_types);
