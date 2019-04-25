@@ -86,7 +86,7 @@ function addContacts(string $path_to_contacts_file, string $key, array $prompts 
             && (function (Set $contacts, string $path_to_contacts_file, string $key) {
 
                 box(
-                    $test = sensitiveData($contacts, $path_to_contacts_file, $key),
+                    sensitiveData($contacts, $path_to_contacts_file, $key),
                     $path_to_contacts_file,
                     $key
                 );

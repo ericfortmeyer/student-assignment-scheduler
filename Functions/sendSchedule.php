@@ -3,14 +3,17 @@
 namespace StudentAssignmentScheduler\Functions;
 
 use StudentAssignmentScheduler\Utils\MailSender;
-use StudentAssignmentScheduler\Classes\ListOfContacts;
+use StudentAssignmentScheduler\Classes\{
+    ListOfContacts,
+    ListOfScheduleRecipients
+};
 
 use function StudentAssignmentScheduler\Functions\Logging\emailLogger;
 
 function sendSchedule(
     MailSender $MailSender,
     ListOfContacts $ListOfContacts,
-    array $schedule_recipients,
+    ListOfScheduleRecipients $schedule_recipients,
     string $schedule_filename
 ) {
     $log = emailLogger(__FUNCTION__);
@@ -50,6 +53,6 @@ function sendSchedule(
                 );
             }
         },
-        $schedule_recipients
+        $schedule_recipients->toArray()
     );
 }

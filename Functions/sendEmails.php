@@ -3,7 +3,10 @@
 namespace StudentAssignmentScheduler\Functions;
 
 use StudentAssignmentScheduler\Utils\MailSender;
-use StudentAssignmentScheduler\Classes\ListOfContacts;
+use StudentAssignmentScheduler\Classes\{
+    ListOfContacts,
+    ListOfScheduleRecipients
+};
 
 use \Ds\Set;
 
@@ -11,7 +14,7 @@ function sendEmails(
     MailSender $MailSender,
     ListOfContacts $ListOfContacts,
     string $assignment_forms_destination,
-    array $schedule_recipients,
+    ListOfScheduleRecipients $schedule_recipients,
     string $schedule_filename
 ) {
 

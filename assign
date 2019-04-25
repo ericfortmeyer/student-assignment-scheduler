@@ -7,11 +7,8 @@ use Dotenv\Dotenv;
 
 use StudentAssignmentScheduler\Utils\{PdfAssignmentFormWriter, PdfScheduleWriter, MailSender};
 use StudentAssignmentScheduler\Classes\{
-    ListOfContacts,
     Destination,
     MonthOfAssignments,
-    SpecialEventHistory,
-    SpecialEventHistoryLocation,
     SpecialEventHistoryRegistry
 };
 
@@ -20,6 +17,7 @@ use function StudentAssignmentScheduler\Functions\{
     createJsonSchedulesFromWorkbooks,
     sendEmails,
     getContacts,
+    getScheduleRecipients,
     Bootstrapping\setupKeys,
     Encryption\secretKey,
     Encryption\masterKey,
@@ -159,17 +157,19 @@ file_exists($schedule_recipients_file)
             getenv("s"),
             masterKey(getenv("m"))
         )
-
-    )
-    && $schedule_recipients = getScheduleRecipients(
-        $schedule_recipients_file,
-        getenv("m"),
-        getenv("s")
     );
+    
+$schedule_recipients = getScheduleRecipients(
+    $schedule_recipients_file,
+    getenv("m"),
+    getenv("s")
+);
 
 // 4. make required directories
 makeRequiredDirectories($config["make_these_directories"]);
 
+
+$one = 1;
 
 //////////////////////////
 //

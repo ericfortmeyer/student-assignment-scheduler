@@ -11,6 +11,7 @@ use StudentAssignmentScheduler\Classes\{
     WeekOfAssignments,
     MonthOfAssignments,
     ListOfContacts,
+    ListOfScheduleRecipients,
     Fullname
 };
 use StudentAssignmentScheduler\Utils\{
@@ -130,7 +131,7 @@ function main(
         $MailSender,
         $ListOfContacts,
         $path_to_assignment_forms,
-        $schedule_recipients,
+        new ListOfScheduleRecipients($schedule_recipients),
         $scheduleFilename
     );
 }

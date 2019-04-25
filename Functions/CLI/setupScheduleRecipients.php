@@ -27,4 +27,6 @@ function setupScheduleRecipients(string $schedule_recipients_config_file, string
         );
     
     print PHP_EOL;
+
+    return true;
 }
