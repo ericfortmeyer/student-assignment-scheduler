@@ -11,7 +11,8 @@ use function StudentAssignmentScheduler\Functions\getConfig;
 
 function logger(string $log_type, string $function_name = ""): LoggerInterface
 {
-    $log_file = getConfig()["${log_type}_log"];
+    $log_config = require __DIR__ . "/log_config.php";
+    $log_file = $log_config["${log_type}_log"];
     $log = new Logger($function_name);
     $log->pushHandler(new StreamHandler($log_file));
     $log->pushProcessor(new PsrLogMessageProcessor());
