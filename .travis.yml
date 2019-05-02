@@ -23,15 +23,6 @@ before_script:
   - bash ./scripts/ci/generate_app_config_decoy.sh
 jobs:
   include:
-    - stage: analysis
-      script: phan
-    - stage: linting
-      script:
-        - phpcbf --standard=PSR12 FileRegistry/Functions/ Models/ Classes/ Validation/ Functions/
-          Utils/ config/ assign amend contacts schedule-recipients special-events
-        - phpcs --standard=PSR1,PSR2,PSR12 FileRegistry/Functions/ Models/ Validation/
-        - phpcs --standard=PSR12 Functions/ Utils/ Classes/ config/
-        - phpcs --standard=PSR12 assign amend contacts schedule-recipients special-events
     - stage: testing
       php:
         - '7.0'
@@ -41,17 +32,27 @@ jobs:
         - linux
         - windows
       matrix:
+        include:
+          - php: '7.0'
+          - php: '7.1'
+          - php: nightly
+            os:
+              - linux
+              - windows
         allow_failures:
           php: 7.0
           php: 7.1
           php: nightly
           os: windows
-      script: phpunit --testsuite default
+      script:
+        - phpcbf --standard=PSR12 FileRegistry/Functions/ Models/ Classes/ Validation/ Functions/
+          Utils/ config/ assign amend contacts schedule-recipients special-events
+        - phpcs --standard=PSR1,PSR2,PSR12 FileRegistry/Functions/ Models/ Validation/
+        - phpcs --standard=PSR12 Functions/ Utils/ Classes/ config/
+        - phpcs --standard=PSR12 assign amend contacts schedule-recipients special-events
+        - phpunit --testsuite default
+        - phan
 stages:
-  - name: analysis
-    if: branch = develop
-  - name: linting
-    if: branch = develop
   - name: testing
     if: branch = develop
 staging:
