@@ -6,7 +6,7 @@ use StudentAssignmentScheduler\Classes\{
     SpecialEventHistory,
     Date,
     MonthOfAssignments,
-    WeekOfAssignments,
+    WeekOfAssignments
 };
 
 function removeSpecialEventsFromSchedule(

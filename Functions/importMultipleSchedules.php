@@ -8,7 +8,7 @@ use \Ds\Vector;
 
 use StudentAssignmentScheduler\Classes\{
     MonthOfAssignments,
-    Destination,
+    Destination
 };
 
 /**

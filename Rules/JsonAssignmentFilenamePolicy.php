@@ -6,7 +6,7 @@ use StudentAssignmentScheduler\Classes\{
     MonthOfAssignments,
     DayOfMonth,
     Month,
-    Date,
+    Date
 };
 
 final class JsonAssignmentFilenamePolicy implements RuleInterface

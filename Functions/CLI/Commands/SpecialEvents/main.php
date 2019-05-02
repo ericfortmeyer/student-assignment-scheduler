@@ -13,7 +13,7 @@ use function StudentAssignmentScheduler\Functions\{
 use StudentAssignmentScheduler\Classes\{
     SpecialEventHistory,
     SpecialEventHistoryRegistry,
-    Destination,
+    Destination
 };
 
 
