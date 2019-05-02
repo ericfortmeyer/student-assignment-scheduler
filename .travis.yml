@@ -1,7 +1,11 @@
 language: php
 php:
-  - '7.2'
-  - '7.3'
+  - 7.2
+  - 7.3
+  # - nightly
+# matrix:
+  # allow_failures:
+    # - php: nightly
 addons:
   ssh_known_hosts:
     - 45.79.213.53
@@ -22,15 +26,10 @@ before_script:
 jobs:
   include:
     - stage: testing
-      php:
-        - nightly
-      os:
-        - linux
-        - windows
       matrix:
         include:
           - php: nightly
-            os:
+          -  os:
               - linux
               - windows
         allow_failures:
