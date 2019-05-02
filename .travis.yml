@@ -20,7 +20,7 @@ before_script:
 script: phpunit --testsuite default
 jobs:
   include:
-    - stage: analysis
+    - stage: analysis-and-unit-testing
       php: 7.3
       script:
         - phpcbf --standard=PSR12 FileRegistry/Functions/ Models/ Classes/ Validation/ Functions/
@@ -29,9 +29,9 @@ jobs:
         - phpcs --standard=PSR12 Functions/ Utils/ Classes/ config/
         - phpcs --standard=PSR12 assign amend contacts schedule-recipients special-events
         - phan
+        - phpunit --testsuite default
     - stage: dist-testing
       php: nightly
-      os: windows
       matrix:
         exclude:
           - php: 7.3
@@ -41,7 +41,7 @@ jobs:
           - php: nightly
       script: phpunit --testsuite default
 stages:
-  - name: analysis
+  - name: analysis-and-unit-testing
     if: branch = develop
 staging:
   provider: script
