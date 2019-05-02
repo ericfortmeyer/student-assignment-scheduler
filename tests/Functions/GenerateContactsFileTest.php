@@ -45,7 +45,7 @@ class GenerateContactsFileTest extends TestCase
         $this->path_to_data = "{$this->tmp_folder}/${generate_file_name}";
     }
 
-    protected function teardown()
+    protected function teardown(): void
     {
         $generated_contact_file = $this->path_to_data;
 

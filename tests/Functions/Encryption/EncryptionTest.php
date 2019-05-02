@@ -90,7 +90,7 @@ class EncryptionTest extends TestCase
         }
     }
 
-    protected function teardown()
+    protected function teardown(): void
     {
         unlink($this->where_mock_secret_key_is_stored);
         unlink($this->where_mock_master_key_is_stored);

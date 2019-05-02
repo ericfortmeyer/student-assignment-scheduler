@@ -71,7 +71,7 @@ class ScheduleWriterTest extends TestCase
         $register_mocks($this->path_to_mock_schedules);
     }
 
-    protected function teardown()
+    protected function teardown(): void
     {
         file_exists($this->test_schedule_filename) && unlink($this->test_schedule_filename);
         unlink($this->mock_registry);

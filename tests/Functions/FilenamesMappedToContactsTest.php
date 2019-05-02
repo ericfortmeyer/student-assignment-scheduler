@@ -87,7 +87,7 @@ class FilenamesMappedToContactsTest extends TestCase
         );
     }
 
-    protected function teardown()
+    protected function teardown(): void
     {
         array_map(
             function (string $filename): void {

@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
-pecl install ds
-pecl install ast
+pecl -q install ds
+pecl -q install ast

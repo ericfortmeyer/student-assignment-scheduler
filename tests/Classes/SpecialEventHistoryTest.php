@@ -252,7 +252,7 @@ class SpecialEventHistoryTest extends TestCase
         );
     }
 
-    protected function teardown()
+    protected function teardown(): void
     {
         unlink($this->filename_of_special_event_history_given_correct_order);
         unlink($this->filename_of_special_event_history_given_wrong_order);
