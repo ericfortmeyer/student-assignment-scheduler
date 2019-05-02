@@ -39,7 +39,7 @@ function setupEmail(string $env_dir, string $env_filename = ".env"): void
          * the -s flag is unavailable and will throw and error
          * The readline function in PHP exposes the password which is the reason for using 'read -s'
          */
-        $passwd_prompt_script = __DIR__ . "/../../bin/passwd_prompt.sh";
+        $passwd_prompt_script = __DIR__ . "/../../scripts/passwd_prompt.sh";
 
 
         // we don't want the password to show up in the terminal

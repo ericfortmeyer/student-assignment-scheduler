@@ -4,7 +4,7 @@ namespace StudentAssignmentScheduler;
 
 $filename_of_app_config = __DIR__ . "/app_config.json";
 if (!\file_exists($filename_of_app_config)) {
-    require_once __DIR__ . "/../bin/app_config_setup";
+    require_once __DIR__ . "/../scripts/app_config_setup";
 }
 $app_config = json_decode(file_get_contents($filename_of_app_config));
 $my_meeting_night = $app_config->meeting_night;

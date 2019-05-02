@@ -61,7 +61,7 @@ use function StudentAssignmentScheduler\Functions\Bootstrapping\{
 
 // do this first
 file_exists("vendor")
-        || system("sh bin/install.sh");
+        || system("sh scripts/install.sh");
 
 // then this
 require file_exists("autoload.php")
