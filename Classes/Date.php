@@ -3,6 +3,7 @@
 namespace StudentAssignmentScheduler\Classes;
 
 use \DateTimeImmutable;
+use \DateInterval;
 
 final class Date extends DateType
 {
@@ -68,6 +69,18 @@ final class Date extends DateType
     public function isPast(): bool
     {
         return new DateTimeImmutable($this) < new DateTimeImmutable("00:00");
+    }
+
+    public function sub(int $days_to_subtract): self
+    {
+        $newDate = DateTimeImmutable::createFromFormat($this->dt_format, (string) $this)
+            ->sub(new DateInterval("P${days_to_subtract}D"));
+        
+        return new self(
+            $Month = new Month($newDate->format("m")),
+            new DayOfMonth($Month, $newDate->format("d")),
+            new Year($newDate->format("Y"))
+        );
     }
 
     public function asText(): string

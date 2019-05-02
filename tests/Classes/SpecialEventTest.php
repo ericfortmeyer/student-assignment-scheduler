@@ -42,23 +42,29 @@ class SpecialEventTest extends TestCase
         );
 
         $CurrentMonth = new Month((new DateTimeImmutable())->format("m"));
-        $Yesterday = new DayOfMonth(
-            $CurrentMonth,
-            (new DateTimeImmutable())->sub(new \DateInterval("P1D"))->format("d")
-        );
         $CurrentYear = new Year((new DateTimeImmutable())->format("Y"));
+        
+        $Today = new Date(
+            $CurrentMonth,
+            new DayOfMonth(
+                $CurrentMonth,
+                (new DateTimeImmutable("00:00"))->format("d")
+            ),
+            $CurrentYear
+        );
+
+        $Yesterday = $Today->sub(1);
 
         $this->special_event_in_the_recent_past = new SpecialEvent(
-            new Date(
-                $CurrentMonth,
-                $Yesterday,
-                $CurrentYear
-            ),
+            $Yesterday,
             new SpecialEventType(
                 $allowed,
                 "Assembly"
             )
         );
+
+        $one = 1;
+
 
     }
 
