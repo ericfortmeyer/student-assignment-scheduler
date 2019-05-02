@@ -34,8 +34,8 @@ jobs:
               - linux
               - windows
         allow_failures:
-          php: nightly
-          os: windows
+          - php: nightly
+          - os: windows
       script:
         - phpcbf --standard=PSR12 FileRegistry/Functions/ Models/ Classes/ Validation/ Functions/
           Utils/ config/ assign amend contacts schedule-recipients special-events
