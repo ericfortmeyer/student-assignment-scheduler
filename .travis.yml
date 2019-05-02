@@ -1,5 +1,3 @@
-os:
-  - linux
 language: php
 php:
   - '7.2'
@@ -25,7 +23,6 @@ jobs:
   include:
     - stage: testing
       php:
-        - '7.0'
         - '7.1'
         - nightly
       os:
@@ -33,14 +30,12 @@ jobs:
         - windows
       matrix:
         include:
-          - php: '7.0'
           - php: '7.1'
           - php: nightly
             os:
               - linux
               - windows
         allow_failures:
-          php: 7.0
           php: 7.1
           php: nightly
           os: windows
