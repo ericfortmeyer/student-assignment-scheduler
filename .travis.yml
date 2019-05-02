@@ -1,11 +1,5 @@
 language: php
-php:
-  - 7.2
-  - 7.3
-  # - nightly
-# matrix:
-  # allow_failures:
-    # - php: nightly
+php: 7.3
 addons:
   ssh_known_hosts:
     - 45.79.213.53
@@ -23,28 +17,33 @@ before_script:
   - phpenv config-rm xdebug.ini || echo "No XDebug config"
   - PATH=$PATH:$PWD/vendor/bin
   - bash ./scripts/ci/generate_app_config_decoy.sh
+script: phpunit --testsuite default
 jobs:
   include:
-    - stage: testing
-      matrix:
-        include:
-          - php: nightly
-          -  os:
-              - linux
-              - windows
-        allow_failures:
-          - php: nightly
-          - os: windows
+    - stage: analysis
+      php: 7.3
       script:
         - phpcbf --standard=PSR12 FileRegistry/Functions/ Models/ Classes/ Validation/ Functions/
           Utils/ config/ assign amend contacts schedule-recipients special-events
         - phpcs --standard=PSR1,PSR2,PSR12 FileRegistry/Functions/ Models/ Validation/
         - phpcs --standard=PSR12 Functions/ Utils/ Classes/ config/
         - phpcs --standard=PSR12 assign amend contacts schedule-recipients special-events
-        - phpunit --testsuite default
         - phan
+    - stage: dist-testing
+      php: nightly
+      os: windows
+      matrix:
+        exclude:
+          - php: 7.3
+        include:
+          - php: nightly
+          - os: windows
+        allow_failures:
+          - php: nightly
+          - os: windows
+      script: phpunit --testsuite default
 stages:
-  - name: testing
+  - name: analysis
     if: branch = develop
 staging:
   provider: script
