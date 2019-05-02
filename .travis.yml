@@ -1,10 +1,19 @@
 os:
   - linux
-  - osx
 language: php
 php:
   - '7.2'
   - '7.3'
+addons:
+  ssh_known_hosts:
+    - 45.79.213.53
+before_install:
+  - openssl aes-256-cbc -K $encrypted_90f812165a60_key -iv $encrypted_90f812165a60_iv -in scripts/scheduler-deploy.enc -out scripts/scheduler-deploy -d
+  - eval "$(ssh-agent -s)"
+  - cp scripts/scheduler-deploy ~/.ssh/scheduler-deploy
+  - chmod 600 ~/.ssh/scheduler-deploy
+  - ssh-add ~/.ssh/scheduler-deploy
+  - echo -e "Host 45.79.213.53\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 install:
   - bash ./scripts/ci/install_php_modules.sh
   - composer -q install
@@ -12,60 +21,49 @@ before_script:
   - phpenv config-rm xdebug.ini || echo "No XDebug config"
   - PATH=$PATH:$PWD/vendor/bin
   - bash ./scripts/ci/generate_app_config_decoy.sh
-analysis:
-  - provider: script
-  script: phan
-linting:
-  - provider: script
-  script:
-    - phpcbf --standard=PSR12 FileRegistry/Functions/ Models/ Classes/ Validation/ Functions/
-      Utils/ config/ assign amend contacts schedule-recipients special-events
-    - phpcs --standard=PSR1,PSR2,PSR12 FileRegistry/Functions/ Models/ Validation/
-    - phpcs --standard=PSR12 Functions/ Utils/ Classes/ config/
-    - phpcs --standard=PSR12 assign amend contacts schedule-recipients special-events
-testing:
-  - provider: script
-  php:
-    - '7.0'
-    - '7.1'
-    - nightly
-  os:
-    - linux
-    - macosx
-    - windows
-  matrix:
-    allow_failures:
-      php: 7.0
-      php: 7.1
-      php: nightly
-      os: windows
-  script:
-    - phpunit --testsuite default
-  on:
-    branch: develop
+jobs:
+  include:
+    - stage: analysis
+      script: phan
+    - stage: linting
+      script:
+        - phpcbf --standard=PSR12 FileRegistry/Functions/ Models/ Classes/ Validation/ Functions/
+          Utils/ config/ assign amend contacts schedule-recipients special-events
+        - phpcs --standard=PSR1,PSR2,PSR12 FileRegistry/Functions/ Models/ Validation/
+        - phpcs --standard=PSR12 Functions/ Utils/ Classes/ config/
+        - phpcs --standard=PSR12 assign amend contacts schedule-recipients special-events
+    - stage: testing
+      php:
+        - '7.0'
+        - '7.1'
+        - nightly
+      os:
+        - linux
+        - windows
+      matrix:
+        allow_failures:
+          php: 7.0
+          php: 7.1
+          php: nightly
+          os: windows
+      script: phpunit --testsuite default
+stages:
+  - name: analysis
+    if: branch = develop
+  - name: linting
+    if: branch = develop
+  - name: testing
+    if: branch = develop
 staging:
-  - provider: script
-    script:
-      - phpunit --testsuite integration
-      - phpunit --testsuite end-to-end
-    on:
-      branch: staging
+  provider: script
+  script:
+    - phpunit --testsuite integration
+    - phpunit --testsuite end-to-end
+  on:
+    branch: staging
 deploy:
-  - provider: script
-  addons:
-  ssh_known_hosts:
-    - 45.79.213.53
-  before_install:
-    - openssl aes-256-cbc -K $encrypted_90f812165a60_key -iv $encrypted_90f812165a60_iv
-      -in scripts/scheduler-deploy.enc -out scripts/scheduler-deploy -d
-    - eval "$(ssh-agent -s)"
-    - cp scripts/scheduler-deploy ~/.ssh/scheduler-deploy
-    - chmod 600 ~/.ssh/scheduler-deploy
-    - ssh-add ~/.ssh/scheduler-deploy
-    - echo -e "Host 45.79.213.53\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-    skip_cleanup: true
-    script: bash scripts/deploy.sh
-    on:
-      branch: master
-notifications:
-  email:
+  provider: script
+  skip_cleanup: true
+  script: bash scripts/deploy.sh
+  on:
+    branch: master
