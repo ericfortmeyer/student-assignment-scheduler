@@ -30,16 +30,6 @@ jobs:
         - phpcs --standard=PSR12 assign amend contacts schedule-recipients special-events
         - phan
         - phpunit --testsuite default
-    - stage: dist-testing
-      php: nightly
-      matrix:
-        exclude:
-          - php: 7.3
-        include:
-          - php: nightly
-        allow_failures:
-          - php: nightly
-      script: phpunit --testsuite default
 stages:
   - name: analysis-and-unit-testing
     if: branch = develop
