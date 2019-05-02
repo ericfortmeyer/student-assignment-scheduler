@@ -14,7 +14,7 @@ before_install:
   - echo -e "Host 45.79.213.53\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 install:
   - bash ./scripts/ci/install_php_modules.sh
-  - composer install
+  - composer -q install
 before_script:
   - phpenv config-rm xdebug.ini || echo "No XDebug config"
   - PATH=$PATH:$PWD/vendor/bin
