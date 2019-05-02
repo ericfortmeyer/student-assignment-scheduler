@@ -10,6 +10,9 @@ composer.lock
 # secrets
 .env
 
+# private key for CI
+scripts/scheduler-deploy
+
 # contact information for students and recipients of the schedule that will be used to send emails
 config/contacts.php
 config/app_config.json

@@ -62,10 +62,6 @@ class SpecialEventTest extends TestCase
                 "Assembly"
             )
         );
-
-        $one = 1;
-
-
     }
 
     public function testAccessorsReturnExpectedValues()
