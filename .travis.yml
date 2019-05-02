@@ -30,23 +30,23 @@ jobs:
         - phpcs --standard=PSR12 assign amend contacts schedule-recipients special-events
         - phan
         - phpunit --testsuite default
+    - stage: pre-production-testing
+      php: 7.3
+      script:
+        - phpunit --testsuite integration
+        - phpunit --testsuite end-to-end
+    - stage: pre-production-deploy
+      php: 7.3
+      script:
+        - bash scripts/pre-production-deploy.sh
+        - bash scripts/run-tests.sh
 stages:
   - name: analysis-and-unit-testing
     if: branch = develop
-staging:
-  provider: script
-  script:
-    - phpunit --testsuite integration
-    - phpunit --testsuite end-to-end
-  on:
-    branch: staging
-pre-prduction:
-  provider: script
-  script:
-    - bash scripts/pre-production-deploy.sh
-    - bash scripts/run-tests.sh
-  on:
-    branch: staging
+  - name: pre-production-testing
+    if: branch = staging
+  - name: pre-production-deploy
+    if: branch = staging
 deploy:
   provider: script
   skip_cleanup: true
