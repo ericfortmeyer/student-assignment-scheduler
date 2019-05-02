@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class SaveTest extends TestCase
 {
-    protected function setup()
+    protected function setup(): void
     {
         $this->test_path = __DIR__ . "/../data";
         $this->year_dir = date_create()->format("Y");

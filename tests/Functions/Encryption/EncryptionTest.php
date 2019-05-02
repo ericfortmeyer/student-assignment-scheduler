@@ -8,7 +8,7 @@ use StudentAssignmentScheduler\Classes\ListOfContacts;
 
 class EncryptionTest extends TestCase
 {
-    protected function setup()
+    protected function setup(): void
     {
         $this->where_mock_secret_key_is_stored = __DIR__ . "/../../mocks/mock_secret_key";
         $this->where_mock_master_key_is_stored = __DIR__ . "/../../mocks/mock_master_key";

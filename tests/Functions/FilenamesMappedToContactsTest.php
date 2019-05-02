@@ -37,7 +37,7 @@ class FilenamesMappedToContactsTest extends TestCase
     protected $files_to_delete = [];
     protected $expected_filenames = [];
 
-    protected function setup()
+    protected function setup(): void
     {
         $fullnames = [$a, $b, $c, $d] = [
             new Fullname("Thelonious Monk"),

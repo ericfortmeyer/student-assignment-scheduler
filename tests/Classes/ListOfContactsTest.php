@@ -9,7 +9,7 @@ class ListOfContactsTest extends TestCase
     protected $ListOfContacts;
     protected $contacts = [];
     
-    protected function setup()
+    protected function setup(): void
     {
         $this->contacts = require __DIR__ . "/../mocks/contacts.php";
 

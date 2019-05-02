@@ -10,7 +10,7 @@ use function StudentAssignmentScheduler\Functions\importJson;
 
 class MonthOfAssignmentsTest extends TestCase
 {
-    protected function setup()
+    protected function setup(): void
     {
         $year = "2058";
         $assignment_name = "Talk";

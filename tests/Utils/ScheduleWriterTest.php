@@ -43,7 +43,7 @@ class ScheduleWriterTest extends TestCase
      */
     protected $test_schedule_filename;
 
-    protected function setup()
+    protected function setup(): void
     {
         $schedules_destination = realpath(__DIR__ . "/../tmp");
         $this->config = require realpath(__DIR__ . "/../../config/config.php");

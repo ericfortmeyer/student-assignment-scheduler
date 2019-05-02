@@ -21,7 +21,7 @@ use StudentAssignmentScheduler\Classes\{
 
 class RemoveSpecialEventsFromScheduleTest extends TestCase
 {
-    protected function setup()
+    protected function setup(): void
     {
         // we will have to create our own mocks here since
         // our test cases not having special events that are

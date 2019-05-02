@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ImportJsonTest extends TestCase
 {
-    protected function setup()
+    protected function setup(): void
     {
         $this->destination = $this->test_path = __DIR__ . "/../data";
         $this->year = date_create()->format("Y");

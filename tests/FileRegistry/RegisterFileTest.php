@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class RegisterFileTest extends TestCase
 {
-    protected function setup()
+    protected function setup(): void
     {
         // tests were breaking unexpectedly when the realpath function was not being used
         $this->path_to_test_files = realpath(__DIR__ . "/../data");

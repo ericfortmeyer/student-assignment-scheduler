@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class GetAssignmentDateTest extends TestCase
 {
-    protected function setup()
+    protected function setup(): void
     {
         $this->passes = [
             "{MONTH} 29–NOVEMBER 2",

@@ -26,7 +26,7 @@ class GenerateContactsFileTest extends TestCase
      */
     protected $tmp_folder;
 
-    protected function setup()
+    protected function setup(): void
     {
         $this->list_of_contacts = [
             "Joe Black jb@example.com",

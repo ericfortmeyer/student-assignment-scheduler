@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class FilenamesByMonthTest extends TestCase
 {
-    protected function setup()
+    protected function setup(): void
     {
         $this->expected_files = [
             "0110.json",

@@ -9,7 +9,7 @@ use \Ds\Vector;
 
 class SpecialEventTest extends TestCase
 {
-    protected function setup()
+    protected function setup(): void
     {
         $allowed = [
             "CO Visit",

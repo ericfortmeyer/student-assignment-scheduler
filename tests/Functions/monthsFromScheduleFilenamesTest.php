@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class MonthsFromScheduleFilenamesTest extends TestCase
 {
-    protected function setup()
+    protected function setup(): void
     {
         $this->expected = array_filter(
             [

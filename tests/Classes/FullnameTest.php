@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class FullnameTest extends TestCase
 {
-    protected function setup()
+    protected function setup(): void
     {
         $this->first_name = $first_name = "Bob";
         $this->last_name = $last_name = "Smith";

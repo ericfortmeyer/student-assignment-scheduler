@@ -8,7 +8,7 @@ use \Ds\Vector;
 
 class SpecialEventHistoryTest extends TestCase
 {
-    protected function setup()
+    protected function setup(): void
     {
         $this->special_event_history_location = __DIR__ . "/../mocks";
         $this->special_event_history_filename_given_correct_order = "mock_special_event_history_given_correct_order";

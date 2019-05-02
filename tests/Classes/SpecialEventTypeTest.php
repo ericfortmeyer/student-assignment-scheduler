@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class SpecialEventTypeTest extends TestCase
 {
-    protected function setup()
+    protected function setup(): void
     {
         $this->allowed = [
             "Regional Convention",

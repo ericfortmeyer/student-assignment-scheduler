@@ -8,7 +8,7 @@ use StudentAssignmentScheduler\Utils\RtfParser;
 
 class CreateJsonSchedulesFromWorkbooksTest extends TestCase
 {
-    protected function setup()
+    protected function setup(): void
     {
         // setup function's dependencies
         $this->meeting_night = "Thursday";

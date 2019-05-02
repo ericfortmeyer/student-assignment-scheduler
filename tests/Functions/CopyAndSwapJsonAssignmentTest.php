@@ -29,7 +29,7 @@ class CopyAndSwapJsonAssignmentTest extends TestCase
     protected $path_to_copy = "";
     protected $contents_of_original_mock_assignments = "";
 
-    protected function setup()
+    protected function setup(): void
     {
         $path_to_mock_assignments = buildPath(__DIR__, "..", "mocks");
         $this->test_registry = buildPath($path_to_mock_assignments, sha1("test") . ".php");
