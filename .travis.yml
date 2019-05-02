@@ -37,10 +37,8 @@ jobs:
           - php: 7.3
         include:
           - php: nightly
-          - os: windows
         allow_failures:
           - php: nightly
-          - os: windows
       script: phpunit --testsuite default
 stages:
   - name: analysis
@@ -58,3 +56,5 @@ deploy:
   script: bash scripts/deploy.sh
   on:
     branch: master
+notifications:
+  email:
