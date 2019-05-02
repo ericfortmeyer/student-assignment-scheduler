@@ -40,6 +40,13 @@ staging:
     - phpunit --testsuite end-to-end
   on:
     branch: staging
+pre-prduction:
+  provider: script
+  script:
+    - bash scripts/pre-production-deploy.sh
+    - bash scripts/run-tests.sh
+  on:
+    branch: staging
 deploy:
   provider: script
   skip_cleanup: true
