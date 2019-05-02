@@ -15,7 +15,7 @@ class RegisterFileTest extends TestCase
         generateRegistry([], $this->test_registry);
     }
 
-    protected function tearDown()
+    protected function teardown(): void
     {
         unlink($this->test_registry);
     }

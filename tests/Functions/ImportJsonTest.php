@@ -21,7 +21,7 @@ class ImportJsonTest extends TestCase
         ];
     }
 
-    protected function tearDown()
+    protected function teardown(): void
     {
         file_exists($this->test_file) && unlink($this->test_file);
         file_exists($this->test_registry) && unlink($this->test_registry);

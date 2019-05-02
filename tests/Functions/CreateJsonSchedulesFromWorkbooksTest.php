@@ -16,7 +16,7 @@ class CreateJsonSchedulesFromWorkbooksTest extends TestCase
         $this->created_file = buildPath($this->data_destination, "2019", "January.json");
     }
 
-    protected function tearDown()
+    protected function teardown(): void
     {
         unlink($this->created_file);
         rmdir(

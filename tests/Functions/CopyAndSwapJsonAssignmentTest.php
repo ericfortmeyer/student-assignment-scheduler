@@ -137,7 +137,7 @@ class CopyAndSwapJsonAssignmentTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
     
-    protected function tearDown()
+    protected function teardown(): void
     {
         unlink($this->test_registry);
         unset($this->test_registry);
