@@ -9,7 +9,8 @@ before_install:
   - cp scripts/scheduler-deploy ~/.ssh/scheduler-deploy
   - chmod 600 ~/.ssh/scheduler-deploy
   - ssh-add ~/.ssh/scheduler-deploy
-  - echo -e "Host 45.79.213.53\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  - echo -e "\n45.79.213.53\tbaruch" >> /etc/hosts
+  - echo -e "Host baruch\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 install:
   - bash ./scripts/ci/install_php_modules.sh
   - composer -q install
