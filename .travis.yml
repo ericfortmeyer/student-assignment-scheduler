@@ -37,8 +37,8 @@ jobs:
     - stage: pre-production-deploy
       php: 7.3
       script:
-        - bash scripts/pre-production-deploy.sh
-        - bash scripts/run-tests.sh
+        - bash scripts/pre-production-deploy.sh $TARGET_HOST $USER
+        - ssh $USER@$TARGET_HOST 'cd /home/$USER/staging && bash scripts/run-tests.sh'
 stages:
   - name: analysis-and-unit-testing
     if: branch = develop
