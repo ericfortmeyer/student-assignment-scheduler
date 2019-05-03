@@ -20,7 +20,6 @@ before_script:
   - phpenv config-rm xdebug.ini || echo "No XDebug config"
   - PATH=$PATH:$PWD/vendor/bin
   - bash ./scripts/ci/generate_app_config_decoy.sh
-script: phpunit --testsuite default
 jobs:
   include:
     - stage: analysis-and-unit-testing
