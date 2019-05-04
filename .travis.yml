@@ -38,7 +38,7 @@ jobs:
       php: 7.3
       script:
         - bash ./build/pre-production-deploy.sh $STAGING_HOST $STAGING_USER
-        - ssh $STAGING_USER@$STAGING_HOST "cd /home/$STAGING_USER/staging && bash build/run-tests.sh"
+        - ssh $STAGING_USER@$STAGING_HOST "cd /home/$STAGING_USER/staging && bash ./build/run-tests.sh"
 stages:
   - name: analysis-and-unit-testing
     if: branch = develop
