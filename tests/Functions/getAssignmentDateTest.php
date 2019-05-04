@@ -28,8 +28,6 @@ class GetAssignmentDateTest extends TestCase
         ];
 
         $this->target_date = "02";
-
-        $this->config = include __DIR__ . "/../../config/config.php";
     }
 
     protected function withPattern(string $search): string
@@ -145,7 +143,7 @@ class GetAssignmentDateTest extends TestCase
 
         $target_date = "01";
 
-        $meeting_night = $this->config["meeting_night"];
+        $meeting_night = "Thursday";
         $pattern_config = $this->getPatternConfig();
         $interval_spec_for_meeting_night = $pattern_config["interval_spec"][$meeting_night];
         $pattern_func = $pattern_config["assignment_date_pattern_func"];
