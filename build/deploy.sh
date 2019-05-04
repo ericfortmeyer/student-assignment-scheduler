@@ -1,18 +1,28 @@
 #!/usr/bin/env sh
-BRANCH=production
-TARGET_DIR=/home/$2/$BRANCH
-BARE_REPO=/home/$2/$BRANCH.git
 
-git config --global push.default simple
-git remote add $BRANCH ssh://$2@$1:$BARE_REPO
+deploy() {
+    REMOTE_HOST=$1
+    REMOTE_USER=$2
+    BRANCH=$3
+    HOME=/home/$REMOTE_USER
+    URL=$REMOTE_USER@$REMOTE_HOST
+    TARGET_DIR=$HOME/$BRANCH
+    BARE_REPO=$HOME/$BRANCH.git
 
-if [ ! -d "$BARE_REPO" ]; then
-    ssh $2@$1 "mkdir $BARE_REPO && git init --bare $BARE_REPO"
-    git push -f $BRANCH HEAD:refs/heads/master
-    git push -f $BRANCH HEAD:refs/heads/$BRANCH
+    git config --global push.default simple
+    git remote add $BRANCH ssh://$URL:$BARE_REPO
 
-    ssh $2@$1 "git clone $BARE_REPO && cd $TARGET_DIR && git checkout $BRANCH"
-else
-    git push -f $BRANCH HEAD:refs/heads/$BRANCH
-    ssh $2@$1 "cd $TARGET_DIR && git pull ../$BRANCH.git"
-fi
+    if ssh $URL "[ ! -d $BARE_REPO ]"; then
+        ssh $URL "mkdir $BARE_REPO && git init --bare $BARE_REPO"
+        git push -f $BRANCH HEAD:refs/heads/master
+        git push -f $BRANCH HEAD:refs/heads/$BRANCH
+
+        ssh $URL "git clone $BARE_REPO && cd $TARGET_DIR && git checkout $BRANCH"
+    else
+        git push -f $BRANCH HEAD:refs/heads/$BRANCH
+        ssh $URL "cd $TARGET_DIR && git pull ../$BRANCH.git --no-ff"
+    fi
+
+}
+
+export -f deploy
