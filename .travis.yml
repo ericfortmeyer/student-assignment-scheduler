@@ -11,12 +11,12 @@ before_install:
   - ssh-add ~/.ssh/scheduler-deploy
   - echo -e "Host $STAGING_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 install:
-  - bash ./scripts/ci/install_php_modules.sh
+  - bash ./build/install_php_modules.sh
   - composer -q install
 before_script:
   - phpenv config-rm xdebug.ini || echo "No XDebug config"
   - PATH=$PATH:$PWD/vendor/bin
-  - bash ./scripts/ci/generate_app_config_decoy.sh
+  - bash ./build/generate_app_config_decoy.sh
 jobs:
   include:
     - stage: analysis-and-unit-testing
@@ -37,8 +37,8 @@ jobs:
     - stage: pre-production-deploy
       php: 7.3
       script:
-        - bash scripts/pre-production-deploy.sh $STAGING_HOST $STAGING_USER
-        - ssh $STAGING_USER@$STAGING_HOST "cd /home/$STAGING_USER/staging && bash scripts/run-tests.sh"
+        - bash ./build/pre-production-deploy.sh $STAGING_HOST $STAGING_USER
+        - ssh $STAGING_USER@$STAGING_HOST "cd /home/$STAGING_USER/staging && bash build/run-tests.sh"
 stages:
   - name: analysis-and-unit-testing
     if: branch = develop
@@ -49,7 +49,7 @@ stages:
 deploy:
   provider: script
   skip_cleanup: true
-  script: bash scripts/deploy.sh
+  script: bash ./build/deploy.sh
   on:
     branch: master
 notifications:
