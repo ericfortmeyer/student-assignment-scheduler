@@ -37,9 +37,8 @@ jobs:
     - stage: pre-production-deploy
       php: 7.3
       script:
-        - printenv #DEBUGGING !remove!
         # - bash scripts/pre-production-deploy.sh '45.79.213.53' red-rock
-        - ssh red-rock@$STAGING_HOST 'bash scripts/run-tests.sh'
+        - ssh red-rock@$STAGING_HOST 'cd /home/S/staging && bash scripts/run-tests.sh'
 stages:
   - name: analysis-and-unit-testing
     if: branch = develop
