@@ -19,6 +19,7 @@ deploy() {
 
         ssh $URL "git clone $BARE_REPO && cd $TARGET_DIR && git checkout $BRANCH"
     else
+        git push -f $BRANCH HEAD:refs/heads/master
         git push -f $BRANCH HEAD:refs/heads/$BRANCH
         ssh $URL "cd $TARGET_DIR && git pull ../$BRANCH.git --no-ff"
     fi
