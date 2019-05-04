@@ -2,14 +2,14 @@ language: php
 php: 7.3
 addons:
   ssh_known_hosts:
-    - $TARGET_HOST
+    - 45.79.213.53
 before_install:
   - openssl aes-256-cbc -K $encrypted_90f812165a60_key -iv $encrypted_90f812165a60_iv -in scripts/scheduler-deploy.enc -out scripts/scheduler-deploy -d
   - eval "$(ssh-agent -s)"
   - cp scripts/scheduler-deploy ~/.ssh/scheduler-deploy
   - chmod 600 ~/.ssh/scheduler-deploy
   - ssh-add ~/.ssh/scheduler-deploy
-  - echo -e "Host $TARGET_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  - echo -e "Host 45.79.213.53\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 install:
   - bash ./scripts/ci/install_php_modules.sh
   - composer -q install
@@ -37,10 +37,8 @@ jobs:
     - stage: pre-production-deploy
       php: 7.3
       script:
-        - echo $TARGET_HOST
-        - echo $USER
-        - bash scripts/pre-production-deploy.sh $TARGET_HOST $USER
-        - ssh $USER@$TARGET_HOST 'cd /home/$USER/staging && bash scripts/run-tests.sh'
+        - bash scripts/pre-production-deploy.sh '45.79.213.53' red-rock
+        - ssh red-rock@45.79.213.53 'cd /home/red-rock/staging && bash scripts/run-tests.sh'
 stages:
   - name: analysis-and-unit-testing
     if: branch = develop
