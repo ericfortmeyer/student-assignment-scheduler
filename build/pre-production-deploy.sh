@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-git config --global push.default current
+git config --global push.default simple
 
 # git remote add staging ssh://$2@$1:/home/$2/staging
 
