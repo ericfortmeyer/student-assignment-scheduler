@@ -10,7 +10,7 @@ git config --global push.default simple
 TARGET_DIR=/home/$2/staging
 BARE_REPO=/home/$2/staging.git
 
-for [ dir in $TARGET_DIR $BARE_REPO ]
+for dir in $TARGET_DIR $BARE_REPO
 do
     if [ ! -d "$dir" ]; then
         if [ $dir == $BARE_REPO ]; then
