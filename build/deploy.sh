@@ -1,16 +1,18 @@
 #!/usr/bin/env sh
+BRANCH=production
+TARGET_DIR=/home/$2/$branch
+BARE_REPO=/home/$2/$branch.git
 
 git config --global push.default simple
+git remote add $branch ssh://$2@$1:$BARE_REPO
 
-# git remote add production ssh://$2@$1:/home/$2/production
+if [ ! -d "$BARE_REPO" ]; then
+    ssh $2@$1 "mkdir $BARE_REPO && git init --bare $BARE_REPO"
+    git push -f $branch HEAD:refs/heads/master
+    git push -f $branch HEAD:refs/heads/$branch
 
-# git push -f production HEAD:refs/head/master
-
-
-# alternative
-
-git remote add production ssh://$2@$1:/home/$2/production.git
-
-git push -f production HEAD:refs/head/master
-
-ssh $2@$1 "cd /home/$2/production && git clone ../production.git ."
+    ssh $2@$1 "git clone $BARE_REPO && cd $TARGET_DIR && git checkout $branch"
+else
+    git push -f $branch HEAD:refs/heads/$branch
+    ssh $2@$1 "cd $TARGET_DIR && git pull ../$branch.git"
+fi

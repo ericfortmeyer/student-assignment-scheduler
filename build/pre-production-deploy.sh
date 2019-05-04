@@ -1,23 +1,18 @@
 #!/usr/bin/env sh
+BRANCH=staging
+TARGET_DIR=/home/$2/$branch
+BARE_REPO=/home/$2/$branch.git
 
 git config --global push.default simple
-
-# git remote add staging ssh://$2@$1:/home/$2/staging
-
-# git push -f staging staging
-
-# alternative
-TARGET_DIR=/home/$2/staging
-BARE_REPO=/home/$2/staging.git
-git remote add staging ssh://$2@$1:$BARE_REPO
+git remote add $branch ssh://$2@$1:$BARE_REPO
 
 if [ ! -d "$BARE_REPO" ]; then
     ssh $2@$1 "mkdir $BARE_REPO && git init --bare $BARE_REPO"
-    git push -f staging HEAD:refs/heads/master
-    git push -f staging HEAD:refs/heads/staging
+    git push -f $branch HEAD:refs/heads/master
+    git push -f $branch HEAD:refs/heads/$branch
 
-    ssh $2@$1 "git clone $BARE_REPO && cd $TARGET_DIR && git checkout staging"
+    ssh $2@$1 "git clone $BARE_REPO && cd $TARGET_DIR && git checkout $branch"
 else
-    git push -f staging HEAD:refs/heads/staging
-    ssh $2@$1 "cd $TARGET_DIR && git pull ../staging.git"
+    git push -f $branch HEAD:refs/heads/$branch
+    ssh $2@$1 "cd $TARGET_DIR && git pull ../$branch.git"
 fi
