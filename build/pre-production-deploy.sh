@@ -14,9 +14,9 @@ for dir in $TARGET_DIR $BARE_REPO
 do
     if [ ! -d "$dir" ]; then
         if [ $dir == $BARE_REPO ]; then
-            ssh $2@$1 "bash mkdir $dir && cd $dir && git init --bare"
+            ssh $2@$1 "mkdir $dir && cd $dir && git init --bare"
         else
-            ssh $2@$1 "bash mkdir $dir"
+            ssh $2@$1 "mkdir $dir"
         fi
     fi
 done
@@ -25,4 +25,4 @@ git remote add staging ssh://$2@$1:$BARE_REPO
 
 git push -f staging HEAD:refs/head/staging
 
-ssh $2@$1 "bash cd $TARGET_DIR && git clone $BARE_REPO ."
+ssh $2@$1 "cd $TARGET_DIR && git clone $BARE_REPO ."
