@@ -6,7 +6,9 @@ return [
         "Tuesday" => "P1D",
         "Wednesday" => "P2D",
         "Thursday" => "P3D",
-        "Friday" => "P4D"
+        "Friday" => "P4D",
+        "Saturday" => "P5D",
+        "Sunday" => "P6D"
     ],
     "pdf_assignment_pattern_func" => function (int $assignment_number): string {
         return "/(?# newline)[\n]"
