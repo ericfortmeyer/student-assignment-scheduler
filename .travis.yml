@@ -11,8 +11,8 @@ before_install:
   - ssh-add ~/.ssh/scheduler-deploy
   - echo -e "Host 45.79.213.53\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 install:
-  - bash ./scripts/ci/install_php_modules.sh
-  - composer -q install
+  # - bash ./scripts/ci/install_php_modules.sh
+  # - composer -q install
 before_script:
   - phpenv config-rm xdebug.ini || echo "No XDebug config"
   - PATH=$PATH:$PWD/vendor/bin
@@ -29,11 +29,11 @@ jobs:
         - phpcs --standard=PSR12 assign amend contacts schedule-recipients special-events
         - phan
         - phpunit --testsuite default
-    - stage: pre-production-testing
-      php: 7.3
-      script:
-        - phpunit --testsuite integration
-        - phpunit --testsuite end-to-end
+    # - stage: pre-production-testing
+      # php: 7.3
+      # script:
+        # - phpunit --testsuite integration
+        # - phpunit --testsuite end-to-end
     - stage: pre-production-deploy
       php: 7.3
       script:
