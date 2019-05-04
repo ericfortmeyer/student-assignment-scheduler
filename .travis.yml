@@ -38,7 +38,7 @@ jobs:
       php: 7.3
       script:
         # - bash scripts/pre-production-deploy.sh '45.79.213.53' red-rock
-        - ssh red-rock@$STAGING_HOST 'cd /home/$STAGING_HOST/staging && bash scripts/run-tests.sh'
+        - ssh red-rock@$STAGING_HOST 'cd /home/$STAGING_USER/staging && bash scripts/run-tests.sh'
 stages:
   - name: analysis-and-unit-testing
     if: branch = develop
