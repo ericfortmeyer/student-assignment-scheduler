@@ -76,8 +76,10 @@ class MailSender
         return $copy;
     }
 
-    public function getMailer()
+    public function withMailer(PHPMailer $Mailer): self
     {
-        return $this->mailer;
+        $copy = clone $this;
+        $copy->mailer = $Mailer;
+        return $copy;
     }
 }
