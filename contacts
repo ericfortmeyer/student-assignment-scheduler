@@ -15,7 +15,7 @@ use \Ds\Map;
 
 use \Dotenv\Dotenv;
 
-require "autoload.php";
+require "bootstrap.php";
 
 try {
     $path_to_secrets = buildPath(__DIR__, "data", "secrets");

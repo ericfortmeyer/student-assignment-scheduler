@@ -66,55 +66,7 @@ use function StudentAssignmentScheduler\Functions\Bootstrapping\{
 //
 //////////////////////
 
-$actions = new \Ds\PriorityQueue();
-
-$actions->push(
-    function () {
-        require "./Functions/Bootstrapping/runInstallScriptIfRequired.php";
-        require "./Functions/Bootstrapping/buildPath.php";
-        runInstallScriptIfRequired(
-            buildPath(__DIR__, "vendor"),
-            buildPath(__DIR__, "scripts", "install.sh")
-        );
-    },
-    10
-);
-
-$actions->push(
-    function () {
-        require file_exists("autoload.php")
-            ? "autoload.php"
-            : buildPath("vendor", "autoload.php");
-    },
-    9
-);
-
-$actions->push(
-    function (): array {
-        $config_dir = file_exists("config")
-            ? "config"
-            : buildPath("vendor", "ericfortmeyer", "student-assignment-scheduler", "config");
-        [$config, $path_config] = loadConfigurationFiles(
-            new \Ds\Vector([
-                $config_file = buildPath(__DIR__, $config_dir, "config.php"),
-                buildPath(__DIR__, $config_dir, "path_config.php")
-            ])
-        )->toArray();
-        makeRequiredDirectories($config["make_these_directories"]);
-
-        return [$config, $path_config, $config_file];
-    },
-    7
-);
-
-while ($actions->count() > 1) {
-    $func = $actions->pop();
-    $func();
-}
-
-$final_action = $actions->pop();
-
-[$config, $path_config, $config_file] = $final_action();
+[$config, $path_config, $config_file] = require "bootstrap.php";
 
 /////////////////////////
 //

@@ -20,14 +20,7 @@ use StudentAssignmentScheduler\{
     Utils\MailSender
 };
 
-require "autoload.php";
-
-[$config, $path_config] = loadConfigurationFiles(
-    new \Ds\Vector([
-        buildPath(__DIR__, "config", "config.php"),
-        buildPath(__DIR__, "config", "path_config.php"),
-    ])
-)->toArray();
+[$config, $path_config] = require_once "bootstrap.php";
 
 // there must be a .env file with email configuration
 $env_dir = __DIR__;
