@@ -7,6 +7,8 @@ use StudentAssignmentScheduler\Classes\Contact;
 use function StudentAssignmentScheduler\Functions\CLI\red;
 use function StudentAssignmentScheduler\Functions\Logging\emailLogger;
 
+use Psr\Log\LoggerInterface;
+
 use \Ds\Map;
 
 define(
@@ -24,10 +26,11 @@ define(
  */
 function sendAssignmentForms(
     MailSender $MailSender,
-    Map $MapOfAttachmentFilenamesToTheirRecipients
+    Map $MapOfAttachmentFilenamesToTheirRecipients,
+    ?LoggerInterface $logger = null
 ) {
 
-    $log = emailLogger(__FUNCTION__);
+    $log = $logger ?? emailLogger(__FUNCTION__);
 
     $emailAssignmentForms = function (string $filename_of_attachment, Contact $contact) use ($MailSender, $log) {
         try {
