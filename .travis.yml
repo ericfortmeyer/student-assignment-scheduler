@@ -32,7 +32,7 @@ jobs:
     - stage: pre-production-testing
       php: 7.3
       script:
-        - phpunit --testsuite integration
+        - php -d sendmail_path=./vendor/bin/smtp-mock-server.php ./vendor/bin/phpunit --testsuite integration
         - phpunit --testsuite end-to-end
     - stage: pre-production-deploy
       php: 7.3
