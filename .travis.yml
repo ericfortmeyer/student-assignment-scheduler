@@ -41,7 +41,7 @@ jobs:
         - ssh $STAGING_USER@$STAGING_HOST "cd /home/$STAGING_USER/staging && bash ./build/run-tests.sh"
 stages:
   - name: analysis-and-unit-testing
-    if: branch = develop
+    if: branch = develop AND branch = master
   - name: pre-production-testing
     if: branch = staging
   - name: pre-production-deploy
