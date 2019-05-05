@@ -8,24 +8,41 @@
          verbose="true">
     <testsuites>
         <testsuite name="default">
-            <directory suffix="Test.php">tests</directory>
+            <directory suffix="Test.php">tests/UnitTests</directory>
+        </testsuite>
+        <testsuite name="integration">
+            <directory suffix="Test.php">tests/IntegrationTests</directory>
+        </testsuite>
+        <testsuite name="end-to-end">
+            <directory suffix="Test.php">tests/EndToEndTests</directory>
         </testsuite>
     </testsuites>
-
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./Functions</directory>
-            <directory suffix=".php">./FileRegistry</directory>
             <directory suffix=".php">./Validation</directory>
-            <directory suffix=".php">./Utils</directory>
+            <!-- <directory suffix=".php">./FileRegistry</directory> -->
+            <!-- <directory suffix=".php">./Utils</directory> -->
             <exclude>
                 <directory>./Utils/templates</directory>
                 <directory>./Utils/MWBDownloader</directory>
                 <directory>./Functions/CLI</directory>
-                <directory>./Functions/Bootstrapping</directory>
-                <file>./Utils/*config.php</file>
-                <file>./Utils/MailSender.php</file>
+                <directory>./Functions/Persistence</directory>
+                <directory>./Functions/Logging</directory>
+                <file>./Utils/parse_config.php</file>
                 <file>./Utils/*Interface.php</file>
+                <file>./Functions/writeAssignmentFormFromArrayOfAssignments.php</file>
+                <file>./Functions/workbookParserImplementation.php</file>
+                <file>./Functions/sendEmails.php</file>
+                <file>./Functions/sendSchedule.php</file>
+                <file>./Functions/redoSchedule.php</file>
+                <file>./Functions/encryptContacts.php</file>
+                <file>./Functions/getConfig.php</file>
+                <file>./Functions/getContacts.php</file>
+                <file>./Functions/getScheduleRecipients.php</file>
+                <file>./Functions/decryptedPassword.php</file>
+                <file>./Functions/scheduleRecipientError.php</file>
+                <file>./Functions/contactSetupError.php</file>
             </exclude>
         </whitelist>
     </filter>
