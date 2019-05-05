@@ -10,10 +10,13 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.1",
         "ext-ast": "^1.0",
         "ext-ds": "^1.2",
-        "ext-zip": "^1.15",
+        "ext-zip": "*",
+        "ext-curl": "*",
+        "ext-xml": "*",
+        "ext-mbstring": "*",
         "phpmailer/phpmailer": "^6.0",
         "vlucas/phpdotenv": "^2.5",
         "setasign/fpdi": "^2.1",
@@ -41,7 +44,8 @@
         "symfony/proxy-manager-bridge": "^4.2",
         "doctrine/annotations": "^1.6",
         "ocramius/generated-hydrator": "^2.2",
-        "monolog/monolog": "^1.24"
+        "monolog/monolog": "^1.24",
+        "tumtum/mock-extern-service": "^0.1.1"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.4",

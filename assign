@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 declare(strict_types=1);
@@ -5,7 +6,12 @@ declare(strict_types=1);
 use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;
 
-use StudentAssignmentScheduler\Utils\{PdfAssignmentFormWriter, PdfScheduleWriter, MailSender};
+use StudentAssignmentScheduler\Utils\{
+    PdfAssignmentFormWriter,
+    PdfScheduleWriter,
+    MailSender
+};
+
 use StudentAssignmentScheduler\Classes\{
     Destination,
     MonthOfAssignments,
@@ -49,6 +55,7 @@ use StudentAssignmentScheduler\Utils\MWBDownloader\{
 use function StudentAssignmentScheduler\Utils\MWBDownloader\Functions\download;
 
 use function StudentAssignmentScheduler\Functions\Bootstrapping\{
+    runInstallScriptIfRequired,
     loadConfigurationFiles,
     buildPath
 };
@@ -59,33 +66,13 @@ use function StudentAssignmentScheduler\Functions\Bootstrapping\{
 //
 //////////////////////
 
-// do this first
-file_exists("vendor")
-        || system("sh scripts/install.sh");
-
-// then this
-require file_exists("autoload.php")
-    ? "autoload.php"
-    : buildPath("vendor", "autoload.php");
-
-$config_dir = file_exists("config")
-    ? "config"
-    : buildPath("vendor", "ericfortmeyer", "student-assignment-scheduler", "config");
-
-[$config, $path_config] = loadConfigurationFiles(
-    new \Ds\Vector([
-        $config_file = buildPath(__DIR__, $config_dir, "config.php"),
-        buildPath(__DIR__, $config_dir, "path_config.php")
-    ])
-)->toArray();
-
+[$config, $path_config, $config_file] = require "bootstrap.php";
 
 /////////////////////////
 //
 // USER CONFIGURATION
 //
 /////////////////////////
-makeRequiredDirectories($config["make_these_directories"]);
 
 // setup email and secret keys if they haven't already been setup
 try {

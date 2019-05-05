@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 use \Ds\Map;
@@ -11,9 +12,7 @@ use function StudentAssignmentScheduler\Functions\Exporting\exportByMonth;
 use function StudentAssignmentScheduler\Functions\Exporting\exportByYear;
 use function StudentAssignmentScheduler\Functions\Exporting\exportByDate;
 
-require "constants.php";
-require "autoload.php";
-$paths = require "config/path_config.php";
+[$config, $paths] = require "bootstrap.php";
 
 /**
  * Share data

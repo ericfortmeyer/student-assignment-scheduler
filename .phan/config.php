@@ -40,7 +40,7 @@ return [
     // then Phan assumes the PHP version which is closest to the minor version
     // of the php executable used to execute Phan.
     // TODO: Choose a target_php_version for this project, or leave as null and remove this comment
-    'target_php_version' => NULL,
+    'target_php_version' => null,
 
     // If enabled, missing properties will be created when
     // they are first seen. If false, we'll report an

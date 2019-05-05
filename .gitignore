@@ -9,6 +9,7 @@ composer.lock
 
 # secrets
 .env
+.ssh
 
 # private key for CI
 scripts/scheduler-deploy

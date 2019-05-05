@@ -1,11 +1,20 @@
+#!/usr/bin/env php
 <?php
 
 use function StudentAssignmentScheduler\Functions\CLI\green;
 use function StudentAssignmentScheduler\Functions\CLI\red;
 
+
+if (!key_exists(1, $argv)) {
+    $message = PHP_EOL
+        . "When using the import command, please indicate the type of item that will be imported." . PHP_EOL
+        . "This is done on the by using this format when entering the command:" . PHP_EOL
+        . "import <type>" . PHP_EOL . PHP_EOL;
+    exit($message);
+}
 $type = $argv[1];
-$paths = require "path_config.php";
-require "functions.php";
+
+[$config, $paths] = require "bootstrap.php";
 
 array_map(
     function (string $file) use ($paths, $type) {
