@@ -97,7 +97,8 @@ class NotificationHandlingTest extends TestCase
 
         // or we can use writeAssignmentFormFromAssignment
         file_put_contents($filename, "fake data");
-        $this->setOutputCallback(function () {});
+        $this->setOutputCallback(function () {
+        });
 
         sendAssignmentForms(
             $MailSender->withMailer($Mailer),

@@ -113,7 +113,7 @@ class ScheduleWriterTest extends TestCase
             return function (string $json_file) use ($path_to_json_assignments): array {
                 return importJson("${path_to_json_assignments}/${json_file}", true, $this->mock_registry);
             };
-        };    
+        };
     }
 
     protected function schedule(string $month): array

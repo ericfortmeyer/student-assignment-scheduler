@@ -9,8 +9,12 @@ class ActionTest extends TestCase
     public function testActionsAreCallable()
     {
         $actions = new \Ds\Map([
-            "I am a success" => new Success(function (): string {return "I am a success";}),
-            "I am a failure" => new Failure(function (): string {return "I am a failure";})
+            "I am a success" => new Success(function (): string {
+                return "I am a success";
+            }),
+            "I am a failure" => new Failure(function (): string {
+                return "I am a failure";
+            })
         ]);
 
         $actions->apply(

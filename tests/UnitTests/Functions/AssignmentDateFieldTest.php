@@ -63,7 +63,7 @@ class AssignmentDateFieldTest extends TestCase
         );
         
         array_map(
-            function(string $given_day_of_month_string) use ($given_month, $given_year, $mock_schedule) {
+            function (string $given_day_of_month_string) use ($given_month, $given_year, $mock_schedule) {
                 $expected = "{$given_month->asText()} $given_day_of_month_string";
 
                 $given_day_of_month = new DayOfMonth($given_month, $given_day_of_month_string);
@@ -87,14 +87,13 @@ class AssignmentDateFieldTest extends TestCase
             },
             array_filter(
                 $date_in_schedule,
-                function(string $key) {
+                function (string $key) {
                     //skip the final week
                     return $key < 3;
                 },
                 ARRAY_FILTER_USE_KEY
             )
         );
-
     }
     
     public function mockSchedule(string $given_year, string $given_month, array $dates_in_schedule): array

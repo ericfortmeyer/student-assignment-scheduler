@@ -107,7 +107,6 @@ class CopyAndSwapJsonAssignmentTest extends TestCase
             true,
             $this->test_registry
         );
-
     }
 
     public function testCopiesOriginalAssignment()
@@ -143,7 +142,7 @@ class CopyAndSwapJsonAssignmentTest extends TestCase
         unset($this->test_registry);
         
         unlink($this->path_to_mock_original_assignments);
-        unlink($this->path_to_copy);        
+        unlink($this->path_to_copy);
     }
 
     protected function newAssignment(

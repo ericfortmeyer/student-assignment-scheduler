@@ -100,10 +100,10 @@ class GetAssignmentDateTest extends TestCase
         $map = new \Ds\Map();
 
         $map->put($testCases[0], [$testCases[0], 'February', '4']);
-        $map->put($testCases[1], [$testCases[1], 'February', '25']);        
-        $map->put($testCases[2], [$testCases[2], 'January', '24']);        
-        $map->put($testCases[3], [$testCases[3], 'July', '3']);        
-        $map->put($testCases[4], [$testCases[4], 'June', '30']);        
+        $map->put($testCases[1], [$testCases[1], 'February', '25']);
+        $map->put($testCases[2], [$testCases[2], 'January', '24']);
+        $map->put($testCases[3], [$testCases[3], 'July', '3']);
+        $map->put($testCases[4], [$testCases[4], 'June', '30']);
         
         $runTests = function (string $test_case, array $expectedMatches) use ($testPattern): void {
             $this->assertThat(

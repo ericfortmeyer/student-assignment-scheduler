@@ -13,8 +13,12 @@ class SelectorTest extends TestCase
 {
     public function testCallsSuccessActionWhenFirstArgIsTrue()
     {
-        $successAction = new Success(function () { return true; });
-        $failureAction = new Failure(function () { return false; });
+        $successAction = new Success(function () {
+            return true;
+        });
+        $failureAction = new Failure(function () {
+            return false;
+        });
 
         $this->assertTrue(
             Selector::do(

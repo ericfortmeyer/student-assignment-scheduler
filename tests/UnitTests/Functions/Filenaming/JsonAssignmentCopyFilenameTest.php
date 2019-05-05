@@ -12,7 +12,7 @@ use function StudentAssignmentScheduler\Functions\Bootstrapping\buildPath;
 
 class JsonAssignmentCopyFilenameTest extends TestCase
 {
-    /* 
+    /*
         The function receives as input:
         (1) destination
         (2) date_time
@@ -20,7 +20,7 @@ class JsonAssignmentCopyFilenameTest extends TestCase
 
         The function should output:
         directory + date_time_string + original filename + file extension
-        
+
         In the case of May 2, 2019 (which is included in April's schdule)
         we should get "{date_time}_04_0502.json"
     */

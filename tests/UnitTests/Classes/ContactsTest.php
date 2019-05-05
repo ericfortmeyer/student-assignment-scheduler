@@ -69,7 +69,7 @@ class ContactsTest extends TestCase
             $given->guid()
         );
         // let's clone Guid the instance since
-        // we will be forced to compare the Guid's 
+        // we will be forced to compare the Guid's
         // value in the application instead of checking
         // to see if it's the same Guid instance
         $clone_of_guid = clone $given->guid();
@@ -123,6 +123,5 @@ class ContactsTest extends TestCase
         };
 
         $array_of_invalid_data->map($attemptToCauseThrownException);
-
     }
 }

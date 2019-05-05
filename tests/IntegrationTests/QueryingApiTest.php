@@ -16,7 +16,7 @@ class QueryingApiTest extends TestCase
     {
         // this test relies on dynamic information (time)
         // which will affect the filename of the workbook downloaded
-        // therefore 
+        // therefore
         $workbook_format = "rtf";
         $language = "ASL";
         $path_to_workbook = __DIR__ . "/../tmp";

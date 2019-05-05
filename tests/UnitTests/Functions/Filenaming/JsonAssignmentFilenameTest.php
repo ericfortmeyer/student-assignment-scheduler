@@ -20,7 +20,7 @@ use StudentAssignmentScheduler\Classes\{
 
 class JsonAssignmentFilenameTest extends TestCase
 {
-    /* 
+    /*
         The function receives as input:
         (1) destination of assignments
         (2) Two digit month of the assignments' schedule
@@ -29,9 +29,9 @@ class JsonAssignmentFilenameTest extends TestCase
             since it may overlap two months.
 
         The function should output:
-        directory + 2 digit month + underscore 
+        directory + 2 digit month + underscore
         + week's actual month + day of the month + file extension
-        
+
         In the case of May 2, 2019 (which is included in April's schdule)
         we should get "04_0502.json"
 

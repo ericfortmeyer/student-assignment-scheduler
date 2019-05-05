@@ -23,7 +23,6 @@ class SpecialEventHistoryTest extends TestCase
             $this->special_event_history_location,
             $this->special_event_history_filename_given_wrong_order
         ]);
-
     }
 
     public function testSpecialEventHistoryMaintainsChronologicalOrderOfEvents()

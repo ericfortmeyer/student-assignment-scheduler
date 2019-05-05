@@ -26,7 +26,7 @@ class FilenamesMappedToContactsTest extends TestCase
     
     /**
      * Individual contacts below
-     * 
+     *
      * @var Contact
      */
     protected $a;

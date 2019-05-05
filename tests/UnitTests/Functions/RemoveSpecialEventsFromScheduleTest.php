@@ -74,19 +74,19 @@ class RemoveSpecialEventsFromScheduleTest extends TestCase
 
         [$january_event, $october_event, $november_event, $december_event] = [
             new SpecialEvent(
-                new Date($jan = new Month(1),new DayOfMonth($jan, 10),new Year(2058)),
+                new Date($jan = new Month(1), new DayOfMonth($jan, 10), new Year(2058)),
                 $event_type
             ),
             new SpecialEvent(
-                new Date($oct = new Month(10),new DayOfMonth($oct, 4),new Year(2058)),
+                new Date($oct = new Month(10), new DayOfMonth($oct, 4), new Year(2058)),
                 $event_type
             ),
             new SpecialEvent(
-                new Date($nov = new Month(11),new DayOfMonth($nov, 8),new Year(2058)),
+                new Date($nov = new Month(11), new DayOfMonth($nov, 8), new Year(2058)),
                 $event_type
             ),
             new SpecialEvent(
-                new Date($dec = new Month(12),new DayOfMonth($dec, 6),new Year(2058)),
+                new Date($dec = new Month(12), new DayOfMonth($dec, 6), new Year(2058)),
                 $event_type
             )
         ];
@@ -100,7 +100,10 @@ class RemoveSpecialEventsFromScheduleTest extends TestCase
 
 
         $this->schedules->map(
-            function ($key, MonthOfAssignments $schedule) use (
+            function (
+                $key,
+                MonthOfAssignments $schedule
+            ) use (
                 $history_of_special_events,
                 $january_event,
                 $october_event,
@@ -185,7 +188,6 @@ class RemoveSpecialEventsFromScheduleTest extends TestCase
                         );
                         break;
                 }
-
             }
         );
     }

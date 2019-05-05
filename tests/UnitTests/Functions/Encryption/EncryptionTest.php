@@ -72,7 +72,7 @@ class EncryptionTest extends TestCase
             $this->assertEquals(
                 $expected,
                 $list_causing_fail
-            );    
+            );
         } catch (\Exception $e) {
             $this->assertThat(
                 $expected,
