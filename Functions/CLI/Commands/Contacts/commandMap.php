@@ -3,8 +3,8 @@
 namespace StudentAssignmentScheduler\Functions\CLI\Commands\Contacts;
 
 use function StudentAssignmentScheduler\Functions\CLI\addContacts;
-use function StudentAssignmentScheduler\Functions\promptsForContacts;
-use function StudentAssignmentScheduler\Functions\promptsForScheduleRecipients;
+use function StudentAssignmentScheduler\Functions\CLI\promptsForContacts;
+use function StudentAssignmentScheduler\Functions\CLI\promptsForScheduleRecipients;
 
 use StudentAssignmentScheduler\Classes\ListOfContacts;
 use \Ds\Map;

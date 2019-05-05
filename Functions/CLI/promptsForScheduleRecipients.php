@@ -1,6 +1,6 @@
 <?php
 
-namespace StudentAssignmentScheduler\Functions;
+namespace StudentAssignmentScheduler\Functions\CLI;
 
 function promptsForScheduleRecipients(): array
 {
