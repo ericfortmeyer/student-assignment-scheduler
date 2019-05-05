@@ -53,7 +53,7 @@ return (function (): array {
     }
     
     if ($required_modules_are_not_installed) {
-        $report_of_modules_needed = join(", ", $required_modules_that_are_not_installed);
+        $list_of_modules_needed = join(", ", $required_modules_that_are_not_installed);
         exit(
             PHP_EOL . ": (" . PHP_EOL
                 . "Sorry. It looks like there are a few PHP modules that need to be installed"
