@@ -38,7 +38,7 @@ $Dotenv = new Dotenv($env_dir);
 $Dotenv->load();
 
 try {
-    $Dotenv->required($email_vars);
+    $Dotenv->required($env_required_fields);
 } catch (\Dotenv\Exception\ValidationException $e) {
     exit(
         PHP_EOL
