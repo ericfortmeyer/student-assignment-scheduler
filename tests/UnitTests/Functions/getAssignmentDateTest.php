@@ -164,7 +164,7 @@ class GetAssignmentDateTest extends TestCase
 
     protected function getPatternConfig(): array
     {
-        return require __DIR__ . "/../../Utils/parse_config.php";
+        return require __DIR__ . "/../../../Utils/parse_config.php";
     }
 
     protected function passingTests(string $month): array

@@ -32,7 +32,7 @@ class MonthOfAssignmentsTest extends TestCase
         ]);
 
         $this->invalid_data = json_decode(
-            \file_get_contents(__DIR__ . "/../mocks/0131.json"),
+            \file_get_contents(__DIR__ . "/../../mocks/0131.json"),
             true
         );
     }

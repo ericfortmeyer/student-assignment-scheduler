@@ -22,7 +22,7 @@ class FilenamesByMonthTest extends TestCase
     public function testReturnsExpectedFiles()
     {
         $month = "January";
-        $path_to_files = __DIR__ . "/../mocks/";
+        $path_to_files = __DIR__ . "/../../mocks/";
         $this->assertEquals(
             $this->expected_files,
             array_values(filenamesByMonth($month, $path_to_files))

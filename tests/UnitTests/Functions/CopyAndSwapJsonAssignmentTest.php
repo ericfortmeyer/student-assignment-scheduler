@@ -31,7 +31,7 @@ class CopyAndSwapJsonAssignmentTest extends TestCase
 
     protected function setup(): void
     {
-        $path_to_mock_assignments = buildPath(__DIR__, "..", "mocks");
+        $path_to_mock_assignments = buildPath(__DIR__, "..", "..", "mocks");
         $this->test_registry = buildPath($path_to_mock_assignments, sha1("test") . ".php");
         $month = new Month("January");
         $day_of_month = new DayOfMonth($month, "31");

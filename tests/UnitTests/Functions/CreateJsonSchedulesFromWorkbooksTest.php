@@ -12,7 +12,7 @@ class CreateJsonSchedulesFromWorkbooksTest extends TestCase
     {
         // setup function's dependencies
         $this->meeting_night = "Thursday";
-        $this->data_destination = buildPath(__DIR__, "..", "tmp");
+        $this->data_destination = buildPath(__DIR__, "..", "..", "tmp");
         $this->created_file = buildPath($this->data_destination, "2019", "January.json");
     }
 
@@ -27,7 +27,7 @@ class CreateJsonSchedulesFromWorkbooksTest extends TestCase
     public function testJsonScheduleCreatedFromParsingWorkbook()
     {
         $parser = new RtfParser($this->meeting_night);
-        $path_to_workbooks = buildPath(__DIR__, "..", "data", "workbooks", "rtf");
+        $path_to_workbooks = buildPath(__DIR__, "..", "..", "data", "workbooks", "rtf");
         $scheduleCreationNotification = function () {
             // noop
         };

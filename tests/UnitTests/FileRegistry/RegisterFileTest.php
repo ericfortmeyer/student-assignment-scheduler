@@ -9,9 +9,9 @@ class RegisterFileTest extends TestCase
     protected function setup(): void
     {
         // tests were breaking unexpectedly when the realpath function was not being used
-        $this->path_to_test_files = realpath(__DIR__ . "/../data");
+        $this->path_to_test_files = realpath(__DIR__ . "/../../data");
         $registry_filename = sha1("test") . ".php";
-        $this->test_registry = __DIR__ . "/../mocks/${registry_filename}";
+        $this->test_registry = __DIR__ . "/../../mocks/${registry_filename}";
         generateRegistry([], $this->test_registry);
     }
 
@@ -22,7 +22,7 @@ class RegisterFileTest extends TestCase
 
     public function testCreatesRegistryIfNotExistsWhenAttemptingToRegisterFile()
     {
-        $fake_registry = __DIR__ . "/../mocks/ima_fake_registry.php";
+        $fake_registry = __DIR__ . "/../../mocks/ima_fake_registry.php";
 
         $file_key = "just_a_fake_file";
         $file_to_be_registered = "ima_fake_file.php";

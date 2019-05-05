@@ -11,7 +11,7 @@ class ListOfContactsTest extends TestCase
     
     protected function setup(): void
     {
-        $this->contacts = require __DIR__ . "/../mocks/contacts.php";
+        $this->contacts = require __DIR__ . "/../../mocks/contacts.php";
 
         $this->ListOfContacts = new ListOfContacts($this->contacts);
     }

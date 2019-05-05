@@ -10,9 +10,9 @@ class EncryptionTest extends TestCase
 {
     protected function setup(): void
     {
-        $this->where_mock_secret_key_is_stored = __DIR__ . "/../../mocks/mock_secret_key";
-        $this->where_mock_master_key_is_stored = __DIR__ . "/../../mocks/mock_master_key";
-        $this->where_encrypted_data_is_stored = __DIR__ . "/../../data/encrypted_data";
+        $this->where_mock_secret_key_is_stored = __DIR__ . "/../../../mocks/mock_secret_key";
+        $this->where_mock_master_key_is_stored = __DIR__ . "/../../../mocks/mock_master_key";
+        $this->where_encrypted_data_is_stored = __DIR__ . "/../../../data/encrypted_data";
 
         createAndStoreMasterKey(
             $this->where_mock_master_key_is_stored

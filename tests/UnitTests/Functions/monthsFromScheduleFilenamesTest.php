@@ -25,7 +25,7 @@ class MonthsFromScheduleFilenamesTest extends TestCase
     {
         $this->assertSame(
             array_values($this->expected),
-            monthsFromScheduleFilenames(__DIR__ . "/../mocks/months")
+            monthsFromScheduleFilenames(__DIR__ . "/../../mocks/months")
         );
     }
 }

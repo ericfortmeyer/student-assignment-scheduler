@@ -45,11 +45,11 @@ class ScheduleWriterTest extends TestCase
 
     protected function setup(): void
     {
-        $schedules_destination = realpath(__DIR__ . "/../tmp");
-        $this->config = require realpath(__DIR__ . "/../../config/config.php");
-        $this->path_to_mock_schedules = realpath(__DIR__ . "/../mocks/months");
-        $this->path_to_mock_assignments = realpath(__DIR__ . "/../mocks");
-        $this->mock_registry = __DIR__ . "/../tmp/registry.php";
+        $schedules_destination = realpath(__DIR__ . "/../../tmp");
+        $this->config = require realpath(__DIR__ . "/../../../config/config.php");
+        $this->path_to_mock_schedules = realpath(__DIR__ . "/../../mocks/months");
+        $this->path_to_mock_assignments = realpath(__DIR__ . "/../../mocks");
+        $this->mock_registry = __DIR__ . "/../../tmp/registry.php";
         $this->config["schedules_destination"] = $schedules_destination;
         $this->test_schedule_basename = "come_on_now";
         $this->registerMockFiles();
