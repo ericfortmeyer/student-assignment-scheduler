@@ -49,7 +49,7 @@ stages:
 deploy:
   provider: script
   skip_cleanup: true
-  script: bash ./build/deploy.sh
+  script: bash ./build/production-deploy.sh $STAGING_HOST $STAGING_USER
   on:
     branch: master
 notifications:
