@@ -11,11 +11,11 @@ if [ ! -d $VENDOR_DIR ]; then
 fi
 
 if [ ! -d $MOCK_EMAIL_SERVER_VENDOR_DIR ]; then
-    cd ../tests/mock-extern-service
+    cd $PWD/tests/mock-extern-service
     composer -q upgrade
     cd ../../
 fi
 
 phpunit --testsuite default
 php -d sendmail_path=$VENDOR_DIR/bin/smtp-mock-server.php $VENDOR_DIR/bin/phpunit --testsuite integration
-php -d sendmail_path=$MOCK_EMAIL_SERVER/smtp-mock-service.php phpunit --testsuite end-to-end
+php -d sendmail_path=$MOCK_EMAIL_SERVER/smtp-mock-service.php $VENDOR_DIR/bin/phpunit --testsuite end-to-end
