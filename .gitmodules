@@ -1,0 +1,6 @@
+[submodule "tests/mock-extrn-service"]
+	path = tests/mock-extrn-service
+	url = https://github.com/ericfortmeyer/mock-extern-service.git
+[submodule "tests/mock-extern-service"]
+	path = tests/mock-extern-service
+	url = https://github.com/ericfortmeyer/mock-extern-service.git
