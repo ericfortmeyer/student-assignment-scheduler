@@ -13,6 +13,9 @@ before_install:
 install:
   - bash ./build/install_php_modules.sh
   - composer -q install
+  - cd tests/mock-extern-service
+  - composer -q upgrade
+  - cd ../../
 before_script:
   - phpenv config-rm xdebug.ini || echo "No XDebug config"
   - PATH=$PATH:$PWD/vendor/bin
@@ -33,12 +36,15 @@ jobs:
       php: 7.3
       script:
         - php -d sendmail_path=./vendor/bin/smtp-mock-server.php ./vendor/bin/phpunit --testsuite integration
-        - phpunit --testsuite end-to-end
     - stage: pre-production-deploy
       php: 7.3
       script:
         - bash ./build/pre-production-deploy.sh $STAGING_HOST $STAGING_USER
         - ssh $STAGING_USER@$STAGING_HOST "cd /home/$STAGING_USER/staging && bash ./build/run-tests.sh"
+    - stage: production-testing
+      php: 7.3
+      script:
+        - phpunit --testsuite end-to-end
 stages:
   - name: analysis-and-unit-testing
     if: branch = develop
@@ -46,11 +52,13 @@ stages:
     if: branch = staging
   - name: pre-production-deploy
     if: branch = staging
+  - name: production-testing
+    if: branch = master
 deploy:
-  provider: script
+- provider: script
   skip_cleanup: true
   script: bash ./build/production-deploy.sh $STAGING_HOST $STAGING_USER
   on:
     branch: master
 notifications:
-  email:
+  email: false

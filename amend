@@ -37,7 +37,16 @@ $env_required_fields = [
 $Dotenv = new Dotenv($env_dir);
 $Dotenv->load();
 
-$Dotenv->required($env_required_fields);
+try {
+    $Dotenv->required($env_required_fields);
+} catch (\Dotenv\Exception\ValidationException $e) {
+    exit(
+        PHP_EOL
+            . "It looks like you don't have anything to amend." . PHP_EOL
+            . "Good bye!"
+    );
+}
+
 
 
 $AssignmentFormWriter = new PdfAssignmentFormWriter($config);
