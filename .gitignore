@@ -38,3 +38,5 @@ workbooks/rtf/*
 /workbooks
 
 test_email.php
+
+.phpunit.result.cache
