@@ -18,4 +18,4 @@ fi
 
 phpunit --testsuite default
 php -d sendmail_path=$VENDOR_DIR/bin/smtp-mock-server.php $VENDOR_DIR/bin/phpunit --testsuite integration
-php -d sendmail_path=$MOCK_EMAIL_SERVER/mock-service/smtp-mock-service.php $VENDOR_DIR/bin/phpunit --testsuite end-to-end
+php -d sendmail_path=$MOCK_EMAIL_SERVER/mock-service/smtp-mock-server.php $VENDOR_DIR/bin/phpunit --testsuite end-to-end
