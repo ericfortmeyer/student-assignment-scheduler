@@ -52,7 +52,7 @@ class NotificationHandlingTest extends TestCase
 
         $MailSender->withMailer($Mailer)->send();
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             $msg,
             Result::MailInbox()
         );
@@ -113,27 +113,27 @@ class NotificationHandlingTest extends TestCase
 
         $id_of_recipient = (string) $Recipient->guid();
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Dear Eric",
             Result::MailInbox()
         );
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Thanks!",
             Result::MailInbox()
         );
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             $id_of_recipient,
             Result::MailInbox()
         );
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Content-Type: application/pdf; name=\"${id_of_recipient}.pdf\"",
             Result::MailInbox()
         );
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "Content-Disposition: attachment; filename=" . basename($filename),
             Result::MailInbox()
         );
