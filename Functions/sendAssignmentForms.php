@@ -33,7 +33,14 @@ function sendAssignmentForms(
 
     $log = $logger ?? emailLogger(__FUNCTION__);
 
-    $emailAssignmentForms = function (string $filename_of_attachment, Contact $contact) use ($MailSender, $log, $test_mode) {
+    $emailAssignmentForms = function (
+        string $filename_of_attachment,
+        Contact $contact
+    ) use (
+        $MailSender,
+        $log,
+        $test_mode
+    ) {
         try {
             $MailSender
                 ->addBody("Dear {$contact->firstName()},\r\n\r\nHere's your next assignment.\r\n\r\nThanks!")
