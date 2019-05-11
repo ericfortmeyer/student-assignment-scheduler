@@ -27,12 +27,20 @@ define(
 function sendAssignmentForms(
     MailSender $MailSender,
     Map $MapOfAttachmentFilenamesToTheirRecipients,
-    ?LoggerInterface $logger = null
+    ?LoggerInterface $logger = null,
+    bool $test_mode = false
 ) {
 
     $log = $logger ?? emailLogger(__FUNCTION__);
 
-    $emailAssignmentForms = function (string $filename_of_attachment, Contact $contact) use ($MailSender, $log) {
+    $emailAssignmentForms = function (
+        string $filename_of_attachment,
+        Contact $contact
+    ) use (
+        $MailSender,
+        $log,
+        $test_mode
+    ) {
         try {
             $MailSender
                 ->addBody("Dear {$contact->firstName()},\r\n\r\nHere's your next assignment.\r\n\r\nThanks!")
@@ -40,7 +48,7 @@ function sendAssignmentForms(
                 ->addAttachment($filename_of_attachment)
                 ->send();
 
-            echo "Email sent: {$contact->emailAddress()}\r\n";
+            $test_mode || print "Email sent: {$contact->emailAddress()}\r\n";
 
             $log->info(
                 "Email sent: {email_address}",
