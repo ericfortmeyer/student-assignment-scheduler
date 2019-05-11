@@ -44,7 +44,7 @@ jobs:
     - stage: production-testing
       php: 7.3
       script:
-        - php -d sendmail_path=./tests/mock-extern-service/mock-service/smtp-mock-service.pp phpunit --testsuite end-to-end
+        - php -d sendmail_path=./tests/mock-extern-service/mock-service/smtp-mock-service.php ./vendor/bin/phpunit --testsuite end-to-end
 stages:
   - name: analysis-and-unit-testing
     if: branch = develop
