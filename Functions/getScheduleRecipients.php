@@ -12,7 +12,5 @@ function getScheduleRecipients(
     $master_key = Encryption\masterKey($path_to_master_key);
     $secret_Key = Encryption\secretKey($path_to_stack_of_keys, $master_key);
 
-    return new ListOfScheduleRecipients(
-        Encryption\unbox($path_to_contacts, $secret_Key)
-    );
+    return Encryption\unbox($path_to_contacts, $secret_Key);
 }
