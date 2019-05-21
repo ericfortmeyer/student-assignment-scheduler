@@ -11,10 +11,11 @@ deploy() {
     PATH_EXPORT_COMMAND='export PATH=$PATH:'
     PATH_EXPORT_COMMAND+="$TARGET_DIR"
 
-    echo $PATH_EXPORT_COMMAND >> $HOME/.profile # to easily run commands from CLI
+    git ls-remote --exit-code refs/heads/$BRANCH &>/dev/null
 
-    git config --global push.default simple
-    git remote add $BRANCH ssh://$URL:$BARE_REPO
+    if test $? = 0; then
+        git remote add $BRANCH ssh://$URL:$BARE_REPO > /dev/null
+    fi
 
     if ssh $URL "[ ! -d $BARE_REPO ]"; then # first push
         ssh $URL "mkdir $BARE_REPO && git init --bare $BARE_REPO"
@@ -25,8 +26,7 @@ deploy() {
     else # not the first push
         git push -f $BRANCH HEAD:refs/heads/master
         git push -f $BRANCH HEAD:refs/heads/$BRANCH
-        ssh $URL "cd $TARGET_DIR && git pull ../$BRANCH.git --recurse-submodules --no-ff
-            && if [ ! -d $TARGET_DIR/tests/mock-extern-service/mock-service ] ; then git submodule update --init --recursive; fi"
+        ssh $URL "cd $TARGET_DIR && git pull ../$BRANCH.git --recurse-submodules --no-ff && if [ ! -d $TARGET_DIR/tests/mock-extern-service/mock-service ] ; then git submodule update --init --recursive; fi"
     fi
 
 }
