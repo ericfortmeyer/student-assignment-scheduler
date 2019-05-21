@@ -25,7 +25,8 @@ deploy() {
     else # not the first push
         git push -f $BRANCH HEAD:refs/heads/master
         git push -f $BRANCH HEAD:refs/heads/$BRANCH
-        ssh $URL "cd $TARGET_DIR && git pull ../$BRANCH.git --recurse-submodules --no-ff"
+        ssh $URL "cd $TARGET_DIR && git pull ../$BRANCH.git --recurse-submodules --no-ff
+            && if [ ! -d $TARGET_DIR/tests/mock-extern-service/mock-service ] ; then git submodule update --init --recursive; fi"
     fi
 
 }
