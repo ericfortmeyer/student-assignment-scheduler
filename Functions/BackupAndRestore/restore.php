@@ -72,7 +72,7 @@ function mapOfOldNamesToNewNames(RestoreConfig $config): Map
         function ($carry, string $oldname) use ($map, $config) {
             $file = new File($oldname);
             $newname = $config->newNameFromOldName($file);
-            $this->recursivelyAddTargetFilenamesToMap(
+            recursivelyAddTargetFilenamesToMap(
                 $map,
                 $config,
                 $file,
@@ -90,7 +90,7 @@ function recursivelyAddTargetFilenamesToMap(Map $map, RestoreConfig $config, str
             function ($carry, string $filename) use ($map, $config, $oldname) {
                 $file = "${oldname}/" . basename($filename);
                 $rename_to = $filename;
-                $this->recursivelyAddTargetFilenamesToMap($map, $config, $file, $rename_to);
+                recursivelyAddTargetFilenamesToMap($map, $config, $file, $rename_to);
             }
         )
         : $map->put($oldname, $newname);
