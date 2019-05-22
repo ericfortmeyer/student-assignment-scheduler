@@ -70,12 +70,12 @@ function mapOfOldNamesToNewNames(RestoreConfig $config): Map
 
     $config->filesInTmpDir()->reduce(
         function ($carry, string $oldname) use ($map, $config) {
-            $file = (string) new File($oldname);
+            $file = new File($oldname);
             $newname = $config->newNameFromOldName($file);
             recursivelyAddTargetFilenamesToMap(
                 $map,
                 $config,
-                $file,
+                (string) $file,
                 $newname
             );
         }
