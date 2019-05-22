@@ -1,0 +1,73 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+namespace StudentAssignmentScheduler\Functions\BackupAndRestore;
+
+use function StudentAssignmentScheduler\Functions\buildPath;
+use function StudentAssignmentScheduler\Functions\CLI\green;
+use function StudentAssignmentScheduler\Functions\CLI\red;
+
+use StudentAssignmentScheduler\Classes\{
+    Password,
+    PasswordOption,
+    BackupConfig,
+    ListOfFiles,
+    ListOfDirectories,
+    File,
+    Directory,
+    Destination
+};
+
+
+[$config, $paths] = require "bootstrap.php";
+
+$passwd = new Password(
+    (function (): string {
+        print PHP_EOL . PHP_EOL . green("For your protection, backup files are password protected.")
+            . PHP_EOL . PHP_EOL;
+        return (function () {
+            $password_prompt = "scripts/passwd_prompt.sh";
+            print "Please enter the password you want to use for the backup file: ";
+            $result = exec(
+                "bash " . escapeshellcmd($password_prompt)
+            );
+            print PHP_EOL;
+            return $result;
+        })();
+    })()
+);
+
+
+$list_of_files_to_backup = new ListOfFiles();
+$list_of_files_to_backup->add(new File(buildPath(__DIR__, ".env")));
+
+$list_of_directories_to_backup = new ListOfDirectories();
+$list_of_directories_to_backup->add(new Directory(buildPath(__DIR__, "config")));
+$list_of_directories_to_backup->add(new Directory(buildPath(__DIR__, "data")));
+
+$backups_directory = buildPath(__DIR__, "backups");
+!file_exists($backups_directory) && mkdir($backups_directory, 0700);
+
+$result = backup(
+    new BackupConfig(
+        $list_of_files_to_backup,
+        $list_of_directories_to_backup,
+        new Destination(
+            $backups_directory
+        ),
+        new PasswordOption($passwd)
+    )
+);
+
+$result ? success($backups_directory) : fail();
+
+function success(string $dest): void
+{
+    print green(PHP_EOL . "Backup successful.  Destination: ${dest}" . PHP_EOL . PHP_EOL);
+}
+
+function fail(): void
+{
+    print red(PHP_EOL . "Backup failed" . PHP_EOL . PHP_EOL);
+    exit();
+}
