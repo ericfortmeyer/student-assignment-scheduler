@@ -4,7 +4,8 @@ namespace StudentAssignmentScheduler\Functions\BackupAndRestore;
 
 use StudentAssignmentScheduler\Classes\{
     RestoreConfig,
-    File
+    File,
+    Directory
 };
 use \ZipArchive;
 
@@ -70,9 +71,29 @@ function mapOfOldNamesToNewNames(RestoreConfig $config): Map
     $config->filesInTmpDir()->reduce(
         function ($carry, string $oldname) use ($map, $config) {
             $file = new File($oldname);
-            $map->put($file, $config->newNameFromOldName($file));
+            $newname = $config->newNameFromOldName($file);
+            $this->recursivelyAddTargetFilenamesToMap(
+                $map,
+                $config,
+                $file,
+                $newname
+            );
         }
     );
 
     return $map;
 }
+function recursivelyAddTargetFilenamesToMap(Map $map, RestoreConfig $config, string $oldname, string $newname)
+{
+    is_dir($newname)
+        ? (new Directory($newname))->files()->reduce(
+            function ($carry, string $filename) use ($map, $config, $oldname) {
+                $file = "${oldname}/" . basename($filename);
+                $rename_to = $filename;
+                $this->recursivelyAddTargetFilenamesToMap($map, $config, $file, $rename_to);
+            }
+        )
+        : $map->put($oldname, $newname);
+
+}
+
