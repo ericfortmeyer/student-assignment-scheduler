@@ -59,8 +59,7 @@ $backup_file = new File($argv[1]);
 try {
     $result = restore(
         new RestoreConfig(
-            // $app_base_dir,
-            new Destination($test_dirname),
+            $app_base_dir,
             $tmp_dir,
             $backup_file,
             new PasswordOption($passwd)
