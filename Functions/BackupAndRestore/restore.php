@@ -20,7 +20,7 @@ function restore(RestoreConfig $config): bool
     $config->extractToTmpDir(new ZipArchive());
     $file_moving_queue = new Queue();
     mapOfOldNamesToNewNames($config)->apply(
-        function (File $oldname, string $newname) use ($file_moving_queue) {
+        function (string $oldname, string $newname) use ($file_moving_queue) {
             $file_moving_queue->push(
                 (function (string $oldname, string $newname): \Closure {
                     return function () use ($oldname, $newname) {
