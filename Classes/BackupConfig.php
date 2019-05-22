@@ -79,24 +79,26 @@ final class BackupConfig
     private function addDirectoriesRecursively(ZipArchive $zip): \Closure
     {
         return function ($carry, Directory $directory) use ($zip): void {
-            $directory->files()->reduce($this->addFilesRecursively($zip));
+            $directory->files()->reduce($this->addFilesRecursively($zip, basename((string) $directory)));
         };
     }
 
-    private function addFilesRecursively(ZipArchive $zip): \Closure
+    private function addFilesRecursively(ZipArchive $zip, string $directory): \Closure
     {
-        return function ($carry, string $filename) use ($zip): void {
+        return function ($carry, string $filename) use ($zip, $directory): void {
             if (is_dir($filename)) {
-                $directory = new Directory($filename);
-                $directory->files()->reduce($this->addFilesRecursively($zip));
+                $subdirectory = new Directory(buildPath($directory, basename($filename)));
+                $path_to_subdirectory = (string) $subdirectory;
+                $subdirectory->files()->reduce($this->addFilesRecursively($zip, $path_to_subdirectory));
             } else {
+                $destination = buildPath($directory, basename($filename));
                 $zip->addFile(
                     $filename,
-                    buildPath(basename(dirname($filename)), basename($filename))
+                    $destination
                 );
                 $this->password_option->select(
-                    function () use ($zip, $filename) {
-                        $zip->setEncryptionName(buildPath(basename(dirname($filename)), basename($filename)), ZipArchive::EM_AES_256);
+                    function () use ($zip, $destination) {
+                        $zip->setEncryptionName($destination, ZipArchive::EM_AES_256);
                     },
                     function () {
                         //no op

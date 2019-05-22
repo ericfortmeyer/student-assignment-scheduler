@@ -46,7 +46,7 @@ final class RestoreConfig
                 function (Password $passwd) use ($zip, $tmp_dir) {
                     $zip->setPassword((string) $passwd);
                     if (!$zip->extractTo($tmp_dir)) {
-                        throw new \Exception("Incorrect password");
+                        throw new IncorrectPasswordException();
                     }
                 },
                 function () use ($zip, $tmp_dir) {
@@ -70,6 +70,23 @@ final class RestoreConfig
     public function newNameFromOldName(File $oldname): string
     {
         $filename = (string) $oldname;
-        return buildPath((string) $this->app_base_dir, basename($filename));
+        $base_dir = (string) $this->app_base_dir;
+        $tmp_dir = (string) $this->tmp_dir;
+
+        return $this->hasSubdirectory($base_dir, $tmp_dir, $filename)
+            ? (function () use ($base_dir, $filename): string {
+                $subdirectory = \explode($base_dir, dirname($filename))[1];
+                return buildPath("${base_dir}${subdirectory}", basename($filename));
+
+            })()
+            : (function () use ($base_dir, $filename): string {
+                return buildPath($base_dir, basename($filename));
+            })();
+    }
+
+    private function hasSubdirectory(string $base_dir, string $tmp_dir, string $filename): bool
+    {
+        $split_result = explode($base_dir, dirname($filename));
+        return count($split_result) > 1 && dirname($filename) !== $tmp_dir;
     }
 }

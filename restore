@@ -13,6 +13,7 @@ use StudentAssignmentScheduler\Classes\{
     RestoreConfig,
     ListOfFiles,
     ListOfDirectories,
+    IncorrectPasswordException,
     File,
     Directory,
     Destination
@@ -55,14 +56,20 @@ $app_base_dir = new Destination(__DIR__);
 $tmp_dir = new Directory($tmp_dirname);
 $backup_file = new File($argv[1]);
 
-$result = restore(
-    new RestoreConfig(
-        $app_base_dir,
-        $tmp_dir,
-        $backup_file,
-        new PasswordOption($passwd)
-    )
-);
+try {
+    $result = restore(
+        new RestoreConfig(
+            // $app_base_dir,
+            new Destination($test_dirname),
+            $tmp_dir,
+            $backup_file,
+            new PasswordOption($passwd)
+        )
+    );
+} catch (IncorrectPasswordException $e) {
+    print "It looks like the password you entered is incorrect.  Please try again." . PHP_EOL;
+    exit();
+}
 
 $result ? success() : fail();
 
