@@ -30,6 +30,7 @@ use StudentAssignmentScheduler\Classes\{
     print PHP_EOL;
     print red("The file {$argv[1]} does not exists.") . PHP_EOL;
     print "Please check the path and try to run the script again." . PHP_EOL;
+    exit();
 })();
 
 $passwd = new Password(
@@ -49,8 +50,6 @@ $passwd = new Password(
 
 $tmp_dirname = buildPath(__DIR__, "tmp", sha1(\bin2hex(random_bytes(8))));
 !file_exists($tmp_dirname) && mkdir($tmp_dirname, 0700);
-$test_dirname = buildPath(__DIR__, "tmp", "test");
-!file_exists($test_dirname) && mkdir($test_dirname, 0700);
 
 $app_base_dir = new Destination(__DIR__);
 $tmp_dir = new Directory($tmp_dirname);
