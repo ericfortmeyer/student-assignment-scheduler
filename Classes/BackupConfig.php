@@ -65,7 +65,7 @@ final class BackupConfig
         $zip_ext = ".zip";
         $backupFilename = buildPath(
             (string) $this->destination_of_backup_file,
-            backupFileBasename($backupFilenameForTesting) . $zip_ext
+            backupFileBasename($backupFileBasenameForTesting) . $zip_ext
         );
         $zip->open($backupFilename, ZipArchive::CREATE);
         $this->password_option->select(
