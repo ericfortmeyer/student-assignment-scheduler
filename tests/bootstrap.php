@@ -5,6 +5,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/mock-extern-service/vendor/autoload.php";
 
 !file_exists(__DIR__ . "/tmp") && mkdir(__DIR__ . "/tmp");
+!file_exists(__DIR__ . "/fakes") && mkdir(__DIR__ . "/fakes");
 
 # generate a mock app config file
 # otherwise tests will trigger CLI prompts

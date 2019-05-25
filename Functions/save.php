@@ -26,21 +26,6 @@ function save(
     !file_exists($filename) && createFile($file_data, $filename, $logger, $test_registry);
 }
 
-/**
- * @param object|array $file_data
- * @param string $filename
- * @param mixed $logger
- * @param string|null $test_registry
- */
-function createFile($file_data, string $filename, $logger, ?string $test_registry)
-{
-    $context = ["file" => $filename];
-
-    file_put_contents($filename, json_encode($file_data, JSON_PRETTY_PRINT))
-        ? success($filename, $logger, $context, $test_registry)
-        : fail($logger, $context);
-}
-
 function makeDir(string $directory, $logger)
 {
     $context = ["directory" => $directory];
