@@ -35,8 +35,11 @@ function restore(RestoreConfig $config): bool
                         $target_directory = dirname($newname);
                         !\file_exists($target_directory) && mkdir($target_directory);
                         $moveFile = function (string $oldname, string $newname) {
+                            // do this first
+                            $wasMovingTheFileSuccessful = rename($oldname, $newname);
+                            // do this second
                             registerFile(hashOfFile($newname), $newname);
-                            return rename($oldname, $newname);
+                            return $wasMovingTheFileSuccessful;
                         };
                         $putOriginalFileBack = file_exists($newname)
                             ? (function(string $original_filename) {
