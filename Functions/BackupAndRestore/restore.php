@@ -30,7 +30,7 @@ function restore(RestoreConfig $config): bool
                             return $wasMovingTheFileSuccessful;
                         };
                         $putOriginalFileBack = file_exists($newname)
-                            ? (function(string $original_filename) {
+                            ? (function (string $original_filename) {
                                 $original_file_contents = \file_get_contents($original_filename);
                                 return function () use ($original_filename, $original_file_contents) {
                                     file_put_contents($original_filename, $original_file_contents);
@@ -54,4 +54,3 @@ function restore(RestoreConfig $config): bool
 
     return moveAllFilesOrRollback($file_moving_queue, $config);
 }
-

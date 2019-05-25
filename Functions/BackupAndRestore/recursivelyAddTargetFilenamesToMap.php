@@ -23,6 +23,4 @@ function recursivelyAddTargetFilenamesToMap(Map $map, RestoreConfig $config, str
             }
         )
         : $map->put($oldname, $newname);
-
 }
-
