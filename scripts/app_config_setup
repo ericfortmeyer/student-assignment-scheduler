@@ -1,9 +1,16 @@
+#!/usr/bin/env php
 <?php
 
-namespace StudentAssignmentSchedule;
+namespace StudentAssignmentScheduler;
 
-use function StudentAssignmentScheduler\Functions\save;
-use function StudentAssignmentScheduler\Functions\CLI\displayList;
+use function StudentAssignmentScheduler\Functions\{
+    createFile,
+    importJson,
+    Logging\fileSaveLogger,
+    CLI\displayList
+};
+
+use StudentAssignmentScheduler\Classes\Guid;
 
 require_once __DIR__ . "/../autoload.php";
 
@@ -20,27 +27,32 @@ $daysOfWeek = [
 ];
 $available_languages = ["ASL"];
 
+$previous_config = file_exists($filename_of_app_config) ? importJson($filename_of_app_config) : [];
+$app_id = key_exists("app_id", $previous_config) ? new Guid($previous_config["app_id"]) : new Guid();
+
 displayList($daysOfWeek);
 $meeting_night_index = readline("Select the number to the left of the day of your weekly meeting: ");
 $meeting_night = $daysOfWeek[$meeting_night_index];
 print "You selected ${meeting_night}" . PHP_EOL . PHP_EOL;
-
 
 displayList($available_languages);
 $language_index = readline("Select the number to the left of the language of your weekly meeting: ");
 $language = $available_languages[$language_index];
 print "You selected ${language}" . PHP_EOL . PHP_EOL;
 
-$config_obj = new class($meeting_night, $language) {
+$config_obj = new class($app_id, $meeting_night, $language) {
+    public $app_id;
     public $language;
     public $meeting_night;
-    public function __construct(string $meeting_night, string $language)
+    public function __construct(Guid $app_id, string $meeting_night, string $language)
     {
+        $this->app_id = (string) $app_id;
         $this->meeting_night = $meeting_night;
         $this->language = $language;
     }
 };
 
-save($config_obj, $filename_of_app_config);
+$logger = fileSaveLogger("createFile");
+createFile($config_obj, $filename_of_app_config, $logger);
 
 print "You're all set!" . PHP_EOL . PHP_EOL;

@@ -1,0 +1,83 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+namespace StudentAssignmentScheduler\Functions\BackupAndRestore;
+
+use function StudentAssignmentScheduler\Functions\buildPath;
+use function StudentAssignmentScheduler\Functions\CLI\green;
+use function StudentAssignmentScheduler\Functions\CLI\red;
+
+use StudentAssignmentScheduler\Classes\{
+    Password,
+    PasswordOption,
+    RestoreConfig,
+    ListOfFiles,
+    ListOfDirectories,
+    IncorrectPasswordException,
+    File,
+    Directory,
+    Destination
+};
+
+require "autoload.php";
+
+!key_exists(1, $argv) && (function () {
+    print "usage: restore backup_file" . PHP_EOL;
+    exit();
+})();
+
+!file_exists($argv[1]) && (function () use ($argv) {
+    print PHP_EOL;
+    print red("The file {$argv[1]} does not exists.") . PHP_EOL;
+    print "Please check the path and try to run the script again." . PHP_EOL;
+    exit();
+})();
+
+$passwd = new Password(
+    (function (): string {
+        return (function () {
+            $password_prompt = "scripts/passwd_prompt.sh";
+            print "Please enter the password for the backup file: ";
+            $result = exec(
+                "bash " . escapeshellcmd($password_prompt)
+            );
+            print PHP_EOL;
+            return $result;
+        })();
+    })()
+);
+
+
+$tmp_dirname = buildPath(__DIR__, "tmp", sha1(\bin2hex(random_bytes(8))));
+!file_exists($tmp_dirname) && mkdir($tmp_dirname, 0700);
+
+$app_base_dir = new Destination(__DIR__);
+$tmp_dir = new Directory($tmp_dirname);
+$backup_file = new File($argv[1]);
+
+try {
+    $result = restore(
+        new RestoreConfig(
+            $app_base_dir,
+            $tmp_dir,
+            $backup_file,
+            new PasswordOption($passwd)
+        )
+    );
+} catch (IncorrectPasswordException $e) {
+    print "It looks like the password you entered is incorrect.  Please try again." . PHP_EOL;
+    exit();
+}
+
+$result ? success() : fail();
+
+function success(): void
+{
+    print green(PHP_EOL . "Restore from backup successful." . PHP_EOL . PHP_EOL);
+}
+
+function fail(): void
+{
+    print red(PHP_EOL . "Restore failed" . PHP_EOL . PHP_EOL);
+    exit();
+}
