@@ -2,8 +2,9 @@
 
 namespace StudentAssignmentScheduler\Functions\BackupAndRestore;
 
-use function StudentAssignmentScheduler\Functions\hashOfFile;
+use StudentAssignmentScheduler\Classes\RestoreConfig;
 
+use function StudentAssignmentScheduler\Functions\hashOfFile;
 use function StudentAssignmentScheduler\FileRegistry\Functions\registerFile;
 
 use \ZipArchive;
