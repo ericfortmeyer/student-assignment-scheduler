@@ -32,6 +32,7 @@ $do_not_assign_these = [
 $useragent = "LAMM-Scheduler";
 
 return [
+    "app_config_filename" => $filename_of_app_config,
     "language" => $my_language,
     "mnemonic" => [
         "ASL" => "mwbsl",

@@ -4,6 +4,7 @@
 /vendor
 /log
 /tmp
+/backups
 
 composer.lock
 

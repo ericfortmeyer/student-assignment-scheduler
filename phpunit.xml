@@ -7,6 +7,10 @@
          colors="true"
          verbose="true">
     <testsuites>
+        <testsuite name="backup-and-restore">
+            <file>./tests/UnitTests/Functions/BackupAndRestore/BackupTest.php</file>
+            <file>./tests/UnitTests/Functions/BackupAndRestore/RestoreTest.php</file>
+        </testsuite>
         <testsuite name="default">
             <directory suffix="Test.php">tests/UnitTests</directory>
         </testsuite>
