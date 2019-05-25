@@ -3,7 +3,10 @@
 namespace StudentAssignmentScheduler\Functions\BackupAndRestore;
 
 use \Ds\Map;
-use StudentAssignmentScheduler\Classes\File;
+use StudentAssignmentScheduler\Classes\{
+    File,
+    RestoreConfig
+};
 
 function mapOfOldNamesToNewNames(RestoreConfig $config): Map
 {
