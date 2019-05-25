@@ -29,8 +29,12 @@ final class BackupConfig
      */
     private $password_option;
 
-    public function __construct(ListOfFiles $files, ListOfDirectories $directories, Destination $destination_of_backup_file, PasswordOption $password_option)
-    {
+    public function __construct(
+        ListOfFiles $files,
+        ListOfDirectories $directories,
+        Destination $destination_of_backup_file,
+        PasswordOption $password_option
+    ) {
         $this->files = $files;
         $this->directories = $directories;
         $this->destination_of_backup_file = $destination_of_backup_file;
@@ -59,7 +63,10 @@ final class BackupConfig
     {
         $zip = new ZipArchive();
         $zip_ext = ".zip";
-        $backupFilename = buildPath((string) $this->destination_of_backup_file, backupFileBasename($backupFilenameForTesting) . $zip_ext);
+        $backupFilename = buildPath(
+            (string) $this->destination_of_backup_file,
+            backupFileBasename($backupFilenameForTesting) . $zip_ext
+        );
         $zip->open($backupFilename, ZipArchive::CREATE);
         $this->password_option->select(
             function ($password) use ($zip) {

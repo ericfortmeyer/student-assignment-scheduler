@@ -30,8 +30,12 @@ final class RestoreConfig
      */
     private $password_option;
 
-    public function __construct(Destination $app_base_dir, Directory $tmp_dir, File $backup_file, PasswordOption $password_option)
-    {
+    public function __construct(
+        Destination $app_base_dir,
+        Directory $tmp_dir,
+        File $backup_file,
+        PasswordOption $password_option
+    ) {
         $this->app_base_dir = $app_base_dir;
         $this->tmp_dir = $tmp_dir;
         $this->backup_file = $backup_file;
@@ -77,7 +81,6 @@ final class RestoreConfig
             ? (function () use ($base_dir, $filename): string {
                 $subdirectory = \explode($base_dir, dirname($filename))[1];
                 return buildPath("${base_dir}${subdirectory}", basename($filename));
-
             })()
             : (function () use ($base_dir, $filename): string {
                 return buildPath($base_dir, basename($filename));
