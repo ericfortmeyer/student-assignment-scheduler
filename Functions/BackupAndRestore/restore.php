@@ -8,7 +8,12 @@ use StudentAssignmentScheduler\Classes\{
     Directory
 };
 
-use function StudentAssignmentScheduler\Functions\buildPath;
+use function StudentAssignmentScheduler\Functions\{
+    buildPath,
+    hashOfFile
+};
+
+use function StudentAssignmentScheduler\FileRegistry\Functions\registerFile;
 
 use \ZipArchive;
 
@@ -29,6 +34,10 @@ function restore(RestoreConfig $config): bool
                     return function () use ($oldname, $newname) {
                         $target_directory = dirname($newname);
                         !\file_exists($target_directory) && mkdir($target_directory);
+                        $moveFile = function (string $oldname, string $newname) {
+                            registerFile(hashOfFile($newname), $newname);
+                            return rename($oldname, $newname);
+                        };
                         $putOriginalFileBack = file_exists($newname)
                             ? (function(string $original_filename) {
                                 $original_file_contents = \file_get_contents($original_filename);
@@ -40,7 +49,7 @@ function restore(RestoreConfig $config): bool
                                 //no op
                             };
                         $file_that_was_moved = $newname;
-                        return rename($oldname, $newname)
+                        return $moveFile($oldname, $newname)
                             ? function () use ($file_that_was_moved, $putOriginalFileBack) {
                                 unlink($file_that_was_moved);
                                 $putOriginalFileBack();
