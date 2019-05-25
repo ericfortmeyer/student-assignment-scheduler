@@ -4,9 +4,9 @@ namespace StudentAssignmentScheduler\Functions\BackupAndRestore;
 
 use StudentAssignmentScheduler\Classes\BackupConfig;
 
-function backup(BackupConfig $config, string $backupFilenameForTesting = ""): array
+function backup(BackupConfig $config, string $backupFileBasenameForTesting = ""): array
 {
-    $zip = $config->initZip($backupFilenameForTesting);
+    $zip = $config->initZip($backupFileBasenameForTesting);
 
     $config->addFilesToZip($zip);
 

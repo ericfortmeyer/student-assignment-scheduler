@@ -59,7 +59,7 @@ final class BackupConfig
         );
     }
 
-    public function initZip(string $backupFilenameForTesting = ""): \ZipArchive
+    public function initZip(string $backupFileBasenameForTesting = ""): \ZipArchive
     {
         $zip = new ZipArchive();
         $zip_ext = ".zip";

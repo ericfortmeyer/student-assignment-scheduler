@@ -55,8 +55,8 @@ class BackupTest extends TestCase
             $this->fake_data_files
         );
         $this->tmp_dir = __DIR__ . "/../../../tmp";
-        $fake_backup_basename = "test";
-        $this->fake_backup_filename = $fake_backup_basename . ".zip";
+        $this->fake_backup_basename = "test";
+        $this->fake_backup_filename = $this->fake_backup_basename . ".zip";
 
         $this->resulting_zip_filename = $this->tmp_dir . DIRECTORY_SEPARATOR . $this->fake_backup_filename;
     }
@@ -81,7 +81,7 @@ class BackupTest extends TestCase
                 new Destination($this->tmp_dir),
                 new PasswordOption(null)
             ),
-            $this->fake_backup_filename
+            $this->fake_backup_basename
         );
 
 
