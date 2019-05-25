@@ -58,7 +58,8 @@ final class BackupConfig
     public function initZip(string $backupFilenameForTesting = ""): \ZipArchive
     {
         $zip = new ZipArchive();
-        $backupFilename = buildPath((string) $this->destination_of_backup_file, backupFileBasename($backupFilenameForTesting));
+        $zip_ext = ".zip";
+        $backupFilename = buildPath((string) $this->destination_of_backup_file, backupFileBasename($backupFilenameForTesting) . $zip_ext);
         $zip->open($backupFilename, ZipArchive::CREATE);
         $this->password_option->select(
             function ($password) use ($zip) {

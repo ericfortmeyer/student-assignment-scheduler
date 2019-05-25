@@ -48,7 +48,7 @@ $list_of_directories_to_backup->add(new Directory(buildPath(__DIR__, "data")));
 $backups_directory = buildPath(__DIR__, "backups");
 !file_exists($backups_directory) && mkdir($backups_directory, 0700);
 
-$result = backup(
+[$filename, $result] = backup(
     new BackupConfig(
         $list_of_files_to_backup,
         $list_of_directories_to_backup,
@@ -59,7 +59,7 @@ $result = backup(
     )
 );
 
-$result ? success($backups_directory) : fail();
+$result ? success($filename) : fail();
 
 function success(string $dest): void
 {
