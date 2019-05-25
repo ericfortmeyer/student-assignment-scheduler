@@ -2,19 +2,17 @@
 
 namespace StudentAssignmentScheduler\Functions;
 
-use function StudentAssignmentScheduler\Functions\Logging\{
-    fileSaveLogger,
-    nullLogger
-};
+use Psr\Log\LoggerInterface;
+
 use function StudentAssignmentScheduler\FileRegistry\Functions\registerFile;
 
 /**
  * @param object|array $file_data
  * @param string $filename
- * @param mixed $logger
+ * @param LoggerInterface $logger
  * @param string|null $test_registry
  */
-function createFile($file_data, string $filename, $logger, ?string $test_registry = null)
+function createFile($file_data, string $filename, LoggerInterface $logger, ?string $test_registry = null)
 {
     $context = ["file" => $filename];
 
@@ -23,7 +21,7 @@ function createFile($file_data, string $filename, $logger, ?string $test_registr
         : fileCreateFailed($logger, $context);
 }
 
-function fileCreateSuccess(string $filename, $logger, array $context, ?string $test_registry)
+function fileCreateSuccess(string $filename, LoggerInterface $logger, array $context, ?string $test_registry)
 {
     $test_registry
         ? registerFile(hashOfFile($filename), $filename, $test_registry)
