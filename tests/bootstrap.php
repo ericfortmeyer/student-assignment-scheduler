@@ -12,7 +12,7 @@ require_once __DIR__ . "/mock-extern-service/vendor/autoload.php";
 
 # generate a mock app config file
 # otherwise tests will trigger CLI prompts
-$app_config_filename = __DIR__ . "/../config/app_config.php";
+$app_config_filename = __DIR__ . "/../config/app_config.json";
 !file_exists($app_config_filename)
     && (function (string $app_config_filename) {
         system("sh " . __DIR__ . "/../build" . "/generate_app_config_stub.sh");
