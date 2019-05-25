@@ -11,9 +11,9 @@ deploy() {
     PATH_EXPORT_COMMAND='export PATH=$PATH:'
     PATH_EXPORT_COMMAND+="$TARGET_DIR"
 
-    git ls-remote --exit-code refs/heads/$BRANCH &>/dev/null
+    git remote | grep $BRANCH &>/dev/null
 
-    if test $? = 0; then
+    if test $? = 1; then
         git remote add $BRANCH ssh://$URL:$BARE_REPO > /dev/null
     fi
 
