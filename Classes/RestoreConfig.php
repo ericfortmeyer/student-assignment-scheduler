@@ -59,7 +59,7 @@ final class RestoreConfig
 
     public function removeTmpDir(): void
     {
-        rmdir((string) $this->tmp_dir);
+        system("rm -rf " . \escapeshellarg((string) $this->tmp_dir));
     }
 
     public function filesInTmpDir(): Set

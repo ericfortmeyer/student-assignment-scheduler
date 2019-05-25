@@ -19,7 +19,7 @@ use StudentAssignmentScheduler\Classes\{
     Destination
 };
 
-[$config, $paths] = require "bootstrap.php";
+require "autoload.php";
 
 !key_exists(1, $argv) && (function () {
     print "usage: restore backup_file" . PHP_EOL;
