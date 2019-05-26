@@ -36,7 +36,6 @@ try {
     exit();
 }
 
-
 try {
     $Dotenv->required($secrets_vars);
 } catch (\Dotenv\Exception\ValidationException $e) {
