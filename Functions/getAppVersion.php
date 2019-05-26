@@ -4,5 +4,5 @@ namespace StudentAssignmentScheduler\Functions;
 
 function getAppVersion(): string
 {
-    return exec("git describe --abbrev=0");
+    return exec("git describe --abbrev=0 &>/dev/null");
 }
