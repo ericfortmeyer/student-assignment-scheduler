@@ -11,8 +11,9 @@ class ChangePathsInEnvFileTest extends TestCase
         $this->fake_env_filename = __DIR__ . "/../../../fakes/fake_env";
         $this->path_to_change = "/path/that/needs/to/change";
         $this->target_path = "/path/that/we/want/after/it/is/all/said/and/done";
-        $first_key_value_pair = "test1={$this->path_to_change}/fake_filename.fake";
-        $second_key_value_pair = "test2={$this->path_to_change}/another_fake_filename.fake";
+        $first_key_value_pair = "random_key=value_that_should_not_change";
+        $second_key_value_pair = "test1={$this->path_to_change}/fake_filename.fake";
+        $third_key_value_pair = "test2={$this->path_to_change}/another_fake_filename.fake";
         file_put_contents($this->fake_env_filename, join(PHP_EOL, [$first_key_value_pair, $second_key_value_pair]) . PHP_EOL);
     }
 
@@ -20,6 +21,7 @@ class ChangePathsInEnvFileTest extends TestCase
     {
         changePathsInEnvFile(
             $this->fake_env_filename,
+            $this->path_to_change,
             $this->target_path
         );
 
