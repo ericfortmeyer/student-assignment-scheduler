@@ -93,7 +93,30 @@ function setupEmail(string $env_dir, string $env_filename = ".env"): void
     $prompt = prompt("Are you sure you want to replace the data on your env file");
 
     file_exists($env_file)
-        ?  yes(readline($prompt)) && file_put_contents($env_file, $file_contents)
+        ?  yes(readline($prompt)) && (function () use ($env_file, $file_contents, $combined, $prepare_contents) {
+            $key_value_pair_strings = array_filter(
+                explode(PHP_EOL, $original_contents = file_get_contents($env_file)),
+                function (string $key_value_pair_string) {
+                    return $key_value_pair_string !== "";
+                }
+            );
+            $keys = array_map(
+                function (string $key_value_pair_string): string {
+                    return explode("=", $key_value_pair_string)[0];
+                },
+                $key_value_pair_strings
+            );
+            $values = array_map(
+                function (string $key_value_pair_string): string {
+                    return explode("=", $key_value_pair_string)[1];
+                },
+                $key_value_pair_strings
+            );
+            $new_contents = (new Map(array_combine($keys, $values)))
+                ->union($combined)
+                ->reduce($prepare_contents);
+            file_put_contents($env_file, $new_contents);
+        })()
         : file_put_contents($env_file, $file_contents);
 
 
