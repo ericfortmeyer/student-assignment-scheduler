@@ -25,7 +25,7 @@ function restore(RestoreConfig $config): bool
                 (function (string $oldname, string $newname): \Closure {
                     return function () use ($oldname, $newname) {
                         $target_directory = dirname($newname);
-                        !\file_exists($target_directory) && mkdir($target_directory);
+                        !\file_exists($target_directory) && mkdir($target_directory, 0777, true);
                         $moveFile = function (string $oldname, string $newname): bool {
                             return moveFile($oldname, $newname);
                         };
