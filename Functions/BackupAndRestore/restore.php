@@ -4,7 +4,11 @@ namespace StudentAssignmentScheduler\Functions\BackupAndRestore;
 
 use StudentAssignmentScheduler\Classes\RestoreConfig;
 
-use function StudentAssignmentScheduler\Functions\hashOfFile;
+use function StudentAssignmentScheduler\Functions\{
+    hashOfFile,
+    getConfig,
+    buildPath
+};
 use function StudentAssignmentScheduler\FileRegistry\Functions\registerFile;
 
 use \ZipArchive;
@@ -22,12 +26,8 @@ function restore(RestoreConfig $config): bool
                     return function () use ($oldname, $newname) {
                         $target_directory = dirname($newname);
                         !\file_exists($target_directory) && mkdir($target_directory);
-                        $moveFile = function (string $oldname, string $newname) {
-                            // do this first
-                            $wasMovingTheFileSuccessful = rename($oldname, $newname);
-                            // do this second
-                            registerFile(hashOfFile($newname), $newname);
-                            return $wasMovingTheFileSuccessful;
+                        $moveFile = function (string $oldname, string $newname): bool {
+                            return moveFile($oldname, $newname);
                         };
                         $putOriginalFileBack = file_exists($newname)
                             ? (function (string $original_filename) {
