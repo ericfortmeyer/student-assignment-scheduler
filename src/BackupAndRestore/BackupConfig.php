@@ -2,9 +2,9 @@
 
 namespace StudentAssignmentScheduler\BackupAndRestore;
 
+use StudentAssignmentScheduler\Destination;
 use \ZipArchive;
-
-use function StudentAssignmentScheduler\Filenaming\Functions\backupFileBasename;
+use function StudentAssignmentScheduler\FileNaming\Functions\backupFileBasename;
 
 final class BackupConfig
 {

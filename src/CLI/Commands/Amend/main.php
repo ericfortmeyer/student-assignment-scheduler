@@ -16,16 +16,23 @@ use StudentAssignmentScheduler\{
     Notification\MailSender
 };
 use \DateTimeImmutable;
+use function StudentAssignmentScheduler\FileSaving\{
+    Functions\writeAssignmentFormFromAssignment,
+    Functions\redoSchedule
+};
+use function StudentAssignmentScheduler\Querying\{
+    Functions\importAssignments,
+    Functions\importSchedule
+};
+use function StudentAssignmentScheduler\FileNaming\Functions\assignmentFormFilename;
+use function StudentAssignmentScheduler\Notification\Functions\sendEmails;
+use function StudentAssignmentScheduler\Persistence\Functions\copyAndSwapJsonAssignment;
+use function StudentAssignmentScheduler\Utils\{
+    Functions\removeYearKey,
+    Functions\dayOfMonthFromAssignmentDate
+};
+use function StudentAssignmentScheduler\Logging\Functions\emailLogger;
 use function StudentAssignmentScheduler\{
-    FileSaving\Functions\writeAssignmentFormFromAssignment,
-    FileSaving\Functions\redoSchedule,
-    Querying\Functions\importAssignments,
-    Querying\Functions\importSchedule,
-    Filenaming\assignmentFormFilename,
-    Notification\Functions\sendEmails,
-    Persistence\Functions\copyAndSwapJsonAssignment,
-    Utils\Functions\removeYearKey,
-    Utils\Functions\dayOfMonthFromAssignmentDate,
     CLI\createAssignment,
     CLI\userAssignsAssistant,
     CLI\retryUntilFullnameIsValid
@@ -128,6 +135,7 @@ function main(
         $ListOfContacts,
         $path_to_assignment_forms,
         new ListOfScheduleRecipients($schedule_recipients),
-        $scheduleFilename
+        $scheduleFilename,
+        emailLogger("StudentAssignmentScheduler\\Logging\\emailLogger")
     );
 }

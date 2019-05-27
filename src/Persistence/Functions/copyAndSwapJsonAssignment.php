@@ -10,7 +10,10 @@ use StudentAssignmentScheduler\{
     Policies\JsonAssignmentFilenamePolicy
 };
 use \DateTimeImmutable;
-use function StudentAssignmentScheduler\Filenaming\Functions\jsonAssignmentFilename;
+use function StudentAssignmentScheduler\FileNaming\Functions\{
+    jsonAssignmentFilename,
+    jsonAssignmentCopyFilename
+};
 
 
 function copyAndSwapJsonAssignment(

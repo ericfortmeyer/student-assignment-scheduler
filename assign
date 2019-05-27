@@ -39,7 +39,7 @@ use function StudentAssignmentScheduler\{
     Querying\Functions\importJson,
     Querying\Functions\weeksFrom,
     Utils\Functions\removeYearKey,
-    Downloading\MWBDownloader\Functions\download,
+    Downloading\Functions\download,
     CLI\writeAssignmentForms,
     CLI\createJsonAssignments,
     CLI\yes,

@@ -4,7 +4,10 @@ namespace StudentAssignmentScheduler\Persistence\Functions;
 
 use Psr\Log\LoggerInterface;
 
-use function StudentAssignmentScheduler\FileRegistry\Functions\registerFile;
+use function StudentAssignmentScheduler\FileRegistry\Functions\{
+    registerFile,
+    hashOfFile
+};
 
 /**
  * @param object|array $file_data

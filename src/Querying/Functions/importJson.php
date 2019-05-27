@@ -2,7 +2,14 @@
 
 namespace StudentAssignmentScheduler\Querying\Functions;
 
-use function StudentAssignmentScheduler\FileRegistry\Functions\validateFile;
+use function StudentAssignmentScheduler\FileRegistry\Functions\{
+    validateFile,
+    hashOfFile
+};
+use function StudentAssignmentScheduler\Logging\Functions\{
+    fileSaveLogger,
+    nullLogger
+};
 
 function importJson(string $path_to_json, bool $test_mode = false, ?string $test_registry = null): array
 {
@@ -42,4 +49,9 @@ function fileInvalidAction(string $path, $logger, array $context): void
 {
     $logger->critical("FILE {file} invalid", $context);
     throw new \Exception("File ${path} invalid");
+}
+
+function whichLogger(string $function, bool $test_mode)
+{
+    return $test_mode ? nullLogger() : fileSaveLogger($function);
 }

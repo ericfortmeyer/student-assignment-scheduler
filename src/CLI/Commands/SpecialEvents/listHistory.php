@@ -2,7 +2,8 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\SpecialEvents;
 
-use StudentAssignmentScheduler\SpecialEventHistory;
+use StudentAssignmentScheduler\Classes\SpecialEventHistory;
+// use StudentAssignmentScheduler\SpecialEventHistory;
 
 function listHistory(SpecialEventHistory $SpecialEventHistory): void
 {

@@ -13,7 +13,7 @@ define(APP_ROOT, __DIR__ . DIRECTORY_SEPARATOR . 'src');
         APP_ROOT . '/Utils/',
         APP_ROOT . '/Classes/',
         APP_ROOT . '/FileRegistry/',
-        APP_ROOT . '/Filenaming/',
+        APP_ROOT . '/FileNaming/',
         APP_ROOT . '/FileSaving/',
         APP_ROOT . '/Downloading/',
         APP_ROOT . '/Encryption/',

@@ -2,9 +2,9 @@
 
 namespace StudentAssignmentScheduler\BackupAndRestore\Functions;
 
-use StudentAssignmentScheduler\{
+use StudentAssignmentScheduler\BackupAndRestore\{
     File,
-    BackupAndRestore\RestoreConfig
+    RestoreConfig
 };
 use \Ds\Map;
 

@@ -2,7 +2,7 @@
 
 namespace StudentAssignmentScheduler\CLI;
 
-use function StudentAssignmentScheduler\Functions\Encryption\box;
+use function StudentAssignmentScheduler\Encryption\Functions\box;
 
 function setupScheduleRecipients(string $schedule_recipients_config_file, string $key)
 {

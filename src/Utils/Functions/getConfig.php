@@ -4,5 +4,5 @@ namespace StudentAssignmentScheduler\Utils\Functions;
 
 function getConfig(): array
 {
-    return require __DIR__ . "/../config/config.php";
+    return require buildPath(__DIR__, "..", "..", "..", "config", "config.php");
 }

@@ -2,8 +2,8 @@
 
 namespace StudentAssignmentScheduler\Downloading\MWBDownloader;
 
-use function StudentAssignmentScheduler\Functions\Logging\logger;
 use \Ds\Map;
+use function StudentAssignmentScheduler\Logging\Functions\logger;
 
 define("NO_ERROR", 0);
 define("FILESIZE", 6);

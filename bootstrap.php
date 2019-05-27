@@ -2,8 +2,6 @@
 
 namespace StudentAssignmentScheduler\Bootstrapping\Functions;
 
-use function StudentAssignmentScheduler\Utils\Functions\makeRequiredDirectories;
-
 /**
  * Compatibility checking,
  * Install required composer packages,

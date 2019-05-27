@@ -2,7 +2,7 @@
 
 namespace StudentAssignmentScheduler;
 
-use function StudentAssignmentScheduler\Functions\buildPath;
+use function StudentAssignmentScheduler\Utils\Functions\buildPath;
 
 final class SpecialEventHistoryLocation
 {

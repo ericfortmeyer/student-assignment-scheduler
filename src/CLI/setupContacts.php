@@ -7,7 +7,7 @@ use \Ds\{
     Vector,
     Set
 };
-use function StudentAssignmentScheduler\Functions\Encryption\box;
+use function StudentAssignmentScheduler\Encryption\Functions\box;
 
 if (!defined(__NAMESPACE__ . "\QUIT_MESSAGE")) {
     define(__NAMESPACE__ . "\QUIT_MESSAGE", "(type q for quit)");

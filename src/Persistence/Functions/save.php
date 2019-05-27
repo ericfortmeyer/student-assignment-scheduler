@@ -2,9 +2,14 @@
 
 namespace StudentAssignmentScheduler\Persistence\Functions;
 
-use function StudentAssignmentScheduler\Functions\Logging\fileSaveLogger;
-use function StudentAssignmentScheduler\Functions\Logging\nullLogger;
-use function StudentAssignmentScheduler\FileRegistry\Functions\registerFile;
+use function StudentAssignmentScheduler\Logging\Functions\{
+    fileSaveLogger,
+    nullLogger
+};
+use function StudentAssignmentScheduler\FileRegistry\Functions\{
+    registerFile,
+    hashOfFile
+};
 
 /**
  * @param object|array $file_data

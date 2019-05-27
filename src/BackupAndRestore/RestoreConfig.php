@@ -2,7 +2,11 @@
 
 namespace StudentAssignmentScheduler\BackupAndRestore;
 
-use StudentAssignmentScheduler\Exception\IncorrectPasswordException;
+use StudentAssignmentScheduler\{
+    Destination,
+    Password,
+    Exception\IncorrectPasswordException
+};
 use \ZipArchive;
 use \Ds\Set;
 

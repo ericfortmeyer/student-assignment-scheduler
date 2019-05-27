@@ -2,6 +2,14 @@
 
 namespace StudentAssignmentScheduler\Persistence;
 
+use StudentAssignmentScheduler\{
+    Classes\Destination,
+    // Destination,
+    Classes\SpecialEventHistory,
+    // SpecialEventHistory,
+    Classes\SpecialEventHistoryLocation
+    // SpecialEventHistoryLocation
+};
 use \Ds\{
     Stack,
     Map
@@ -85,7 +93,7 @@ final class SpecialEventHistoryRegistry implements ImmutableRegistryInterface
             $name_or_location_of_item_to_save
         );
 
-        $saveable->save($filename);
+        $saveable->save((string) $filename);
         
         $this
             ->registerSpecialEventHistory($name_or_location_of_item_to_save)
@@ -98,7 +106,7 @@ final class SpecialEventHistoryRegistry implements ImmutableRegistryInterface
     /**
      * Retrieve the last item registered
      *
-     * @return iterable
+     * @return object
      */
     public function latest(): object
     {

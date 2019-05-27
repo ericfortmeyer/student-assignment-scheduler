@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace StudentAssignmentScheduler\Filenaming\Functions;
+namespace StudentAssignmentScheduler\FileNaming\Functions;
 
 use function StudentAssignmentScheduler\Querying\Functions\{
     getAppId,

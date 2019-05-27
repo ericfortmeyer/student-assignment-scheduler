@@ -4,7 +4,7 @@ namespace StudentAssignmentScheduler;
 
 use \Ds\Vector;
 
-use function StudentAssignmentScheduler\Functions\getConfig;
+use function StudentAssignmentScheduler\Utils\Functions\getConfig;
 
 final class SpecialEvent
 {

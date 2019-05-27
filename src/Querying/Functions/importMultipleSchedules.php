@@ -7,6 +7,10 @@ use StudentAssignmentScheduler\{
     Destination
 };
 use \Ds\Vector;
+use function StudentAssignmentScheduler\Utils\Functions\{
+    filenamesInDirectory,
+    buildPath
+};
 
 /**
  * @param Destination $path_to_json_schedules

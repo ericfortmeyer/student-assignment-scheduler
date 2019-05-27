@@ -4,12 +4,14 @@
 namespace StudentAssignmentScheduler\CLI\Commands\Contacts;
 
 use \Dotenv\Dotenv;
-use function StudentAssignmentScheduler\{
-    Bootstrapping\buildPath,
-    Bootstrapping\setupKeys,
-    Encryption\masterKey,
-    Encryption\secretKey,
-    Encryption\unbox
+use function StudentAssignmentScheduler\Bootstrapping\Functions\{
+    buildPath,
+    setupKeys
+};
+use function StudentAssignmentScheduler\Encryption\Functions\{
+    masterKey,
+    secretKey,
+    unbox
 };
 use \Ds\Map;
 

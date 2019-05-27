@@ -4,11 +4,10 @@ namespace StudentAssignmentScheduler\Bootstrapping\Functions;
 
 use \Ds\Vector;
 
-use function StudentAssignmentScheduler\Functions\{
-    Encryption\createAndStoreMasterKey,
-    Encryption\createAndStoreKeyStack,
-    Encryption\masterKey,
-    buildPath
+use function StudentAssignmentScheduler\Encryption\Functions\{
+    createAndStoreMasterKey,
+    createAndStoreKeyStack,
+    masterKey
 };
 
 function setupKeys(string $secrets_dir, string $env_dir): void

@@ -4,13 +4,13 @@
 namespace StudentAssignmentScheduler\BackupAndRestore\Functions;
 
 use StudentAssignmentScheduler\{
+    BackupAndRestore\BackupConfig,
+    BackupAndRestore\ListOfFiles,
+    BackupAndRestore\ListOfDirectories,
+    BackupAndRestore\Directory,
+    BackupAndRestore\PasswordOption,
+    BackupAndRestore\File,
     Password,
-    PasswordOption,
-    BackupConfig,
-    ListOfFiles,
-    ListOfDirectories,
-    File,
-    Directory,
     Destination
 };
 use function StudentAssignmentScheduler\{

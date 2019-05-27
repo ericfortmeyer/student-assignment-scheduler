@@ -10,11 +10,9 @@ use \Ds\{
     Set,
     Vector
 };
-use function StudentAssignmentScheduler\{
-    FileSaving\Functions\writeMonthOfAssignmentForms,
-    Utils\Functions\monthsFromScheduleFilenames,
-    Querying\Functions\monthOfAssignments
-};
+use function StudentAssignmentScheduler\FileSaving\Functions\writeMonthOfAssignmentForms;
+use function StudentAssignmentScheduler\Utils\Functions\monthsFromScheduleFilenames;
+use function StudentAssignmentScheduler\Querying\Functions\monthOfAssignments;
 
 /**
  * Create assignment forms

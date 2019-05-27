@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile
 return [
     "1acfe469f4c17e924b4352c6c96a42ab02ef4c1f" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/data/2019/January.json",
     "4d61db64f248ab23f5c65a827e6942ac3feea062" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/data/assignments/2019/0110.json",
@@ -11,7 +12,7 @@ return [
     "a29cb3c1d242abaf570b5f5538eda604b7777227" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/data/assignments/2019/0124.json",
     "29471dff95993d51d6f6976885161b6e2764528a" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/data/assignments/2019/0131.json",
     "7622cf0fdd8e0f68cf2e86f4b258f8b1eca84c02" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/config/../data/2019/February.json",
-    "bee685a717a7f04cb42450e51f2c9ef6de0e99b6" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/UnitTests/Functions/../../tmp/2019/January.json",
+    "bee685a717a7f04cb42450e51f2c9ef6de0e99b6" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/UnitTests/Parsing/Functions/../../../tmp/2019/January.json",
     "8bf0aedaeb6893d1fbea2bc5a1339e420e80d7f7" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/config/../data/2019/March.json",
     "6fbd8fbde05abb4e7176a1279c82b8db77c689a3" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/config/../data/2019/April.json",
     "928921b0a0013daf85ef48fd3aa85b9fd7240526" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/config/../data/assignments/2019/04_0404.json",
@@ -65,7 +66,7 @@ return [
     "94678e129e40875814c350fae52fb8d3a4082e1a" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/scripts/../config/app_config.json",
     "e3f0383d0339b9232388c8d9e29f155cd9500c03" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/scripts/../config/app_config.json",
     "19c7e9fdbfe913f6a1e0b0a40f945a0bf97b7e26" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/scripts/../config/app_config.json",
-    "e10d917885f045e094f1b669e82d279116b24726" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/UnitTests/Functions/BackupAndRestore/../../../tmp/subdirectory/fake4",
+    "e10d917885f045e094f1b669e82d279116b24726" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/UnitTests/BackupAndRestore/Functions/../../../tmp/subdirectory/fake4",
     "ca69275525ba46ddb8a539fa99bc12791a38c7f2" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/UnitTests/Functions/BackupAndRestore/../../../tmp/.env",
     "7a3f50dabbe445af25c2fe1bd94142499d326484" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/UnitTests/Functions/BackupAndRestore/../../../tmp/.env",
     "dbdfc91c8933cc197519c6d9f45f31f1296e2ec7" => "/Users/Eric/Documents/Theocratic/LAMM/TalkSlipSender/tests/UnitTests/Functions/BackupAndRestore/../../../tmp/.env",

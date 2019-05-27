@@ -2,12 +2,16 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\SpecialEvents;
 
-use StudentAssignmentScheduler\{
+use StudentAssignmentScheduler\Classes\{
     SpecialEventHistory,
     SpecialEvent
 };
+// use StudentAssignmentScheduler\{
+//     SpecialEventHistory,
+//     SpecialEvent
+// };
 
-use function StudentAssignmentScheduler\Functions\CLI\red;
+use function StudentAssignmentScheduler\CLI\red;
 
 function userSelectsEventFromList(string $action, SpecialEventHistory $SpecialEventHistory): SpecialEvent
 {

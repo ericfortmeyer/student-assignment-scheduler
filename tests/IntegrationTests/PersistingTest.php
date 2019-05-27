@@ -1,8 +1,9 @@
 <?php
 
-namespace StudentAssignmentScheduler\Functions;
+namespace StudentAssignmentScheduler\Persistence;
 
 use PHPUnit\Framework\TestCase;
+use function StudentAssignmentScheduler\Utils\Functions\buildPath;
 
 class PersistingTest extends TestCase
 {
@@ -33,7 +34,7 @@ class PersistingTest extends TestCase
             \file_exists($this->test_file)
         );
 
-        save(
+        Functions\save(
             $this->test_data,
             $this->test_file,
             true, // test mode

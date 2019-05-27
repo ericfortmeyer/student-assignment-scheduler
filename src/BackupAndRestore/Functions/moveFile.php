@@ -2,9 +2,9 @@
 
 namespace StudentAssignmentScheduler\BackupAndRestore\Functions;
 
-use function StudentAssignmentScheduler\{
-    Encryption\Functions\hashOfFile,
-    Encryption\Functions\registerFile
+use function StudentAssignmentScheduler\FileRegistry\{
+    Functions\hashOfFile,
+    Functions\registerFile
 };
 use \Ds\Queue;
 
@@ -25,7 +25,7 @@ function moveFile(string $oldname, string $newname): bool
                     // search for the path to secrets
                     // in the env file
                     $contents_of_env_file = file_get_contents($newname);
-                    $string_to_split = Functions\buildPath("data", "secrets") . DIRECTORY_SEPARATOR;
+                    $string_to_split = buildPath("data", "secrets") . DIRECTORY_SEPARATOR;
                     $splitString = explode(
                         $string_to_split,
                         $contents_of_env_file
@@ -44,13 +44,13 @@ function moveFile(string $oldname, string $newname): bool
                         "=",
                         $key_value_pair
                     );
-                    $path_to_search = Functions\buildPath(
+                    $path_to_search = buildPath(
                         $prepend_directory,
                         "data",
                         "secrets"
                     );
                     $replace_with = realpath(
-                        Functions\buildPath(
+                        buildPath(
                             __DIR__,
                             "..",
                             "..",

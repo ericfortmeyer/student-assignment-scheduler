@@ -2,15 +2,13 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\SpecialEvents;
 
-use function StudentAssignmentScheduler\{
-    Utils\Functions\getConfig,
-    Bootstrapping\Functions\buildPath,
-    CLI\green
-};
+use function StudentAssignmentScheduler\Utils\Functions\getConfig;
+use function StudentAssignmentScheduler\Bootstrapping\Functions\buildPath;
+use function StudentAssignmentScheduler\CLI\green;
 use StudentAssignmentScheduler\{
-    SpecialEventHistory,
-    SpecialEventHistoryRegistry,
-    Destination
+    Classes\SpecialEventHistory,
+    Classes\Destination,
+    Persistence\SpecialEventHistoryRegistry
 };
 use \Ds\Vector;
 

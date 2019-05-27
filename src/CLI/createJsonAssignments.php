@@ -13,13 +13,13 @@ use StudentAssignmentScheduler\{
     Policies\AssignmentMonthFieldPolicy
 };
 use \DateTimeImmutable;
-use function StudentAssignmentScheduler\{
-    Persistence\Functions\save,
-    Querying\Functions\importMultipleSchedules,
-    Persistence\Functions\scheduleWithoutSpecialEvents,
-    Formatting\Functions\assignmentDateField,
-    Filenaming\jsonAssignmentFilename
+use function StudentAssignmentScheduler\Persistence\Functions\save;
+use function StudentAssignmentScheduler\Querying\Functions\{
+    importMultipleSchedules,
+    scheduleWithoutSpecialEvents
 };
+use function StudentAssignmentScheduler\Formatting\Functions\assignmentDateField;
+use function StudentAssignmentScheduler\FileNaming\Functions\jsonAssignmentFilename;
 
 /**
  * Interact with the user of the application to schedule assignments

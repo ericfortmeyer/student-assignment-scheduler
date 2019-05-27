@@ -7,6 +7,8 @@ use StudentAssignmentScheduler\{
     Month
 };
 
+use function StudentAssignmentScheduler\Bootstrapping\Functions\buildPath;
+use function StudentAssignmentScheduler\Querying\Functions\importAssignments;
 use function StudentAssignmentScheduler\Utils\Functions\removeYearKey;
 
 function redoSchedule(
@@ -21,7 +23,7 @@ function redoSchedule(
         importAssignments($Month->asText(), $path_to_json_assignments)
     );
 
-    $schedule_filename = Bootstrapping\buildPath(
+    $schedule_filename = buildPath(
         $path_to_schedules,
         $Month->asText() . ".pdf"
     );

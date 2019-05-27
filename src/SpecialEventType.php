@@ -9,14 +9,14 @@ final class SpecialEventType
     private $type = "";
 
     /**
-     * @throws InvalidSpecialEventTypeException
+     * @throws Exception\InvalidSpecialEventTypeException
      */
     public function __construct(iterable $allowed_types, string $type)
     {
         $VectorOfAllowedTypes = new Vector($allowed_types);
 
         if (!$VectorOfAllowedTypes->contains($type)) {
-            throw new InvalidSpecialEventTypeException(
+            throw new Exception\InvalidSpecialEventTypeException(
                 $type,
                 SpecialEventType::class,
                 \json_encode($allowed_types)

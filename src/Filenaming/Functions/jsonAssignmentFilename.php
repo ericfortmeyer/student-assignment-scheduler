@@ -1,6 +1,6 @@
 <?php
 
-namespace StudentAssignmentScheduler\Filenaming\Functions;
+namespace StudentAssignmentScheduler\FileNaming\Functions;
 
 use StudentAssignmentScheduler\{
     Destination,

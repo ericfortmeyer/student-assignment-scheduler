@@ -2,7 +2,10 @@
 
 namespace StudentAssignmentScheduler\Querying\Functions;
 
-use function StudentAssignmentScheduler\Utils\Functions\monthNumeric;
+use function StudentAssignmentScheduler\Utils\Functions\{
+    monthNumeric,
+    filenamesInDirectory
+};
 
 /**
  * @param string $month

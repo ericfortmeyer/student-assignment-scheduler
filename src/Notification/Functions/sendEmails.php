@@ -13,6 +13,9 @@ use \Ds\{
     Vector
 };
 
+use function StudentAssignmentScheduler\Bootstrapping\Functions\buildPath;
+use function StudentAssignmentScheduler\Utils\Functions\filenamesInDirectory;
+
 function sendEmails(
     MailSender $MailSender,
     ListOfContacts $ListOfContacts,

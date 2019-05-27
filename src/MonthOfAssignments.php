@@ -30,9 +30,9 @@ final class MonthOfAssignments
 
         switch (false) {
             case $Map->hasKey(self::MONTH):
-                throw new InvalidWeekOfAssignmentsArgumentException("key", self::MONTH);
+                throw new Exception\InvalidWeekOfAssignmentsArgumentException("key", self::MONTH);
             case $Map->hasKey(self::YEAR):
-                throw new InvalidWeekOfAssignmentsArgumentException("key", self::YEAR);
+                throw new Exception\InvalidWeekOfAssignmentsArgumentException("key", self::YEAR);
         }
 
         $this->month = new Month($Map->remove(self::MONTH));

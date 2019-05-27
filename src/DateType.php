@@ -2,6 +2,7 @@
 
 namespace StudentAssignmentScheduler;
 
+use StudentAssignmentScheduler\Exception\InvalidDateTypeArgumentException;
 use \Ds\Vector;
 use \DateTimeImmutable;
 

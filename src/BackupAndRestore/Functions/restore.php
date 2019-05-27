@@ -3,10 +3,6 @@
 namespace StudentAssignmentScheduler\BackupAndRestore\Functions;
 
 use StudentAssignmentScheduler\BackupAndRestore\RestoreConfig;
-use function StudentAssignmentScheduler\Functions\{
-    Encryption\hashOfFile,
-    Encryption\registerFile
-};
 use \ZipArchive;
 use \Ds\Queue;
 

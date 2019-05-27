@@ -2,6 +2,7 @@
 
 namespace StudentAssignmentScheduler;
 
+use StudentAssignmentScheduler\Exception\IncompatibilityException;
 /**
  * Use to avoid leaking password into stack traces, var_dump() calls, etc
  * An encrypted version of the password is stored as a property of the class.

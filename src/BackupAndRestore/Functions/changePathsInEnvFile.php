@@ -2,8 +2,6 @@
 
 namespace StudentAssignmentScheduler\BackupAndRestore\Functions;
 
-use \Ds\Vector;
-
 /**
  * @param string $path_to_env_file
  * @param string $replacement_path

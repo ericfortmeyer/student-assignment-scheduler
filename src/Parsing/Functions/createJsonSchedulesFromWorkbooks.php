@@ -3,9 +3,13 @@
 namespace StudentAssignmentScheduler\Parsing\Functions;
 
 use StudentAssignmentScheduler\Parsing\ParserInterface as Parser;
-use \Ds\Set;
-use \Ds\Vector;
-
+use \Ds\{
+    Set,
+    Vector
+};
+use function StudentAssignmentScheduler\Bootstrapping\Functions\buildPath;
+use function StudentAssignmentScheduler\Persistence\Functions\save;
+use function StudentAssignmentScheduler\Utils\Functions\filenamesInDirectory;
 /**
  * Parse workbooks into json for use later in the application.
  *

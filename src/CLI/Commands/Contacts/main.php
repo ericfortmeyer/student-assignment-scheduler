@@ -2,11 +2,12 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\Contacts;
 
-use StudentAssignmentScheduler\{
+use StudentAssignmentScheduler\Classes\{
     ListOfContacts,
     ListOfScheduleRecipients
 };
-use function StudentAssignmentScheduler\Functions\Encryption\unbox;
+
+use function StudentAssignmentScheduler\Encryption\Functions\unbox;
 
 function main(string $path_to_contacts, string $key, string $command)
 {
@@ -21,7 +22,6 @@ function main(string $path_to_contacts, string $key, string $command)
     $contacts = \is_array($decrypted)
         ? new ListOfScheduleRecipients($decrypted)
         : $decrypted;
-    
 
     $orDefault = function (ListOfContacts $contacts, string $path_to_contacts) {
         listContacts($contacts);

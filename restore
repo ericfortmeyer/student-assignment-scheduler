@@ -4,14 +4,14 @@
 namespace StudentAssignmentScheduler\BackupAndRestore\Functions;
 
 use StudentAssignmentScheduler\{
+    BackupAndRestore\Directory,
+    BackupAndRestore\ListOfFiles,
+    BackupAndRestore\ListOfDirectories,
+    BackupAndRestore\RestoreConfig,
+    Exception\IncorrectPasswordException,
+    BackupAndRestore\File,
+    BackupAndRestore\PasswordOption,
     Password,
-    PasswordOption,
-    RestoreConfig,
-    ListOfFiles,
-    ListOfDirectories,
-    IncorrectPasswordException,
-    File,
-    Directory,
     Destination
 };
 use function StudentAssignmentScheduler\CLI\{

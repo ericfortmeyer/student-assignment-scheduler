@@ -1,6 +1,6 @@
 <?php
 
-namespace StudentAssignmentScheduler\Functions;
+namespace StudentAssignmentScheduler\Encryption\Functions;
 
 use StudentAssignmentScheduler\ListOfContacts;
 
@@ -10,12 +10,12 @@ function encryptContacts(
     string $path_to_master_key,
     string $path_to_stack_of_keys
 ): void {
-    Encryption\box(
+    box(
         $contacts_before_encryption,
         $path_to_contacts,
-        Encryption\secretKey(
+        secretKey(
             $path_to_stack_of_keys,
-            Encryption\masterKey(
+            masterKey(
                 $path_to_master_key
             )
         )

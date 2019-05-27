@@ -9,7 +9,7 @@ use StudentAssignmentScheduler\{
     Fullname
 };
 
-use function StudentAssignmentScheduler\Filenaming\Functions\assignmentFormFilename;
+use function StudentAssignmentScheduler\FileNaming\Functions\assignmentFormFilename;
 
 use \Ds\Map;
 

@@ -1,31 +1,26 @@
 <?php
 
-namespace StudentAssignmentScheduler\Utils;
+namespace StudentAssignmentScheduler\Notification;
 
 use PHPUnit\Framework\TestCase;
-
 use PHPMailer\PHPMailer\PHPMailer;
-
+use tm\MockExternService\{
+    Service,
+    Result
+};
 use StudentAssignmentScheduler\{
     ListOfContacts,
     Fullname,
     Contact
 };
-
 use \Ds\Set;
-
-use tm\MockExternService\{
-    Service,
-    Result
-};
-
-use function StudentAssignmentScheduler\Functions\{
-    buildPath,
+use function StudentAssignmentScheduler\Utils\Functions\buildPath;
+use function StudentAssignmentScheduler\Notification\Functions\{
     sendAssignmentForms,
-    filenamesMappedToTheirRecipient,
-    Filenaming\assignmentFormFilename,
-    Logging\nullLogger
+    filenamesMappedToTheirRecipient
 };
+use function StudentAssignmentScheduler\FileNaming\Functions\assignmentFormFilename;
+use function StudentAssignmentScheduler\Logging\Functions\nullLogger;
 
 class NotificationHandlingTest extends TestCase
 {

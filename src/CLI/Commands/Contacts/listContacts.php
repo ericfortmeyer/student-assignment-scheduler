@@ -2,7 +2,7 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\Contacts;
 
-use StudentAssignmentScheduler\{
+use StudentAssignmentScheduler\Classes\{
     ListOfContacts,
     Contact
 };
