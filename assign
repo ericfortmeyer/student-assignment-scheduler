@@ -6,34 +6,40 @@ declare(strict_types=1);
 use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;
 
-use StudentAssignmentScheduler\Utils\{
-    PdfAssignmentFormWriter,
-    PdfScheduleWriter,
-    MailSender
+use StudentAssignmentScheduler\{
+    FileSaving\PdfAssignmentFormWriter,
+    FileSaving\PdfScheduleWriter,
+    Notification\MailSender
 };
 
-use StudentAssignmentScheduler\Classes\{
+use StudentAssignmentScheduler\{
     Destination,
     MonthOfAssignments,
-    SpecialEventHistoryRegistry
+    Persistence\SpecialEventHistoryRegistry,
+    Downloading\MWBDownloader\Month,
+    Downloading\Config\DownloadConfig
 };
 
-use function StudentAssignmentScheduler\Functions\{
-    workbookParserImplementation,
-    createJsonSchedulesFromWorkbooks,
-    sendEmails,
-    getContacts,
-    getScheduleRecipients,
-    Bootstrapping\setupKeys,
-    Encryption\secretKey,
-    Encryption\masterKey,
-    decryptedPassword,
-    importAssignments,
-    removeYearKey,
-    removeSpecialEventsFromSchedule,
-    importJson,
-    weeksFrom,
-    makeRequiredDirectories,
+use function StudentAssignmentScheduler\{
+    Bootstrapping\Functions\setupKeys,
+    Bootstrapping\Functions\decryptedPassword,
+    Bootstrapping\Functions\makeRequiredDirectories,
+    Bootstrapping\Functions\runInstallScriptIfRequired,
+    Bootstrapping\Functions\loadConfigurationFiles,
+    Bootstrapping\Functions\buildPath,
+    Encryption\Functions\masterKey,
+    Encryption\Functions\secretKey,
+    Parsing\Functions\FunctionsworkbookParserImplementation,
+    Parsing\Functions\createJsonSchedulesFromWorkbooks,
+    Notification\Functions\sendEmails,
+    Querying\Functions\getContacts,
+    Querying\Functions\getScheduleRecipients,
+    Querying\Functions\importAssignments,
+    Querying\Functions\scheduleWithoutSpecialEvents,
+    Querying\Functions\importJson,
+    Querying\Functions\weeksFrom,
+    Utils\Functions\removeYearKey,
+    Downloading\Functions\download,
     CLI\writeAssignmentForms,
     CLI\createJsonAssignments,
     CLI\yes,
@@ -45,19 +51,6 @@ use function StudentAssignmentScheduler\Functions\{
     CLI\setupContacts,
     CLI\setupScheduleRecipients,
     CLI\setupEmail
-};
-
-use StudentAssignmentScheduler\Utils\MWBDownloader\{
-    Month,
-    Config\DownloadConfig
-};
-
-use function StudentAssignmentScheduler\Utils\MWBDownloader\Functions\download;
-
-use function StudentAssignmentScheduler\Functions\Bootstrapping\{
-    runInstallScriptIfRequired,
-    loadConfigurationFiles,
-    buildPath
 };
 
 ///////////////////////
@@ -363,7 +356,7 @@ $createSchedule = function (string $month) use (
 
     $filename_of_schedule = buildPath($path_to_json_schedules, "${month}.json");
     
-    $schedule = weeksFrom(removeSpecialEventsFromSchedule(
+    $schedule = weeksFrom(scheduleWithoutSpecialEvents(
         $SpecialEventHistory,
         new MonthOfAssignments(
             importJson($filename_of_schedule)

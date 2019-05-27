@@ -1,0 +1,7 @@
+<?php
+
+namespace StudentAssignmentScheduler\Downloading\MWBDownloader\Utils;
+
+final class ServerFailureException extends \RuntimeException
+{
+}

@@ -1,19 +1,19 @@
 #!/usr/bin/env php
 <?php
 
-namespace StudentAssignmentScheduler\Functions\CLI\Commands\Contacts;
-
-use function StudentAssignmentScheduler\Functions\{
-    buildPath,
-    Encryption\masterKey,
-    Encryption\secretKey,
-    Encryption\unbox,
-    Bootstrapping\setupKeys
-};
-
-use \Ds\Map;
+namespace StudentAssignmentScheduler\CLI\Commands\Contacts;
 
 use \Dotenv\Dotenv;
+use function StudentAssignmentScheduler\Bootstrapping\Functions\{
+    buildPath,
+    setupKeys
+};
+use function StudentAssignmentScheduler\Encryption\Functions\{
+    masterKey,
+    secretKey,
+    unbox
+};
+use \Ds\Map;
 
 require "bootstrap.php";
 

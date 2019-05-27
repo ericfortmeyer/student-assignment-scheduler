@@ -3,11 +3,15 @@
 namespace StudentAssignmentScheduler;
 
 use PHPUnit\Framework\TestCase;
-
 use Smalot\PdfParser\Parser;
-
-use function StudentAssignmentScheduler\Functions\buildPath;
-use function StudentAssignmentScheduler\Functions\weeksFrom;
+use \Ds\Vector;
+use StudentAssignmentScheduler\FileSaving\{
+    PdfAssignmentFormWriter,
+    PdfScheduleWriter
+};
+use function StudentAssignmentScheduler\FileSaving\Functions\writeAssignmentFormFromAssignment;
+use function StudentAssignmentScheduler\Utils\Functions\buildPath;
+use function StudentAssignmentScheduler\Querying\Functions\weeksFrom;
 
 class DocumentProductionTest extends TestCase
 {
@@ -41,7 +45,7 @@ class DocumentProductionTest extends TestCase
 
     public function testAssignmentFormIsCreated()
     {
-        $Writer = new Utils\PdfAssignmentFormWriter(
+        $Writer = new PdfAssignmentFormWriter(
             require $this->path_to_writer_config
         );
 
@@ -49,7 +53,7 @@ class DocumentProductionTest extends TestCase
             \file_exists($this->path_to_created_assignment_form)
         );
 
-        Functions\writeAssignmentFormFromAssignment(
+        writeAssignmentFormFromAssignment(
             $Writer,
             "5",
             [
@@ -85,7 +89,7 @@ class DocumentProductionTest extends TestCase
             "January.json"
         );
 
-        $month_of_assignments = (new \Ds\Vector([
+        $month_of_assignments = (new Vector([
             "0110.json",
             "0117.json",
             "0124.json",
@@ -122,7 +126,7 @@ class DocumentProductionTest extends TestCase
             )
         );
 
-        $ScheduleWriter = new Utils\PdfScheduleWriter(
+        $ScheduleWriter = new PdfScheduleWriter(
             require $path_to_schedule_writer_config
         );
 

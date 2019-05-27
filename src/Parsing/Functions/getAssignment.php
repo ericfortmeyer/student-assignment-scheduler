@@ -1,0 +1,20 @@
+<?php
+
+namespace StudentAssignmentScheduler\Parsing\Functions;
+
+function getAssignment(string $pattern, string $text): string
+{
+    $string_representation_of_media_image_for_videos = "w";
+
+    $result = ltrim(
+        parse(
+            $pattern,
+            $text
+        ),
+        $string_representation_of_media_image_for_videos
+    );
+
+    return $result === "Ta l k"
+        ? str_replace(" ", "", $result)
+        : $result;
+}

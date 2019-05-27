@@ -1,7 +1,7 @@
 <?php
 
 return [
-    "assignment_form_template" => __DIR__ . "/../../../Utils/templates/S-89-E.pdf",
+    "assignment_form_template" => __DIR__ . "/../../../src/FileSaving/templates/S-89-E.pdf",
     "assignment_forms_destination" => __DIR__ . "/../../tmp",
     "schedule_font_size" => 10,
     "font" => "Helvetica",

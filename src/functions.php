@@ -1,0 +1,39 @@
+<?php
+// phpcs:ignoreFile
+namespace StudentAssignmentScheduler\Utils\Functions;
+
+use \Ds\Vector;
+
+require_once "Utils/Functions/includeFilesInDirectory.php";
+require_once "Utils/Functions/filenamesInDirectory.php";
+
+$directories_in_app_root_dir = function (string $app_root_dir): array {
+    return filenamesInDirectory($app_root_dir);
+};
+$prepend_root_dir = function (string $app_root_dir): \Closure {
+    return function (string $directory_to_append) use ($app_root_dir): string {
+        return "${app_root_dir}/${directory_to_append}";
+    };
+};
+$includeFunctions = function (string $directory) {
+    $functions_directory = "${directory}/Functions";
+    file_exists($functions_directory) && includeFilesInDirectory($functions_directory);
+};
+$app_root_dir = __DIR__;
+(new Vector($directories_in_app_root_dir($app_root_dir)))
+    ->map($prepend_root_dir($app_root_dir))
+    ->map($includeFunctions);
+
+function recursivelyIncludeFiles(string $filename, \Closure $prepend_root_dir_func) {
+    is_dir($filename)
+        ? (new Vector(filenamesInDirectory($filename) ?? []))
+            ->map($prepend_root_dir_func($filename))
+            ->map(
+                function (string $directory) use ($prepend_root_dir_func) {
+                    recursivelyIncludeFiles($directory, $prepend_root_dir_func);
+                }
+            )
+        : include_once $filename;
+};
+$directory_to_recurse = __DIR__ . "/CLI";
+recursivelyIncludeFiles($directory_to_recurse, $prepend_root_dir);

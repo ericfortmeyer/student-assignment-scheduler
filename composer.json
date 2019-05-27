@@ -55,8 +55,8 @@
     },
     "autoload": {
         "files": [
-            "functions.php"
+            "./src/functions.php"
         ],
-        "psr-4": {"StudentAssignmentScheduler\\": "./"}
+        "psr-4": {"StudentAssignmentScheduler\\": "./src"}
     }
 }

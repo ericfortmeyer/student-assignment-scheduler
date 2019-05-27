@@ -4,7 +4,7 @@ namespace StudentAssignmentScheduler\Utils;
 
 use PHPUnit\Framework\TestCase;
 
-use StudentAssignmentScheduler\Classes\Actions\{
+use StudentAssignmentScheduler\Actions\{
     Success,
     Failure
 };
