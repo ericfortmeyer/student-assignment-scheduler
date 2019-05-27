@@ -1,10 +1,10 @@
 <?php
 
-namespace StudentAssignmentScheduler\Functions\BackupAndRestore;
+namespace StudentAssignmentScheduler\BackupAndRestore\Functions;
 
 use PHPUnit\Framework\TestCase;
 
-use StudentAssignmentScheduler\Classes\{
+use StudentAssignmentScheduler\{
     RestoreConfig,
     PasswordOption,
     ListOfFiles,

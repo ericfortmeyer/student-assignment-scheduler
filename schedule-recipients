@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-namespace StudentAssignmentScheduler\Functions\CLI\Commands\Contacts;
+namespace StudentAssignmentScheduler\CLI\Commands\Contacts;
 
 use function StudentAssignmentScheduler\Functions\{
     buildPath,

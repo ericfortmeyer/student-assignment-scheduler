@@ -1,6 +1,6 @@
 <?php
 
-namespace StudentAssignmentScheduler\Functions\Bootstrapping;
+namespace StudentAssignmentScheduler\Bootstrapping\Functions;
 
 use PHPUnit\Framework\TestCase;
 

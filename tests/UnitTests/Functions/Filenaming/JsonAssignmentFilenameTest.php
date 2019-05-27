@@ -1,15 +1,15 @@
 <?php
 
-namespace StudentAssignmentScheduler\Functions\Filenaming;
+namespace StudentAssignmentScheduler\Filenaming\Functions;
 
 use PHPUnit\Framework\TestCase;
 
-use StudentAssignmentScheduler\Rules\{
+use StudentAssignmentScheduler\Policies\{
     Context,
     JsonAssignmentFilenamePolicy
 };
 
-use StudentAssignmentScheduler\Classes\{
+use StudentAssignmentScheduler\{
     Destination,
     Month,
     DayOfMonth,

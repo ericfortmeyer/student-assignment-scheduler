@@ -1,0 +1,8 @@
+<?php
+
+namespace StudentAssignmentScheduler\Exception;
+
+class IncompatibilityException extends \Exception
+{
+    
+}

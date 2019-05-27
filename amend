@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-namespace StudentAssignmentScheduler\Functions\CLI\Commands\Amend;
+namespace StudentAssignmentScheduler\CLI\Commands\Amend;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;

@@ -1,6 +1,6 @@
 <?php
 
-namespace StudentAssignmentScheduler\Classes;
+namespace StudentAssignmentScheduler;
 
 use PHPUnit\Framework\TestCase;
 

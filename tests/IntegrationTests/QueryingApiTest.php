@@ -1,8 +1,8 @@
 <?php
 
-namespace StudentAssignmentScheduler\Utils\MWBDownloader;
+namespace StudentAssignmentScheduler\Downloading\MWBDownloader;
 
-use StudentAssignmentScheduler\Classes\Year;
+use StudentAssignmentScheduler\Year;
 
 use \DateTimeImmutable;
 

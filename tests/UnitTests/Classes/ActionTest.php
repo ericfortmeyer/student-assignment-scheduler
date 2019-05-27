@@ -1,6 +1,6 @@
 <?php
 
-namespace StudentAssignmentScheduler\Classes\Actions;
+namespace StudentAssignmentScheduler\Actions;
 
 use PHPUnit\Framework\TestCase;
 

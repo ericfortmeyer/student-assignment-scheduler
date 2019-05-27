@@ -1,10 +1,10 @@
 <?php
 
-namespace StudentAssignmentScheduler\Functions\Encryption;
+namespace StudentAssignmentScheduler\Encryption\Functions;
 
 use PHPUnit\Framework\TestCase;
 
-use StudentAssignmentScheduler\Classes\ListOfContacts;
+use StudentAssignmentScheduler\ListOfContacts;
 
 class EncryptionTest extends TestCase
 {

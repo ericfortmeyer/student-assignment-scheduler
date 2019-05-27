@@ -1,10 +1,10 @@
 <?php
 
-namespace StudentAssignmentScheduler\Functions\InputValidation;
+namespace StudentAssignmentScheduler\InputValidation\Functions;
 
 use PHPUnit\Framework\TestCase;
 
-use StudentAssignmentScheduler\Classes\{
+use StudentAssignmentScheduler\{
     Fullname,
     ListOfContacts
 };

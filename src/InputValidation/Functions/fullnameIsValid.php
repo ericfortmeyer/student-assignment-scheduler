@@ -1,0 +1,13 @@
+<?php
+
+namespace StudentAssignmentScheduler\InputValidation\Functions;
+
+use StudentAssignmentScheduler\{
+    Fullname,
+    ListOfContacts
+};
+
+function fullnameIsValid(Fullname $fullname, ListOfContacts $ListOfContacts): bool
+{
+    return $ListOfContacts->contains($fullname);
+}

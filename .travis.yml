@@ -24,9 +24,9 @@ jobs:
     - stage: analysis-and-unit-testing
       php: 7.3
       script:
-        - phpcbf --standard=PSR12 FileRegistry/Functions/ Models/ Classes/ Validation/ Functions/
+        - phpcbf --standard=PSR12 FileRegistry/Functions/ Classes/ Validation/ Functions/
           Utils/ config/ assign amend contacts schedule-recipients special-events
-        - phpcs --standard=PSR1,PSR2,PSR12 FileRegistry/Functions/ Models/ Validation/
+        - phpcs --standard=PSR1,PSR2,PSR12 FileRegistry/Functions/ Validation/
         - phpcs --standard=PSR12 Functions/ Utils/ Classes/ config/
         - phpcs --standard=PSR12 assign amend contacts schedule-recipients special-events
         - phan

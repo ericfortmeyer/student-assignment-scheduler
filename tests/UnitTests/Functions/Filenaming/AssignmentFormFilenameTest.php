@@ -1,10 +1,10 @@
 <?php
 
-namespace StudentAssignmentScheduler\Functions\Filenaming;
+namespace StudentAssignmentScheduler\Filenaming\Functions;
 
 use PHPUnit\Framework\TestCase;
 
-use StudentAssignmentScheduler\Classes\{
+use StudentAssignmentScheduler\{
     Fullname,
     Contact,
     ListOfContacts

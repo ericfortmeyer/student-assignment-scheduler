@@ -1,13 +1,13 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-namespace StudentAssignmentScheduler\Functions\BackupAndRestore;
+namespace StudentAssignmentScheduler\BackupAndRestore\Functions;
 
 use function StudentAssignmentScheduler\Functions\buildPath;
 use function StudentAssignmentScheduler\Functions\CLI\green;
 use function StudentAssignmentScheduler\Functions\CLI\red;
 
-use StudentAssignmentScheduler\Classes\{
+use StudentAssignmentScheduler\{
     Password,
     PasswordOption,
     RestoreConfig,

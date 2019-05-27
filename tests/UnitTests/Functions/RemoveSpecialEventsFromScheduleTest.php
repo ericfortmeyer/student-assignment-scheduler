@@ -1,12 +1,12 @@
 <?php
 
-namespace StudentAssignmentScheduler\Functions;
+namespace StudentAssignmentScheduler\Querying\Functions;
 
 use PHPUnit\Framework\TestCase;
 
 use \Ds\Map;
 
-use StudentAssignmentScheduler\Classes\{
+use StudentAssignmentScheduler\{
     MonthOfAssignments,
     Destination,
     Date,
@@ -18,6 +18,8 @@ use StudentAssignmentScheduler\Classes\{
     SpecialEventHistory,
     SpecialEventHistoryLocation
 };
+
+use function StudentAssignmentScheduler\Utils\Functions\getConfig;
 
 class RemoveSpecialEventsFromScheduleTest extends TestCase
 {
@@ -117,7 +119,7 @@ class RemoveSpecialEventsFromScheduleTest extends TestCase
                 $november = new Month(11);
                 $december = new Month(12);
                 
-                $filtered_schedule = removeSpecialEventsFromSchedule(
+                $filtered_schedule = scheduleWithoutSpecialEvents(
                     $history_of_special_events_copy,
                     $schedule
                 );

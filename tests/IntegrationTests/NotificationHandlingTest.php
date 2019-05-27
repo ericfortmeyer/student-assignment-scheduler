@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-use StudentAssignmentScheduler\Classes\{
+use StudentAssignmentScheduler\{
     ListOfContacts,
     Fullname,
     Contact

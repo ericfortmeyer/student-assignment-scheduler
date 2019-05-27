@@ -12,7 +12,7 @@ use StudentAssignmentScheduler\Utils\{
     MailSender
 };
 
-use StudentAssignmentScheduler\Classes\{
+use StudentAssignmentScheduler\{
     Destination,
     MonthOfAssignments,
     SpecialEventHistoryRegistry
@@ -47,7 +47,7 @@ use function StudentAssignmentScheduler\Functions\{
     CLI\setupEmail
 };
 
-use StudentAssignmentScheduler\Utils\MWBDownloader\{
+use StudentAssignmentScheduler\Downloading\MWBDownloader\{
     Month,
     Config\DownloadConfig
 };
@@ -363,7 +363,7 @@ $createSchedule = function (string $month) use (
 
     $filename_of_schedule = buildPath($path_to_json_schedules, "${month}.json");
     
-    $schedule = weeksFrom(removeSpecialEventsFromSchedule(
+    $schedule = weeksFrom(scheduleWithoutSpecialEvents(
         $SpecialEventHistory,
         new MonthOfAssignments(
             importJson($filename_of_schedule)

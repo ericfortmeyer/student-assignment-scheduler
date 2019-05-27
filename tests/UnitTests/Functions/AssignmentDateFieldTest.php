@@ -4,12 +4,12 @@ namespace StudentAssignmentScheduler\Functions;
 
 use PHPUnit\Framework\TestCase;
 
-use StudentAssignmentScheduler\Rules\{
+use StudentAssignmentScheduler\Policies\{
     AssignmentMonthFieldPolicy,
     Context
 };
 
-use StudentAssignmentScheduler\Classes\{
+use StudentAssignmentScheduler\{
     Month,
     Date,
     DayOfMonth,

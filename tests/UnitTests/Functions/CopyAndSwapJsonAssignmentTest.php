@@ -11,7 +11,7 @@ use function StudentAssignmentScheduler\Functions\importJson;
 use \DateTimeImmutable;
 
 use StudentAssignmentScheduler\{
-    Rules\JsonAssignmentFilenamePolicy,
+    Policies\JsonAssignmentFilenamePolicy,
     Classes\Destination,
     Classes\MonthOfAssignments,
     Classes\WeekOfAssignments,

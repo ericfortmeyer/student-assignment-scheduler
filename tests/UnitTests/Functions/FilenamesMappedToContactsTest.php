@@ -10,7 +10,7 @@ use \Ds\{
     Set
 };
 
-use StudentAssignmentScheduler\Classes\{
+use StudentAssignmentScheduler\{
     ListOfContacts,
     Contact,
     Fullname,
