@@ -3,10 +3,6 @@
 
 namespace StudentAssignmentScheduler\BackupAndRestore\Functions;
 
-use function StudentAssignmentScheduler\Functions\buildPath;
-use function StudentAssignmentScheduler\Functions\CLI\green;
-use function StudentAssignmentScheduler\Functions\CLI\red;
-
 use StudentAssignmentScheduler\{
     Password,
     PasswordOption,
@@ -17,7 +13,11 @@ use StudentAssignmentScheduler\{
     Directory,
     Destination
 };
-
+use function StudentAssignmentScheduler\{
+    Bootstrapping\Functions\buildPath,
+    CLI\green,
+    CLI\red
+};
 
 [$config, $paths] = require "bootstrap.php";
 

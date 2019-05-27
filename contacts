@@ -3,17 +3,15 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\Contacts;
 
-use function StudentAssignmentScheduler\Functions\{
-    buildPath,
+use \Dotenv\Dotenv;
+use function StudentAssignmentScheduler\{
+    Bootstrapping\buildPath,
+    Bootstrapping\setupKeys,
     Encryption\masterKey,
     Encryption\secretKey,
-    Encryption\unbox,
-    Bootstrapping\setupKeys
+    Encryption\unbox
 };
-
 use \Ds\Map;
-
-use \Dotenv\Dotenv;
 
 require "bootstrap.php";
 

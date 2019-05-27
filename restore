@@ -3,10 +3,6 @@
 
 namespace StudentAssignmentScheduler\BackupAndRestore\Functions;
 
-use function StudentAssignmentScheduler\Functions\buildPath;
-use function StudentAssignmentScheduler\Functions\CLI\green;
-use function StudentAssignmentScheduler\Functions\CLI\red;
-
 use StudentAssignmentScheduler\{
     Password,
     PasswordOption,
@@ -17,6 +13,10 @@ use StudentAssignmentScheduler\{
     File,
     Directory,
     Destination
+};
+use function StudentAssignmentScheduler\CLI\{
+    green,
+    red
 };
 
 require "autoload.php";

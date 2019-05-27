@@ -1,23 +1,30 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-namespace StudentAssignmentScheduler\Functions;
+namespace StudentAssignmentScheduler;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;
-
+use StudentAssignmentScheduler\{
+    ListOfContacts,
+    Contact,
+    Fullname,
+    Notification\MailSender
+};
 use \Ds\{
     Set,
     Vector
 };
 
-use StudentAssignmentScheduler\{
-    ListOfContacts,
-    Contact,
-    Fullname
+use function StudentAssignmentScheduler\{
+    Bootstrapping\Functions\buildPath,
+    Bootstrapping\Functions\setupKeys,
+    CLI\setupEmail,
+    Notification\Functions\sendAssignmentForms,
+    Notification\Functions\filenamesMappedToTheirRecipient,
+    Utils\Functions\filenamesInDirectory,
+    Querying\Functions\getContacts
 };
-
-use StudentAssignmentScheduler\Utils\MailSender;
 
 [$config, $path_config, $config_file] = require "bootstrap.php";
 // setup email and secret keys if they haven't already been setup
@@ -46,14 +53,14 @@ try {
 try {
     $Dotenv->required($email_vars);
 } catch (\Dotenv\Exception\ValidationException $e) {
-    CLI\setupEmail($env_dir);
+    setupEmail($env_dir);
     $Dotenv->load();
 }
 
 try {
     $Dotenv->required($secrets_vars);
 } catch (\Dotenv\Exception\ValidationException $e) {
-    Bootstrapping\setupKeys($path_to_secrets, $env_dir);
+    setupKeys($path_to_secrets, $env_dir);
     $Dotenv->load();
 }
 $contacts_dir = buildPath(__DIR__, "data", "contacts");
