@@ -4,7 +4,7 @@ namespace StudentAssignmentScheduler\BackupAndRestore\Functions;
 
 use StudentAssignmentScheduler\{
     BackupAndRestore\RestoreConfig,
-    Classes\Directory
+    Directory
 };
 use \Ds\Map;
 

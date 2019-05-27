@@ -3,7 +3,7 @@
 namespace StudentAssignmentScheduler\BackupAndRestore\Functions;
 
 use StudentAssignmentScheduler\{
-    Classes\File,
+    File,
     BackupAndRestore\RestoreConfig
 };
 use \Ds\Map;

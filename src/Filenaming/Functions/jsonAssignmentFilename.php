@@ -3,8 +3,8 @@
 namespace StudentAssignmentScheduler\Filenaming\Functions;
 
 use StudentAssignmentScheduler\{
-    Classes\Destination,
-    Classes\Date,
+    Destination,
+    Date,
     Policies\RuleInterface
 };
 

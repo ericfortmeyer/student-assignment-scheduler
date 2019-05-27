@@ -14,7 +14,7 @@ use function StudentAssignmentScheduler\Functions\Bootstrapping\{
 use function StudentAssignmentScheduler\Functions\decryptedPassword;
 
 use StudentAssignmentScheduler\{
-    Classes\ListOfContacts,
+    ListOfContacts,
     Utils\PdfAssignmentFormWriter,
     Utils\PdfScheduleWriter,
     Utils\MailSender

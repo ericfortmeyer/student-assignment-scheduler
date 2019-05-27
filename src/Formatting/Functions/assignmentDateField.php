@@ -3,7 +3,7 @@
 namespace StudentAssignmentScheduler\Formatting\Functions;
 
 use StudentAssignmentScheduler\{
-    Classes\DayOfMonth,
+    DayOfMonth,
     Policies\RuleInterface
 };
 

@@ -4,7 +4,7 @@ namespace StudentAssignmentScheduler\FileSaving\Functions;
 
 use StudentAssignmentScheduler\{
     FileSaving\ScheduleWriterInterface,
-    Classes\Month
+    Month
 };
 
 use function StudentAssignmentScheduler\Utils\Functions\removeYearKey;

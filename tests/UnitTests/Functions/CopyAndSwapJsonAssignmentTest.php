@@ -12,13 +12,13 @@ use \DateTimeImmutable;
 
 use StudentAssignmentScheduler\{
     Policies\JsonAssignmentFilenamePolicy,
-    Classes\Destination,
-    Classes\MonthOfAssignments,
-    Classes\WeekOfAssignments,
-    Classes\Date,
-    Classes\Year,
-    Classes\Month,
-    Classes\DayOfMonth
+    Destination,
+    MonthOfAssignments,
+    WeekOfAssignments,
+    Date,
+    Year,
+    Month,
+    DayOfMonth
 };
 
 class CopyAndSwapJsonAssignmentTest extends TestCase

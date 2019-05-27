@@ -72,7 +72,7 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
         $assignment_form_writer_config["assignment_forms_destination"] = $this->assignment_forms_destination;
         $path_to_forms = $this->assignment_forms_destination;
         $path_to_schedule = $this->schedule_destination;
-        $ListOfContacts = new Classes\ListOfContacts(require $this->mock_contacts);
+        $ListOfContacts = new ListOfContacts(require $this->mock_contacts);
         $assignment_form_filenames = new \Ds\Set();
         $mail_sender_args = [
             $EmptyMailer = new PHPMailer(),
@@ -163,16 +163,16 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
                     return function () use ($test, $ListOfContacts) {
                         (new \Ds\Vector([
                             $ListOfContacts->findByFullname(
-                                new Classes\Fullname("Thelonious", "Monk")
+                                new Fullname("Thelonious", "Monk")
                             ),
                             $ListOfContacts->findByFullname(
-                                new Classes\Fullname("Art", "Tatum")
+                                new Fullname("Art", "Tatum")
                             ),
                             $ListOfContacts->findByFullname(
-                                new Classes\Fullname("Bob", "Smith")
+                                new Fullname("Bob", "Smith")
                             )
                         ]))->apply(
-                            function (Classes\Contact $contact_to_verify) use ($test): void {
+                            function (Contact $contact_to_verify) use ($test): void {
                                 $test->assertStringContainsString(
                                     "Dear {$contact_to_verify->firstName()}",
                                     Result::MailInbox()

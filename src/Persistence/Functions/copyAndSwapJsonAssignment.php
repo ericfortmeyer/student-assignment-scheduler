@@ -3,10 +3,10 @@
 namespace StudentAssignmentScheduler\Persistence\Functions;
 
 use StudentAssignmentScheduler\{
-    Classes\Date,
-    Classes\MonthOfAssignments,
-    Classes\WeekOfAssignments,
-    Classes\Destination,
+    Date,
+    MonthOfAssignments,
+    WeekOfAssignments,
+    Destination,
     Policies\JsonAssignmentFilenamePolicy
 };
 use \DateTimeImmutable;
