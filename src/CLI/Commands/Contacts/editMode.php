@@ -2,9 +2,8 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\Contacts;
 
-use function StudentAssignmentScheduler\Functions\CLI\editContact;
-
 use StudentAssignmentScheduler\ListOfContacts;
+use function StudentAssignmentScheduler\CLI\editContact;
 
 function editMode(ListOfContacts $contacts, string $path_to_contacts, string $key, array $prompts): void
 {

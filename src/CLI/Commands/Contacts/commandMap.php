@@ -2,12 +2,13 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\Contacts;
 
-use function StudentAssignmentScheduler\Functions\CLI\addContacts;
-use function StudentAssignmentScheduler\Functions\CLI\promptsForContacts;
-use function StudentAssignmentScheduler\Functions\CLI\promptsForScheduleRecipients;
-
 use StudentAssignmentScheduler\ListOfContacts;
 use \Ds\Map;
+use function StudentAssignmentScheduler\CLI\{
+    addContacts,
+    promptsForContacts,
+    promptsForScheduleRecipients
+};
 
 function commandMap(string $key): Map
 {

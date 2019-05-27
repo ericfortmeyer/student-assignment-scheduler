@@ -2,16 +2,14 @@
 
 namespace StudentAssignmentScheduler\CLI;
 
-use function StudentAssignmentScheduler\Functions\InputValidation\fullnameIsValid;
-
-use StudentAssignmentScheduler\Utils\Selector;
-
 use StudentAssignmentScheduler\{
     Fullname,
     ListOfContacts,
     Actions\Success,
-    Actions\Failure
+    Actions\Failure,
+    Utils\Selector
 };
+use function StudentAssignmentScheduler\InputValidation\Functions\fullnameIsValid;
 
 function retryUntilFullnameIsValid(Fullname $fullname, ListOfContacts $ListOfContacts): string
 {

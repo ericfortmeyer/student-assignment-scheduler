@@ -15,10 +15,10 @@ use StudentAssignmentScheduler\{
     Date,
     SpecialEvent,
     SpecialEventType,
-    InvalidDateTypeArgumentException
+    Exception\InvalidDateTypeArgumentException
 };
 
-use function StudentAssignmentScheduler\Functions\CLI\{
+use function StudentAssignmentScheduler\CLI\{
     prompt,
     yes,
     no,

@@ -2,12 +2,11 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\Contacts;
 
-use function StudentAssignmentScheduler\Functions\Encryption\unbox;
-
 use StudentAssignmentScheduler\{
     ListOfContacts,
     ListOfScheduleRecipients
 };
+use function StudentAssignmentScheduler\Functions\Encryption\unbox;
 
 function main(string $path_to_contacts, string $key, string $command)
 {

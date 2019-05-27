@@ -2,11 +2,9 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\SpecialEvents;
 
-use \Ds\Map;
-
 use StudentAssignmentScheduler\SpecialEventType;
-
-use function StudentAssignmentScheduler\Functions\CLI\red;
+use \Ds\Map;
+use function StudentAssignmentScheduler\CLI\red;
 
 function userSelectsEventTypeFromList(iterable $list_of_events): SpecialEventType
 {

@@ -9,7 +9,7 @@ use \Ds\{
 
 use StudentAssignmentScheduler\ListOfContacts;
 
-use function StudentAssignmentScheduler\Functions\Encryption\{
+use function StudentAssignmentScheduler\Encryption\Functions\{
     box,
     unbox
 };

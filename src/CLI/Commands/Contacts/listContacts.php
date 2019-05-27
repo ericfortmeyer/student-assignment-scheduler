@@ -7,7 +7,7 @@ use StudentAssignmentScheduler\{
     Contact
 };
 
-use function StudentAssignmentScheduler\Functions\CLI\displayList;
+use function StudentAssignmentScheduler\CLI\displayList;
 
 function listContacts(ListOfContacts $contacts)
 {

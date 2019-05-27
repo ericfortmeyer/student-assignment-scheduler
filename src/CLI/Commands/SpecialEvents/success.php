@@ -4,7 +4,7 @@ namespace StudentAssignmentScheduler\CLI\Commands\SpecialEvents;
 
 use StudentAssignmentScheduler\SpecialEvent;
 
-use function StudentAssignmentScheduler\Functions\CLI\{
+use function StudentAssignmentScheduler\CLI\{
     green,
     red
 };

@@ -2,11 +2,12 @@
 
 namespace StudentAssignmentScheduler\CLI;
 
-use function StudentAssignmentScheduler\Functions\Encryption\box;
 use StudentAssignmentScheduler\ListOfContacts;
-
-use \Ds\Vector;
-use \Ds\Set;
+use \Ds\{
+    Vector,
+    Set
+};
+use function StudentAssignmentScheduler\Functions\Encryption\box;
 
 if (!defined(__NAMESPACE__ . "\QUIT_MESSAGE")) {
     define(__NAMESPACE__ . "\QUIT_MESSAGE", "(type q for quit)");

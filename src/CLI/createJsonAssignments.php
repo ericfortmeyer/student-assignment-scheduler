@@ -2,29 +2,24 @@
 
 namespace StudentAssignmentScheduler\CLI;
 
-use function StudentAssignmentScheduler\Functions\{
-    save,
-    importMultipleSchedules,
-    removeSpecialEventsFromSchedule,
-    assignmentDateField,
-    Filenaming\jsonAssignmentFilename
-};
-
 use StudentAssignmentScheduler\{
     Date,
     Destination,
     ListOfContacts,
     MonthOfAssignments,
     WeekOfAssignments,
-    SpecialEventHistory
+    SpecialEventHistory,
+    Policies\JsonAssignmentFilenamePolicy,
+    Policies\AssignmentMonthFieldPolicy
 };
-
-use StudentAssignmentScheduler\Policies\{
-    JsonAssignmentFilenamePolicy,
-    AssignmentMonthFieldPolicy
-};
-
 use \DateTimeImmutable;
+use function StudentAssignmentScheduler\{
+    Persistence\Functions\save,
+    Querying\Functions\importMultipleSchedules,
+    Persistence\Functions\scheduleWithoutSpecialEvents,
+    Formatting\Functions\assignmentDateField,
+    Filenaming\jsonAssignmentFilename
+};
 
 /**
  * Interact with the user of the application to schedule assignments

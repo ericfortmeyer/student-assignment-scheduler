@@ -2,7 +2,7 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\SpecialEvents;
 
-use function StudentAssignmentScheduler\Functions\CLI\{
+use function StudentAssignmentScheduler\CLI\{
     displayList,
     green
 };

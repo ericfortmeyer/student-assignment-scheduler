@@ -2,8 +2,6 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\Amend;
 
-use \DateTimeImmutable;
-
 use StudentAssignmentScheduler\{
     Month,
     Date,
@@ -12,24 +10,22 @@ use StudentAssignmentScheduler\{
     MonthOfAssignments,
     ListOfContacts,
     ListOfScheduleRecipients,
-    Fullname
+    Fullname,
+    FileSaving\AssignmentFormWriterInterface,
+    FileSaving\ScheduleWriterInterface,
+    Notification\MailSender
 };
-use StudentAssignmentScheduler\Utils\{
-    AssignmentFormWriterInterface,
-    ScheduleWriterInterface,
-    MailSender
-};
-
-use function StudentAssignmentScheduler\Functions\{
-    writeAssignmentFormFromAssignment,
-    importAssignments,
-    importSchedule,
-    sendEmails,
-    copyAndSwapJsonAssignment,
-    removeYearKey,
-    redoSchedule,
-    dayOfMonthFromAssignmentDate,
+use \DateTimeImmutable;
+use function StudentAssignmentScheduler\{
+    FileSaving\Functions\writeAssignmentFormFromAssignment,
+    FileSaving\Functions\redoSchedule,
+    Querying\Functions\importAssignments,
+    Querying\Functions\importSchedule,
     Filenaming\assignmentFormFilename,
+    Notification\Functions\sendEmails,
+    Persistence\Functions\copyAndSwapJsonAssignment,
+    Utils\Functions\removeYearKey,
+    Utils\Functions\dayOfMonthFromAssignmentDate,
     CLI\createAssignment,
     CLI\userAssignsAssistant,
     CLI\retryUntilFullnameIsValid

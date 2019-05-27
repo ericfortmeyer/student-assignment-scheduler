@@ -2,7 +2,10 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\Amend;
 
-use \Ds\{Map, Vector};
+use \Ds\{
+    Map,
+    Vector
+};
 
 function userSelectsAssignment(array $monthOfAssignments): array
 {

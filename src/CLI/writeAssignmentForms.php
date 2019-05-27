@@ -2,17 +2,18 @@
 
 namespace StudentAssignmentScheduler\CLI;
 
-use StudentAssignmentScheduler\ListOfContacts;
-use StudentAssignmentScheduler\FileWriting\AssignmentFormWriterInterface;
-use function StudentAssignmentScheduler\{
-    FileWriting\Functions\writeMonthOfAssignmentForms,
-    Utils\Functions\monthsFromScheduleFilenames
+use StudentAssignmentScheduler\{
+    ListOfContacts,
+    FileSaving\AssignmentFormWriterInterface
 };
-use function StudentAssignmentScheduler\Functions\monthOfAssignments;
-
 use \Ds\{
     Set,
     Vector
+};
+use function StudentAssignmentScheduler\{
+    FileSaving\Functions\writeMonthOfAssignmentForms,
+    Utils\Functions\monthsFromScheduleFilenames,
+    Querying\Functions\monthOfAssignments
 };
 
 /**

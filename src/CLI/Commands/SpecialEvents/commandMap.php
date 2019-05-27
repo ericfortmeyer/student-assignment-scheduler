@@ -2,14 +2,12 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\SpecialEvents;
 
-use \Ds\Map;
-
 use StudentAssignmentScheduler\{
     SpecialEventHistory,
-    SpecialEventHistoryRegistry
+    Persistence\SpecialEventHistoryRegistry
 };
-
-use function StudentAssignmentScheduler\Functions\Persistence\register;
+use function StudentAssignmentScheduler\Persistence\Functions\register;
+use \Ds\Map;
 
 function commandMap(): Map
 {

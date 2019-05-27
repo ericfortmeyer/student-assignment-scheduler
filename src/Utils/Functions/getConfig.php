@@ -1,6 +1,6 @@
 <?php
 
-namespace StudentAssignmentScheduler\Functions;
+namespace StudentAssignmentScheduler\Utils\Functions;
 
 function getConfig(): array
 {

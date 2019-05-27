@@ -4,7 +4,7 @@ namespace StudentAssignmentScheduler\CLI\Commands\Amend;
 
 use StudentAssignmentScheduler\{
     Month,
-    InvalidDateTypeArgumentException
+    Exception\InvalidDateTypeArgumentException
 };
 
 function retryUntilUserGivesValidMonth(string $month): Month

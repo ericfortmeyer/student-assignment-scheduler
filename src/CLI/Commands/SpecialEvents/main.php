@@ -4,7 +4,7 @@ namespace StudentAssignmentScheduler\CLI\Commands\SpecialEvents;
 
 use function StudentAssignmentScheduler\{
     Utils\Functions\getConfig,
-    Utils\Functions\buildPath,
+    Bootstrapping\Functions\buildPath,
     CLI\green
 };
 use StudentAssignmentScheduler\{

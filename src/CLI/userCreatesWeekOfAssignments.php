@@ -2,14 +2,13 @@
 
 namespace StudentAssignmentScheduler\CLI;
 
-use function StudentAssignmentScheduler\Utils\Functions\shouldMakeAssignment;
-
 use StudentAssignmentScheduler\{
     Fullname,
     ListOfContacts,
     WeekOfAssignments,
     Assignment
 };
+use function StudentAssignmentScheduler\Utils\Functions\shouldMakeAssignment;
 
 /**
  * Creates data representing a week of assignments
