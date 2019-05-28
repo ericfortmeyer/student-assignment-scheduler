@@ -8,6 +8,8 @@
 
 composer.lock
 
+fix*
+
 # secrets
 .env
 .ssh

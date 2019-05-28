@@ -15,16 +15,17 @@ use \Ds\{
     Set,
     Vector
 };
-
-use function StudentAssignmentScheduler\{
-    Bootstrapping\Functions\buildPath,
-    Bootstrapping\Functions\setupKeys,
-    CLI\setupEmail,
-    Notification\Functions\sendAssignmentForms,
-    Notification\Functions\filenamesMappedToTheirRecipient,
-    Utils\Functions\filenamesInDirectory,
-    Querying\Functions\getContacts
+use function StudentAssignmentScheduler\Bootstrapping\Functions\{
+    buildPath,
+    setupKeys
 };
+use function StudentAssignmentScheduler\Notification\Functions\{
+    sendAssignmentForms,
+    filenamesMappedToTheirRecipient
+};
+use function StudentAssignmentScheduler\Utils\Functions\filenamesInDirectory;
+use function StudentAssignmentScheduler\Querying\Functions\getContacts;
+use function StudentAssignmentScheduler\CLI\setupEmail;
 
 [$config, $path_config, $config_file] = require "bootstrap.php";
 // setup email and secret keys if they haven't already been setup

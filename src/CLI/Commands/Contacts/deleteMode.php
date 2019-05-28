@@ -2,7 +2,7 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\Contacts;
 
-use StudentAssignmentScheduler\Classes\ListOfContacts;
+use StudentAssignmentScheduler\ListOfContacts;
 use function StudentAssignmentScheduler\Encryption\Functions\box;
 
 function deleteMode(ListOfContacts $contacts, string $path_to_contacts, string $key)

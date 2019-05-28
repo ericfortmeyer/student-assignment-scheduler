@@ -7,7 +7,7 @@ use \Ds\{
     Set
 };
 
-use StudentAssignmentScheduler\Classes\ListOfContacts;
+use StudentAssignmentScheduler\ListOfContacts;
 
 use function StudentAssignmentScheduler\Encryption\Functions\{
     box,

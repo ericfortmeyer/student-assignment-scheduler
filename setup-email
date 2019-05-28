@@ -15,11 +15,11 @@ use \Ds\{
     Set,
     Vector
 };
-use function StudentAssignmentScheduler\{
-    Bootstrapping\buildPath,
-    Bootstrapping\setupKeys,
-    CLI\setupEmail
+use function StudentAssignmentScheduler\Bootstrapping\Functions\{
+    buildPath,
+    setupKeys
 };
+use function StudentAssignmentScheduler\CLI\setupEmail;
 
 [$config, $path_config, $config_file] = require "bootstrap.php";
 // setup email and secret keys if they haven't already been setup

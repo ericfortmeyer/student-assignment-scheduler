@@ -13,10 +13,10 @@ use StudentAssignmentScheduler\{
     Password,
     Destination
 };
-use function StudentAssignmentScheduler\{
-    Bootstrapping\Functions\buildPath,
-    CLI\green,
-    CLI\red
+use function StudentAssignmentScheduler\Bootstrapping\Functions\buildPath;
+use function StudentAssignmentScheduler\CLI\{
+    green,
+    red
 };
 
 [$config, $paths] = require "bootstrap.php";
