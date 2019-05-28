@@ -2,7 +2,7 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\Contacts;
 
-use StudentAssignmentScheduler\Classes\ListOfContacts;
+use StudentAssignmentScheduler\ListOfContacts;
 use \Ds\Map;
 use function StudentAssignmentScheduler\CLI\{
     addContacts,

@@ -2,10 +2,7 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\Contacts;
 
-use StudentAssignmentScheduler\Classes\{
-    ListOfContacts,
-    ListOfScheduleRecipients
-};
+use StudentAssignmentScheduler\ListOfContacts;
 
 use function StudentAssignmentScheduler\Encryption\Functions\unbox;
 
@@ -16,18 +13,10 @@ function main(string $path_to_contacts, string $key, string $command)
             . "Please set them up by running the assign command." . PHP_EOL;
         return;
     }
-
-    $decrypted = unbox($path_to_contacts, $key);
-
-    $contacts = \is_array($decrypted)
-        ? new ListOfScheduleRecipients($decrypted)
-        : $decrypted;
-
+    $decryptedContacts = unbox($path_to_contacts, $key);
     $orDefault = function (ListOfContacts $contacts, string $path_to_contacts) {
         listContacts($contacts);
     };
-
     $selectedCommand = commandMap($key)->get($command, $orDefault);
-
-    $selectedCommand($contacts, $path_to_contacts);
+    $selectedCommand($decryptedContacts, $path_to_contacts);
 }

@@ -15,43 +15,57 @@ use StudentAssignmentScheduler\{
 use StudentAssignmentScheduler\{
     Destination,
     MonthOfAssignments,
-    Persistence\SpecialEventHistoryRegistry,
-    Downloading\MWBDownloader\Month,
-    Downloading\Config\DownloadConfig
+    Persistence\SpecialEventHistoryRegistry
 };
 
-use function StudentAssignmentScheduler\{
-    Bootstrapping\Functions\setupKeys,
-    Bootstrapping\Functions\decryptedPassword,
-    Bootstrapping\Functions\makeRequiredDirectories,
-    Bootstrapping\Functions\runInstallScriptIfRequired,
-    Bootstrapping\Functions\loadConfigurationFiles,
-    Bootstrapping\Functions\buildPath,
-    Encryption\Functions\masterKey,
-    Encryption\Functions\secretKey,
-    Parsing\Functions\FunctionsworkbookParserImplementation,
-    Parsing\Functions\createJsonSchedulesFromWorkbooks,
-    Notification\Functions\sendEmails,
-    Querying\Functions\getContacts,
-    Querying\Functions\getScheduleRecipients,
-    Querying\Functions\importAssignments,
-    Querying\Functions\scheduleWithoutSpecialEvents,
-    Querying\Functions\importJson,
-    Querying\Functions\weeksFrom,
-    Utils\Functions\removeYearKey,
-    Downloading\Functions\download,
-    CLI\writeAssignmentForms,
-    CLI\createJsonAssignments,
-    CLI\yes,
-    CLI\no,
-    CLI\red,
-    CLI\green,
-    CLI\prompt,
-    CLI\jsonScheduleCreationNotification,
-    CLI\setupContacts,
-    CLI\setupScheduleRecipients,
-    CLI\setupEmail
+use StudentAssignmentScheduler\Downloading\{
+    MWBDownloader\Month,
+    Config\DownloadConfig
 };
+
+use function StudentAssignmentScheduler\Bootstrapping\Functions\{
+    decryptedPassword,
+    makeRequiredDirectories,
+    runInstallScriptIfRequired,
+    loadConfigurationFiles,
+    buildPath,
+    setupKeys,
+};
+use function StudentAssignmentScheduler\Encryption\Functions\{
+    masterKey,
+    secretKey,
+};
+
+use function StudentAssignmentScheduler\Parsing\Functions\{
+    createJsonSchedulesFromWorkbooks,
+    workbookParserImplementation,
+};
+use function StudentAssignmentScheduler\Querying\Functions\{
+    getContacts,
+    getScheduleRecipients,
+    importAssignments,
+    scheduleWithoutSpecialEvents,
+    importJson,
+    weeksFrom,
+
+};
+use function StudentAssignmentScheduler\CLI\{
+    writeAssignmentForms,
+    createJsonAssignments,
+    yes,
+    no,
+    red,
+    green,
+    prompt,
+    jsonScheduleCreationNotification,
+    setupContacts,
+    setupScheduleRecipients,
+    setupEmail
+
+};
+use function StudentAssignmentScheduler\Notification\Functions\sendEmails;
+use function StudentAssignmentScheduler\Downloading\Functions\download;
+use function StudentAssignmentScheduler\Utils\Functions\removeYearKey;
 
 ///////////////////////
 //

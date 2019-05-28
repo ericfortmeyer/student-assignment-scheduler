@@ -2,7 +2,7 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\SpecialEvents;
 
-use StudentAssignmentScheduler\Classes\SpecialEvent;
+use StudentAssignmentScheduler\SpecialEvent;
 // use StudentAssignmentScheduler\SpecialEvent;
 
 use function StudentAssignmentScheduler\CLI\{

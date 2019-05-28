@@ -3,8 +3,7 @@
 namespace StudentAssignmentScheduler\CLI\Commands\SpecialEvents;
 
 use StudentAssignmentScheduler\{
-    Classes\SpecialEventHistory,
-    // SpecialEventHistory,
+    SpecialEventHistory,
     Persistence\SpecialEventHistoryRegistry
 };
 use function StudentAssignmentScheduler\Persistence\Functions\register;

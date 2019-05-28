@@ -6,8 +6,8 @@ use function StudentAssignmentScheduler\Utils\Functions\getConfig;
 use function StudentAssignmentScheduler\Bootstrapping\Functions\buildPath;
 use function StudentAssignmentScheduler\CLI\green;
 use StudentAssignmentScheduler\{
-    Classes\SpecialEventHistory,
-    Classes\Destination,
+    SpecialEventHistory,
+    Destination,
     Persistence\SpecialEventHistoryRegistry
 };
 use \Ds\Vector;
