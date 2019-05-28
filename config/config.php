@@ -48,8 +48,8 @@ return [
     "workbook_format" => $workbook_format,
     "workbook_download_destination" => __DIR__ . "/../workbooks/$workbook_format",
     "workbook_parser_implementations" => [
-        "pdf" => __NAMESPACE__ . "\\Utils\\" . "PdfParser",
-        "rtf" => __NAMESPACE__ . "\\Utils\\" . "RtfParser"
+        "pdf" => __NAMESPACE__ . "\\Parsing\\" . "PdfParser",
+        "rtf" => __NAMESPACE__ . "\\Parsing\\" . "RtfParser"
     ],
     /// api options
     "apiUrl" => "https://apps.jw.org/GETPUBMEDIALINKS",
@@ -80,8 +80,8 @@ return [
     ],
     "special_events_location" => $special_events_location,
     "special_events_registry_filename" => $special_events_registry_filename,
-    "assignment_form_template" => __DIR__ . "/../Utils/templates/S-89-E.pdf",
-    "schedule_template" => __DIR__ . "/../Utils/templates/S-140-E.pdf",
+    "assignment_form_template" => __DIR__ . "/../src/FileSaving/templates/S-89-E.pdf",
+    "schedule_template" => __DIR__ . "/../src/FileSaving/S-140-E.pdf",
     "assignment_forms_destination" => __DIR__ . "/../data/forms",
     "schedules_destination" => __DIR__ . "/../data/schedules",
     "schedule_font_size" => 10,

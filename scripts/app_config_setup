@@ -8,7 +8,7 @@ use function StudentAssignmentScheduler\Functions\{
     CLI\displayList
 };
 
-use StudentAssignmentScheduler\Classes\Guid;
+use StudentAssignmentScheduler\Guid;
 
 require_once __DIR__ . "/../autoload.php";
 

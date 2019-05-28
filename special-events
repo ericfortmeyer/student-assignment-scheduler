@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-namespace StudentAssignmentScheduler\Functions\CLI\Commands\SpecialEvents;
+namespace StudentAssignmentScheduler\CLI\Commands\SpecialEvents;
 
 use \Ds\Map;
 

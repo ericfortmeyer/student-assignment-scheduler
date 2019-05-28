@@ -11,7 +11,7 @@ use Fortmeyer\MockExternService\{
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-use function StudentAssignmentScheduler\Functions\buildPath;
+use function StudentAssignmentScheduler\Utils\Functions\buildPath;
 
 
 class PreparedDataInsteadOfUserInputTest extends TestCase
@@ -72,7 +72,7 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
         $assignment_form_writer_config["assignment_forms_destination"] = $this->assignment_forms_destination;
         $path_to_forms = $this->assignment_forms_destination;
         $path_to_schedule = $this->schedule_destination;
-        $ListOfContacts = new Classes\ListOfContacts(require $this->mock_contacts);
+        $ListOfContacts = new ListOfContacts(require $this->mock_contacts);
         $assignment_form_filenames = new \Ds\Set();
         $mail_sender_args = [
             $EmptyMailer = new PHPMailer(),
@@ -92,16 +92,16 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
 
 
         $AppTester
-            ->given(Utils\PdfScheduleWriter::class, $schedule_writer_config)
+            ->given(FileSaving\PdfScheduleWriter::class, $schedule_writer_config)
             ->when(
-                function (Utils\PdfScheduleWriter $writer) use ($schedule) {
+                function (FileSaving\PdfScheduleWriter $writer) use ($schedule) {
                     $writer->create(
                         $this->assignments(),
                         $schedule,
                         $this->mock_schedule_basename
                     );
                 },
-                Utils\PdfScheduleWriter::class
+                FileSaving\PdfScheduleWriter::class
             )
             ->then(
                 (function (PreparedDataInsteadOfUserInputTest $test) {
@@ -113,10 +113,10 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
             );
 
         $AppTester
-            ->given(Utils\PdfAssignmentFormWriter::class, $assignment_form_writer_config)
+            ->given(FileSaving\PdfAssignmentFormWriter::class, $assignment_form_writer_config)
             ->when(
-                __NAMESPACE__ . "\Functions\writeMonthOfAssignmentForms",
-                Utils\PdfAssignmentFormWriter::class,
+                __NAMESPACE__ . '\FileSaving\Functions\writeMonthOfAssignmentForms',
+                FileSaving\PdfAssignmentFormWriter::class,
                 $ListOfContacts,
                 $this->assignments()
             )
@@ -143,19 +143,19 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
                 $path_to_forms
             );
 
-        $MailSender = (new Utils\MailSender(...$mail_sender_args))->withMailer($Mailer);
+        $MailSender = (new Notification\MailSender(...$mail_sender_args))->withMailer($Mailer);
 
         $AppTester
-            ->given(Utils\MailSender::class, ...$mail_sender_args)
+            ->given(Notification\MailSender::class, ...$mail_sender_args)
             ->with([$MailSender, "withMailer"], $Mailer)
             ->when(
-                __NAMESPACE__ . "\Functions\sendAssignmentForms",
-                Utils\MailSender::class,
-                Functions\filenamesMappedToTheirRecipient(
+                __NAMESPACE__ . '\Notification\Functions\sendAssignmentForms',
+                Notification\MailSender::class,
+                Notification\Functions\filenamesMappedToTheirRecipient(
                     $assignment_form_filenames,
                     $ListOfContacts
                 ),
-                Functions\Logging\nullLogger(),
+                Logging\Functions\nullLogger(),
                 true
             )
             ->then(
@@ -163,16 +163,16 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
                     return function () use ($test, $ListOfContacts) {
                         (new \Ds\Vector([
                             $ListOfContacts->findByFullname(
-                                new Classes\Fullname("Thelonious", "Monk")
+                                new Fullname("Thelonious", "Monk")
                             ),
                             $ListOfContacts->findByFullname(
-                                new Classes\Fullname("Art", "Tatum")
+                                new Fullname("Art", "Tatum")
                             ),
                             $ListOfContacts->findByFullname(
-                                new Classes\Fullname("Bob", "Smith")
+                                new Fullname("Bob", "Smith")
                             )
                         ]))->apply(
-                            function (Classes\Contact $contact_to_verify) use ($test): void {
+                            function (Contact $contact_to_verify) use ($test): void {
                                 $test->assertStringContainsString(
                                     "Dear {$contact_to_verify->firstName()}",
                                     Result::MailInbox()
@@ -306,9 +306,9 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
 
     protected function schedule(): array
     {
-        return Functions\weeksFrom(json_decode(
+        return Querying\Functions\weeksFrom(json_decode(
             \file_get_contents(
-                Functions\buildPath(
+                buildPath(
                     __DIR__,
                     "..",
                     "mocks",
