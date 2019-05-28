@@ -92,16 +92,16 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
 
 
         $AppTester
-            ->given(FileSaving\PdfScheduleWriter::class, $schedule_writer_config)
+            ->given(DocumentProduction\PdfScheduleWriter::class, $schedule_writer_config)
             ->when(
-                function (FileSaving\PdfScheduleWriter $writer) use ($schedule) {
+                function (DocumentProduction\PdfScheduleWriter $writer) use ($schedule) {
                     $writer->create(
                         $this->assignments(),
                         $schedule,
                         $this->mock_schedule_basename
                     );
                 },
-                FileSaving\PdfScheduleWriter::class
+                DocumentProduction\PdfScheduleWriter::class
             )
             ->then(
                 (function (PreparedDataInsteadOfUserInputTest $test) {
@@ -113,10 +113,10 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
             );
 
         $AppTester
-            ->given(FileSaving\PdfAssignmentFormWriter::class, $assignment_form_writer_config)
+            ->given(DocumentProduction\PdfAssignmentFormWriter::class, $assignment_form_writer_config)
             ->when(
-                __NAMESPACE__ . '\FileSaving\Functions\writeMonthOfAssignmentForms',
-                FileSaving\PdfAssignmentFormWriter::class,
+                __NAMESPACE__ . '\DocumentProduction\Functions\writeMonthOfAssignmentForms',
+                DocumentProduction\PdfAssignmentFormWriter::class,
                 $ListOfContacts,
                 $this->assignments()
             )

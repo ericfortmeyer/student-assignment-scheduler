@@ -1,6 +1,6 @@
 <?php
 
-namespace StudentAssignmentScheduler\FileSaving;
+namespace StudentAssignmentScheduler\DocumentProduction;
 
 use PHPUnit\Framework\TestCase;
 use \Ds\Vector;
