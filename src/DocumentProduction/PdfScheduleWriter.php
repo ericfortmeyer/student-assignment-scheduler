@@ -1,6 +1,6 @@
 <?php
 
-namespace StudentAssignmentScheduler\FileSaving;
+namespace StudentAssignmentScheduler\DocumentProduction;
 
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\StreamReader;
@@ -428,7 +428,13 @@ class PdfScheduleWriter implements ScheduleWriterInterface
     protected function import(string $path_to_template): void
     {
         $this->pdfCreator->AddPage();
-        $this->pdfCreator->setSourceFile(StreamReader::createByFile($path_to_template));
+        $this->pdfCreator->setSourceFile(
+            StreamReader::createByString(
+                base64_decode(
+                    file_get_contents($path_to_template)
+                )
+            )
+        );
         $this->pdfCreator->useImportedPage(
             $this->pdfCreator->importPage(1),
             ...$this->import_args
