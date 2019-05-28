@@ -11,12 +11,12 @@ use StudentAssignmentScheduler\{
     ListOfContacts,
     ListOfScheduleRecipients,
     Fullname,
-    FileSaving\AssignmentFormWriterInterface,
-    FileSaving\ScheduleWriterInterface,
+    DocumentProduction\AssignmentFormWriterInterface,
+    DocumentProduction\ScheduleWriterInterface,
     Notification\MailSender
 };
 use \DateTimeImmutable;
-use function StudentAssignmentScheduler\FileSaving\{
+use function StudentAssignmentScheduler\DocumentProduction\{
     Functions\writeAssignmentFormFromAssignment,
     Functions\redoSchedule
 };

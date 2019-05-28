@@ -7,8 +7,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;
 
 use StudentAssignmentScheduler\{
-    FileSaving\PdfAssignmentFormWriter,
-    FileSaving\PdfScheduleWriter,
+    DocumentProduction\PdfAssignmentFormWriter,
+    DocumentProduction\PdfScheduleWriter,
     Notification\MailSender
 };
 

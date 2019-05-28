@@ -5,11 +5,11 @@ namespace StudentAssignmentScheduler;
 use PHPUnit\Framework\TestCase;
 use Smalot\PdfParser\Parser;
 use \Ds\Vector;
-use StudentAssignmentScheduler\FileSaving\{
+use StudentAssignmentScheduler\DocumentProduction\{
     PdfAssignmentFormWriter,
     PdfScheduleWriter
 };
-use function StudentAssignmentScheduler\FileSaving\Functions\writeAssignmentFormFromAssignment;
+use function StudentAssignmentScheduler\DocumentProduction\Functions\writeAssignmentFormFromAssignment;
 use function StudentAssignmentScheduler\Utils\Functions\buildPath;
 use function StudentAssignmentScheduler\Querying\Functions\weeksFrom;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace StudentAssignmentScheduler\FileSaving\Functions;
+namespace StudentAssignmentScheduler\DocumentProduction\Functions;
 
-use StudentAssignmentScheduler\FileSaving\AssignmentFormWriterInterface;
+use StudentAssignmentScheduler\DocumentProduction\AssignmentFormWriterInterface;
 
 function writeAssignmentFormFromAssignment(
     AssignmentFormWriterInterface $Writer,

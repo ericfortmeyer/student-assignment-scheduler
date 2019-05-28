@@ -4,13 +4,13 @@ namespace StudentAssignmentScheduler\CLI;
 
 use StudentAssignmentScheduler\{
     ListOfContacts,
-    FileSaving\AssignmentFormWriterInterface
+    DocumentProduction\AssignmentFormWriterInterface
 };
 use \Ds\{
     Set,
     Vector
 };
-use function StudentAssignmentScheduler\FileSaving\Functions\writeMonthOfAssignmentForms;
+use function StudentAssignmentScheduler\DocumentProduction\Functions\writeMonthOfAssignmentForms;
 use function StudentAssignmentScheduler\Utils\Functions\monthsFromScheduleFilenames;
 use function StudentAssignmentScheduler\Querying\Functions\monthOfAssignments;
 

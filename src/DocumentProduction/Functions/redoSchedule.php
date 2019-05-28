@@ -1,9 +1,9 @@
 <?php
 
-namespace StudentAssignmentScheduler\FileSaving\Functions;
+namespace StudentAssignmentScheduler\DocumentProduction\Functions;
 
 use StudentAssignmentScheduler\{
-    FileSaving\ScheduleWriterInterface,
+    DocumentProduction\ScheduleWriterInterface,
     Month
 };
 
