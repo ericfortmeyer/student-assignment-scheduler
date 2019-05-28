@@ -1,23 +1,20 @@
 #!/usr/bin/env php
 <?php
 
-namespace StudentAssignmentScheduler\Functions\CLI\Commands\Amend;
+namespace StudentAssignmentScheduler\CLI\Commands\Amend;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Dotenv\Dotenv;
-
-use function StudentAssignmentScheduler\Functions\Bootstrapping\{
-    loadConfigurationFiles,
-    buildPath
-};
-
-use function StudentAssignmentScheduler\Functions\decryptedPassword;
-
 use StudentAssignmentScheduler\{
-    Classes\ListOfContacts,
-    Utils\PdfAssignmentFormWriter,
-    Utils\PdfScheduleWriter,
-    Utils\MailSender
+    ListOfContacts,
+    FileSaving\PdfAssignmentFormWriter,
+    FileSaving\PdfScheduleWriter,
+    Notification\MailSender
+};
+use function StudentAssignmentScheduler\Bootstrapping\Functions\{
+    loadConfigurationFiles,
+    buildPath,
+    decryptedPassword
 };
 
 [$config, $path_config] = require_once "bootstrap.php";

@@ -1,8 +1,6 @@
 <?php
 
-namespace StudentAssignmentScheduler\Functions\Bootstrapping;
-
-use function StudentAssignmentScheduler\Functions\makeRequiredDirectories;
+namespace StudentAssignmentScheduler\Bootstrapping\Functions;
 
 /**
  * Compatibility checking,
@@ -73,8 +71,8 @@ return (function (): array {
     // install required composer packages
     $actions->push(
         function () {
-            require "./Functions/Bootstrapping/runInstallScriptIfRequired.php";
-            require "./Functions/Bootstrapping/buildPath.php";
+            require "./src/Bootstrapping/Functions/runInstallScriptIfRequired.php";
+            require "./src/Bootstrapping/Functions/buildPath.php";
             runInstallScriptIfRequired(
                 buildPath(__DIR__, "vendor"),
                 buildPath(__DIR__, "scripts", "install.sh")

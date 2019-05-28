@@ -1,0 +1,446 @@
+<?php
+
+namespace StudentAssignmentScheduler\FileSaving;
+
+use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\PdfParser\StreamReader;
+
+use \Ds\Map;
+
+use function StudentAssignmentScheduler\Utils\Functions\shouldMakeAssignment;
+
+class PdfScheduleWriter implements ScheduleWriterInterface
+{
+    protected const BIBLE_READING = [
+        "BIBLE READING",
+        "Bible Reading",
+        "bible_reading",
+        "bible reading"
+    ];
+
+    /**
+     * @var Fpdi
+     */
+    protected $pdfCreator;
+
+    /**
+     * @var array
+     */
+    protected $import_args = [
+        0,
+        0,
+        null,
+        null,
+        true
+    ];
+
+    /**
+     * @var array
+     */
+    protected $config = [];
+
+    /**
+     * @var \Closure|null
+     */
+    protected $writeWeekOfAssignments;
+
+    /**
+     * @var \Closure|null
+     */
+    protected $writeIndividualAssignment;
+
+
+    public function __construct(array $config)
+    {
+        $this->config = $config;
+
+        $this->writeWeekOfAssignments = function (array $schedule): \Closure {
+            return function (int $week_index, $week_of_assignments) use ($schedule): void {
+                /**
+                 * Move to the next page when the 4th week is encountered
+                 * since there are only 3 weeks of assignments on the first page
+                 */
+                if ($week_index === 3) {
+                    $this->nextPage();
+                }
+                $this->writeWeekOfAssignments($week_index, $week_of_assignments, $schedule[$week_index]);
+            };
+        };
+
+        $this->writeIndividualAssignment = function (int $week_index, array $week_of_assignments): \Closure {
+            return function (int $assignment_num, string $assignment_name) use ($week_index, &$week_of_assignments) {
+
+                if (shouldMakeAssignment($assignment_name)) {
+                    $data_for_current_assignment = current($week_of_assignments);
+                    $this->writeStudentAssignment(
+                        $week_index,
+                        $assignment_num,
+                        $data_for_current_assignment
+                    );
+                    // go to the next assignment
+                    next($week_of_assignments);
+                } else {
+                    $data_for_current_assignment = $this->dataForMeetingPartsThatShouldNotBeAssigned($assignment_name);
+                    $this->writeStudentAssignment(
+                        $week_index,
+                        $assignment_num,
+                        $data_for_current_assignment
+                    );
+                }
+            };
+        };
+    }
+    
+    protected function initPdfCreator()
+    {
+        $this->pdfCreator = new Fpdi();
+        $this->textColor("black");
+        $this->font($this->config["font"]);
+        $this->fontSize($this->config["schedule_font_size"]);
+        $this->import($this->config["schedule_template"]);
+    }
+
+    /**
+     * Create the schedule for the given month.
+     *
+     * Creates a file with the schedule for the given month that can be distrubted
+     * i.e. a PDF file that can be attached to an email.
+     *
+     * @param object[] $assignments
+     * @param string[] $schedule Data representing the schedule.
+     * @param string $filename Filename of the schedule being created.  Perhaps the month being scheduled.
+     *
+     * @return string Name of the file created.
+     */
+    public function create(
+        array $assignments,
+        array $schedule,
+        string $filename
+    ): string {
+        /**
+         * Must do this each time you call the create method.
+         * Since the Fpdi object closes the document each time you output a pdf,
+         * you will need a new instance of the Fpdi object if you are creating
+         * an array of pdf files
+         */
+        $this->initPdfCreator();
+
+        $partialFunc = $this->writeWeekOfAssignments;
+        $writeAssignments = $partialFunc($schedule);
+        
+        $schedule_filename =
+        "{$this->config["schedules_destination"]}/{$this->addExtension($filename)}";
+
+        $this->preparePDF(
+            $writeAssignments,
+            array_keys($schedule),
+            $assignments
+        );
+        
+        $this->createPDF($schedule_filename);
+
+        return $schedule_filename;
+    }
+
+    private function preparePDF(\Closure $writeAssignments, array $array_keys_from_schedule, array $schedule_data): void
+    {
+        array_map(
+            $writeAssignments,
+            $array_keys_from_schedule,
+            $schedule_data
+        );
+    }
+    
+    /**
+     * Prepares the schedule file for output
+     *
+     * Loads the PDF writing object with items that need to be written to final output.
+     * Uses:
+     * (1) the zero-based index of the week that is represented by the data
+     * (2) an array of assignments for the given week
+     * (3) an array mapping the title of the assignments to a numeric representation
+     * @example $this->writeWeekOfAssignments(2, [$assn1, $assn2, ...], [5 => 'First Return Visit', ...])
+     *
+     * @param int $week_index
+     * @param array $week_of_assignments
+     * @param array $assignment_map
+     * @return void
+     */
+    protected function writeWeekOfAssignments(
+        int $week_index,
+        array $week_of_assignments,
+        array $assignment_map
+    ): void {
+
+        $this->writeDate($week_index, current($week_of_assignments)["date"]);
+
+        $partialFunc = $this->writeIndividualAssignment;
+
+        $weekOfAssignments = new Map($week_of_assignments);
+        $weekOfAssignments->remove("year", null);
+
+        $writeAssignments = $partialFunc($week_index, $weekOfAssignments->toArray());
+        
+        $MapOfAssignments = new Map($assignment_map);
+        $MapOfAssignments->put(4, "bible_reading");
+        $MapOfAssignments->remove("date", null);
+        $MapOfAssignments->ksort();
+
+        $MapOfAssignments->map($writeAssignments);
+    }
+
+    protected function dataForMeetingPartsThatShouldNotBeAssigned(string $assignment): array
+    {
+        return [
+            "assignment" => $assignment,
+            "name" => "",
+            "assistant" => "",
+            "counsel_point" => ""
+        ];
+    }
+
+    protected function writeStudentAssignment(
+        int $week_index,
+        int $assignment_num,
+        array $data
+    ): void {
+
+        $this->notBibleReading($data["assignment"])
+            && $this->writeAssignment(
+                $week_index,
+                $assignment_num,
+                $data["assignment"]
+            );
+
+        $this->writeStudentAndAssistantAndCounselPoint(
+            $week_index,
+            $assignment_num,
+            $data["name"],
+            $data["assistant"],
+            $data["counsel_point"]
+        );
+    }
+
+    protected function writeAssignment(int $week_index, int $assignment_num, string $assignment): void
+    {
+        $this->position(
+            $week_index,
+            $assignment_num,
+            "position"
+        );
+
+        $this->write($assignment);
+    }
+
+    protected function writeStudentAndAssistantAndCounselPoint(
+        int $week_index,
+        int $assignment_num,
+        string $student,
+        string $assistant,
+        string $counsel_point
+    ): void {
+        $assistant
+            ? $this->writeName(
+                $week_index,
+                $assignment_num,
+                $this->appendCounselPoint(
+                    $this->appendAssistantName($student, $assistant),
+                    $counsel_point
+                )
+            )
+            : $this->writeName(
+                $week_index,
+                $assignment_num,
+                $this->appendCounselPoint(
+                    $student,
+                    $counsel_point
+                )
+            );
+    }
+
+    protected function writeStudentAndAssistant(
+        int $week_index,
+        int $assignment_num,
+        string $student,
+        string $assistant
+    ): void {
+        $assistant
+            ? $this->writeName(
+                $week_index,
+                $assignment_num,
+                $this->appendAssistantName($student, $assistant)
+            )
+            : $this->writeName(
+                $week_index,
+                $assignment_num,
+                $student
+            );
+    }
+
+    protected function writeName(int $week_index, int $assignment_num, string $name): void
+    {
+        $this->position(
+            $week_index,
+            $assignment_num,
+            "name"
+        );
+        $this->write($name);
+    }
+
+    protected function appendAssistantName(string $student, string $assistant): string
+    {
+        return "${student}{$this->withSlash($assistant)}";
+    }
+
+    protected function appendCounselPoint(string $name, string $counsel_point): string
+    {
+        return "${name} ${counsel_point}";
+    }
+
+    protected function writeAssistant(string $name_of_assistant): void
+    {
+        $this->write("{$this->withSlash($name_of_assistant)}");
+    }
+
+    protected function withSlash(string $name): string
+    {
+        return "/${name}";
+    }
+
+    protected function writeDate(int $week_index, string $date): void
+    {
+        $this->position(
+            $week_index,
+            0,
+            "date"
+        );
+        $this->write($date);
+    }
+
+    protected function writeCounselPoint(int $week_index, int $assignment_num, string $counsel_point): void
+    {
+        $this->position(
+            $week_index,
+            $assignment_num,
+            "counsel_point"
+        );
+        $this->write($counsel_point);
+    }
+
+    protected function createPDF(string $filename): void
+    {
+        $this->pdfCreator->Output(
+            "F",
+            $filename,
+            true
+        );
+    }
+
+    protected function notBibleReading(string $assignment): bool
+    {
+        return !in_array($assignment, self::BIBLE_READING);
+    }
+
+    protected function addExtension(string $basename): string
+    {
+        return "$basename.pdf";
+    }
+
+    protected function removeExtension(string $filename): string
+    {
+        return basename($filename, ".pdf");
+    }
+
+    protected function allCaps(string $string): string
+    {
+        return strtoupper($string);
+    }
+
+    protected function monthFromDate(string $date): string
+    {
+        return date_create_from_format("F j", $date)->format("F");
+    }
+
+    protected function firstName(string $fullname): string
+    {
+        return current(
+            explode(
+                " ",
+                $fullname
+            )
+        );
+    }
+
+    protected function position(int $week_index, int $assignment_num, string $position): void
+    {
+        $this->pdfCreator->SetXY(
+            ...$this->setXYFromConfig($week_index, $assignment_num, $position)
+        );
+    }
+
+    protected function setXYFromConfig(int $week_index, int $assignment_num, string $which_position): array
+    {
+        $week_config = $this->config["schedule"]["week"][$week_index];
+
+        return $which_position === "date"
+            ? $week_config[$which_position]
+            : $week_config[$assignment_num][$which_position];
+    }
+
+    protected function write(string $string): void
+    {
+        $this->pdfCreator->Write(0, $string);
+    }
+
+    protected function font(string $font): void
+    {
+        $this->pdfCreator->SetFont($font);
+    }
+
+    protected function fontSize(int $points): void
+    {
+        $this->pdfCreator->SetFontSize($points);
+    }
+
+    protected function textColor(string $color): void
+    {
+        $rgb = $this->colorIsAvailable($color)
+            ? $this->toRgb($color)
+            : $this->toRgb($this->config["font_color"]);
+
+
+        $this->pdfCreator->setTextColor(...$rgb);
+    }
+
+    protected function colorIsAvailable(string $color): bool
+    {
+        return key_exists(
+            $color,
+            $this->config["colors"]
+        );
+    }
+
+    protected function toRgb(string $color): array
+    {
+        return $this->config["colors"][$color];
+    }
+
+    protected function import(string $path_to_template): void
+    {
+        $this->pdfCreator->AddPage();
+        $this->pdfCreator->setSourceFile(StreamReader::createByFile($path_to_template));
+        $this->pdfCreator->useImportedPage(
+            $this->pdfCreator->importPage(1),
+            ...$this->import_args
+        );
+    }
+    
+    protected function nextPage(): void
+    {
+        $this->pdfCreator->AddPage();
+        $this->pdfCreator->useImportedPage(
+            $this->pdfCreator->importPage(2),
+            ...$this->import_args
+        );
+    }
+}

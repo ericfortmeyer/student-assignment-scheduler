@@ -1,10 +1,10 @@
 <?php
 
-namespace StudentAssignmentScheduler\Functions\Bootstrapping;
+namespace StudentAssignmentScheduler\Bootstrapping\Functions;
 
 use PHPUnit\Framework\TestCase;
 
-use function StudentAssignmentScheduler\Functions\filenamesInDirectory;
+use function StudentAssignmentScheduler\Utils\Functions\filenamesInDirectory;
 
 use \Ds\Vector;
 

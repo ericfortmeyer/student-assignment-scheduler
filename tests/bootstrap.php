@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 use function StudentAssignmentScheduler\FileRegistry\Functions\registerFile;
-use function StudentAssignmentScheduler\Functions\hashOfFile;
+use function StudentAssignmentScheduler\FileRegistry\Functions\hashOfFile;
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
