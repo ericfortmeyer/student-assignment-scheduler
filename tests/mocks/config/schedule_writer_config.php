@@ -1,7 +1,7 @@
 <?php
 
 return [
-    "schedule_template" => __DIR__ . "/../../../src/FileSaving/templates/S-140-E.pdf",
+    "schedule_template" => __DIR__ . "/../../../src/DocumentProduction/templates/" . sha1("S-140-E.pdf"),
     "schedules_destination" => __DIR__ . "/../../tmp",
     "schedule_font_size" => 10,
     "font" => "Helvetica",
