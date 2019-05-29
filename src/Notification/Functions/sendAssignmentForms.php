@@ -1,9 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace StudentAssignmentScheduler\Notification\Functions;
 
-use StudentAssignmentScheduler\Notification\MailSender;
-use StudentAssignmentScheduler\Contact;
+use StudentAssignmentScheduler\{
+    Contact,
+    MaybeContact,
+    Notification\MailSender
+};
 use Psr\Log\LoggerInterface;
 use \Ds\Map;
 
@@ -11,26 +14,27 @@ use \Ds\Map;
  * Sends assignment forms
  *
  * For each file found in the assignment form folder
- * (1) Use the name of the assignment folder to determine who the recipient is
+ * (1) Use the name of the assignment file to determine who the recipient is
  * (2) Attach file and send email to the recipient
  * (3) Delete the file from the folder
+ *
+ * @param MailSender $MailSender
+ * @param Map $MapOfAttachmentFilenamesToTheirRecipients
+ * @param LoggerInterface $log
+ * @return void
  */
 function sendAssignmentForms(
     MailSender $MailSender,
     Map $MapOfAttachmentFilenamesToTheirRecipients,
-    LoggerInterface $logger,
-    bool $test_mode = false
-): bool {
-
-    $log = $logger;
+    LoggerInterface $log
+): void {
 
     $emailAssignmentForms = function (
         string $filename_of_attachment,
         Contact $contact
     ) use (
         $MailSender,
-        $log,
-        $test_mode
+        $log
     ) {
         try {
             $MailSender
@@ -38,14 +42,10 @@ function sendAssignmentForms(
                 ->withRecipient($contact->emailAddress(), $contact->fullname())
                 ->addAttachment($filename_of_attachment)
                 ->send();
-
-            $test_mode || print "Email sent: {$contact->emailAddress()}\r\n";
-
             $log->info(
                 "Email sent: {email_address}",
                 ["email_address" => $contact->emailAddress()]
             );
-
             /**
              * Delete attachment
              *
@@ -53,15 +53,66 @@ function sendAssignmentForms(
              * the file needs to be deleted or duplicates will be created
              */
             unlink($filename_of_attachment);
-
             $log->info(
                 "Assignment slip deleted"
             );
         } catch (\Throwable $e) {
-            return false;
+            $log->critical(
+                "Email error: {exception_as_string}",
+                ["exception_as_string" => (string) $e]
+            );
         }
     };
+    $contactsThatWereNotFound = function (string $filename_of_attachment, MaybeContact $MaybeContact): bool {
+        $doIfEmpty = function (): bool {
+            return false;
+        };
+        return $MaybeContact->getOrElse($doIfEmpty) === false;
+    };
+    $contactsThatWereFound = function (string $filename_of_attachment, MaybeContact $MaybeContact): bool {
+        $doIfEmpty = function (): bool {
+            return false;
+        };
+        return $MaybeContact->getOrElse($doIfEmpty) instanceof Contact;
+    };
+    $getContact = function (string $filename_of_attachment, MaybeContact $MaybeContact): Contact {
+        return $MaybeContact->getOrElse(function () {
+        });
+    };
+    $handleContactNotFoundCase = function (
+        string $filename_of_attachment,
+        MaybeContact $MaybeContact
+    ) use (
+        $MailSender,
+        $log
+    ) {
+        $log->error(
+            "Attachment not send: {filename_of_attachment}",
+            ["filename_of_attachment" => $filename_of_attachment]
+        );
+        $error_message = "Email Error:" . PHP_EOL
+            . "The attached email was not sent to the intended recipient" . PHP_EOL
+            . "This could be because the user was not found in your list of"
+            . " contacts or an error occured in the program.";
 
-    $MapOfAttachmentFilenamesToTheirRecipients->map($emailAssignmentForms);
-    return true;
+        $MailSender
+            ->addSubject("Attachment not sent")
+            ->addBody($error_message)
+            ->setEmailToUser()
+            ->addAttachment($filename_of_attachment)
+            ->send();
+
+        $log->info(
+            "Error message sent to user"
+        );
+    };
+
+    $MapOfAttachmentFilenamesToTheirRecipients
+        ->filter($contactsThatWereNotFound)
+        ->map($handleContactNotFoundCase);
+
+    $MapOfAttachmentFilenamesToTheirRecipients
+        ->filter($contactsThatWereFound)
+        ->map($getContact)
+        ->map($emailAssignmentForms);
 }

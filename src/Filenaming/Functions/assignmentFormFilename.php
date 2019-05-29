@@ -9,6 +9,8 @@ use StudentAssignmentScheduler\{
 
 function assignmentFormFilename(Fullname $fullname, ListOfContacts $ListOfContacts): string
 {
+    $contact = $ListOfContacts->findByFullname($fullname);
+    $filename = sha1($contact->guid());
     $ext = ".pdf";
-    return "{$ListOfContacts->findByFullname($fullname)->guid()}${ext}";
+    return "${filename}${ext}";
 }

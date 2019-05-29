@@ -18,7 +18,7 @@ class AssignmentFormFilenameTest extends TestCase
     {
         $given_fullname = new Fullname("Thelonious Monk");
         $given_contact = new Contact("${given_fullname} tm@aol.com");
-        $expected_filename = "{$given_contact->guid()}.pdf";
+        $expected_filename = sha1($given_contact->guid()) . ".pdf";
         $list_of_contacts = new ListOfContacts([$given_contact]);
 
 

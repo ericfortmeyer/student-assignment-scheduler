@@ -88,4 +88,36 @@ class ListOfContactsTest extends TestCase
             )->contains("${fakeFirstName} ${fakeLastName}")
         );
     }
+
+    public function testCanFindContactInListOfContactsBySha1OfGuid()
+    {
+        $given_guid = new Guid();
+        $given_contact = new Contact("Thelonious Monk tmonk@aol.com");
+        $guid_of_given_contact = $given_contact->guid();
+        $given_sha1_of_guid = sha1((string) $guid_of_given_contact);
+        $contacts = [
+            $given_contact,
+            new Contact("Jim Brown jb@aol.com"),
+            new Contact("June Bug jbug@hotmail.com")
+        ];
+        $ListOfContacts = new ListOfContacts($contacts);
+        $MaybeContact = $ListOfContacts->findBySha1OfGuid($given_sha1_of_guid);
+        $returnFalse = function (): bool {
+            return false;
+        };
+        $this->assertInstanceOf(
+            Contact::class,
+            $MaybeContact->getOrElse($returnFalse)
+        );
+        $this->assertTrue(
+            $MaybeContact->getOrElse($returnFalse)->guid() === $guid_of_given_contact
+        );
+        $this->assertSame(
+            $MaybeContact->getOrElse($returnFalse),
+            $given_contact
+        );
+        $this->assertFalse(
+            $MaybeContact->getOrElse($returnFalse) === new Contact("Thelonious Monk tmonk@aol.com")
+        );
+    }
 }

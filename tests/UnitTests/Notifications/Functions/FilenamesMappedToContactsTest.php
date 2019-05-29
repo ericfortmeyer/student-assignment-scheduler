@@ -74,10 +74,10 @@ class FilenamesMappedToContactsTest extends TestCase
     {
         $expected_map = new Map(array_combine($this->expected_filenames, $this->contacts));
         $set_of_filenames_with_prepended_values = new Set([
-            $this->destination_of_files . "/" . $this->a->guid() . "_2.pdf",
-            $this->destination_of_files . "/" . $this->b->guid() . "_2.pdf",
-            $this->destination_of_files . "/" . $this->c->guid() . "_2.pdf",
-            $this->destination_of_files . "/" . $this->d->guid() . "_2.pdf",
+            $this->destination_of_files . "/" . sha1($this->a->guid()) . "_2.pdf",
+            $this->destination_of_files . "/" . sha1($this->b->guid()) . "_2.pdf",
+            $this->destination_of_files . "/" . sha1($this->c->guid()) . "_2.pdf",
+            $this->destination_of_files . "/" . sha1($this->d->guid()) . "_2.pdf",
         ]);
 
         $set_of_given_filenames = (new Set($this->expected_filenames))->union($set_of_filenames_with_prepended_values);
