@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace StudentAssignmentScheduler\Notification\Functions;
 
 use StudentAssignmentScheduler\{
     ListOfContacts,
-    Contact,
-    Guid
+    MaybeContact
 };
 use \Ds\{
     Set,
@@ -13,6 +12,17 @@ use \Ds\{
     Vector
 };
 
+/**
+ * Return a Map of key value pairs
+ *
+ * The maps keys are the filenames and the values are a MaybeContact instance.
+ * The MaybeContact instance represents the result of either finding or not
+ * finding a Contact.
+ *
+ * @param Set $filenames
+ * @param ListOfContacts $contacts
+ * @return Map<string,Contact>
+ */
 function filenamesMappedToTheirRecipient(Set $filenames, ListOfContacts $contacts): Map
 {
     $clone_of_list_of_contacts = clone $contacts;
@@ -20,14 +30,21 @@ function filenamesMappedToTheirRecipient(Set $filenames, ListOfContacts $contact
     $mapFilenameToItsRecipient = function (
         string $original_filename,
         string $normalizedFilenames
-    ) use ($clone_of_list_of_contacts): Contact {
-        return $clone_of_list_of_contacts->findByGuid(new Guid($normalizedFilenames));
+    ) use ($clone_of_list_of_contacts): MaybeContact {
+        $sha1_of_guid = $normalizedFilenames;
+        return $clone_of_list_of_contacts->findBySha1OfGuid($sha1_of_guid);
     };
 
-    return normalizedFilenamesMappedToActualFilenames($filenames)->map($mapFilenameToItsRecipient);
+    return normalizedBasenamesOfFilesMappedToFullFilenames($filenames)->map($mapFilenameToItsRecipient);
 }
 
-function normalizedFilenamesMappedToActualFilenames(Set $original_filenames): Map
+/**
+ * Remove the extension and numbers appended to the filename
+ *
+ * @param Set $original_filenames
+ * @return Map
+ */
+function normalizedBasenamesOfFilesMappedToFullFilenames(Set $original_filenames): Map
 {
     $normalizedFilenames = (new Vector($original_filenames))->map(
         function (string $filename): string {

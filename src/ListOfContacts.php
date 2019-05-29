@@ -162,6 +162,22 @@ class ListOfContacts
         return $this->reduce($searchUsingGuid);
     }
 
+    public function findBySha1OfGuid(string $sha1_of_guid): MaybeContact
+    {
+        $guidOfContactIsSha1OfGivenGuid = function (Contact $contact) use ($sha1_of_guid): bool {
+            return sha1($contact->guid()) === $sha1_of_guid;
+        };
+        try {
+            $result = $this->contacts
+                ->filter($guidOfContactIsSha1OfGivenGuid)
+                ->first();
+        } catch (\UnderflowException $e) {
+            $result = false;
+        }
+
+        return MaybeContact::init($result);
+    }
+
     protected function throwTooManyReturned()
     {
         throw new \Exception(static::TOO_MANY_EMAILS_RETURNED);

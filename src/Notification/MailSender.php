@@ -7,6 +7,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 class MailSender
 {
     protected $mailer;
+    protected $from_email;
 
     public function __construct(PHPMailer $mailer, string $from_email, $password, string $host)
     {
@@ -19,6 +20,8 @@ class MailSender
         $this->mailer->SMTPSecure = "tls";
         $this->mailer->Port = 587;
         $this->mailer->setFrom($from_email);
+
+        $this->from_email = $from_email;
 
         $this->mailer->Subject = "Student Assignment";
     }
@@ -39,6 +42,13 @@ class MailSender
     private function resetRecipients()
     {
         $this->mailer->clearAllRecipients();
+    }
+
+    public function setEmailToUser(): self
+    {
+        $copy = clone $this;
+        $copy->mailer->addAddress($copy->from_email);
+        return $copy;
     }
 
     public function addAddress(string $email, string $fullname = "")
