@@ -119,12 +119,13 @@ class NotificationHandlingTest extends TestCase
         );
 
         $this->assertStringContainsString(
-            $id_of_recipient,
+            sha1($id_of_recipient),
             Result::MailInbox()
         );
 
+        $sha1_of_id_of_recipient = sha1($id_of_recipient);
         $this->assertStringContainsString(
-            "Content-Type: application/pdf; name=\"${id_of_recipient}.pdf\"",
+            "Content-Type: application/pdf; name=\"${sha1_of_id_of_recipient}.pdf\"",
             Result::MailInbox()
         );
 

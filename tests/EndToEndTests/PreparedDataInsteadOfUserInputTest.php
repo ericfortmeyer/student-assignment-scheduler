@@ -181,8 +181,9 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
                                     "Thanks!",
                                     Result::MailInbox()
                                 );
+                                $attachment_filename = sha1($contact_to_verify->guid());
                                 $test->assertStringContainsString(
-                                    (string) $contact_to_verify->guid(),
+                                    $attachment_filename,
                                     Result::MailInbox()
                                 );
                             }
