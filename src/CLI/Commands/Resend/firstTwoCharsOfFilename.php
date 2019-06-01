@@ -1,0 +1,12 @@
+<?php
+
+namespace StudentAssignmentScheduler\CLI\Commands\Resend;
+
+function firstTwoCharsOfFilename(string $filename): string
+{
+    $ext = ".json";
+    return str_split(
+        basename($filename, $ext),
+        2
+    )[0];
+}

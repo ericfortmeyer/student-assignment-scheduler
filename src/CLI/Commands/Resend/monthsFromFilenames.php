@@ -1,0 +1,26 @@
+<?php
+
+namespace StudentAssignmentScheduler\CLI\Commands\Resend;
+
+use StudentAssignmentScheduler\{
+    Month,
+    Exception\InvalidDateTypeArgumentException
+};
+use \Ds\Vector;
+
+function monthsFromFilenames(?Vector $carry, string $first_two_chars_of_filename): Vector
+{
+    $VectorOfMonths = $carry ?? new Vector();
+    try {
+        $month = new Month($first_two_chars_of_filename);
+    } catch (InvalidDateTypeArgumentException $e) {
+        // the file might be invalid
+        $shouldAddMonthToVector = false;
+    }
+
+    $shouldAddMonthToVector = !$VectorOfMonths->contains($month);
+    if ($shouldAddMonthToVector) {
+        $VectorOfMonths->push($month);
+    }
+    return $VectorOfMonths;
+}
