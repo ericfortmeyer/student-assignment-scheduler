@@ -1,0 +1,68 @@
+<?php
+
+namespace StudentAssignmentScheduler\CLI\Commands\Resend;
+
+use function StudentAssignmentScheduler\CLI\{
+    displayList,
+    red,
+    green
+};
+use function StudentAssignmentScheduler\Querying\Functions\weeksOfAssignmentsInCurrentYear;
+use function StudentAssignmentScheduler\Filenaming\Functions\assignmentFormFilename;
+use function StudentAssignmentScheduler\Utils\Functions\filenamesInDirectory;
+use \Ds\{
+    Vector,
+    Map
+};
+/**
+ * @param string $assignment_form_destination
+ * @return array [string $assignment_number, array $selected_assignment]
+ */
+function userSelectsAssignment(): array
+{
+    $assignments = weeksOfAssignmentsInCurrentYear();
+
+    $assignments->isEmpty() && exit(
+        "It looks like there are no assignments to send.  Good bye."
+    );
+
+    $assignments->map(
+        function (array $pair, array $assignment) {
+            $weekIndex = $pair[0];
+            $assignment_number = $pair[1];
+            print "Week: ${weekIndex}" . PHP_EOL;
+            print "Assignment No. ${assignment_number}" . PHP_EOL;
+            (new Map($assignment))
+                ->filter(
+                    function (string $key, string $value): bool {
+                        return $key !== "counsel_point";
+                    }
+                )
+                ->apply(
+                    function (string $key, string $value): void {
+                        print strtoupper($key) . "\t${value}" . PHP_EOL;
+                    }
+                );
+            print PHP_EOL;
+        }
+    );
+    $weekIndex = readline(
+        "Please enter the week number of the assignment you want to send: "
+    );
+    $assignment_number = readline(
+        "Please enter the assignment number you want to send: "
+    );
+
+    $index = [(int) $weekIndex, (int) $assignment_number];
+
+    
+    try {
+        return [
+            $assignment_number,
+            $assignments->get($index)
+        ];
+    } catch (\OutOfRangeException $e) {
+        print red("Sorry, ${weekIndex} is an invalid option.  Please try again") . PHP_EOL . PHP_EOL;
+        return userSelectsAssignment();
+    }
+}
