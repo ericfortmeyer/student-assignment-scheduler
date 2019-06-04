@@ -9,6 +9,9 @@
 composer.lock
 
 fix*
+*.phar
+.docs-cache/
+output/
 
 # secrets
 .env

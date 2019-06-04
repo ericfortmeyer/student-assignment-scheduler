@@ -94,10 +94,10 @@ class RemoveSpecialEventsFromScheduleTest extends TestCase
         ];
 
         $history_of_special_events = $empty_history
-            ->add($january_event)
-            ->add($november_event)
-            ->add($october_event)
-            ->add($december_event);
+            ->with($january_event)
+            ->with($november_event)
+            ->with($october_event)
+            ->with($december_event);
 
 
 

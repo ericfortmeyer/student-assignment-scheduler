@@ -206,29 +206,29 @@ class SpecialEventHistoryTest extends TestCase
         );
 
         $SpecialEventHistoryGivenCorrectOrder
-            ->add($a)
-            ->add($b)
-            ->add($c)
-            ->add($d)
-            ->add($e)
-            ->add($f)
-            ->add($g)
-            ->add($h)
-            ->add($i)
+            ->with($a)
+            ->with($b)
+            ->with($c)
+            ->with($d)
+            ->with($e)
+            ->with($f)
+            ->with($g)
+            ->with($h)
+            ->with($i)
             ->save(
                 $this->filename_of_special_event_history_given_correct_order
             );
 
         $SpecialEventHistoryGivenWrongOrder
-            ->add($f)
-            ->add($g)
-            ->add($b)
-            ->add($a)
-            ->add($i)
-            ->add($d)
-            ->add($h)
-            ->add($e)
-            ->add($c)
+            ->with($f)
+            ->with($g)
+            ->with($b)
+            ->with($a)
+            ->with($i)
+            ->with($d)
+            ->with($h)
+            ->with($e)
+            ->with($c)
             ->save(
                 $this->filename_of_special_event_history_given_wrong_order
             );
