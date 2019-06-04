@@ -56,7 +56,7 @@ final class Date extends DateType
 
     /**
      * Creates a Date instance.
-     * 
+     *
      * @param Month $month
      * @param DayOfMonth $day_of_month
      * @param Year $year
@@ -77,7 +77,7 @@ final class Date extends DateType
 
     /**
      * Returns whether the date is in the past.
-     * 
+     *
      * @return bool
      */
     public function isPast(): bool
@@ -87,7 +87,7 @@ final class Date extends DateType
 
     /**
      * Creates a date with the number of days provided subtracted.
-     * 
+     *
      * @param int $number_of_days Number of days to subtract
      * @return self
      */

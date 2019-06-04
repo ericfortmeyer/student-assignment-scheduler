@@ -11,13 +11,15 @@ use function StudentAssignmentScheduler\CLI\red;
 
 /**
  * User interacts from the command line to select an event from a list.
- * 
+ *
  * @param string $action
  * @param ImmutableModifiablePersistenceInterface $SpecialEventHistory
  * @return SpecialEvent
  */
-function userSelectsEventFromList(string $action, ImmutableModifiablePersistenceInterface $SpecialEventHistory): SpecialEvent
-{
+function userSelectsEventFromList(
+    string $action,
+    ImmutableModifiablePersistenceInterface $SpecialEventHistory
+): SpecialEvent {
     $userInput = userSelects($action, $SpecialEventHistory->toArray());
     $inputIsValid = function ($userInput, $SpecialEventHistory): bool {
         return is_numeric($userInput) && $SpecialEventHistory->asMap()->hasKey((int) $userInput);

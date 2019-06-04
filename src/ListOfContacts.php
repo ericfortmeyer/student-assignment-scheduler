@@ -19,7 +19,7 @@ class ListOfContacts
 
     /**
      * Creates a ListOfContacts instance.
-     * 
+     *
      * @throws \InvalidArgumentException
      * @param array<int,string|Contact> $contacts
      */
@@ -54,7 +54,7 @@ class ListOfContacts
 
     /**
      * Returns a contact with the given index.
-     * 
+     *
      * @param int $index
      * @return Contact The selected contact
      */
@@ -65,7 +65,7 @@ class ListOfContacts
 
     /**
      * Removes the given contact.
-     * 
+     *
      * @param Contact $contact The contact to remove
      * @return void
      */
@@ -102,7 +102,7 @@ class ListOfContacts
     /**
      * Returns the result of applying a callback to
      * each value.
-     * 
+     *
      * @param \Closure $callable
      * @return self
      */
@@ -121,7 +121,7 @@ class ListOfContacts
     /**
      * Reduces the ListOfContacts to a single
      * instance using a callback function.
-     * 
+     *
      * @param \Closure $callable
      * @return mixed
      */
@@ -138,7 +138,7 @@ class ListOfContacts
     /**
      * Returns whether any value in the ListOfContacts
      * contains the given value.
-     * 
+     *
      * @param string $value
      * @return bool
      */
@@ -164,7 +164,7 @@ class ListOfContacts
 
     /**
      * Attempt to find a value that has the given fullname.
-     * 
+     *
      * @param Fullname $fullname
      * @return MaybeContact
      */
@@ -188,7 +188,7 @@ class ListOfContacts
 
     /**
      * Attempt to find a value that has the given guid.
-     * 
+     *
      * @param Guid $guid
      * @return MaybeContact
      */
@@ -211,7 +211,7 @@ class ListOfContacts
 
     /**
      * Attempt to find a value that has a guid of the given sha1 hash.
-     * 
+     *
      * @param string $sha1_of_guid
      * @return MaybeContact Represents the result of searching for the contact
      */

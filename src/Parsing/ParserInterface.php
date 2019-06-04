@@ -42,7 +42,7 @@ interface ParserInterface
      * An error message.
      *
      * Can be used in certain contexts where knowing the file type is helpful.
-     * 
+     *
      * @param string $context Information relevant to the error message.
      * @return string The error message.
      */

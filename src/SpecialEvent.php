@@ -2,7 +2,7 @@
 /**
  * Copywright (c) Eric Fortmeyer.
  * Licensed under the MIT License. See LICENSE in the project root folder for license information.
- * 
+ *
  * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
  */
 
@@ -14,7 +14,7 @@ use function StudentAssignmentScheduler\Utils\Functions\getConfig;
 
 /**
  * Represents an event that would a meeting cancellation.
- * 
+ *
  * Has instances of Date and EventType as fields and
  * can be cast to a string.
  */

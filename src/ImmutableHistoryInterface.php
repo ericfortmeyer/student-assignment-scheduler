@@ -10,7 +10,7 @@ interface ImmutableHistoryInterface
 {
     /**
      * Returns an instance with the event added.
-     * 
+     *
      * @param Event $event
      * @return static
      */
@@ -18,14 +18,14 @@ interface ImmutableHistoryInterface
 
     /**
      * Gets the latest event in the history.
-     * 
+     *
      * @return Event
      */
     public function latest(): Event;
 
     /**
      * Determines whether the history has events in the future.
-     * 
+     *
      * @return bool
      */
     public function hasFutureEvents(): bool;

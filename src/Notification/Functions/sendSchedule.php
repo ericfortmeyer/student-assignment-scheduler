@@ -29,7 +29,8 @@ function sendSchedule(
         ) {
             $doIfContactNotFound = function () use ($recipient, $log): bool {
                 $log->error(
-                    "Contact not found: {fullname_of_intended_recipient}",[
+                    "Contact not found: {fullname_of_intended_recipient}",
+                    [
                         "fullname_of_intended_recipient" => (string) new Fullname(
                             $recipient->firstName(),
                             $recipient->lastName()

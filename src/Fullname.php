@@ -14,7 +14,7 @@ final class Fullname
 
     /**
      * Creates a Fullname instance.
-     * 
+     *
      * Create with fullname as first argument or
      * First name as the first argument and last name as the second
      * argument.

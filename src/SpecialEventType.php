@@ -2,7 +2,7 @@
 /**
  * Copywright (c) Eric Fortmeyer.
  * Licensed under the MIT License. See LICENSE in the project root folder for license information.
- * 
+ *
  * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
  */
 
@@ -22,7 +22,7 @@ final class SpecialEventType extends EventType
 
     /**
      * Creates a special event type instance.
-     * 
+     *
      * @param iterable $allowed_types
      * @param string $type
      * @throws Exception\InvalidSpecialEventTypeException

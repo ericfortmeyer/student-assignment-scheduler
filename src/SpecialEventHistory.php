@@ -2,7 +2,7 @@
 /**
  * Copywright (c) Eric Fortmeyer.
  * Licensed under the MIT License. See LICENSE in the project root folder for license information.
- * 
+ *
  * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
  */
 namespace StudentAssignmentScheduler;
@@ -26,7 +26,7 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
 
     /**
      * Creates a SpecialEventHistory instance.
-     * 
+     *
      * @param SpecialEventHistoryLocation $Location Filename of the special event history
      */
     public function __construct(SpecialEventHistoryLocation $Location)
@@ -46,7 +46,7 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
 
     /**
      * Convert this instance into a map.
-     * 
+     *
      * @return Map
      */
     public function asMap(): Map
@@ -56,7 +56,7 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
 
     /**
      * Returns the history.
-     * 
+     *
      * @return Stack
      */
     public function history(): Stack
@@ -66,7 +66,7 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
 
     /**
      * Returns the history as an array.
-     * 
+     *
      * @return array
      */
     public function toArray(): array
@@ -93,7 +93,7 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
 
     /**
      * Returns a copy with the original item and the new item swapped.
-     * 
+     *
      * @param SpecialEvent $original_item
      * @param SpecialEvent $new_item
      * @return static
@@ -118,7 +118,7 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
 
     /**
      * Add an item to the history.
-     * 
+     *
      * The instances of this class are immutable.
      *
      * @param Event $special_event
@@ -133,7 +133,7 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
 
     /**
      * Gets the latest special event.
-     * 
+     *
      * @return Event
      */
     public function latest(): Event
@@ -144,7 +144,7 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
 
     /**
      * Returns whether or not the special event history has future events.
-     * 
+     *
      * @return bool
      */
     public function hasFutureEvents(): bool
@@ -173,7 +173,7 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
 
     /**
      * A way to keep the events sorted in chronological order.
-     * 
+     *
      * @param Stack $original_history
      * @return Stack The history after sorting
      */
