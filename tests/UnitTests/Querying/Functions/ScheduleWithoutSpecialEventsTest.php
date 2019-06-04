@@ -21,12 +21,12 @@ use StudentAssignmentScheduler\{
 
 use function StudentAssignmentScheduler\Utils\Functions\getConfig;
 
-class RemoveSpecialEventsFromScheduleTest extends TestCase
+class ScheduleWithoutSpecialEventsTest extends TestCase
 {
     protected function setup(): void
     {
         // we will have to create our own mocks here since
-        // our test cases not having special events that are
+        // our test cases should not have special events that are
         // in the past in comparison to the mock schedules
         $year = 2058;
 
@@ -64,11 +64,11 @@ class RemoveSpecialEventsFromScheduleTest extends TestCase
     public function testDatesWithSpecialEventsAreRemoved()
     {
         $allowed_special_event_types = getConfig()["special_events"];
-
+        
         $empty_history = new SpecialEventHistory(
             new SpecialEventHistoryLocation(new Destination(__DIR__), "nonexistent")
         );
-
+        
         $event_type = new SpecialEventType(
             $allowed_special_event_types,
             "Assembly"
@@ -99,8 +99,6 @@ class RemoveSpecialEventsFromScheduleTest extends TestCase
             ->with($october_event)
             ->with($december_event);
 
-
-
         $this->schedules->map(
             function (
                 $key,
@@ -118,6 +116,7 @@ class RemoveSpecialEventsFromScheduleTest extends TestCase
                 $october = new Month(10);
                 $november = new Month(11);
                 $december = new Month(12);
+
                 
                 $filtered_schedule = scheduleWithoutSpecialEvents(
                     $history_of_special_events_copy,

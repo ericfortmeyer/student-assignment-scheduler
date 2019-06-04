@@ -104,7 +104,12 @@ class NotificationHandlingTest extends TestCase
             nullLogger()
         );
 
-        $Recipient = $ListOfContacts->findByFullname($fullname);
+        $result = $ListOfContacts->findByFullname($fullname);
+        $Recipient = $result->getOrElse(
+            function (): bool {
+                return false;
+            }
+        );
 
         $id_of_recipient = (string) $Recipient->guid();
 
