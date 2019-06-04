@@ -27,9 +27,26 @@ function sendSchedule(
             $log,
             $schedule_filename
         ) {
-            $contact = $ListOfContacts->findByFullname(
-                new Fullname($recipient->firstName(), $recipient->lastName())
-            );
+            $doIfContactNotFound = function () use ($recipient, $log): bool {
+                $log->error(
+                    "Contact not found: {fullname_of_intended_recipient}",[
+                        "fullname_of_intended_recipient" => (string) new Fullname(
+                            $recipient->firstName(),
+                            $recipient->lastName()
+                        )
+                    ]
+                );
+                return false;
+            };
+            $result = $ListOfContacts
+                ->findByFullname(new Fullname($recipient->firstName(), $recipient->lastName()))
+                ->getOrElse($doIfContactNotFound);
+
+            if ($result === false) {
+                return false;
+            } else {
+                $contact = $result;
+            }
 
             try {
                 $MailSender
