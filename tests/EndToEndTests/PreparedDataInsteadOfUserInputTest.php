@@ -161,17 +161,17 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
             ->then(
                 (function (self $test) use ($ListOfContacts) {
                     return function () use ($test, $ListOfContacts) {
-                        (new \Ds\Vector([
-                            $ListOfContacts->findByFullname(
-                                new Fullname("Thelonious", "Monk")
-                            ),
-                            $ListOfContacts->findByFullname(
-                                new Fullname("Art", "Tatum")
-                            ),
-                            $ListOfContacts->findByFullname(
-                                new Fullname("Bob", "Smith")
-                            )
-                        ]))->apply(
+                        $contact1 = $ListOfContacts->findByFullname(
+                            new Fullname("Thelonious", "Monk")
+                        )->getOrElse(function(): bool { return false;});
+                        $contact2 = $ListOfContacts->findByFullname(
+                            new Fullname("Art", "Tatum")
+                        )->getOrElse(function(): bool { return false;});
+                        $contact3 = $ListOfContacts->findByFullname(
+                            new Fullname("Bob", "Smith")
+                        )->getOrElse(function(): bool { return false;});
+
+                        (new \Ds\Vector([$contact1, $contact2, $contact3]))->map(
                             function (Contact $contact_to_verify) use ($test): void {
                                 $test->assertStringContainsString(
                                     "Dear {$contact_to_verify->firstName()}",
