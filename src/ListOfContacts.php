@@ -3,6 +3,7 @@
 namespace StudentAssignmentScheduler;
 
 use \Ds\Set;
+use \Ds\Map;
 
 /**
  * A unique set of contact instances.
@@ -16,6 +17,11 @@ class ListOfContacts
      * @var Set $contacts
      */
     protected $contacts;
+
+    /**
+     * @var Map $FullnameHashMappedToContacts
+     */
+    protected $FullnameHashMappedToContacts;
 
     /**
      * Creates a ListOfContacts instance.
@@ -40,6 +46,15 @@ class ListOfContacts
         };
 
         $this->contacts = new Set(array_map($validContactsOrThrowException, $contacts));
+        $this->FullnameHashMappedToContacts = $this->contacts->reduce(
+            function (Map $Map, Contact $contact): Map {
+                $key = sha1((string) $contact->fullname());
+                return $Map->union(
+                    new Map([$key => $contact])
+                );
+            },
+            new Map()
+        );
     }
 
     public function are(): array
@@ -170,20 +185,13 @@ class ListOfContacts
      */
     public function findByFullname(Fullname $fullname)
     {
-        $searchUsingFullname = function ($alreadyFound, Contact $contact) use ($fullname) {
-            $fullnameMatches = function (Fullname $fullname, Contact $contact): bool {
-                return $contact->is($fullname);
-            };
-
-            
-            $result = $alreadyFound
-                ? $alreadyFound
-                : ($fullnameMatches($fullname, $contact) ? $contact : false);
-            
-            return MaybeContact::init($result);
+        $key = sha1((string) $fullname);
+        $doIfNotFound = function (): bool {
+            return false;
         };
-
-        return $this->reduce($searchUsingFullname);
+        return MaybeContact::init(
+            $this->FullnameHashMappedToContacts->get($key, $doIfNotFound)
+        );
     }
 
     /**
