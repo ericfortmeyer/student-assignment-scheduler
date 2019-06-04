@@ -1,4 +1,10 @@
 <?php
+/**
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ * 
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 
 namespace StudentAssignmentScheduler;
 
@@ -6,24 +12,29 @@ use \Ds\Vector;
 
 use function StudentAssignmentScheduler\Utils\Functions\getConfig;
 
-final class SpecialEvent
+/**
+ * Represents an event that would a meeting cancellation.
+ * 
+ * Has instances of Date and EventType as fields and
+ * can be cast to a string.
+ */
+final class SpecialEvent extends Event
 {
     /**
      * @var Date $date
      */
-    private $date;
+    protected $date;
 
     /**
-     * @var SpecialEventType $type
+     * @var EventType $type
      */
-    private $type;
+    protected $type;
 
     public function __construct(
         Date $date,
-        SpecialEventType $type
+        EventType $type
     ) {
-        $this->date = $date;
-        $this->type = $type;
+        parent::__construct($date, $type);
     }
 
     public function __toString()
@@ -54,20 +65,5 @@ final class SpecialEvent
         $tab = str_pad($whitespace, (int) $tabWidth, $whitespace);
 
         return "{$prepend($this->type)}${tab}{$append($this->date)}";
-    }
-
-    public function type(): SpecialEventType
-    {
-        return $this->type;
-    }
-
-    public function date(): Date
-    {
-        return $this->date;
-    }
-
-    public function isPast(): bool
-    {
-        return $this->date->isPast();
     }
 }

@@ -2,6 +2,9 @@
 
 namespace StudentAssignmentScheduler;
 
+/**
+ * Represents a person's fullname.
+ */
 final class Fullname
 {
     /**
@@ -10,6 +13,8 @@ final class Fullname
     private $fullname = "";
 
     /**
+     * Creates a Fullname instance.
+     * 
      * Create with fullname as first argument or
      * First name as the first argument and last name as the second
      * argument.
@@ -22,6 +27,11 @@ final class Fullname
         $this->fullname = $last_name ? ucwords($this->fullname($name, $last_name)) : ucwords($name);
     }
 
+    /**
+     * @param string $first_name
+     * @param string $last_name
+     * @return string First and last name separated by a space
+     */
     private function fullname(string $first_name, string $last_name): string
     {
         return "${first_name} ${last_name}";

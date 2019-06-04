@@ -2,13 +2,19 @@
 
 namespace StudentAssignmentScheduler;
 
-class Destination
+/**
+ * Represents the target destination of a file.
+ */
+final class Destination
 {
     /**
      * @var string $value
      */
     protected $value = "";
 
+    /**
+     * @param string $destination The target destination of a file
+     */
     public function __construct(string $destination)
     {
         $this->validateArg($destination);
@@ -16,6 +22,9 @@ class Destination
         $this->value = $destination;
     }
     
+    /**
+     * @param string $arg
+     */
     private function validateArg(string $arg): void
     {
         if (!is_dir($arg)) {

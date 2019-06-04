@@ -4,6 +4,13 @@ namespace StudentAssignmentScheduler;
 
 use function StudentAssignmentScheduler\Utils\Functions\buildPath;
 
+/**
+ * The directory and filename of the persisted
+ * SpecialEventHistory.
+ * 
+ * Will produce a fullpath to the SpecialEventHistory
+ * when cast to a string.
+ */
 final class SpecialEventHistoryLocation
 {
     /**

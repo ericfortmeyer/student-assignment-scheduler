@@ -4,6 +4,9 @@ namespace StudentAssignmentScheduler;
 
 use \Ds\Set;
 
+/**
+ * A unique set of schedule recipient instances.
+ */
 final class ListOfScheduleRecipients extends ListOfContacts
 {
     public function __construct(array $contacts)
