@@ -14,7 +14,7 @@ use StudentAssignmentScheduler\{
     Year,
     Date,
     SpecialEvent,
-    SpecialEventType,
+    EventType,
     Exception\InvalidDateTypeArgumentException
 };
 
@@ -26,7 +26,7 @@ use function StudentAssignmentScheduler\CLI\{
     green
 };
 
-function userSelectsDate(SpecialEventType $EventType): SpecialEvent
+function userSelectsDate(EventType $EventType): SpecialEvent
 {
     [$select_current_month_msg, $select_month_from_list, $select_day_of_month_msg, $select_year_msg] = [
         prompt("Is the special event this month"),

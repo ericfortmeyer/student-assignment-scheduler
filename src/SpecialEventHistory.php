@@ -1,56 +1,110 @@
 <?php
-
+/**
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 namespace StudentAssignmentScheduler;
 
-use \Ds\{
-    Stack,
-    Map,
-    Vector
-};
+use \Ds\Stack;
+use \Ds\Map;
+use \Ds\Vector;
 
-use StudentAssignmentScheduler\Persistence\{
-    Saveable,
-    Retrievable,
-    ImmutableModifiablePersistenceInterface
-};
+use StudentAssignmentScheduler\Persistence\ImmutableModifiablePersistenceInterface;
+use StudentAssignmentScheduler\Persistence\Saveable;
 
-final class SpecialEventHistory implements Saveable, Retrievable, ImmutableModifiablePersistenceInterface
+/**
+ * A way of immutably persisting special events.
+ */
+final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, ImmutableModifiablePersistenceInterface
 {
     /**
      * @var Stack $history
      */
     private $history;
 
+    /**
+     * Creates a SpecialEventHistory instance.
+     *
+     * @param SpecialEventHistoryLocation $Location Filename of the special event history
+     */
     public function __construct(SpecialEventHistoryLocation $Location)
     {
         $this->history = \file_exists((string) $Location)
-            ? $this->retrieve((string) $Location)->history()
+            ? $this->getSavedSpecialEventHistory((string) $Location)->history()
             : new Stack();
     }
     
+    /**
+     * A copy of the special event history.
+     */
     public function __clone()
     {
         $this->history = $this->history->copy();
     }
 
+    /**
+     * Convert this instance into a map.
+     *
+     * @return Map
+     */
     public function asMap(): Map
     {
         return new Map($this->history->toArray());
     }
 
+    /**
+     * Returns the history.
+     *
+     * @return Stack
+     */
     public function history(): Stack
     {
         return $this->history;
     }
 
+    /**
+     * Returns the history as an array.
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         return $this->history->toArray();
     }
 
-    public function retrieve(string $location): object
+    /**
+     * Returns a copy with the item removed.
+     *
+     * @param SpecialEvent $item
+     * @return static
+     */
+    public function remove($item): ImmutableModifiablePersistenceInterface
     {
-        return $this->getSavedSpecialEventHistory($location);
+        // since this implementation is using a stack
+        // we do not use the $item parameter
+        $copy = clone $this;
+
+        $copy->history->pop();
+
+        return $copy;
+    }
+
+    /**
+     * Returns a copy with the original item and the new item swapped.
+     *
+     * @param SpecialEvent $original_item
+     * @param SpecialEvent $new_item
+     * @return static
+     */
+    public function update($original_item, $new_item): ImmutableModifiablePersistenceInterface
+    {
+        // since we are using a stack, the original must be removed
+        // before the new item is added
+        return $this
+            ->remove($original_item)
+            ->with($new_item);
     }
 
     private function getSavedSpecialEventHistory(string $location): self
@@ -63,53 +117,44 @@ final class SpecialEventHistory implements Saveable, Retrievable, ImmutableModif
     }
 
     /**
+     * Add an item to the history.
+     *
      * The instances of this class are immutable.
      *
-     * @param SpecialEvent $item
+     * @param Event $special_event
      * @return static
      */
-    public function add($item): ImmutableModifiablePersistenceInterface
-    {
-        return $this->addSpecialEvent($item);
-    }
-
-    private function addSpecialEvent(SpecialEvent $special_event): self
+    public function with(Event $special_event): ImmutableHistoryInterface
     {
         $copy = clone $this;
-
         $copy->history->push($special_event);
-
         return $copy;
     }
 
     /**
-     * The instances of this class are immutable.
+     * Gets the latest special event.
      *
-     * @param SpecialEvent $item
-     * @return static
+     * @return Event
      */
-    public function remove($item): ImmutableModifiablePersistenceInterface
+    public function latest(): Event
     {
-        // since his implementation is using a stack
-        // we do not use the $item parameter
         $copy = clone $this;
-
-        $copy->history->pop();
-
-        return $copy;
-    }
-
-    public function update($original_item, $new_item): ImmutableModifiablePersistenceInterface
-    {
-        // since we are using a stack, the original must be removed
-        // before the new item is added
-        return $this
-            ->remove($original_item)
-            ->add($new_item);
+        return $copy->history()->pop();
     }
 
     /**
-     * Persists the SpecialEventHistory object
+     * Returns whether or not the special event history has future events.
+     *
+     * @return bool
+     */
+    public function hasFutureEvents(): bool
+    {
+        return !$this->history()->isEmpty()
+            && !$this->history()->peek()->date()->isPast();
+    }
+
+    /**
+     * Persists the SpecialEventHistory instance
      *
      * Events are arranged in chronological order before saving.
      * @param string $location
@@ -126,6 +171,12 @@ final class SpecialEventHistory implements Saveable, Retrievable, ImmutableModif
         chmod($location, 0600);
     }
 
+    /**
+     * A way to keep the events sorted in chronological order.
+     *
+     * @param Stack $original_history
+     * @return Stack The history after sorting
+     */
     private function sortEventsInChronologicalOrder(Stack $original_history): Stack
     {
         $fromGreatestToLeast = function (SpecialEvent $a, SpecialEvent $b): int {
@@ -139,11 +190,5 @@ final class SpecialEventHistory implements Saveable, Retrievable, ImmutableModif
                 // from greatest to least
                 ->sorted($fromGreatestToLeast)
         );
-    }
-
-    public function hasFutureEvents(): bool
-    {
-        return !$this->history()->isEmpty()
-            && !$this->history()->peek()->date()->isPast();
     }
 }

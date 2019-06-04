@@ -2,7 +2,6 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\SpecialEvents;
 
-// use StudentAssignmentScheduler\SpecialEventType;
 use StudentAssignmentScheduler\SpecialEventType;
 use \Ds\Map;
 use function StudentAssignmentScheduler\CLI\red;
