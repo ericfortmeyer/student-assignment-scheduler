@@ -21,10 +21,10 @@ function scheduleWithoutSpecialEvents(
             $CopyOfSpecialEvents = clone $SpecialEvents;
 
             while ($CopyOfSpecialEvents->hasFutureEvents()) {
-                $SpecialEvent = $CopyOfSpecialEvents->history()->pop();
+                $SpecialEvent = $CopyOfSpecialEvents->latest();
 
                 if ($dateOfWeek == $SpecialEvent->date()) {
-                    // remove it
+                    // remove the date from the schedule
                     return false;
                 }
             }

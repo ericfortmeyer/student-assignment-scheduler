@@ -4,9 +4,12 @@ namespace StudentAssignmentScheduler;
 
 use \Ds\Set;
 
+/**
+ * Used to aggregate a person's contact information.
+ */
 class Contact
 {
-    public const FIRST_NAME = "first_name",
+    const FIRST_NAME = "first_name",
                  LAST_NAME  = "last_name",
                  EMAIL      = "email_address",
                  EMAIL_ADDRESS = "email_address";
@@ -41,12 +44,16 @@ class Contact
      */
     protected $contact_info;
 
+    /**
+     * @param string $space_separated_contact_info
+     */
     public function __construct(string $space_separated_contact_info = "")
     {
         $separated = explode(" ", $space_separated_contact_info);
         
         // each value is stored in lower case to simplify comparisons
-        $contact_info = [$first_name, $last_name, $email_address] = $this->validate($separated);
+        list($first_name, $last_name, $email_address) = $this->validate($separated);
+        $contact_info = $this->validate($separated);
         $this->first_name = $first_name;
         $this->last_name = $last_name;
         $this->email_address = $email_address;
@@ -55,6 +62,10 @@ class Contact
         $this->guid = new Guid();
     }
 
+    /**
+     * @param array $contact_info
+     * @return array
+     */
     private function validate(array $contact_info): array
     {
         $contact_info_map = new \Ds\Map($contact_info);
@@ -83,22 +94,42 @@ class Contact
         ];
     }
 
+    /**
+     * @param string $type
+     * @param array $contact_info
+     * @return string
+     */
     private function invalidArgumentMessage(string $type, array $contact_info): string
     {
         return "${type} not set in contact info for " . implode(" ", $contact_info);
     }
 
 
+    /**
+     * Does the contact match the Fullname?
+     * @param Fullname $fullname
+     * @return bool
+     */
     public function is(Fullname $fullname): bool
     {
         return (string) $this->fullname === (string) $fullname;
     }
 
+    /**
+     * Does the contact match the Guid?
+     * @param Guid $guid
+     * @return bool
+     */
     public function hasGuid(Guid $guid): bool
     {
         return $this->guid == $guid;
     }
 
+    /**
+     * Does the contact contain the value?
+     * @param string $value
+     * @return bool
+     */
     public function contains(string $value): bool
     {
         return $this->contact_info->contains(strtolower($value));
@@ -109,21 +140,33 @@ class Contact
         return $this->guid;
     }
 
+    /**
+     * @return string
+     */
     public function firstName(): string
     {
         return ucfirst($this->first_name);
     }
 
+    /**
+     * @return string
+     */
     public function lastName(): string
     {
         return ucfirst($this->last_name);
     }
 
+    /**
+     * @return string
+     */
     public function emailAddress(): string
     {
         return $this->email_address;
     }
 
+    /**
+     * @return string
+     */
     public function fullname(): string
     {
         return $this->fullname;

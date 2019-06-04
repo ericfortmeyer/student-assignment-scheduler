@@ -2,20 +2,11 @@
 
 namespace StudentAssignmentScheduler\CLI\Commands\Resend;
 
-use function StudentAssignmentScheduler\CLI\{
-    displayList,
-    red,
-    green
-};
+use function StudentAssignmentScheduler\CLI\red;
 use function StudentAssignmentScheduler\Querying\Functions\weeksOfAssignmentsInCurrentYear;
-use function StudentAssignmentScheduler\Filenaming\Functions\assignmentFormFilename;
-use function StudentAssignmentScheduler\Utils\Functions\filenamesInDirectory;
-use \Ds\{
-    Vector,
-    Map
-};
+use \Ds\Map;
+
 /**
- * @param string $assignment_form_destination
  * @return array [string $assignment_number, array $selected_assignment]
  */
 function userSelectsAssignment(): array
@@ -26,6 +17,7 @@ function userSelectsAssignment(): array
         "It looks like there are no assignments to send.  Good bye."
     );
 
+    // display the assignments so the user can select from the list
     $assignments->map(
         function (array $pair, array $assignment) {
             $weekIndex = $pair[0];

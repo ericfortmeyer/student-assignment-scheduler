@@ -1,14 +1,30 @@
 <?php
+/**
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 
 namespace StudentAssignmentScheduler;
 
 use \Ds\Vector;
 
-final class SpecialEventType
+/**
+ * What kind of event it is.
+ */
+final class SpecialEventType extends EventType
 {
-    private $type = "";
+    /**
+     * @var string $type
+     */
+    protected $type = "";
 
     /**
+     * Creates a special event type instance.
+     *
+     * @param iterable $allowed_types
+     * @param string $type
      * @throws Exception\InvalidSpecialEventTypeException
      */
     public function __construct(iterable $allowed_types, string $type)
@@ -24,10 +40,5 @@ final class SpecialEventType
         }
 
         $this->type = $type;
-    }
-
-    public function __toString()
-    {
-        return $this->type;
     }
 }

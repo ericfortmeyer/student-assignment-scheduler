@@ -29,7 +29,10 @@ function weeksOfAssignmentsInCurrentYear(): Map
         $addAssignment = function (
             int $assignment_number,
             array $assignment
-        ) use ($weekIndex, $IndividualAssignments): void {
+        ) use (
+            $weekIndex,
+            $IndividualAssignments
+): void {
             $key = [$weekIndex, $assignment_number];
             $IndividualAssignments->put($key, $assignment);
         };

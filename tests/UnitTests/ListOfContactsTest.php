@@ -46,26 +46,48 @@ class ListOfContactsTest extends TestCase
         $guidThatShouldNotMatch = new Guid();
 
         $this->assertFalse(
-            $list->findByFullname($fullnameThatShouldNotMatch)
+            $list->findByFullname($fullnameThatShouldNotMatch)->getOrElse(
+                function (): bool {
+                    return false;
+                }
+            )
         );
 
         $this->assertFalse(
-            $list->findByGuid($guidThatShouldNotMatch)
+            $list->findByGuid($guidThatShouldNotMatch)->getOrElse(
+                function (): bool {
+                    return false;
+                }
+            )
         );
 
         $this->assertSame(
             $given,
-            $list->findByGuid($guidOfGivenContact)
+            $list->findByGuid($guidOfGivenContact)->getOrElse(
+                function (): bool {
+                    return false;
+                }
+            )
         );
 
         $this->assertSame(
             $given,
-            $list->findByFullname($fullnameThatShouldMatch)
+            $list->findByFullname($fullnameThatShouldMatch)->getOrElse(
+                function (): bool {
+                    return false;
+                }
+            )
         );
 
         $this->assertSame(
             $given,
-            $cloneOfListThatShouldHaveSameValues->findByFullname($fullnameThatShouldMatch)
+            $cloneOfListThatShouldHaveSameValues
+                ->findByFullname($fullnameThatShouldMatch)
+                ->getOrElse(
+                    function (): bool {
+                        return false;
+                    }
+                )
         );
     }
 

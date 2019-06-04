@@ -82,7 +82,7 @@ function commandMap(): Map
                 ]);
                 $orHandleInvalidSelection = function () use ($option, $assignmentOptionMap) {
                     print "Invalid selection.  Please try again.";
-                    $handleInvalidSelection = function () use ($assignmentOptionMap) {
+                    $handleInvalidSelection = function () use ($option, $assignmentOptionMap) {
                         $assignmentOptionMap->get($option, $assignmentOptionMap);
                     };
                 };

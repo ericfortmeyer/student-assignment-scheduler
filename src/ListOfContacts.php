@@ -4,9 +4,12 @@ namespace StudentAssignmentScheduler;
 
 use \Ds\Set;
 
+/**
+ * A unique set of contact instances.
+ */
 class ListOfContacts
 {
-    public const NOT_SETUP_YET = "no emails set up yet",
+    const NOT_SETUP_YET = "no emails set up yet",
                  TOO_MANY_EMAILS_RETURNED = "too many returned";
                 
     /**
@@ -15,6 +18,8 @@ class ListOfContacts
     protected $contacts;
 
     /**
+     * Creates a ListOfContacts instance.
+     *
      * @throws \InvalidArgumentException
      * @param array<int,string|Contact> $contacts
      */
@@ -47,11 +52,23 @@ class ListOfContacts
         return $this->contacts;
     }
 
+    /**
+     * Returns a contact with the given index.
+     *
+     * @param int $index
+     * @return Contact The selected contact
+     */
     public function get(int $index): Contact
     {
         return $this->contacts->get($index);
     }
 
+    /**
+     * Removes the given contact.
+     *
+     * @param Contact $contact The contact to remove
+     * @return void
+     */
     public function remove(Contact $contact): void
     {
         $this->contacts->remove($contact);
@@ -82,6 +99,13 @@ class ListOfContacts
         return $copyOfContacts;
     }
 
+    /**
+     * Returns the result of applying a callback to
+     * each value.
+     *
+     * @param \Closure $callable
+     * @return self
+     */
     public function map(\Closure $callable): self
     {
         $copyOfContacts = clone $this;
@@ -94,6 +118,13 @@ class ListOfContacts
         return $copyOfContacts;
     }
 
+    /**
+     * Reduces the ListOfContacts to a single
+     * instance using a callback function.
+     *
+     * @param \Closure $callable
+     * @return mixed
+     */
     public function reduce(\Closure $callable)
     {
         return $this->contacts->reduce($callable);
@@ -104,6 +135,13 @@ class ListOfContacts
         return $this->contacts->toArray();
     }
 
+    /**
+     * Returns whether any value in the ListOfContacts
+     * contains the given value.
+     *
+     * @param string $value
+     * @return bool
+     */
     public function contains(string $value): bool
     {
         $hasContactContainingTheValue = function ($carry, Contact $contact) use ($value): bool {
@@ -125,8 +163,10 @@ class ListOfContacts
     }
 
     /**
+     * Attempt to find a value that has the given fullname.
+     *
      * @param Fullname $fullname
-     * @return Contact|bool
+     * @return MaybeContact
      */
     public function findByFullname(Fullname $fullname)
     {
@@ -135,17 +175,22 @@ class ListOfContacts
                 return $contact->is($fullname);
             };
 
-            return $alreadyFound
+            
+            $result = $alreadyFound
                 ? $alreadyFound
                 : ($fullnameMatches($fullname, $contact) ? $contact : false);
+            
+            return MaybeContact::init($result);
         };
 
         return $this->reduce($searchUsingFullname);
     }
 
     /**
+     * Attempt to find a value that has the given guid.
+     *
      * @param Guid $guid
-     * @return Contact|bool
+     * @return MaybeContact
      */
     public function findByGuid(Guid $guid)
     {
@@ -154,14 +199,22 @@ class ListOfContacts
                 return $contact->hasGuid($guid);
             };
 
-            return $alreadyFound
+            $result = $alreadyFound
                 ? $alreadyFound
                 : ($guidMatches($guid, $contact) ? $contact : false);
+
+            return MaybeContact::init($result);
         };
 
         return $this->reduce($searchUsingGuid);
     }
 
+    /**
+     * Attempt to find a value that has a guid of the given sha1 hash.
+     *
+     * @param string $sha1_of_guid
+     * @return MaybeContact Represents the result of searching for the contact
+     */
     public function findBySha1OfGuid(string $sha1_of_guid): MaybeContact
     {
         $guidOfContactIsSha1OfGivenGuid = function (Contact $contact) use ($sha1_of_guid): bool {
