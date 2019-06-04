@@ -138,8 +138,7 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
      */
     public function latest(): Event
     {
-        $copy = clone $this;
-        return $copy->history()->pop();
+        return $this->history()->pop();
     }
 
     /**
