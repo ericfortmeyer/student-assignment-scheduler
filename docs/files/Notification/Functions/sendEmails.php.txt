@@ -3,19 +3,25 @@
 namespace StudentAssignmentScheduler\Notification\Functions;
 
 use StudentAssignmentScheduler\Notification\MailSender;
-use StudentAssignmentScheduler\{
-    ListOfContacts,
-    ListOfScheduleRecipients
-};
+use StudentAssignmentScheduler\ListOfContacts;
+use StudentAssignmentScheduler\ListOfScheduleRecipients;
 use Psr\Log\LoggerInterface;
-use \Ds\{
-    Set,
-    Vector
-};
-
+use \Ds\Set;
+use \Ds\Vector;
 use function StudentAssignmentScheduler\Bootstrapping\Functions\buildPath;
 use function StudentAssignmentScheduler\Utils\Functions\filenamesInDirectory;
 
+/**
+ * Sends assignment forms and schedules
+ * 
+ * @param MailSender $MailSender
+ * @param ListOfContacts $ListOfContacts
+ * @param string $assignment_forms_destination
+ * @param ListOfScheduleRecipients $schedule_recipients
+ * @param string $schedule_filename
+ * @param LoggerInterface $logger
+ * @return void
+ */
 function sendEmails(
     MailSender $MailSender,
     ListOfContacts $ListOfContacts,
@@ -23,7 +29,7 @@ function sendEmails(
     ListOfScheduleRecipients $schedule_recipients,
     string $schedule_filename,
     LoggerInterface $logger
-) {
+): void {
 
     /**
      * Clone these classes since they are mutated by the functions using them

@@ -6,24 +6,49 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class MailSender
 {
+    const DEFAULT_EMAIL_SUBJECT = "Student Assignment";
+    const DEFAULT_PORT = 587;
+
+    /**
+     * @var PHPMailer $mailer
+     */
     protected $mailer;
+
+    /**
+     * @var string $from_email
+     */
     protected $from_email;
 
-    public function __construct(PHPMailer $mailer, string $from_email, $password, string $host)
+    /**
+     * @param PHPMailer $mailer
+     * @param string $from_email
+     * @param string $password
+     * @param string $host
+     */
+    public function __construct(PHPMailer $mailer, string $from_email, string $password, string $host)
     {
-        $this->mailer = $mailer;
-        $this->mailer->isSMTP();
-        $this->mailer->Host = $host;
-        $this->mailer->SMTPAuth = true;
-        $this->mailer->Username = $from_email;
-        $this->mailer->Password = $password;
-        $this->mailer->SMTPSecure = "tls";
-        $this->mailer->Port = 587;
-        $this->mailer->setFrom($from_email);
-
+        $this->mailer = $this->mailerConfigured($mailer);
         $this->from_email = $from_email;
+    }
 
-        $this->mailer->Subject = "Student Assignment";
+    /**
+     * @param PHPMailer\PHPMailer\PHPMailer $mailer
+     * @return PHPMailer
+     */
+    private function mailerConfigured(PHPMailer $mailer_before_configuring): PHPMailer
+    {
+        $mailer = clone $mailer_before_configuring;
+        $mailer->isSMTP();
+        $mailer->Host = $host;
+        $mailer->SMTPAuth = true;
+        $mailer->Username = $from_email;
+        $mailer->Password = $password;
+        $mailer->SMTPSecure = "tls";
+        $mailer->Port = self::DEFAULT_PORT;
+        $mailer->setFrom($from_email);
+        $mailer->Subject = self::DEFAULT_EMAIL_SUBJECT;
+        
+        return $mailer;
     }
 
     public function __clone()
@@ -31,6 +56,10 @@ class MailSender
         $this->mailer = clone $this->mailer;
     }
 
+    /**
+     * @param string $email
+     * @param string $fullname
+     */
     public function withRecipient(string $email, string $fullname = "")
     {
         $copy = clone $this;
@@ -44,6 +73,9 @@ class MailSender
         $this->mailer->clearAllRecipients();
     }
 
+    /**
+     * @return self
+     */
     public function setEmailToUser(): self
     {
         $copy = clone $this;
@@ -51,41 +83,65 @@ class MailSender
         return $copy;
     }
 
-    public function addAddress(string $email, string $fullname = "")
+    /**
+     * @param string $email
+     * @param string $fullname
+     * @return self
+     */
+    public function addAddress(string $email, string $fullname = ""): self
     {
         $copy = clone $this;
         $copy->mailer->addAddress($email, $fullname);
         return $copy;
     }
 
-    public function addAttachment(string $path)
+    /**
+     * @param string $path
+     * @return self
+     */
+    public function addAttachment(string $path): self
     {
         $copy = clone $this;
         $copy->mailer->addAttachment($path);
         return $copy;
     }
 
-    public function addSubject(string $subject)
+    /**
+     * @param string $subject
+     * @return self
+     */
+    public function addSubject(string $subject): self
     {
         $copy = clone $this;
         $copy->mailer->Subject = $subject;
         return $copy;
     }
 
-    public function addBody(string $body)
+    /**
+     * @param string $body
+     * @return self
+     */
+    public function addBody(string $body): self
     {
         $copy = clone $this;
         $copy->mailer->Body = $body;
         return $copy;
     }
 
-    public function send()
+    /**
+     * @return self
+     */
+    public function send(): self
     {
         $copy = clone $this;
         $copy->mailer->send();
         return $copy;
     }
 
+    /**
+     * @param PHPMailer $mailer
+     * @return self
+     */
     public function withMailer(PHPMailer $Mailer): self
     {
         $copy = clone $this;
