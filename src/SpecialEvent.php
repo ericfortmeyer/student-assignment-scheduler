@@ -66,4 +66,12 @@ final class SpecialEvent extends Event
 
         return "{$prepend($this->type)}${tab}{$append($this->date)}";
     }
+
+    public function getArrayCopy(): array
+    {
+        return [
+            "date" => (string) $this->date(),
+            "type" => (string) $this->type()
+        ];
+    }
 }

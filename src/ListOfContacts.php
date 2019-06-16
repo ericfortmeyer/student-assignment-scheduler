@@ -243,4 +243,19 @@ class ListOfContacts
     {
         throw new \Exception(static::TOO_MANY_EMAILS_RETURNED);
     }
+
+    public function getArrayCopy(): array
+    {
+        return array_map(
+            function (Contact $contact): array {
+                return $contact->getArrayCopy();
+            },
+            $this->contacts->toArray()
+        );
+    }
+
+    public function exchangeArray($array): array
+    {
+        return (new self($array))->contacts->toArray();
+    }
 }

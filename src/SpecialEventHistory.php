@@ -190,4 +190,14 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
                 ->sorted($fromGreatestToLeast)
         );
     }
+
+    public function getArrayCopy(): array
+    {
+        return array_map(
+            function (SpecialEvent $event): array {
+                return $event->getArrayCopy();
+            },
+            $this->history()->toArray()
+        );
+    }
 }
