@@ -5,10 +5,8 @@ namespace StudentAssignmentScheduler\Querying\Functions;
 use StudentAssignmentScheduler\Persistence\SpecialEventHistoryRegistry;
 use StudentAssignmentScheduler\Destination;
 
-use function StudentAssignmentScheduler\Utils\Functions\{
-    getConfig,
-    buildPath
-};
+use function StudentAssignmentScheduler\Utils\Functions\getConfig;
+use function StudentAssignmentScheduler\Utils\Functions\buildPath;
 
 function fetchSpecialEvents()
 {
