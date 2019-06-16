@@ -13,7 +13,7 @@ use \Ds\Vector;
 use function StudentAssignmentScheduler\Utils\Functions\getConfig;
 
 /**
- * Represents an event that would a meeting cancellation.
+ * Represents an event that would cause a meeting cancellation.
  *
  * Has instances of Date and EventType as fields and
  * can be cast to a string.
