@@ -27,16 +27,28 @@ class MailSender
      */
     public function __construct(PHPMailer $mailer, string $from_email, string $password, string $host)
     {
-        $this->mailer = $this->mailerConfigured($mailer);
+        $this->mailer = $this->mailerConfigured(
+            $mailer,
+            $from_email,
+            $password,
+            $host
+        );
         $this->from_email = $from_email;
     }
 
     /**
-     * @param PHPMailer\PHPMailer\PHPMailer $mailer
+     * @param PHPMailer\PHPMailer\PHPMailer $mailer_before_configuring
+     * @param string $from_email
+     * @param string $password
+     * @param string $host
      * @return PHPMailer
      */
-    private function mailerConfigured(PHPMailer $mailer_before_configuring): PHPMailer
-    {
+    private function mailerConfigured(
+        PHPMailer $mailer_before_configuring,
+        string $from_email,
+        string $password,
+        string $host
+    ): PHPMailer {
         $mailer = clone $mailer_before_configuring;
         $mailer->isSMTP();
         $mailer->Host = $host;
