@@ -1,4 +1,12 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 
 namespace StudentAssignmentScheduler\CLI;
 
@@ -120,7 +128,7 @@ function createJsonAssignments(
                                         $date
                                     )
                                 ),
-                                $MonthOfAssignments->year(),
+                                (string) $MonthOfAssignments->year(),
                                 $ListOfContacts
                             ),
                             $filename,
@@ -137,7 +145,7 @@ function createJsonAssignments(
             } else {
                 echo "Please enter yes or no\r\n";
                 $reply = readline(
-                    readyForSchedulePrompt($month)
+                    readyForSchedulePrompt((string) $month)
                 );
             }
         } while (notYesOrNo($reply));

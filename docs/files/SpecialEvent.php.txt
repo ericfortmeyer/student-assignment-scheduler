@@ -1,11 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 /**
+ * This file is part of student-assignment-scheduler.
+ *
  * Copywright (c) Eric Fortmeyer.
  * Licensed under the MIT License. See LICENSE in the project root folder for license information.
  *
  * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
  */
-
 namespace StudentAssignmentScheduler;
 
 use \Ds\Vector;
@@ -30,6 +31,12 @@ final class SpecialEvent extends Event
      */
     protected $type;
 
+    /**
+     * Create the instance.
+     *
+     * @param Date $date
+     * @param EventType $type
+     */
     public function __construct(
         Date $date,
         EventType $type
@@ -37,6 +44,11 @@ final class SpecialEvent extends Event
         parent::__construct($date, $type);
     }
 
+    /**
+     * Use to cast the instance to a string.
+     *
+     * @return string
+     */
     public function __toString()
     {
         $special_events = getConfig()["special_events"];
@@ -51,11 +63,14 @@ final class SpecialEvent extends Event
 
         $maxLen = max(
             (new Vector($special_events))->map(function (string $event) use ($prepend, $append): int {
-                return strlen($prepend($event) . $append($this->date));
+                return strlen($prepend((string) $event) . $append((string) $this->date));
             })->toArray()
         );
 
-        $eventAsString = $prepend($this->type) . $append($this->date);
+        $typeAsString = (string) $this->type;
+        $dateAsString = (string) $this->date;
+
+        $eventAsString = $prepend($typeAsString) . $append($dateAsString);
         $currentLen = strlen($eventAsString);
 
         $tabWidth = $maxLen - $currentLen + 1;
@@ -64,9 +79,14 @@ final class SpecialEvent extends Event
 
         $tab = str_pad($whitespace, (int) $tabWidth, $whitespace);
 
-        return "{$prepend($this->type)}${tab}{$append($this->date)}";
+        return "{$prepend($typeAsString)}${tab}{$append($dateAsString)}";
     }
 
+    /**
+     * Use to make the instance serializable to JSON.
+     *
+     * @return array
+     */
     public function getArrayCopy(): array
     {
         return [
