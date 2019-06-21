@@ -1,7 +1,21 @@
 <?php
+/**
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 
 namespace StudentAssignmentScheduler\Encryption\Functions;
 
+/**
+ * Key used to decrypt secrets.
+ *
+ * @param string $path_to_stack_of_keys
+ * @param string $master_key
+ * @param string $associated_data
+ * @return string
+ */
 function secretKey(
     string $path_to_stack_of_keys,
     string $master_key,

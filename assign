@@ -18,8 +18,8 @@ use StudentAssignmentScheduler\{
     Persistence\SpecialEventHistoryRegistry
 };
 
-use StudentAssignmentScheduler\Downloading\{
-    MWBDownloader\Month,
+use StudentAssignmentScheduler\Downloading\MWBDownloader\{
+    Month,
     Config\DownloadConfig
 };
 
@@ -64,6 +64,7 @@ use function StudentAssignmentScheduler\CLI\{
 
 };
 use function StudentAssignmentScheduler\Notification\Functions\sendEmails;
+use function StudentAssignmentScheduler\Logging\Functions\emailLogger;
 use function StudentAssignmentScheduler\Downloading\Functions\download;
 use function StudentAssignmentScheduler\Utils\Functions\removeYearKey;
 
@@ -409,7 +410,8 @@ $emailAssignmentsAndSchedule = function (string $schedule_filename) use (
             $ListOfContacts,
             $config["assignment_forms_destination"],
             $schedule_recipients,
-            $schedule_filename
+            $schedule_filename,
+            emailLogger("sendEmails")
         );
     
     no($user_response)

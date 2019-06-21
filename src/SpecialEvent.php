@@ -13,7 +13,7 @@ use \Ds\Vector;
 use function StudentAssignmentScheduler\Utils\Functions\getConfig;
 
 /**
- * Represents an event that would a meeting cancellation.
+ * Represents an event that would cause a meeting cancellation.
  *
  * Has instances of Date and EventType as fields and
  * can be cast to a string.
@@ -65,5 +65,13 @@ final class SpecialEvent extends Event
         $tab = str_pad($whitespace, (int) $tabWidth, $whitespace);
 
         return "{$prepend($this->type)}${tab}{$append($this->date)}";
+    }
+
+    public function getArrayCopy(): array
+    {
+        return [
+            "date" => (string) $this->date(),
+            "type" => (string) $this->type()
+        ];
     }
 }

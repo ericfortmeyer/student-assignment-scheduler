@@ -106,12 +106,17 @@ function setupEmail(string $env_dir, string $env_filename = ".env"): void
                 },
                 $key_value_pair_strings
             );
-            $values = array_map(
-                function (string $key_value_pair_string): string {
-                    return explode("=", $key_value_pair_string)[1];
-                },
-                $key_value_pair_strings
+            
+            $pattern = "/^\w+[=]{1}(\S+)/m";
+
+            preg_match_all(
+                $pattern,
+                $original_contents,
+                $matches
             );
+
+            $values = $matches[1];
+
             $new_contents = (new Map(array_combine($keys, $values)))
                 ->union($combined)
                 ->reduce($prepare_contents);
