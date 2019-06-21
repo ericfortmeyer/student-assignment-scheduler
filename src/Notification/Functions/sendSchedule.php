@@ -3,32 +3,36 @@
 namespace StudentAssignmentScheduler\Notification\Functions;
 
 use StudentAssignmentScheduler\Notification\MailSender;
-use StudentAssignmentScheduler\{
-    ListOfContacts,
-    ListOfScheduleRecipients,
-    ScheduleRecipient,
-    Fullname
-};
+use StudentAssignmentScheduler\ListOfContacts;
+use StudentAssignmentScheduler\ListOfScheduleRecipients;
+use StudentAssignmentScheduler\ScheduleRecipient;
+use StudentAssignmentScheduler\Fullname;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @param MailSender $MailSender
+ * @param ListOfContacts $ListOfContacts
+ * @param ListOfScheduleRecipients $schedule_recipients
+ * @param string $schedule_filename
+ * @param LoggerInterface $logger
+ * @return void
+ */
 function sendSchedule(
     MailSender $MailSender,
     ListOfContacts $ListOfContacts,
     ListOfScheduleRecipients $schedule_recipients,
     string $schedule_filename,
     LoggerInterface $logger
-) {
-    $log = $logger;
-
+): void {
     array_map(
         function (ScheduleRecipient $recipient) use (
             $MailSender,
             $ListOfContacts,
-            $log,
+            $logger,
             $schedule_filename
         ) {
-            $doIfContactNotFound = function () use ($recipient, $log): bool {
-                $log->error(
+            $doIfContactNotFound = function () use ($recipient, $logger): bool {
+                $logger->error(
                     "Contact not found: {fullname_of_intended_recipient}",
                     [
                         "fullname_of_intended_recipient" => (string) new Fullname(
@@ -58,13 +62,13 @@ function sendSchedule(
                     ->send();
 
                 echo "Email sent: {$contact->emailAddress()}\r\n";
-                $log->info(
+                $logger->info(
                     "Email sent: {email_address}",
                     ["email_address" => $contact->emailAddress()]
                 );
             } catch (\Exception $e) {
                 echo "EMAIL SEND FAILURE: {$e->getMessage()}\r\n";
-                $log->error(
+                $logger->error(
                     "Email not sent to {email_address}. Reason: {error_message}",
                     [
                             "email_address" => $contact->emailAddress(),

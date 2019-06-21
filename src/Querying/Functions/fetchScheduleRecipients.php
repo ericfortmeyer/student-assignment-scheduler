@@ -3,16 +3,8 @@
 namespace StudentAssignmentScheduler\Querying\Functions;
 
 use \Dotenv\Dotenv;
-use function StudentAssignmentScheduler\Bootstrapping\Functions\{
-    buildPath,
-    setupKeys
-};
-use function StudentAssignmentScheduler\Encryption\Functions\{
-    masterKey,
-    secretKey,
-    unbox
-};
-use \Ds\Map;
+use function StudentAssignmentScheduler\Bootstrapping\Functions\buildPath;
+use function StudentAssignmentScheduler\Bootstrapping\Functions\setupKeys;
 
 function fetchScheduleRecipients()
 {

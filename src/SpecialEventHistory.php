@@ -132,8 +132,6 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
     }
 
     /**
-     * Gets the latest special event.
-     *
      * @return Event
      */
     public function latest(): Event
@@ -142,8 +140,6 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
     }
 
     /**
-     * Returns whether or not the special event history has future events.
-     *
      * @return bool
      */
     public function hasFutureEvents(): bool
@@ -171,8 +167,6 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
     }
 
     /**
-     * A way to keep the events sorted in chronological order.
-     *
      * @param Stack $original_history
      * @return Stack The history after sorting
      */

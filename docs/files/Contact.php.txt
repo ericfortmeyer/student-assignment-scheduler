@@ -9,11 +9,6 @@ use \Ds\Set;
  */
 class Contact
 {
-    const FIRST_NAME = "first_name",
-                 LAST_NAME  = "last_name",
-                 EMAIL      = "email_address",
-                 EMAIL_ADDRESS = "email_address";
-
     /**
      * @var Guid $guid
      */
@@ -51,7 +46,6 @@ class Contact
     {
         $separated = explode(" ", $space_separated_contact_info);
         
-        // each value is stored in lower case to simplify comparisons
         list($first_name, $last_name, $email_address) = $this->validate($separated);
         $contact_info = $this->validate($separated);
         $this->first_name = $first_name;
@@ -63,13 +57,14 @@ class Contact
     }
 
     /**
+     * @throws \InvalidArgumentException
      * @param array $contact_info
-     * @return array
+     * @return array Contact info
      */
     private function validate(array $contact_info): array
     {
         $contact_info_map = new \Ds\Map($contact_info);
-
+        // each value is stored in lower case to simplify comparisons
         $first_name = strtolower($contact_info_map->get(0, false));
         $last_name = strtolower($contact_info_map->get(1, false));
         $email_address = strtolower($contact_info_map->get(2, false));
@@ -178,6 +173,24 @@ class Contact
     public function __toString()
     {
         return "{$this->fullname()} {$this->emailAddress()}";
+    }
+
+    public function getArrayCopy(): array
+    {
+        return [
+            "id" => (string) $this->guid(),
+            "fullname" => $this->fullname(),
+            "first_name" => $this->firstName(),
+            "last_name" => $this->lastName(),
+            "email" => $this->emailAddress()
+        ];
+    }
+
+    public function exchangeArray($data): array
+    {
+        return is_string($data)
+            ? (new self($data))->getArrayCopy()
+            : (new self(implode(" ", $data)))->getArrayCopy();
     }
 }
 
