@@ -44,9 +44,9 @@ class EncryptionTest extends TestCase
                 "Freddie Jackson fred@hotmail.com",
                 "Ron Mcdon md@md.com"
             ]
-        ))->are();
+        ))->toArray();
 
-        $expected = $list_of_contacts->are();
+        $expected = $list_of_contacts->toArray();
 
 
         $secret_key = secretKey(
@@ -64,7 +64,7 @@ class EncryptionTest extends TestCase
         $actual = unbox(
             $this->where_encrypted_data_is_stored,
             $secret_key
-        )->are();
+        )->toArray();
 
         // we don't want false positives so let's force a failed test
         // then run the test that should pass

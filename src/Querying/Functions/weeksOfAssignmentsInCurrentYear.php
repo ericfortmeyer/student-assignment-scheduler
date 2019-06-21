@@ -2,14 +2,10 @@
 
 namespace StudentAssignmentScheduler\Querying\Functions;
 
-use function StudentAssignmentScheduler\Utils\Functions\{
-    filenamesInDirectory,
-    buildPath
-};
-use \Ds\{
-    Map,
-    Vector
-};
+use function StudentAssignmentScheduler\Utils\Functions\filenamesInDirectory;
+use function StudentAssignmentScheduler\Utils\Functions\buildPath;
+use \Ds\Map;
+use \Ds\Vector;
 
 function weeksOfAssignmentsInCurrentYear(): Map
 {

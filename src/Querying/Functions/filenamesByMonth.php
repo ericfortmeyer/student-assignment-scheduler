@@ -2,10 +2,8 @@
 
 namespace StudentAssignmentScheduler\Querying\Functions;
 
-use function StudentAssignmentScheduler\Utils\Functions\{
-    monthNumeric,
-    filenamesInDirectory
-};
+use function StudentAssignmentScheduler\Utils\Functions\monthNumeric;
+use function StudentAssignmentScheduler\Utils\Functions\filenamesInDirectory;
 
 /**
  * @param string $month

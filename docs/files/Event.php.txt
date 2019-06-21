@@ -5,7 +5,7 @@ namespace StudentAssignmentScheduler;
 /**
  * Represents an event in a schedule that
  * will be used in it's business logic.
- * 
+ *
  * Has instances of Date and EventType as fields.
  */
 class Event
