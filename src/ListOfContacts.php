@@ -1,4 +1,10 @@
 <?php
+/**
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 
 namespace StudentAssignmentScheduler;
 
@@ -14,11 +20,15 @@ class ListOfContacts
                  TOO_MANY_EMAILS_RETURNED = "too many returned";
                 
     /**
+     * A set of contacts.
+     * 
      * @var Set $contacts
      */
     protected $contacts;
 
     /**
+     * Hash of fullname mapped to each contact.
+     * 
      * @var Map $FullnameHashMappedToContacts
      */
     protected $FullnameHashMappedToContacts;
@@ -27,21 +37,23 @@ class ListOfContacts
      * Creates a ListOfContacts instance.
      *
      * @throws \InvalidArgumentException
-     * @param array<int,string|Contact> $contacts
+     * @param array|Contact> $contacts
      */
     public function __construct(array $contacts = [])
     {
         $this->contacts = new Set();
         $validContactsOrThrowException = function ($contact_info) {
+            $throwInvalidArgumentException = function () {
+                throw new \InvalidArgumentException(
+                    "Contact info should be of type string or " . Contact::class
+                );
+            };
             return is_string($contact_info)
                 ? new Contact($contact_info)
                 : (
                     is_a($contact_info, Contact::class)
                         ? $contact_info
-                        : (function () {
-                            $message = "Contact info should be of type string or " . Contact::class;
-                            throw new \InvalidArgumentException($message);
-                        })()
+                        : $throwInvalidArgumentException
                     );
         };
 
@@ -55,16 +67,6 @@ class ListOfContacts
             },
             new Map()
         );
-    }
-
-    public function are(): array
-    {
-        return $this->contacts->toArray();
-    }
-
-    public function toSet(): Set
-    {
-        return $this->contacts;
     }
 
     /**
@@ -111,7 +113,18 @@ class ListOfContacts
                 $ListOfContacts->toSet()
             ); // \Ds\Set::union triggers Phan error
 
+        $copyOfContacts->FullnameHashMappedToContacts = $copyOfContacts
+            ->fullnameHashMappedToContacts()
+            ->union(
+                $ListOfContacts->fullnameHashMappedToContacts()
+            );
+
         return $copyOfContacts;
+    }
+
+    public function fullnameHashMappedToContacts(): Map
+    {
+        return $this->FullnameHashMappedToContacts;
     }
 
     /**
@@ -145,9 +158,24 @@ class ListOfContacts
         return $this->contacts->reduce($callable);
     }
 
+    /**
+     * This collection of contacts as an array.
+     * 
+     * @return array
+     */
     public function toArray(): array
     {
         return $this->contacts->toArray();
+    }
+
+    /**
+     * This collection of contacts as a \Ds\Set.
+     * 
+     * @return Set
+     */
+    public function toSet(): Set
+    {
+        return $this->contacts;
     }
 
     /**
@@ -239,11 +267,22 @@ class ListOfContacts
         return MaybeContact::init($result);
     }
 
+    /**
+     * Throws an exception when too many contacts
+     * are returned when searching.
+     * 
+     * @throws \Exception
+     */
     protected function throwTooManyReturned()
     {
         throw new \Exception(static::TOO_MANY_EMAILS_RETURNED);
     }
 
+    /**
+     * Use to serialize each contact in this collection.
+     * 
+     * @return array[]
+     */
     public function getArrayCopy(): array
     {
         return array_map(
@@ -254,6 +293,12 @@ class ListOfContacts
         );
     }
 
+    /**
+     * Use to create a new collection instance.
+     * 
+     * @param mixed $array
+     * @return array
+     */
     public function exchangeArray($array): array
     {
         return (new self($array))->contacts->toArray();
