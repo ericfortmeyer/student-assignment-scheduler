@@ -1,5 +1,12 @@
-<?php
-
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 namespace StudentAssignmentScheduler;
 
 use StudentAssignmentScheduler\Exception\InvalidDateTypeArgumentException;
@@ -29,6 +36,8 @@ abstract class DateType
     protected $dt_format = "";
 
     /**
+     * Create the instance.
+     *
      * @codeCoverageIgnore
      * @throws InvalidDateTypeArgumentException
      * @param int|string $value
@@ -59,6 +68,11 @@ abstract class DateType
         }
     }
 
+    /**
+     * Use to cast this instance to a string.
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->value;

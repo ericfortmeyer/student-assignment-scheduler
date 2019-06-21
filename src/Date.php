@@ -1,5 +1,12 @@
-<?php
-
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 namespace StudentAssignmentScheduler;
 
 use \DateTimeImmutable;
@@ -103,21 +110,41 @@ final class Date extends DateType
         );
     }
 
+    /**
+     * Use to create a textual representation of the date.
+     *
+     * @return string
+     */
     public function asText(): string
     {
         return "{$this->month->asText()} {$this->day_of_month}";
     }
 
+    /**
+     * The representation of the date's month.
+     *
+     * @return Month
+     */
     public function month(): Month
     {
         return $this->month;
     }
 
+    /**
+     * The representation of the date's day of the month.
+     *
+     * @return DayOfMonth
+     */
     public function dayOfMonth(): DayOfMonth
     {
         return $this->day_of_month;
     }
 
+    /**
+     * The representation of the date's year.
+     *
+     * @return Year
+     */
     public function year(): Year
     {
         return $this->year;

@@ -1,4 +1,12 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 
 namespace StudentAssignmentScheduler\Persistence\Functions;
 
@@ -52,7 +60,7 @@ function copyAndSwapJsonAssignment(
         )
     );
 
-    $week_of_assignments_as_array = $week_of_assignments->toArrayWithYearKey($date->year());
+    $week_of_assignments_as_array = $week_of_assignments->toArrayWithYearKey((string) $date->year());
 
     save(
         $week_of_assignments_as_array,

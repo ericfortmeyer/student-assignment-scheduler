@@ -1,11 +1,17 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 
 namespace StudentAssignmentScheduler\CLI\Commands\SpecialEvents;
 
-use \Ds\{
-    Vector,
-    Map
-};
+use \Ds\Vector;
+use \Ds\Map;
 use \DateTimeImmutable;
 
 use StudentAssignmentScheduler\{
@@ -118,14 +124,14 @@ function currentYearOrNextYear(\Closure $messageFunc, ?Year $givenYear = null): 
     $reply = readline($messageFunc($year));
 
     return yes($reply)
-        ? new Year($year)
+        ? new Year((string) $year)
         : (
             no($reply)
-                ? currentYearOrNextYear($messageFunc, (new Year($year))->add(1))
+                ? currentYearOrNextYear($messageFunc, (new Year((string) $year))->add(1))
                 : (
                     notYesOrNo($reply)
                         ? currentYearOrNextYear($messageFunc, $year)
-                        : new Year($year)
+                        : new Year((string) $year)
                 )
         );
 }

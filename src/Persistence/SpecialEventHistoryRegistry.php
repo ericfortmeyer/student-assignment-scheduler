@@ -1,4 +1,12 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 
 namespace StudentAssignmentScheduler\Persistence;
 
@@ -29,6 +37,12 @@ final class SpecialEventHistoryRegistry implements ImmutableRegistryInterface
      */
     private $location_of_special_events;
 
+    /**
+     * Create the instance.
+     *
+     * @param string $location_of_registry
+     * @param Destination $destination_of_special_events
+     */
     public function __construct(string $location_of_registry, Destination $destination_of_special_events)
     {
         $this->location_of_registry = $location_of_registry;
@@ -130,7 +144,7 @@ final class SpecialEventHistoryRegistry implements ImmutableRegistryInterface
         return $this->itemName(
             new SpecialEventHistory(
                 new SpecialEventHistoryLocation(
-                    new Destination($this->location_of_special_events),
+                    $this->location_of_special_events,
                     "new"
                 )
             )
