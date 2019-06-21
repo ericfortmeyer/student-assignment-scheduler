@@ -112,7 +112,7 @@ function sensitiveData(Set $contacts, string $path_to_contacts_file, string $key
         )->toArray()
         : (new ListOfContacts($contacts->toArray()))->union(
             file_exists($path_to_contacts_file)
-                ? unbox($path_to_contacts_file, $key)
+                ? new ListOfContacts(unbox($path_to_contacts_file, $key)->toArray())
                 : new ListOfContacts([])
         );
 }
