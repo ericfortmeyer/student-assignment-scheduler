@@ -5,10 +5,6 @@ namespace StudentAssignmentScheduler\Querying\Functions;
 use \Dotenv\Dotenv;
 use function StudentAssignmentScheduler\Bootstrapping\Functions\buildPath;
 use function StudentAssignmentScheduler\Bootstrapping\Functions\setupKeys;
-use function StudentAssignmentScheduler\Encryption\Functions\masterKey;
-use function StudentAssignmentScheduler\Encryption\Functions\secretKey;
-use function StudentAssignmentScheduler\Encryption\Functions\unbox;
-use \Ds\Map;
 
 function fetchContacts()
 {
@@ -47,5 +43,4 @@ function fetchContacts()
     $collection = new \StudentAssignmentScheduler\ListOfContacts($contacts->toArray());
 
     return $collection->getArrayCopy();
-
 }

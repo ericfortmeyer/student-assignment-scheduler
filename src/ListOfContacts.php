@@ -21,14 +21,14 @@ class ListOfContacts
                 
     /**
      * A set of contacts.
-     * 
+     *
      * @var Set $contacts
      */
     protected $contacts;
 
     /**
      * Hash of fullname mapped to each contact.
-     * 
+     *
      * @var Map $FullnameHashMappedToContacts
      */
     protected $FullnameHashMappedToContacts;
@@ -37,7 +37,7 @@ class ListOfContacts
      * Creates a ListOfContacts instance.
      *
      * @throws \InvalidArgumentException
-     * @param array|Contact> $contacts
+     * @param Contact[] $contacts
      */
     public function __construct(array $contacts = [])
     {
@@ -160,7 +160,7 @@ class ListOfContacts
 
     /**
      * This collection of contacts as an array.
-     * 
+     *
      * @return array
      */
     public function toArray(): array
@@ -170,7 +170,7 @@ class ListOfContacts
 
     /**
      * This collection of contacts as a \Ds\Set.
-     * 
+     *
      * @return Set
      */
     public function toSet(): Set
@@ -270,7 +270,7 @@ class ListOfContacts
     /**
      * Throws an exception when too many contacts
      * are returned when searching.
-     * 
+     *
      * @throws \Exception
      */
     protected function throwTooManyReturned()
@@ -280,7 +280,7 @@ class ListOfContacts
 
     /**
      * Use to serialize each contact in this collection.
-     * 
+     *
      * @return array[]
      */
     public function getArrayCopy(): array
@@ -295,7 +295,7 @@ class ListOfContacts
 
     /**
      * Use to create a new collection instance.
-     * 
+     *
      * @param mixed $array
      * @return array
      */

@@ -37,7 +37,7 @@ class MailSender
     }
 
     /**
-     * @param PHPMailer\PHPMailer\PHPMailer $mailer_before_configuring
+     * @param PHPMailer $mailer_before_configuring
      * @param string $from_email
      * @param string $password
      * @param string $host
@@ -151,7 +151,7 @@ class MailSender
     }
 
     /**
-     * @param PHPMailer $mailer
+     * @param PHPMailer $Mailer
      * @return self
      */
     public function withMailer(PHPMailer $Mailer): self
