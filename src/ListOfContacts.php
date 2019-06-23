@@ -260,7 +260,7 @@ class ListOfContacts
     public function findBySha1OfGuid(string $sha1_of_guid): MaybeContact
     {
         $guidOfContactIsSha1OfGivenGuid = function (Contact $contact) use ($sha1_of_guid): bool {
-            return sha1($contact->guid()) === $sha1_of_guid;
+            return sha1((string) $contact->guid()) === $sha1_of_guid;
         };
         try {
             $result = $this->contacts

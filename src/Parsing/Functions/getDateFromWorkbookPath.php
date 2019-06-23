@@ -22,7 +22,7 @@ function getDateFromWorkbookPath(string $path): object
         preg_split(
             "/$worksheet_prefix(\d{6})/",
             pathinfo($path, PATHINFO_FILENAME),
-            null,
+            -1,
             PREG_SPLIT_DELIM_CAPTURE
         )[1]
     );

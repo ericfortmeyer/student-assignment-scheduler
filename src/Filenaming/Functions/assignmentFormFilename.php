@@ -21,7 +21,7 @@ function assignmentFormFilename(Fullname $fullname, ListOfContacts $ListOfContac
         return false;
     };
     $contact = $ListOfContacts->findByFullname($fullname)->getOrElse($doIfContactNotFound);
-    $filename = $contact === false ? "CONTACT_NOT_FOUND_${fullname}" : sha1($contact->guid());
+    $filename = $contact === false ? "CONTACT_NOT_FOUND_${fullname}" : sha1((string) $contact->guid());
     $ext = ".pdf";
     return "${filename}${ext}";
 }

@@ -44,14 +44,14 @@ abstract class DateType
      */
     public function __construct($value)
     {
-        $dt = DateTimeImmutable::createFromFormat($this->dt_format, $value);
+        $dt = DateTimeImmutable::createFromFormat($this->dt_format, (string) $value);
 
         $valid_formats = new Vector($this->valid_formats);
         $dt = $valid_formats->reduce(
             function ($carry, string $dt_format) use ($value) {
                 return is_a($carry, DateTimeImmutable::class)
                     ? $carry
-                    : DateTimeImmutable::createFromFormat($dt_format, $value);
+                    : DateTimeImmutable::createFromFormat($dt_format, (string) $value);
             }
         );
 

@@ -61,7 +61,7 @@ class Contact
         $this->last_name = $last_name;
         $this->email_address = $email_address;
         $this->fullname = new Fullname($first_name, $last_name);
-        $this->contact_info = new Set(array_merge($contact_info, [strtolower($this->fullname)]));
+        $this->contact_info = new Set(array_merge($contact_info, [strtolower((string) $this->fullname)]));
         $this->guid = new Guid();
     }
 
@@ -76,9 +76,9 @@ class Contact
     {
         $contact_info_map = new \Ds\Map($contact_info);
         // each value is stored in lower case to simplify comparisons
-        $first_name = strtolower($contact_info_map->get(0, false));
-        $last_name = strtolower($contact_info_map->get(1, false));
-        $email_address = strtolower($contact_info_map->get(2, false));
+        $first_name = $contact_info_map->get(0, false);
+        $last_name = $contact_info_map->get(1, false);
+        $email_address = $contact_info_map->get(2, false);
 
         switch (false) {
             case $first_name:
@@ -95,9 +95,16 @@ class Contact
                 );
         }
 
-        return [
-            $first_name, $last_name, $email_address
-        ];
+        return array_map(
+            function (string $value): string {
+                return \strtolower($value);
+            },
+            [
+                $first_name,
+                $last_name,
+                $email_address
+            ]
+        );
     }
 
     /**

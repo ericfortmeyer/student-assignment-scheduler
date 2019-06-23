@@ -89,7 +89,7 @@ final class Date extends DateType
      */
     public function isPast(): bool
     {
-        return new DateTimeImmutable($this) < new DateTimeImmutable("00:00");
+        return new DateTimeImmutable((string) $this) < new DateTimeImmutable("00:00");
     }
 
     /**

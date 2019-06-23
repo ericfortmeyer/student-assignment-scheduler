@@ -60,7 +60,7 @@ final class MonthOfAssignments
             function (string $index, array $week_of_assignments) {
                 $Week = new Map($week_of_assignments);
 
-                $DayOfMonth = new DayOfMonth($this->month, $Week->remove(self::DATE));
+                $DayOfMonth = new DayOfMonth($this->month, (string) $Week->remove(self::DATE));
                 $Assignments = $Week->map(
                     function (string $assignment_number, string $assignment_name): Assignment {
                         return new Assignment($assignment_number, $assignment_name);

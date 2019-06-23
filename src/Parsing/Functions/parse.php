@@ -15,7 +15,7 @@ function parse(string $pattern, string $subject): string
     return preg_split(
         $pattern,
         $subject,
-        null,
+        -1,
         PREG_SPLIT_DELIM_CAPTURE
     )[1];
 }
