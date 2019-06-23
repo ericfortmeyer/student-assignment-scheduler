@@ -9,6 +9,9 @@ vendor/
 /tmp
 /backups
 
+
+/apigility
+
 composer.lock
 
 fix*
