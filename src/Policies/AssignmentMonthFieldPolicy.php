@@ -1,4 +1,12 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 
 namespace StudentAssignmentScheduler\Policies;
 
@@ -49,7 +57,7 @@ final class AssignmentMonthFieldPolicy implements RuleInterface
      */
     private function dateInFirstWeekOfSchedule(): string
     {
-        return $this->schedule_for_month->weeks()->keys()->first()->dayOfMonth();
+        return (string) $this->schedule_for_month->weeks()->keys()->first()->dayOfMonth();
     }
 
     private function dayOfMonthIsLessThanDateInFirstWeek(DayOfMonth $DayOfMonth, string $date_in_first_week): bool

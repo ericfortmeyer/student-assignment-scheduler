@@ -3,11 +3,14 @@
 
 node_modules
 
+vendor/
 
-/vendor
 /log
 /tmp
 /backups
+
+
+/apigility
 
 composer.lock
 

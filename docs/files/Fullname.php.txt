@@ -1,5 +1,12 @@
-<?php
-
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 namespace StudentAssignmentScheduler;
 
 /**
@@ -28,6 +35,8 @@ final class Fullname
     }
 
     /**
+     * Creates a normalized fullname.
+     *
      * @param string $first_name
      * @param string $last_name
      * @return string First and last name separated by a space
@@ -37,6 +46,11 @@ final class Fullname
         return "${first_name} ${last_name}";
     }
 
+    /**
+     * Use to cast the instance to a string.
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->fullname;

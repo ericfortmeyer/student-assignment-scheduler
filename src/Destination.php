@@ -1,5 +1,12 @@
-<?php
-
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 namespace StudentAssignmentScheduler;
 
 /**
@@ -13,6 +20,8 @@ final class Destination
     protected $value = "";
 
     /**
+     * Create the instance.
+     *
      * @param string $destination The target destination of a file
      */
     public function __construct(string $destination)
@@ -23,6 +32,8 @@ final class Destination
     }
     
     /**
+     * Validate constructor's argument.
+     *
      * @param string $arg
      */
     private function validateArg(string $arg): void
@@ -32,6 +43,11 @@ final class Destination
         }
     }
 
+    /**
+     * Use to cast the instance to a string.
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->value;

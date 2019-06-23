@@ -1,9 +1,20 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 
 namespace StudentAssignmentScheduler;
 
 use \Ds\Map;
 
+/**
+ * Represents all assignments in the given schedule for a month.
+ */
 final class MonthOfAssignments
 {
     private const MONTH = "month",
@@ -24,6 +35,11 @@ final class MonthOfAssignments
      */
     private $WeeksOfAssignments;
 
+    /**
+     * Create the instance.
+     *
+     * @param array $schedule A month's schedule of assignments
+     */
     public function __construct(array $schedule)
     {
         $Map = new Map($schedule);
@@ -44,7 +60,7 @@ final class MonthOfAssignments
             function (string $index, array $week_of_assignments) {
                 $Week = new Map($week_of_assignments);
 
-                $DayOfMonth = new DayOfMonth($this->month, $Week->remove(self::DATE));
+                $DayOfMonth = new DayOfMonth($this->month, (string) $Week->remove(self::DATE));
                 $Assignments = $Week->map(
                     function (string $assignment_number, string $assignment_name): Assignment {
                         return new Assignment($assignment_number, $assignment_name);
@@ -63,6 +79,13 @@ final class MonthOfAssignments
         );
     }
 
+    /**
+     * Create a new instance of MonthOfAssignments using
+     * a Closure to determine which pairs to include.
+     *
+     * @param \Closure $function
+     * @return self
+     */
     public function filter(\Closure $function): self
     {
         $weeks_before_filtering = $this->WeeksOfAssignments;
@@ -71,21 +94,41 @@ final class MonthOfAssignments
         return $copy;
     }
 
+    /**
+     * A map of the assignments grouped by week.
+     *
+     * @return Map
+     */
     public function weeks(): Map
     {
         return $this->WeeksOfAssignments;
     }
 
+    /**
+     * The month the assignments are in.
+     *
+     * @return Month
+     */
     public function month(): Month
     {
         return $this->month;
     }
 
+    /**
+     * The year the assignments are in.
+     *
+     * @return Year
+     */
     public function year(): Year
     {
         return $this->year;
     }
 
+    /**
+     * Use to cast the instance to an array.
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         $assignmentAsString = function (string $key, Assignment $assignment) {

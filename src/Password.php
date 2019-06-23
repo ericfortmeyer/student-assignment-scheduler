@@ -1,5 +1,12 @@
-<?php
-
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 namespace StudentAssignmentScheduler;
 
 use StudentAssignmentScheduler\Exception\IncompatibilityException;
@@ -16,6 +23,13 @@ class Password
 
     protected $incompatibility_message = __CLASS__ . " requires PHP version >= 7.2";
 
+    /**
+     * Create the instance.
+     *
+     * @param string $password
+     * @param string $nonce
+     * @param string $key
+     */
     public function __construct(
         string $password,
         string $nonce = "",
@@ -27,7 +41,9 @@ class Password
     }
 
     /**
-     * Return the decrypted password
+     * Return the decrypted password.
+     *
+     * @return string
      */
     public function __toString()
     {
@@ -35,15 +51,18 @@ class Password
     }
 
     /**
-     * Throw an exception if the version of PHP is outdated
+     * Throw an exception if the version of PHP is outdated.
+     *
      * @throws IncompatibilityException
+     * @return void
      */
-    private function checkVersion()
+    private function checkVersion(): void
     {
         $this->isOutdated(PHP_VERSION_ID) && $this->throwException();
     }
     /**
      * Is the version of PHP compatible with this class?
+     *
      * @param int $version_id
      * @return bool
      */
@@ -53,7 +72,10 @@ class Password
     }
 
     /**
+     * Throw an exception.
+     *
      * @throws IncompatibilityException
+     * @return void
      */
     private function throwException(): void
     {
@@ -61,7 +83,8 @@ class Password
     }
 
     /**
-     * Set nonce and key for encrypting and decrypting the password
+     * Set nonce and key for encrypting and decrypting the password.
+     *
      * @param string $nonce
      * @param string $key
      * @return void
@@ -78,7 +101,8 @@ class Password
     }
 
     /**
-     * Encrypt the password
+     * Encrypt the password.
+     *
      * @throws \SodiumException
      * @param string $password
      * @return string
@@ -94,7 +118,8 @@ class Password
     }
 
     /**
-     * Decrypt the password
+     * Decrypt the password.
+     *
      * @param string $encrypted
      * @return string
      */

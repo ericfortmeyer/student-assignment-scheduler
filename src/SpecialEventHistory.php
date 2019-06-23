@@ -1,5 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 /**
+ * This file is part of student-assignment-scheduler.
+ *
  * Copywright (c) Eric Fortmeyer.
  * Licensed under the MIT License. See LICENSE in the project root folder for license information.
  *
@@ -107,6 +109,12 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
             ->with($new_item);
     }
 
+    /**
+     * Returns an instance that has been persisted.
+     *
+     * @param string $location
+     * @return self
+     */
     private function getSavedSpecialEventHistory(string $location): self
     {
         return \unserialize(
@@ -132,6 +140,8 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
     }
 
     /**
+     * Retrieve the latest event.
+     *
      * @return Event
      */
     public function latest(): Event
@@ -140,6 +150,8 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
     }
 
     /**
+     * Does the instance have any future events.
+     *
      * @return bool
      */
     public function hasFutureEvents(): bool
@@ -149,7 +161,7 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
     }
 
     /**
-     * Persists the SpecialEventHistory instance
+     * Persists the SpecialEventHistory instance.
      *
      * Events are arranged in chronological order before saving.
      * @param string $location
@@ -167,6 +179,8 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
     }
 
     /**
+     * Sorts events in chronological order.
+     *
      * @param Stack $original_history
      * @return Stack The history after sorting
      */
@@ -185,6 +199,11 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
         );
     }
 
+    /**
+     * Use to make the instance serializable to JSON.
+     *
+     * @return array
+     */
     public function getArrayCopy(): array
     {
         return array_map(

@@ -1,8 +1,25 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 
 namespace StudentAssignmentScheduler\FileRegistry\Functions;
 
-define("__OPENING_TAG__", "<?php");
+define("__OPENING_TAG__", "<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ * 
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
+");
 define("__SPACE__", " ");
 define("__INDENT__", "    ");
 define("__RETURN__", "return");

@@ -1,5 +1,12 @@
-<?php
-
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 namespace StudentAssignmentScheduler;
 
 use \Ds\Set;
@@ -40,6 +47,8 @@ class Contact
     protected $contact_info;
 
     /**
+     * Create the instance.
+     *
      * @param string $space_separated_contact_info
      */
     public function __construct(string $space_separated_contact_info = "")
@@ -57,6 +66,8 @@ class Contact
     }
 
     /**
+     * Validate the each array element.
+     *
      * @throws \InvalidArgumentException
      * @param array $contact_info
      * @return array Contact info
@@ -90,6 +101,8 @@ class Contact
     }
 
     /**
+     * Use to simplify creation of exception's message.
+     *
      * @param string $type
      * @param array $contact_info
      * @return string
@@ -102,6 +115,7 @@ class Contact
 
     /**
      * Does the contact match the Fullname?
+     *
      * @param Fullname $fullname
      * @return bool
      */
@@ -112,6 +126,7 @@ class Contact
 
     /**
      * Does the contact match the Guid?
+     *
      * @param Guid $guid
      * @return bool
      */
@@ -122,6 +137,7 @@ class Contact
 
     /**
      * Does the contact contain the value?
+     *
      * @param string $value
      * @return bool
      */
@@ -130,12 +146,19 @@ class Contact
         return $this->contact_info->contains(strtolower($value));
     }
     
+    /**
+     * The contact's guid.
+     *
+     * @return Guid
+     */
     public function guid(): Guid
     {
         return $this->guid;
     }
 
     /**
+     * The contact's first name.
+     *
      * @return string
      */
     public function firstName(): string
@@ -144,6 +167,8 @@ class Contact
     }
 
     /**
+     * The contact's last name.
+     *
      * @return string
      */
     public function lastName(): string
@@ -152,6 +177,8 @@ class Contact
     }
 
     /**
+     * The contact's email address.
+     *
      * @return string
      */
     public function emailAddress(): string
@@ -160,21 +187,31 @@ class Contact
     }
 
     /**
+     * The contact's fullname.
+     *
      * @return string
      */
     public function fullname(): string
     {
-        return $this->fullname;
+        return (string) $this->fullname;
     }
 
     /**
+     * Use to cast the instance to a string.
+     *
      * @codeCoverageIgnore
+     * @return string
      */
     public function __toString()
     {
         return "{$this->fullname()} {$this->emailAddress()}";
     }
 
+    /**
+     * Use to make this instance serializable as JSON.
+     *
+     * @return array An associated array representation of this instance
+     */
     public function getArrayCopy(): array
     {
         return [
@@ -186,6 +223,13 @@ class Contact
         ];
     }
 
+    /**
+     * Use to create an array representation of this instance
+     * using given data.
+     *
+     * @param mixed $data
+     * @return array
+     */
     public function exchangeArray($data): array
     {
         return is_string($data)

@@ -1,9 +1,19 @@
-<?php
-
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 namespace StudentAssignmentScheduler;
 
 use \Ds\Set;
 
+/**
+ * Represents a validated globally unique identifier.
+ */
 final class Guid
 {
     private const GUID_PATTERN = "/^[[:xdigit:]]{8}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{4}-[[:xdigit:]]{12}$/";
@@ -16,6 +26,11 @@ final class Guid
     private const THIRD_SET_ALLOWED = [4];
     private const FOURTH_SET_ALLOWED = [8, 9, "A", "B"];
 
+    /**
+     * Create instance.
+     *
+     * @param string|null $guid
+     */
     public function __construct(?string $guid = null)
     {
         $this->value = $guid ?? join("-", [
@@ -53,6 +68,12 @@ final class Guid
         $stringIsValid() or $throwAnException();
     }
 
+    /**
+     * Represents random characters of a given length.
+     *
+     * @param int $length
+     * @return object Random chars of given lenght that can be cast to string
+     */
     private function chars(int $length): object
     {
         return new class ($length) {
@@ -96,6 +117,11 @@ final class Guid
     }
 
 
+    /**
+     * Use to cast instance to string.
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->value;

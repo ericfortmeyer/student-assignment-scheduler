@@ -1,5 +1,12 @@
-<?php
-
+<?php declare(strict_types=1);
+/**
+ * This file is part of student-assignment-scheduler.
+ *
+ * Copywright (c) Eric Fortmeyer.
+ * Licensed under the MIT License. See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
 namespace StudentAssignmentScheduler;
 
 use StudentAssignmentScheduler\Exception\InvalidDateTypeArgumentException;
@@ -29,20 +36,22 @@ abstract class DateType
     protected $dt_format = "";
 
     /**
+     * Create the instance.
+     *
      * @codeCoverageIgnore
      * @throws InvalidDateTypeArgumentException
      * @param int|string $value
      */
     public function __construct($value)
     {
-        $dt = DateTimeImmutable::createFromFormat($this->dt_format, $value);
+        $dt = DateTimeImmutable::createFromFormat($this->dt_format, (string) $value);
 
         $valid_formats = new Vector($this->valid_formats);
         $dt = $valid_formats->reduce(
             function ($carry, string $dt_format) use ($value) {
                 return is_a($carry, DateTimeImmutable::class)
                     ? $carry
-                    : DateTimeImmutable::createFromFormat($dt_format, $value);
+                    : DateTimeImmutable::createFromFormat($dt_format, (string) $value);
             }
         );
 
@@ -59,6 +68,11 @@ abstract class DateType
         }
     }
 
+    /**
+     * Use to cast this instance to a string.
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->value;
