@@ -69,9 +69,13 @@ final class Curl
         $ch = curl_init();
         
         self::setOpts($ch, $opts);
+        /**
+         * Cast the result to string since we are using
+         * the response code for error handling instead
+         * of the possiblity of returning false
+         */
+        $result = (string) curl_exec($ch);
 
-        $result = curl_exec($ch);
-        
         $response_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
         
         $last_error = curl_error($ch);
