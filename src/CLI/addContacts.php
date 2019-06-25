@@ -16,6 +16,7 @@ use \Ds\{
 };
 
 use StudentAssignmentScheduler\ListOfContacts;
+use StudentAssignmentScheduler\ListOfScheduleRecipients;
 
 use function StudentAssignmentScheduler\Encryption\Functions\{
     box,
@@ -108,16 +109,14 @@ function addContacts(string $path_to_contacts_file, string $key, array $prompts 
     }
 }
 
-function sensitiveData(Set $contacts, string $path_to_contacts_file, string $key)
+function sensitiveData(Set $contacts, string $path_to_contacts_file, string $key): ListOfContacts
 {
     return basename($path_to_contacts_file) === "schedule_recipients"
-        ? $contacts->merge(
-            new Set(
-                file_exists($path_to_contacts_file)
-                    ? unbox($path_to_contacts_file, $key)
-                    : []
+        ? (new ListOfScheduleRecipients($contacts->toArray()))->union(
+            file_exists($path_to_contacts_file)
+                ? unbox($path_to_contacts_file, $key)
+                : new ListOfScheduleRecipients([])
             )
-        )->toArray()
         : (new ListOfContacts($contacts->toArray()))->union(
             file_exists($path_to_contacts_file)
                 ? new ListOfContacts(unbox($path_to_contacts_file, $key)->toArray())
