@@ -18,7 +18,7 @@ use function StudentAssignmentScheduler\Utils\Functions\getConfig;
  * Has instances of Date and EventType as fields and
  * can be cast to a string.
  */
-final class SpecialEvent extends Event
+final class SpecialEvent extends Event implements ArrayInterface
 {
     /**
      * @var Date $date
@@ -73,5 +73,10 @@ final class SpecialEvent extends Event
             "date" => (string) $this->date(),
             "type" => (string) $this->type()
         ];
+    }
+
+    public function exchangeArray($array): array
+    {
+        return (array) $array;
     }
 }

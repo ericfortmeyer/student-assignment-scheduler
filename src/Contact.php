@@ -7,7 +7,7 @@ use \Ds\Set;
 /**
  * Used to aggregate a person's contact information.
  */
-class Contact
+class Contact implements ArrayInterface
 {
     /**
      * @var Guid $guid
@@ -164,7 +164,7 @@ class Contact
      */
     public function fullname(): string
     {
-        return $this->fullname;
+        return (string) $this->fullname;
     }
 
     /**

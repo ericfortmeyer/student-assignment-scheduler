@@ -17,7 +17,7 @@ use StudentAssignmentScheduler\Persistence\Saveable;
 /**
  * A way of immutably persisting special events.
  */
-final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, ImmutableModifiablePersistenceInterface
+final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, ImmutableModifiablePersistenceInterface, ArrayInterface
 {
     /**
      * @var Stack $history
@@ -193,5 +193,10 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
             },
             $this->history()->toArray()
         );
+    }
+
+    public function exchangeArray($array): array
+    {
+        return (new Stack($array))->toArray();
     }
 }

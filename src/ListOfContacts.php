@@ -14,10 +14,10 @@ use \Ds\Map;
 /**
  * A unique set of contact instances.
  */
-class ListOfContacts
+class ListOfContacts implements ArrayInterface
 {
     const NOT_SETUP_YET = "no emails set up yet",
-                 TOO_MANY_EMAILS_RETURNED = "too many returned";
+        TOO_MANY_EMAILS_RETURNED = "too many returned";
                 
     /**
      * A set of contacts.
