@@ -19,5 +19,6 @@ final class ListOfScheduleRecipients extends ListOfContacts
                 $contacts
             )
         );
+        $this->setMapOfHashesOfFullnamesToContacts($this->contacts);
     }
 }

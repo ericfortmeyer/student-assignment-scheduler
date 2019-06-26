@@ -58,6 +58,17 @@ class ListOfContacts
         };
 
         $this->contacts = new Set(array_map($validContactsOrThrowException, $contacts));
+        $this->setMapOfHashesOfFullnamesToContacts($this->contacts);
+    }
+
+    /**
+     * Sets the map of hashes of fullnames to contacts.
+     *
+     * @param Set $contacts
+     * @return void
+     */
+    protected function setMapOfHashesOfFullnamesToContacts(Set $contacts)
+    {
         $this->FullnameHashMappedToContacts = $this->contacts->reduce(
             function (Map $Map, Contact $contact): Map {
                 $key = sha1((string) $contact->fullname());
@@ -89,6 +100,14 @@ class ListOfContacts
     public function remove(Contact $contact): void
     {
         $this->contacts->remove($contact);
+
+        $this->FullnameHashMappedToContacts->remove(
+            sha1((string) $contact->fullname()),
+            function () {
+                // no op
+                // their may be duplicate fullnames
+            }
+        );
     }
 
     /**
@@ -230,19 +249,19 @@ class ListOfContacts
      */
     public function findByGuid(Guid $guid)
     {
-        $searchUsingGuid = function ($alreadyFound, Contact $contact) use ($guid) {
-            $guidMatches = function (Guid $guid, Contact $contact) {
-                return $contact->hasGuid($guid);
-            };
-
-            $result = $alreadyFound
-                ? $alreadyFound
-                : ($guidMatches($guid, $contact) ? $contact : false);
-
-            return MaybeContact::init($result);
+        $guidMatchesContact = function (Contact $contact) use ($guid) {
+            return (string) $contact->guid() === (string) $guid;
         };
 
-        return $this->reduce($searchUsingGuid);
+        try {
+            $result = $this->contacts
+                ->filter($guidMatchesContact)
+                ->first();
+        } catch (\UnderflowException $e) {
+            $result = false;
+        }
+
+        return MaybeContact::init($result);
     }
 
     /**
@@ -256,6 +275,7 @@ class ListOfContacts
         $guidOfContactIsSha1OfGivenGuid = function (Contact $contact) use ($sha1_of_guid): bool {
             return sha1($contact->guid()) === $sha1_of_guid;
         };
+
         try {
             $result = $this->contacts
                 ->filter($guidOfContactIsSha1OfGivenGuid)
