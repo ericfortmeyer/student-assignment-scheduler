@@ -40,7 +40,5 @@ function fetchContacts()
         getenv("s")
     );
 
-    $collection = new \StudentAssignmentScheduler\ListOfContacts($contacts->toArray());
-
-    return $collection->getArrayCopy();
+    return new \StudentAssignmentScheduler\ListOfContacts($contacts->toArray());
 }

@@ -5,6 +5,7 @@ namespace StudentAssignmentScheduler\Querying\Functions;
 use \Dotenv\Dotenv;
 use function StudentAssignmentScheduler\Bootstrapping\Functions\buildPath;
 use function StudentAssignmentScheduler\Bootstrapping\Functions\setupKeys;
+use StudentAssignmentScheduler\ListOfScheduleRecipients;
 
 function fetchScheduleRecipients()
 {
@@ -34,13 +35,11 @@ function fetchScheduleRecipients()
     $contacts_dir = buildPath($rootDir, "data", "contacts");
     $contacts_file = buildPath($contacts_dir, "schedule_recipients");
 
-    $contacts = getScheduleRecipients(
-        $contacts_file,
-        getenv("m"),
-        getenv("s")
-    );
-
-    $collection = new \StudentAssignmentScheduler\ListOfContacts($contacts->toArray());
-
-    return $collection->getArrayCopy();
+    return file_exists($contacts_file)
+        ? getScheduleRecipients(
+            $contacts_file,
+            getenv("m"),
+            getenv("s")
+        )
+        : new ListOfScheduleRecipients([]);
 }
