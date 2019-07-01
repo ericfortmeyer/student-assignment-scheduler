@@ -30,11 +30,22 @@ final class SpecialEvent extends Event implements ArrayInterface
      */
     protected $type;
 
+    /**
+     * @var Guid $guid
+     */
+    protected $guid;
+
     public function __construct(
         Date $date,
         EventType $type
     ) {
+        $this->guid = $this->guid ?? new Guid();
         parent::__construct($date, $type);
+    }
+
+    public function guid(): Guid
+    {
+        return $this->guid;
     }
 
     public function __toString()
@@ -70,6 +81,7 @@ final class SpecialEvent extends Event implements ArrayInterface
     public function getArrayCopy(): array
     {
         return [
+            "id" => (string) $this->guid(),
             "date" => (string) $this->date(),
             "type" => (string) $this->type()
         ];
