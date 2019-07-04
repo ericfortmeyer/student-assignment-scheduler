@@ -5,7 +5,7 @@ namespace StudentAssignmentScheduler;
 use \DateTimeImmutable;
 use \DateInterval;
 
-final class Month extends DateType
+final class Month extends DateType implements ArrayInterface
 {
     /**
      * @var string $error_message_example
@@ -58,5 +58,17 @@ final class Month extends DateType
                 ->add(new DateInterval("P${num_months}M"))
                 ->format($this->dt_format)
         );
+    }
+
+    public function getArrayCopy(): array
+    {
+        return [
+            "href" => "2019" . (string) $this
+        ];
+    }
+
+    public function exchangeArray($array): array
+    {
+        return $array;
     }
 }
