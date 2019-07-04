@@ -5,26 +5,9 @@ namespace StudentAssignmentScheduler;
 final class ScheduleRecipient extends Contact
 {
     /**
-     * @var string $first_name
-     */
-    protected $first_name = "";
-    
-    /**
-     * @var string $last_name
-     */
-    protected $last_name = "";
-
-    /**
      * @var Fullname $fullname
      */
     protected $fullname;
-
-    /**
-     * @var Guid $guid
-     */
-    protected $guid;
-
-    protected $email_address = "";
 
     public function __construct(string $contacts_info)
     {

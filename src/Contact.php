@@ -12,17 +12,17 @@ class Contact implements ArrayInterface
     /**
      * @var Guid $guid
      */
-    protected $guid;
+    public $guid;
 
     /**
      * @var string $first_name
      */
-    protected $first_name;
+    public $first_name;
     
     /**
      * @var string $last_name
      */
-    protected $last_name;
+    public $last_name;
 
     /**
      * @var Fullname $fullname
@@ -32,7 +32,7 @@ class Contact implements ArrayInterface
     /**
      * @var string $email_addrss
      */
-    protected $email_address;
+    public $email_address;
 
     /**
      * @var Set $contact_info

@@ -24,7 +24,7 @@ class ListOfContacts implements ArrayInterface
      *
      * @var Set $contacts
      */
-    protected $contacts;
+    public $contacts;
 
     /**
      * Hash of fullname mapped to each contact.
