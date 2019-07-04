@@ -32,7 +32,7 @@ class SpecialEventHistory implements
     /**
      * Creates a SpecialEventHistory instance.
      *
-     * @param SpecialEventHistoryLocation $Location Filename of the special event history
+     * @param SpecialEventHistoryLocation|null $Location Filename of the special event history
      */
     public function __construct(?SpecialEventHistoryLocation $Location = null, ?Stack $history = null)
     {
