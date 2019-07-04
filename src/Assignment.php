@@ -4,7 +4,7 @@ namespace StudentAssignmentScheduler;
 
 /**
  * Represents information required to make an assignment.
- * 
+ *
  * This instance does not represent an assignment
  * that has been made.
  */
