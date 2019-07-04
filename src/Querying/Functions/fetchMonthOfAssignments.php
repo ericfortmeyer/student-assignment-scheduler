@@ -6,7 +6,6 @@ use StudentAssignmentScheduler\MonthOfAssignments;
 use StudentAssignmentScheduler\Month;
 use StudentAssignmentScheduler\Year;
 use StudentAssignmentScheduler\Downloading\MWBDownloader\Config\DownloadConfig;
-use StudentAssignmentScheduler\Parsing\RtfParser;
 use StudentAssignmentScheduler\Downloading\MWBDownloader\Utils\PageNotFoundException;
 use StudentAssignmentScheduler\Downloading\MWBDownloader\Month as MonthObj;
 use function StudentAssignmentScheduler\Parsing\Functions\createJsonSchedulesFromWorkbooks;
