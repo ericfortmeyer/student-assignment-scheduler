@@ -3,19 +3,22 @@
 namespace StudentAssignmentScheduler;
 
 /**
- * Information about an assignment
+ * Represents information required to make an assignment.
+ * 
+ * This instance does not represent an assignment
+ * that has been made.
  */
 final class Assignment
 {
     /**
      * @var string $name Name of the assignment
      */
-    private $name = "";
+    public $name = "";
 
     /**
      * @var int $number The assignment number used in the schedule
      */
-    private $number = 0;
+    public $number = 0;
 
     /**
      * @param string $number Will be converted to an int
