@@ -27,7 +27,7 @@ scripts/scheduler-deploy
 config/contacts.php
 config/app_config.json
 config/schedule_recipients.php
-FileRegistry/registry.php
+src/FileRegistry/registry.php
 tests/tmp/registry.php
 
 # folders containing schedule data for each year
