@@ -28,7 +28,7 @@ function weeksOfAssignmentsInCurrentYear(): Map
         ) use (
             $weekIndex,
             $IndividualAssignments
-): void {
+    ): void {
             $key = [$weekIndex, $assignment_number];
             $IndividualAssignments->put($key, $assignment);
         };
@@ -42,7 +42,7 @@ function weeksOfAssignmentsInCurrentYear(): Map
     $filenames = (new Vector(filenamesInDirectory($path_to_assignments_in_current_year)))
         ->filter(__NAMESPACE__ . "\\removeAssignmentCopies");
 
-    return (new Map($filenames))->map($appendDirectoryToFilename)
-        ->map($importWeeksOfAssignments)
-        ->reduce($justIndividualAssignments, new Map());
+    return (new Map($filenames))
+        ->map($appendDirectoryToFilename)
+        ->map($importWeeksOfAssignments);
 }
