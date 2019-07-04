@@ -4,6 +4,11 @@ namespace StudentAssignmentScheduler;
 
 use \Ds\Map;
 
+use function StudentAssignmentScheduler\Utils\Functions\shouldMakeAssignment;
+/**
+ * A representation of all of the information needed
+ * to make assignments for an entire month.
+ */
 final class MonthOfAssignments
 {
     private const MONTH = "month",
@@ -24,6 +29,9 @@ final class MonthOfAssignments
      */
     private $WeeksOfAssignments;
 
+    /**
+     * Create a MonthOfAssignments instance
+     */
     public function __construct(array $schedule)
     {
         $Map = new Map($schedule);
@@ -45,11 +53,16 @@ final class MonthOfAssignments
                 $Week = new Map($week_of_assignments);
 
                 $DayOfMonth = new DayOfMonth($this->month, $Week->remove(self::DATE));
-                $Assignments = $Week->map(
-                    function (string $assignment_number, string $assignment_name): Assignment {
-                        return new Assignment($assignment_number, $assignment_name);
-                    }
-                );
+                $Assignments = $Week
+                    ->filter(
+                        function (string $assignment_number, string $assignment_name): bool {
+                            return shouldMakeAssignment($assignment_name);
+                        }
+                    )->map(
+                        function (string $assignment_number, string $assignment_name): Assignment {
+                            return new Assignment($assignment_number, $assignment_name);
+                        }
+                    );
 
                 $this->WeeksOfAssignments->put(
                     new Date(
