@@ -64,7 +64,9 @@ loginForm.addEventListener("submit", function (event) {
             }
         }
     )
-    .then(jsonString => console.log(jsonString))
+    .then(
+        jsonString => location.href = "http://localhost:3999/redirect/index.php?authorizationResponse=" + jsonString
+    )
     .catch(error => console.log(error));
 });
 
