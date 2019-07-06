@@ -14,7 +14,6 @@ define("AUTH_PARAM_KEY", getenv("AUTHORIZATION_RESPONSE_QUERY_PARAM_KEY"));
 define("ACCESS_TOKEN_KEY", getenv("ACCESS_TOKEN_KEY"));
 define("_400_ERROR_PAGE", getenv("_400_ERROR_PAGE"));
 define("RESOURCE_SERVER", getenv("RESOURCE_SERVER"));
-print_r($_ENV);
 
 if (!requestIsValid($Request, AUTH_PARAM_KEY, ACCESS_TOKEN_KEY)) {
     redirect(
