@@ -43,7 +43,7 @@ try {
         "m",
         "s"
     ];
-    $Dotenv = new Dotenv($env_dir);
+    $Dotenv = Dotenv::create($env_dir);
     $Dotenv->load();
 } catch (\Dotenv\Exception\InvalidPathException $e) {
     setupEmail($env_dir); // user interaction

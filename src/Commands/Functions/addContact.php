@@ -29,7 +29,7 @@ function addContact(Contact $contact, string $type): bool
             "m",
             "s"
         ];
-        $Dotenv = new Dotenv($env_dir);
+        $Dotenv = Dotenv::create($env_dir);
         $Dotenv->load();
     } catch (\Dotenv\Exception\InvalidPathException $e) {
         setupKeys($path_to_secrets, $env_dir);
