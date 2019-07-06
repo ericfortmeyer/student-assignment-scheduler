@@ -1,4 +1,7 @@
 :root {
+    --border-radius: 0.3rem;
+}
+:root {
     --primary: #FF5733;
     --primary-monochromatic: #FF2D00;
     --secondary: #33DBFF;
@@ -9,7 +12,7 @@
     --ultra-light-secondary: #ebfafc;    
 }
 button {
-    border-radius: 5px;
+    border-radius: var(--border-radius);
 }
 form button {
     font-size: 1rem;
@@ -83,12 +86,15 @@ form div {
     margin: 2rem 0;
 }
 form {
-    border-radius: 0.3rem;
+    border-radius: var(--border-radius);
+}
+form header {
+    border-radius: var(--border-radius) var(--border-radius) 0;
 }
 form a {
     color: var(--black);
 }
-/* load first */
+/* load first */ /* load first */
 
 body {
     color: var(--primary);
