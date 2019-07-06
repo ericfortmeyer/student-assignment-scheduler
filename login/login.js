@@ -1,8 +1,9 @@
-require("dotenv").config();
+// require("dotenv").config();
 const loginForm = document.querySelector("#loginForm");
 
 loginForm.addEventListener("submit", function (event) {
-    const oauth_url = process.env.DEV_OAUTH_HOST;
+    // const oauth_url = process.env.DEV_OAUTH_HOST;
+    const oauth_url = "http://localhost:8080/oauth";
     event.preventDefault();
     const form = event.target;
     const formData = new FormData(form);
