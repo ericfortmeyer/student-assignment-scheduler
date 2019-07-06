@@ -1,0 +1,11 @@
+{
+  "name": "jwvirtualassitant.com",
+  "version": "1.0.0",
+  "description": "Web interface for student-assignment-scheduler",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
