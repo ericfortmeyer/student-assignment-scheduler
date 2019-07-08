@@ -9,6 +9,8 @@ vendor/
 /tmp
 /backups
 
+/web
+
 composer.lock
 
 fix*
