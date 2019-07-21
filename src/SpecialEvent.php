@@ -82,8 +82,8 @@ final class SpecialEvent extends Event implements ArrayInterface
     {
         return [
             "id" => (string) $this->guid(),
-            "date" => (string) $this->date(),
-            "type" => (string) $this->type()
+            "date" => (string) $this->date()->toISOString(),
+            "type" => (string) $this->type()->replaceWhiteSpaceWithUnderscore()
         ];
     }
 
