@@ -280,7 +280,8 @@ return [
         'apigility/vendor/',
         'apigility/config/',
         'apigility/module/Application/',
-        'apigility/public/'
+        'apigility/public/',
+        'web/',
     ],
 
     // Enable this to enable checks of require/include statements referring to valid paths.
