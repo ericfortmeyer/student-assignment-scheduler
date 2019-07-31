@@ -180,8 +180,8 @@ class Contact implements ArrayInterface
         return [
             "id" => (string) $this->guid(),
             "fullname" => $this->fullname(),
-            "first_name" => $this->firstName(),
-            "last_name" => $this->lastName(),
+            "firstName" => $this->firstName(),
+            "lastName" => $this->lastName(),
             "email" => $this->emailAddress()
         ];
     }
