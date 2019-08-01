@@ -3,6 +3,7 @@
 namespace StudentAssignmentScheduler;
 
 use \Ds\Set;
+use \Ds\Map;
 
 /**
  * Used to aggregate a person's contact information.
@@ -46,7 +47,7 @@ class Contact implements ArrayInterface
     {
         $separated = explode(" ", $space_separated_contact_info);
         
-        list($first_name, $last_name, $email_address) = $this->validate($separated);
+        [$first_name, $last_name, $email_address] = $this->validate($separated);
         $contact_info = $this->validate($separated);
         $this->first_name = $first_name;
         $this->last_name = $last_name;
@@ -63,11 +64,9 @@ class Contact implements ArrayInterface
      */
     private function validate(array $contact_info): array
     {
-        $contact_info_map = new \Ds\Map($contact_info);
-        // each value is stored in lower case to simplify comparisons
-        $first_name = strtolower($contact_info_map->get(0, false));
-        $last_name = strtolower($contact_info_map->get(1, false));
-        $email_address = strtolower($contact_info_map->get(2, false));
+        $contact_info_map = new Map($contact_info);
+        // $contact_info_map->
+        [$first_name, $last_name, $email_address] = array_map("strtolower", $this->getValues($contact_info_map));
 
         switch (false) {
             case $first_name:
@@ -78,15 +77,31 @@ class Contact implements ArrayInterface
                 throw new \InvalidArgumentException(
                     $this->invalidArgumentMessage("Last name", $contact_info)
                 );
-            case $email_address:
+            case $email_address && \filter_var($email_address, FILTER_VALIDATE_EMAIL):
                 throw new \InvalidArgumentException(
                     $this->invalidArgumentMessage("Email address", $contact_info)
                 );
         }
 
         return [
-            $first_name, $last_name, $email_address
+            str_replace("_", " ", $first_name), $last_name, $email_address
         ];
+    }
+
+    private function getValues(Map $contact_info): array
+    {
+        // does the 'first name' include a middle initial
+        return $contact_info->count() === 4
+            ? [
+                "{$contact_info->get(0, false)}_{$contact_info->get(1, false)}",
+                $contact_info->get(2, false),
+                $contact_info->get(3, false)
+            ]
+            : [
+                $contact_info->get(0, false),
+                $contact_info->get(1, false),
+                $contact_info->get(2, false)
+            ];
     }
 
     /**
