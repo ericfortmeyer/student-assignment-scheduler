@@ -101,7 +101,7 @@ class Contact implements ArrayInterface
                 $contact_info->get(0, false),
                 $contact_info->get(1, false),
                 $contact_info->get(2, false)
-            ];
+        ];
     }
 
     /**

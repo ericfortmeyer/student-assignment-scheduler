@@ -107,26 +107,6 @@ class ContactsTest extends TestCase
         );
     }
 
-    public function testDoesNotThrowInvalidArgumentExceptionIfMiddleNameIsInFirstNameField()
-    {
-        $array_of_names_with_middle_names_in_first_name_field = new \Ds\Vector([
-            "Booker T Washington bt@aol.com",
-            "Billy Dee Williamns bd@aol.com",
-            "BB TT Johnson bbtt@aol.com"
-        ]);
-
-        $shouldNotCauseThrownException = function (string $withMiddleNames): void {
-            try {
-                new Contact($withMiddleNames);
-                $this->assertTrue(true); // test passed
-            } catch (\InvalidArgumentException $e) {
-                $this->assertFalse(true); // test failed
-            }
-        };
-
-        $array_of_names_with_middle_names_in_first_name_field->map($shouldNotCauseThrownException);
-    }
-
     public function testThrowsInvalidArgumentException()
     {
         $array_of_invalid_data = new \Ds\Vector([
