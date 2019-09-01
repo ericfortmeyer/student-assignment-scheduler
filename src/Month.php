@@ -5,6 +5,15 @@ namespace StudentAssignmentScheduler;
 use \DateTimeImmutable;
 use \DateInterval;
 
+/**
+ * Representation of a month in a date.
+ * 
+ * Extracting this representation from dates is problematic.
+ * Creating a date time instance from a month when the day of the month is not given
+ * has produced unexpected results.  When tests are run on the 31st of the month and
+ * the day of the month is not given, the instance will be created for the month
+ * after the argument passed to the constructor.
+ */
 final class Month extends DateType implements ArrayInterface
 {
     /**
@@ -41,7 +50,7 @@ final class Month extends DateType implements ArrayInterface
      */
     public function asText(): string
     {
-        return (DateTimeImmutable::createFromFormat($this->dt_format, $this->value))
+        return (DateTimeImmutable::createFromFormat($this->dt_format . "d", $this->value . 1))
             ->format(self::FORMAT_FULL_TEXT);
     }
 
@@ -54,7 +63,7 @@ final class Month extends DateType implements ArrayInterface
     public function add(int $num_months): Month
     {
         return new Month(
-            DateTimeImmutable::createFromFormat($this->dt_format, $this->value)
+            DateTimeImmutable::createFromFormat($this->dt_format . "d", $this->value . 1)
                 ->add(new DateInterval("P${num_months}M"))
                 ->format($this->dt_format)
         );

@@ -35,14 +35,17 @@ abstract class DateType
      */
     public function __construct($value)
     {
-        $dt = DateTimeImmutable::createFromFormat($this->dt_format, $value);
-
         $valid_formats = new Vector($this->valid_formats);
         $dt = $valid_formats->reduce(
             function ($carry, string $dt_format) use ($value) {
                 return is_a($carry, DateTimeImmutable::class)
                     ? $carry
-                    : DateTimeImmutable::createFromFormat($dt_format, $value);
+                    : (
+                        in_array($dt_format, ["F", "M", "m", "n"])
+                            // prevent tests from failing when run on the last day of the month
+                            ? DateTimeImmutable::createFromFormat("${dt_format}/d", "${value}/1")
+                            : DateTimeImmutable::createFromFormat($dt_format, $value)
+                    );
             }
         );
 
