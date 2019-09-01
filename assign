@@ -20,7 +20,10 @@ use StudentAssignmentScheduler\{
 
 use StudentAssignmentScheduler\Downloading\MWBDownloader\{
     Month,
-    Config\DownloadConfig
+    Config\DownloadConfig,
+    Utils\BadRequestException,
+    Utils\PageNotFoundException,
+    Utils\ServerFailureException
 };
 
 use function StudentAssignmentScheduler\Bootstrapping\Functions\{
@@ -206,10 +209,24 @@ $path_to_json_assignments = "{$path_config["path_to_assignments"]}/";
  */
 
 $downloadWorkbookForMonth = function (Month $month) use ($config, $config_file): void {
-    download(
-        $month,
-        new DownloadConfig($config, $config_file)
-    );
+    try {
+        download(
+            $month,
+            new DownloadConfig($config, $config_file)
+        );
+    } catch (BadRequestException $e) {
+        $MailSender
+            ->withRecipient(getConfig()["app_error_notification_email"])
+            ->addSubject("student-assignment-scheduler:error => BadRequestException:API")
+            ->addBody($e->getMessage());
+        print "An error has occured in the program.  The contributors have been notified.  A patch will be released soon.";
+    } catch (PageNotFoundException $e) {
+        print "The workbook for the month of {$month->asText()} is not available for making assignments yet."
+            . "  Please try again later." . PHP_EOL . PHP_EOL;
+    } catch (ServerFailureException $e) {
+        print "There is a problem connecting with the server to download the workbooks."
+            . "  Please try again later." . PHP_EOL . PHP_EOL;
+    }
 };
 
 // the current month and following month
