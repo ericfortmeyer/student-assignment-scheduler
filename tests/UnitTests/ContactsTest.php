@@ -62,13 +62,14 @@ class ContactsTest extends TestCase
             "Thelonious",
             "Monk",
             "tm@aol.com"
+            // "thelonious monk"
         ]);
 
         $this->assertInstanceOf(
             Guid::class,
             $given->guid()
         );
-        // let's clone Guid the instance since
+        // let's clone the Guid instance since
         // we will be forced to compare the Guid's
         // value in the application instead of checking
         // to see if it's the same Guid instance

@@ -4,6 +4,7 @@ namespace StudentAssignmentScheduler;
 
 use \Ds\Set;
 use \Ds\Map;
+use \Ds\Vector;
 
 /**
  * Used to aggregate a person's contact information.
@@ -36,14 +37,14 @@ class Contact implements ArrayInterface
     public $email_address;
 
     /**
-     * @var Set $contact_info
+     * @var Set $contact_info_index
      */
-    protected $contact_info;
+    protected $contact_info_index;
 
     /**
      * @param string $space_separated_contact_info
      */
-    public function __construct(string $space_separated_contact_info = "")
+    public function __construct(string $space_separated_contact_info = "", ?Guid $guid = null)
     {
         $separated = explode(" ", $space_separated_contact_info);
         
@@ -53,8 +54,8 @@ class Contact implements ArrayInterface
         $this->last_name = $last_name;
         $this->email_address = $email_address;
         $this->fullname = new Fullname($first_name, $last_name);
-        $this->contact_info = new Set(array_merge($contact_info, [strtolower($this->fullname)]));
-        $this->guid = new Guid();
+        $this->contact_info_index = new Set(array_merge($contact_info, [$this->fullname]));
+        $this->guid = $guid ?? new Guid();
     }
 
     /**
@@ -65,8 +66,7 @@ class Contact implements ArrayInterface
     private function validate(array $contact_info): array
     {
         $contact_info_map = new Map($contact_info);
-        // $contact_info_map->
-        [$first_name, $last_name, $email_address] = array_map("strtolower", $this->getValues($contact_info_map));
+        [$first_name, $last_name, $email_address] = $this->getValues($contact_info_map);
 
         switch (false) {
             case $first_name:
@@ -137,12 +137,17 @@ class Contact implements ArrayInterface
 
     /**
      * Does the contact contain the value?
+     * 
+     * This operation performs a case insensitive search
+     * for the given value.
      * @param string $value
      * @return bool
      */
     public function contains(string $value): bool
     {
-        return $this->contact_info->contains(strtolower($value));
+        return (new Vector($this->contact_info_index))
+            ->map(function (string $contact_info_item) { return strtolower($contact_info_item);})
+            ->contains(strtolower($value));
     }
     
     public function guid(): Guid

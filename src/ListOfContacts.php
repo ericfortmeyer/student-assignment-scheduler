@@ -54,7 +54,7 @@ class ListOfContacts implements ArrayInterface
                     is_a($contact_info, Contact::class)
                         ? $contact_info
                         : $throwInvalidArgumentException
-                    );
+                );
         };
 
         $this->contacts = new Set(array_map($validContactsOrThrowException, $contacts));
@@ -105,7 +105,7 @@ class ListOfContacts implements ArrayInterface
             sha1((string) $contact->fullname()),
             function () {
                 // no op
-                // their may be duplicate fullnames
+                // there may be duplicate fullnames
             }
         );
     }
