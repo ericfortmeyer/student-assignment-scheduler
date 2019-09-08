@@ -4,7 +4,7 @@ if (!\function_exists('xdebug_set_filter')) {
     return;
 }
 
-define(APP_ROOT, __DIR__ . DIRECTORY_SEPARATOR . 'src');
+define('APP_ROOT', __DIR__ . DIRECTORY_SEPARATOR . 'src');
 
 \xdebug_set_filter(
     \XDEBUG_FILTER_CODE_COVERAGE,
