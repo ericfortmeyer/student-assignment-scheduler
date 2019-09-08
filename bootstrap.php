@@ -103,13 +103,13 @@ return (function (): array {
                     buildPath(__DIR__, $config_dir, "path_config.php")
                 ])
             )->toArray();
-            (function () {
-                (new Vector($config["make_these_directories"]))->map(
+            (function (array $config) {
+                (new \Ds\Vector($config["make_these_directories"]))->map(
                     function (string $dir) {
                         file_exists($dir) || mkdir($dir, 0770, true);
                     }
                 );
-            })();
+            })($config);
             return [$config, $path_config, $config_file];
         },
         7
