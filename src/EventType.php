@@ -16,13 +16,4 @@ class EventType
     {
         return $this->type;
     }
-
-    public function replaceWhiteSpaceWithUnderscore(): string
-    {
-        return str_replace(
-            " ",
-            "_",
-            $this->type
-        );
-    }
 }
