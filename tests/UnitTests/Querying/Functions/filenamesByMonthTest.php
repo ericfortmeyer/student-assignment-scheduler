@@ -16,13 +16,10 @@ class FilenamesByMonthTest extends TestCase
         ];
     }
     
-    /**
-     * @covers ::\StudentAssignmentScheduler\Functions\filenamesByMonth
-     */
     public function testReturnsExpectedFiles()
     {
         $month = "January";
-        $path_to_files = __DIR__ . "/../../../mocks/";
+        $path_to_files = __DIR__ . "/../../../fake_data/assignments/";
         $this->assertEquals(
             $this->expected_files,
             array_values(filenamesByMonth($month, $path_to_files))

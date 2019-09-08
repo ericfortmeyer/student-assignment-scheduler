@@ -5,7 +5,7 @@ namespace StudentAssignmentScheduler\Persistence;
 use PHPUnit\Framework\TestCase;
 use function StudentAssignmentScheduler\Utils\Functions\buildPath;
 
-class PersistingTest extends TestCase
+class PersistenceTest extends TestCase
 {
     protected function setup(): void
     {

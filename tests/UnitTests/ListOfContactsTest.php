@@ -11,8 +11,12 @@ class ListOfContactsTest extends TestCase
     
     protected function setup(): void
     {
-        $this->contacts = require __DIR__ . "/../mocks/contacts.php";
-
+        $this->contacts = [
+            "Bob Smith bob@aol.com",
+            "Thelonious Monk tmonk@hotmail.com",
+            "Art Tatum tatum@gmail.com",
+            "Oscar Peterson op@gmail.com"
+        ];
         $this->ListOfContacts = new ListOfContacts($this->contacts);
     }
 

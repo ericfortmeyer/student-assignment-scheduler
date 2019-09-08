@@ -1,11 +1,17 @@
 <?php
 
 return [
-    "schedule_template" => __DIR__ . "/../../../src/DocumentProduction/templates/" . sha1("S-140-E.pdf"),
-    "schedules_destination" => __DIR__ . "/../../tmp",
+    "assignment_form_template" => __DIR__ . "/../../src/DocumentProduction/templates/" . sha1("S-89-E.pdf"),
+    "assignment_forms_destination" => __DIR__ . "/../tmp",
     "schedule_font_size" => 10,
     "font" => "Helvetica",
     "font_color" => "blue",
+    "assignment_mark" => "x",
+    "assignments_requiring_assignment_number_on_form" => [
+        "Initial Call",
+        "First Return Visit",
+        "Second Return Visit"
+    ],
     "colors" => [
         "black" => [
             0,

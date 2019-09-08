@@ -59,7 +59,7 @@ class FilenamesMappedToContactsTest extends TestCase
 
         $this->list_of_contacts = $ListOfContacts = new ListOfContacts($this->contacts);
 
-        $this->destination_of_files = __DIR__ . "/../../../data";
+        $this->destination_of_files = __DIR__ . "/../../../tmp";
 
         $writeFiles = function (Fullname $fullname) use ($ListOfContacts): void {
             $this->expected_filenames[] = $this->files_to_delete[] = $filename =

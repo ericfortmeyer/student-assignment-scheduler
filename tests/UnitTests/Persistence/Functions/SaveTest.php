@@ -8,7 +8,7 @@ class SaveTest extends TestCase
 {
     protected function setup(): void
     {
-        $this->test_path = __DIR__ . "/../../../data";
+        $this->test_path = __DIR__ . "/../../../tmp";
         $this->year_dir = date_create()->format("Y");
         $this->destination = "{$this->test_path}/{$this->year_dir}";
         $this->test_basename = "test.json";

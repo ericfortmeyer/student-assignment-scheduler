@@ -27,7 +27,7 @@ class CreateJsonSchedulesFromWorkbooksTest extends TestCase
     public function testJsonScheduleCreatedFromParsingWorkbook()
     {
         $parser = new RtfParser($this->meeting_night);
-        $path_to_workbooks = buildPath(__DIR__, "..", "..", "..", "data", "workbooks", "rtf");
+        $path_to_workbooks = buildPath(__DIR__, "..", "..", "..", "fake_data", "workbooks", "rtf");
         $scheduleCreationNotification = function () {
             // noop
         };

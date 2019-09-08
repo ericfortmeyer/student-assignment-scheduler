@@ -37,8 +37,7 @@ class DocumentProductionTest extends TestCase
         $this->path_to_writer_config = buildPath(
             __DIR__,
             "..",
-            "mocks",
-            "config",
+            "fake_config",
             "assignment_form_writer_config.php"
         );
     }
@@ -65,12 +64,7 @@ class DocumentProductionTest extends TestCase
             ],
             $this->mock_assignment_form_filename
         );
-
-        $this->assertTrue(
-            \file_exists(
-                $this->path_to_created_assignment_form
-            )
-        );
+        $this->assertFileExists($this->path_to_created_assignment_form);
     }
 
     public function testScheduleIsCreated()
@@ -78,14 +72,15 @@ class DocumentProductionTest extends TestCase
         $path_to_mock_month_of_assignments = buildPath(
             __DIR__,
             "..",
-            "mocks"
+            "fake_data",
+            "assignments"
         );
 
         $path_to_mock_schedule_for_january = buildPath(
             __DIR__,
             "..",
-            "mocks",
-            "months",
+            "fake_data",
+            "schedules",
             "January.json"
         );
 
@@ -115,8 +110,7 @@ class DocumentProductionTest extends TestCase
         $path_to_schedule_writer_config = buildPath(
             __DIR__,
             "..",
-            "mocks",
-            "config",
+            "fake_config",
             "schedule_writer_config.php"
         );
 
@@ -136,19 +130,12 @@ class DocumentProductionTest extends TestCase
             $schedule_for_given_month,
             $this->mock_schedule_basename
         );
-
-        $this->assertTrue(
-            file_exists(
-                $this->path_to_created_schedule
-            )
-        );
+        $this->assertFileExists($this->path_to_created_schedule);
     }
 
     protected function teardown(): void
     {
-        file_exists($this->path_to_created_assignment_form)
-            && unlink($this->path_to_created_assignment_form);
-        file_exists($this->path_to_created_schedule)
-            && unlink($this->path_to_created_schedule);
+        @unlink($this->path_to_created_assignment_form);
+        @unlink($this->path_to_created_schedule);
     }
 }
