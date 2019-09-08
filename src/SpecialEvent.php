@@ -37,9 +37,10 @@ final class SpecialEvent extends Event implements ArrayInterface
 
     public function __construct(
         Date $date,
-        EventType $type
+        EventType $type,
+        ?Guid $guid = null
     ) {
-        $this->guid = $this->guid ?? new Guid();
+        $this->guid = $guid ?? new Guid();
         parent::__construct($date, $type);
     }
 
@@ -51,42 +52,44 @@ final class SpecialEvent extends Event implements ArrayInterface
     public function __toString()
     {
         $special_events = getConfig()["special_events"];
-
         $prepend = function (string $type) {
             return "{$type}: ";
         };
-        
         $append = function (string $date) {
             return " {$date}" . PHP_EOL;
         };
-
         $maxLen = max(
             (new Vector($special_events))->map(function (string $event) use ($prepend, $append): int {
                 return strlen($prepend($event) . $append($this->date));
             })->toArray()
         );
-
         $eventAsString = $prepend($this->type) . $append($this->date);
         $currentLen = strlen($eventAsString);
-
         $tabWidth = $maxLen - $currentLen + 1;
         $whitespace = ' ';
-
-
         $tab = str_pad($whitespace, (int) $tabWidth, $whitespace);
-
         return "{$prepend($this->type)}${tab}{$append($this->date)}";
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getArrayCopy(): array
     {
         return [
             "id" => (string) $this->guid(),
             "date" => (string) $this->date()->toISOString(),
-            "type" => (string) $this->type()->replaceWhiteSpaceWithUnderscore()
+            "type" => str_replace(
+                " ",
+                "_",
+                (string) $this->type()
+            )
         ];
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function exchangeArray($array): array
     {
         return (array) $array;
