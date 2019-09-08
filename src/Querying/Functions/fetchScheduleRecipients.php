@@ -7,7 +7,7 @@ use function StudentAssignmentScheduler\Bootstrapping\Functions\buildPath;
 use function StudentAssignmentScheduler\Bootstrapping\Functions\setupKeys;
 use StudentAssignmentScheduler\ListOfScheduleRecipients;
 
-function fetchScheduleRecipients()
+function fetchScheduleRecipients(): ListOfScheduleRecipients
 {
     $rootDir = dirname(dirname(dirname(__DIR__)));
 
