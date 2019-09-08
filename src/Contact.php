@@ -101,7 +101,7 @@ class Contact implements ArrayInterface
                 $contact_info->get(0, false),
                 $contact_info->get(1, false),
                 $contact_info->get(2, false)
-        ];
+            ];
     }
 
     /**
@@ -137,7 +137,7 @@ class Contact implements ArrayInterface
 
     /**
      * Does the contact contain the value?
-     * 
+     *
      * This operation performs a case insensitive search
      * for the given value.
      * @param string $value
@@ -146,7 +146,9 @@ class Contact implements ArrayInterface
     public function contains(string $value): bool
     {
         return (new Vector($this->contact_info_index))
-            ->map(function (string $contact_info_item) { return strtolower($contact_info_item);})
+            ->map(function (string $contact_info_item) {
+                return strtolower($contact_info_item);
+            })
             ->contains(strtolower($value));
     }
     

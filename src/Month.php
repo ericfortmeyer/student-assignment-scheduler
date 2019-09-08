@@ -7,7 +7,7 @@ use \DateInterval;
 
 /**
  * Representation of a month in a date.
- * 
+ *
  * Extracting this representation from dates is problematic.
  * Creating a date time instance from a month when the day of the month is not given
  * has produced unexpected results.  When tests are run on the 31st of the month and

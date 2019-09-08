@@ -13,7 +13,7 @@ final class File
     
     /**
      * Create the instance.
-     * 
+     *
      * @throws InvalidArgumentException
      * @param string $filename
      */

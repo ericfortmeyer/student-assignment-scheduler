@@ -24,7 +24,7 @@ final class SqliteStoreService implements AccountStoreServiceInterface
 
     /**
      * Create the instance.
-     * 
+     *
      * @param AccountStoreReference $path_to_database
      */
     public function __construct(AccountStoreReference $path_to_database)
@@ -47,7 +47,9 @@ final class SqliteStoreService implements AccountStoreServiceInterface
         if ($accounts->count() === 0) {
             return;
         }
-        $stmt = $this->db->prepare($sql = "INSERT OR IGNORE INTO ${account_type} VALUES ({$this->composeInsertClause($accounts)})");
+        $stmt = $this->db->prepare(
+            $sql = "INSERT OR IGNORE INTO ${account_type} VALUES ({$this->composeInsertClause($accounts)})"
+        );
         $stmt->execute($this->composeInputParameters($accounts));
     }
 
@@ -56,8 +58,8 @@ final class SqliteStoreService implements AccountStoreServiceInterface
         $this->throwExceptionIfTableNameIsInvalid((string) $account_type);
         $stmt = $this->db->prepare("SELECT id, created_on FROM ${account_type}");
         $stmt->execute();
+        // @phan-suppress-next-line PhanUndeclaredFunctionInCallable
         return new AccountArray($stmt->fetchAll(PDO::FETCH_CLASS, Account::class));
-
     }
 
     /**
