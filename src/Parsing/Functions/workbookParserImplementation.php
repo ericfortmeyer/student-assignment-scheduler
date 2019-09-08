@@ -4,12 +4,15 @@ namespace StudentAssignmentScheduler\Parsing\Functions;
 
 use StudentAssignmentScheduler\Parsing\ParserInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 function workbookParserImplementation(array $config): ParserInterface
 {
     if (!key_exists("meeting_night", $config)) {
         $no_meeting_night_msg = "The meeting night must be setup in the config file "
             . "with 'meeting_night' as it's key";
-        throw new \Exception($no_meeting_night_msg);
+        throw new \InvalidArgumentException($no_meeting_night_msg);
     }
 
     if (!key_exists("workbook_format", $config)) {
@@ -17,7 +20,7 @@ function workbookParserImplementation(array $config): ParserInterface
             . " the workbook is in. The workbook parser implementation must be set in the config file"
             . " with 'workbook_parser' as it's key."
             . "  Use the fully qualified class name";
-        throw new \Exception($no_workbook_format_msg);
+        throw new \InvalidArgumentException($no_workbook_format_msg);
     }
 
     $workbook_format = $config["workbook_format"];
