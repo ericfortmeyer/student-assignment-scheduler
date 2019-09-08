@@ -21,11 +21,6 @@ final class ListOfDirectories
         $this->directories->add($directory);
     }
 
-    public function toArray(): array
-    {
-        return $this->directories->toArray();
-    }
-
     public function reduce(\Closure $closure)
     {
         return $this->directories->reduce($closure);

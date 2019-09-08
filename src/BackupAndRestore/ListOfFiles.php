@@ -21,11 +21,6 @@ final class ListOfFiles
         $this->files->add($file);
     }
 
-    public function toArray(): array
-    {
-        return $this->files->toArray();
-    }
-
     public function reduce(\Closure $closure)
     {
         return $this->files->reduce($closure);
