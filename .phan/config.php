@@ -282,6 +282,7 @@ return [
         'apigility/module/Application/',
         'apigility/public/',
         'web/',
+        'tmp/'
     ],
 
     // Enable this to enable checks of require/include statements referring to valid paths.
