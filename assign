@@ -28,7 +28,6 @@ use StudentAssignmentScheduler\Downloading\MWBDownloader\{
 
 use function StudentAssignmentScheduler\Bootstrapping\Functions\{
     decryptedPassword,
-    makeRequiredDirectories,
     runInstallScriptIfRequired,
     loadConfigurationFiles,
     buildPath,
