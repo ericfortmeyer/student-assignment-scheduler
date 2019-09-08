@@ -13,11 +13,17 @@ function filenamesInDirectory(
         : handleError($should_exit, $error_msg);
 }
 
+/**
+ * @codeCoverageIgnore
+ */
 function handleError(bool $should_exit, string $error_msg): void
 {
     $should_exit ? abort($error_msg) : print($error_msg);
 }
 
+/**
+ * @codeCoverageIgnore
+ */
 function abort(string $error_msg): void
 {
     exit($error_msg);
