@@ -36,6 +36,7 @@ class Password
 
     /**
      * Throw an exception if the version of PHP is outdated
+     *
      * @throws IncompatibilityException
      */
     private function checkVersion()
@@ -44,6 +45,7 @@ class Password
     }
     /**
      * Is the version of PHP compatible with this class?
+     *
      * @param int $version_id
      * @return bool
      */
@@ -53,6 +55,7 @@ class Password
     }
 
     /**
+     * @codeCoverageIgnore
      * @throws IncompatibilityException
      */
     private function throwException(): void
@@ -61,7 +64,9 @@ class Password
     }
 
     /**
-     * Set nonce and key for encrypting and decrypting the password
+     * Set nonce and key for encrypting and decrypting the password.
+     *
+     * @codeCoverageIgnore
      * @param string $nonce
      * @param string $key
      * @return void
