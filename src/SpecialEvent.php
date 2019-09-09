@@ -35,6 +35,9 @@ final class SpecialEvent extends Event implements ArrayInterface
      */
     protected $guid;
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function __construct(
         Date $date,
         EventType $type,
