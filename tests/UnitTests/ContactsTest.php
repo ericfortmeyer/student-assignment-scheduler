@@ -80,6 +80,16 @@ class ContactsTest extends TestCase
         $this->assertFalse($given->hasGuid(new Guid()));
 
         $this->assertSame(
+            (string) $new_guid_with_same_value,
+            (string) $given->guid()
+        );
+
+        $this->assertSame(
+            "tm@aol.com",
+            $given->emailAddress()
+        );
+
+        $this->assertSame(
             'Thelonious Monk',
             $given->fullname()
         );

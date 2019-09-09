@@ -99,6 +99,24 @@ class SpecialEventTest extends TestCase
         );
     }
 
+    public function testSpecialEventHasExpectedGuid()
+    {
+        $given_guid = $expected_guid = "00000000-0000-4000-A000-000011112222";
+        $given = new SpecialEvent(
+            new Date(
+                $month = new Month(1),
+                new DayOfMonth($month, 1),
+                new Year(2058)
+            ),
+            new SpecialEventType(["Assembly"], "Assembly"),
+            new Guid($given_guid)
+        );
+        $this->assertSame(
+            $expected_guid,
+            (string) $given->guid()
+        );
+    }
+
     public function testWillCastToExpectedString()
     {
         $this->assertSame(
