@@ -57,6 +57,9 @@ final class WeekOfAssignments
         return ["year" => $year] + $this->assignments->toArray();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function map(\Closure $callable): self
     {
         return new self(
