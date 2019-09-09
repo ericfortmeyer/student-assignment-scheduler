@@ -86,7 +86,7 @@ final class PdfParser implements ParserInterface
     {
         $string_representation_of_media_image_for_videos = "w";
         $result = ltrim(
-            parse(
+            Functions\parse(
                 $pattern,
                 $text
             ),
