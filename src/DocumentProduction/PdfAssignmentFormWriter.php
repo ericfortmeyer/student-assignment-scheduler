@@ -31,6 +31,9 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
      */
     protected $config = [];
     
+    /**
+     * @codeCoverageIgnore
+     */
     public function __construct(array $config)
     {
         $this->config = $config;
@@ -45,6 +48,7 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
     }
 
     /**
+     *
      * @param mixed[] $data
      * @return void
      */
@@ -66,6 +70,7 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
         $this->writeAssistant($data["assistant"]);
         $this->writeDate($data["date"]);
 
+        // @codeCoverageIgnore
         if ($this->assignmentNumberIsRequired($data["assignment"])) {
             $this->addAssignmentNumber($assignment_number, $data["assignment"]);
         }
@@ -95,6 +100,10 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
         $this->write($date);
     }
 
+    /**
+     * @codeCoverageIgnore
+     * @deprecated
+     */
     protected function writeCounselPoint(string $counsel_point): void
     {
         $this->position("counsel_point");
@@ -109,17 +118,17 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
         );
     }
 
+    protected function assignmentNumberIsRequired(string $assignment_name): bool
+    {
+        return in_array($assignment_name, $this->config["assignments_requiring_assignment_number_on_form"]);
+    }
+
     protected function addAssignmentNumber(string $assignment_number, string $assignment_name): void
     {
         $this->position($assignment_name . "_number");
         $this->write(
             "#$assignment_number"
         );
-    }
-
-    protected function assignmentNumberIsRequired(string $assignment_name): bool
-    {
-        return in_array($assignment_name, $this->config["assignments_requiring_assignment_number_on_form"]);
     }
 
     /**
@@ -155,10 +164,8 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
     protected function arrayOfFilenamesWithSuffixes(string $filename): array
     {
         $string_separator = "_";
-
         $addSuffixToFilenames = function (int $num) use ($filename, $string_separator): string {
             $suffix = "${string_separator}${num}";
-
             return $this->addExtension(
                 $this->removeExtension($filename) . $suffix
             );
@@ -173,6 +180,7 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
     /**
      * Use to determine what to increment the numeric filename suffix if needed
      *
+     * @codeCoverageIgnore
      * @param string $filename
      * @return string
      */
@@ -194,22 +202,8 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
     }
 
     /**
-     * Get the value of the numeric suffix from the filename
-     *
-     * @param string $filename
-     * @return int
+     * @codeCoverageIgnore
      */
-    protected function parseSuffixValue(string $filename): int
-    {
-        return sscanf(
-            basename(
-                $this->fileWithGreatestSuffixValue($filename),
-                ".pdf"
-            ),
-            "%[^_]_%d"
-        )[1] ?? 0;
-    }
-    
     protected function incrementedSuffix(string $filename): int
     {
         return $this->parseSuffixValue($filename)
@@ -217,40 +211,31 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
             : $this->parseSuffixValue($filename) + 2;
     }
 
-    protected function filenameFromStudentName(string $student_name): string
+    /**
+     * Get the value of the numeric suffix from the filename
+     *
+     * @param string $filename
+     * @return int
+     */
+    protected function parseSuffixValue(string $filename): int
     {
-        return $this->addExtension(
-            $this->allCaps(
-                $this->firstName(
-                    $student_name
-                )
-            )
-        );
+        return (int) sscanf(
+            basename(
+                $this->fileWithGreatestSuffixValue($filename),
+                ".pdf"
+            ),
+            "%[^_]_%d"
+        )[1];
     }
 
     protected function addExtension(string $basename): string
     {
-        return "$basename.pdf";
+        return "${basename}.pdf";
     }
 
     protected function removeExtension(string $filename): string
     {
         return basename($filename, ".pdf");
-    }
-
-    protected function allCaps(string $string): string
-    {
-        return strtoupper($string);
-    }
-
-    protected function firstName(string $fullname): string
-    {
-        return current(
-            explode(
-                " ",
-                $fullname
-            )
-        );
     }
 
     protected function position(string $position): void
@@ -271,6 +256,7 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
      * The parameter should be a key in the configuration.
      * This method will throw an exception if the key is not present.
      *
+     * @codeCoverageIgnore
      * @param string $which_position
      * @return array
      * @throws \RuntimeException
@@ -291,6 +277,9 @@ class PdfAssignmentFormWriter implements AssignmentFormWriterInterface
         $this->pdfCreator->SetFont($font);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function textColor(string $color): void
     {
         $rgb = $this->colorIsAvailable($color)
