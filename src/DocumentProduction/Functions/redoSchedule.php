@@ -11,6 +11,9 @@ use function StudentAssignmentScheduler\Bootstrapping\Functions\buildPath;
 use function StudentAssignmentScheduler\Querying\Functions\importAssignments;
 use function StudentAssignmentScheduler\Utils\Functions\removeYearKey;
 
+/**
+ * @codeCoverageIgnore
+ */
 function redoSchedule(
     ScheduleWriterInterface $ScheduleWriter,
     Month $Month,

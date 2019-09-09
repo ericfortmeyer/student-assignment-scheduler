@@ -14,6 +14,7 @@ use function StudentAssignmentScheduler\Utils\Functions\filenamesInDirectory;
 /**
  * Sends assignment forms and schedules
  *
+ * @codeCoverageIgnore
  * @param MailSender $MailSender
  * @param ListOfContacts $ListOfContacts
  * @param string $assignment_forms_destination
