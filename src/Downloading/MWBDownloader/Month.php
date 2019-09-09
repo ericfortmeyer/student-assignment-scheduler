@@ -52,7 +52,7 @@ final class Month
         );
 
         if (!$dt) {
-            throw new Exception\InvalidMonthArgumentException($month);
+            throw new InvalidMonthArgumentException($month);
         } else {
             $this->month = $dt;
         }

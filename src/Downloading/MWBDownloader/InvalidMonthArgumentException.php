@@ -1,6 +1,6 @@
 <?php
 
-namespace StudentAssignmentScheduler\Downloading\MWBDownloader\Exception;
+namespace StudentAssignmentScheduler\Downloading\MWBDownloader;
 
 final class InvalidMonthArgumentException extends \InvalidArgumentException
 {

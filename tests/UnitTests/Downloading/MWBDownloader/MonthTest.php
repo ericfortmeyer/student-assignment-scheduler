@@ -11,7 +11,7 @@ class MonthTest extends TestCase
         try {
             new Month("invalid string argument");
             $this->assertTrue(false); // test failed
-        } catch (Exception\InvalidMonthArgumentException $e) {
+        } catch (InvalidMonthArgumentException $e) {
             $this->assertTrue(true); // test passed
         }
     }
