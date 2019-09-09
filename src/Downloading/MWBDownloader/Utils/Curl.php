@@ -47,13 +47,7 @@ final class Curl
 
     private static function setOpts(&$curl, ConfigArrayValue $config)
     {
-        $opts = $config->toArray();
-
-        $result = curl_setopt_array($curl, $opts);
-
-        if ($result === false) {
-            throw new \RuntimeException("Check your curl options." . PHP_EOL . "Curl Error" . curl_error($curl));
-        }
+        curl_setopt_array($curl, $config->toArray());
     }
 
     public function __invoke(ConfigArrayValue $opts)
