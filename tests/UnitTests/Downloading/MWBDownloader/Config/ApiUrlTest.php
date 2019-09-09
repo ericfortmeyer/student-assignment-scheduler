@@ -18,7 +18,7 @@ class ApiUrlTest extends TestCase
                 try {
                     new ApiUrl($bad_url);
                     $this->assertTrue(false); // test failed
-                } catch (InvalidConfigurationException $e) {
+                } catch (InvalidApiUrlException $e) {
                     $this->assertTrue(true); // test passed
                 }
             },

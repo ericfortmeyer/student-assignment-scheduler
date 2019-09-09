@@ -41,14 +41,14 @@ final class ApiUrl
     /**
      * Validate the url of the api
      * @codeCoverageIgnore
-     * @throws InvalidConfigurationException
+     * @throws InvalidApiUrlException
      * @param string $url
      * @return bool
      */
     private function validateUrl(string $url): bool
     {
         if (!filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
-            throw new InvalidConfigurationException(
+            throw new InvalidApiUrlException(
                 "{$url} does not appear to be a valid url."
                     . PHP_EOL . "Check configuration in {$this->path_to_config_file}"
             );
