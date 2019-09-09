@@ -94,6 +94,9 @@ final class MonthOfAssignments
         return $this->month;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function year(): Year
     {
         return $this->year;
