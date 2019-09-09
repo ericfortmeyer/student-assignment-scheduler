@@ -38,7 +38,7 @@ final class Filetype
     /**
      * Validate that the filetype specified in the configuration
      * is among expected filetypes.
-     * 
+     *
      * @codeCoverageIgnore
      * @throws InvalidFiletypeException
      * @return bool

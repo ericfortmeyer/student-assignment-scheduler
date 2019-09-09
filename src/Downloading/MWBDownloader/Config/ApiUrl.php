@@ -52,7 +52,6 @@ final class ApiUrl
                 "{$url} does not appear to be a valid url."
                     . PHP_EOL . "Check configuration in {$this->path_to_config_file}"
             );
-
         } else {
             return true;
         }
