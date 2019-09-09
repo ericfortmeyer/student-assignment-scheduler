@@ -197,6 +197,9 @@ class Contact implements ArrayInterface
         return "{$this->fullname()} {$this->emailAddress()}";
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getArrayCopy(): array
     {
         return [
@@ -208,6 +211,9 @@ class Contact implements ArrayInterface
         ];
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function exchangeArray($data): array
     {
         return is_string($data)

@@ -69,6 +69,9 @@ final class Month extends DateType implements ArrayInterface
         );
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getArrayCopy(): array
     {
         return [
@@ -76,6 +79,9 @@ final class Month extends DateType implements ArrayInterface
         ];
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function exchangeArray($array): array
     {
         return $array;

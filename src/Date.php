@@ -103,11 +103,17 @@ final class Date extends DateType
         );
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function asText(): string
     {
         return "{$this->month->asText()} {$this->day_of_month}";
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function toISOString(): string
     {
         return (new DateTimeImmutable((string) $this))->format("c");
