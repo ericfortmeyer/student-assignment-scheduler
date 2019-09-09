@@ -86,6 +86,7 @@ class MailSender
     }
 
     /**
+     * @codeCoverageIgnore
      * @return self
      */
     public function setEmailToUser(): self
@@ -96,6 +97,7 @@ class MailSender
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $email
      * @param string $fullname
      * @return self
@@ -119,6 +121,7 @@ class MailSender
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $subject
      * @return self
      */
@@ -130,6 +133,7 @@ class MailSender
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $body
      * @return self
      */
