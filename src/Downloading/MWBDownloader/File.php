@@ -53,22 +53,19 @@ abstract class File implements Downloadable, Validatable
         Config\DownloadConfig $config,
         ?callable $downloader = null
     ) {
-        $this->fileinfo = $fileinfo;
-
-        if (static::MIMETYPE !== $this->fileinfo->mimetype) {
+        if (static::MIMETYPE !== $fileinfo->mimetype) {
             throw new InvalidMimetypeException(
                 static::class,
                 static::MIMETYPE,
-                $this->fileinfo->mimetype
+                $fileinfo->mimetype
             );
         }
-
-        $this->config = $config;
-
         /**
          * Use a provided callable or Curl object
          */
         $this->downloader = $downloader ?? new Utils\Curl();
+        $this->fileinfo = $fileinfo;
+        $this->config = $config;
     }
 
     /**
@@ -79,7 +76,6 @@ abstract class File implements Downloadable, Validatable
     public function downloadTo(string $directory)
     {
         $this->destination = "$directory/{$this->filename()}";
-
         $this->downloadIfNotExists($this->destination);
     }
 
@@ -106,23 +102,6 @@ abstract class File implements Downloadable, Validatable
         $this->errorHandlingMap($full_path_of_file)[$errorCase]();
     }
 
-    /**
-     * Option to handle file validation internally or allow another class to handle it
-     *
-     * The results of file validation are set as properties
-     * to allow file validation handling by the application
-     * if desired
-     *
-     * @param string $destination
-     * @return static
-     */
-    protected function setFileValidationFlags(string $destination)
-    {
-        $this->filesizeIsValid = $this->validateFilesize($destination);
-        $this->checksumPassed = $this->verifyChecksum($destination);
-        return $this;
-    }
-
     protected function validateFilesize(string $filename): bool
     {
         return $this->fileinfo->filesize === filesize($filename);
@@ -133,6 +112,9 @@ abstract class File implements Downloadable, Validatable
         return $this->fileinfo->checksum === md5_file($filename);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function filesizeTuple(string $filename): array
     {
         return [
@@ -143,6 +125,9 @@ abstract class File implements Downloadable, Validatable
         ];
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function checksumTuple(string $filename): array
     {
         return [
@@ -158,7 +143,6 @@ abstract class File implements Downloadable, Validatable
         // last part of url
         $pattern = "/.*\/(.+)$/";
         preg_match($pattern, $this->fileinfo->url, $matches);
-        
         return $matches[1];
     }
 
@@ -197,7 +181,7 @@ abstract class File implements Downloadable, Validatable
      * A map of error handling functions.
      *
      * The keys are constants representing error cases.
-     *
+     * @codeCoverageIgnore
      * @param string $full_path_of_file May be required if the file needs to be deleted.
      * @return Map A map of error handling functions.
      * @throws InvalidFilesizeException|InvalidChecksumException
