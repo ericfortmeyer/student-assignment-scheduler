@@ -10,6 +10,9 @@ use StudentAssignmentScheduler\Downloading\MWBDownloader\Config\ConfigArrayValue
  */
 final class Curl
 {
+    /**
+     * @codeCoverageIgnore
+     */
     private static function resultHandlingMap(): array
     {
         return [
