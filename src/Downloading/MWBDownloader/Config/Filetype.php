@@ -25,7 +25,9 @@ final class Filetype
 
     private function completeConstructionOnlyIfFiletypeIsValid(string $filetype)
     {
-        $this->validateFiletype($filetype) && $this->value = $filetype;
+        if ($this->validateFiletype($filetype)) {
+            $this->value = $filetype;
+        }
     }
 
     public function toString()
@@ -36,20 +38,21 @@ final class Filetype
     /**
      * Validate that the filetype specified in the configuration
      * is among expected filetypes.
-     *
-     * @throws InvalidConfigurationException
+     * 
+     * @codeCoverageIgnore
+     * @throws InvalidFiletypeException
      * @return bool
      */
     private function validateFiletype(string $filetype): bool
     {
-        if (!in_array(strtolower($filetype), self::VALID_FILETYPES)) :
-            throw new InvalidConfigurationException(
+        if (!in_array(strtolower($filetype), self::VALID_FILETYPES)) {
+            throw new InvalidFiletypeException(
                 "{$filetype} is not among expected filetypes."
                     . PHP_EOL . "Expected filetypes: " . json_encode(self::VALID_FILETYPES)
                     . PHP_EOL . "Check configuration in {$this->path_to_config_file}"
             );
-        else :
+        } else {
             return true;
-        endif;
+        }
     }
 }
