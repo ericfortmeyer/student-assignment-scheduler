@@ -22,12 +22,6 @@ final class ApiService
         $this->curl = new Curl();
     }
 
-    public function getPayloadAsString(): string
-    {
-        $curl = $this->curl;
-        return $curl($this->api_opts);
-    }
-
     public function getPayloadAsObject(): object
     {
         $curl = $this->curl;
