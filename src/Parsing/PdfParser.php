@@ -8,7 +8,7 @@ use \Ds\Vector;
 
 /**
  * Use to parse a pdf schedule.
- * 
+ *
  * @codeCoverageIgnore
  */
 final class PdfParser implements ParserInterface
