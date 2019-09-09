@@ -70,9 +70,9 @@ final class PdfParser implements ParserInterface
                 $interval_spec
             )
         );
-        $map->put(5, Functions\getAssignment($pattern_func(5), $textFromWorksheet));
-        $map->put(6, Functions\getAssignment($pattern_func(6), $textFromWorksheet));
-        $map->put(7, Functions\getAssignment($pattern_func(7), $textFromWorksheet));
+        $map->put(5, $this->getAssignment($pattern_func(5), $textFromWorksheet));
+        $map->put(6, $this->getAssignment($pattern_func(6), $textFromWorksheet));
+        $map->put(7, $this->getAssignment($pattern_func(7), $textFromWorksheet));
 
         return $map->toArray();
     }
@@ -82,6 +82,21 @@ final class PdfParser implements ParserInterface
         return new Vector(range(1, 6));
     }
 
+    protected function getAssignment(string $pattern, string $text): string
+    {
+        $string_representation_of_media_image_for_videos = "w";
+        $result = ltrim(
+            parse(
+                $pattern,
+                $text
+            ),
+            $string_representation_of_media_image_for_videos
+        );
+        return $result === "Ta l k"
+            ? str_replace(" ", "", $result)
+            : $result;
+    }
+        
     protected function getConfig(): array
     {
         return include "parse_config.php";
