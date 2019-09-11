@@ -1,0 +1,41 @@
+<mat-toolbar class="toolbar--fixed" color="primary">
+  <button class="toolbar__menu-button" (click)="sidenav.toggle()">
+    <mat-icon svgIcon="menu">menu</mat-icon>
+  </button>
+  {{title}}
+</mat-toolbar>
+<mat-sidenav-container class="example-container" hasBackdrop="true">
+    <mat-sidenav #sidenav mode="side">
+      <mat-nav-list>
+        <a mat-list-item routerLink="/assignments" routerLinkActive="active" (click)="sidenav.toggle()">
+          Assignments
+        </a>
+        <a mat-list-item routerLink="/contacts" routerLinkActive="active" (click)="sidenav.toggle()">
+          Contacts
+        </a>
+        <a mat-list-item routerLink="/schedule-recipients" routerLinkActive="active" (click)="sidenav.toggle()">
+          Schedule Recipients
+        </a>
+        <a mat-list-item routerLink="/special-events" routerLinkActive="active" (click)="sidenav.toggle()">
+          Special Events
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <main>
+        <section class="content">
+          <router-outlet></router-outlet>
+        </section>
+      </main>
+      <footer>
+        <div style="width:50vw; margin: 0 auto">
+          jwvirtualassistant.com copywright® 2019<br>
+          Community-driven LAMM scheduling software<br>
+          This software is free to use.  No donations are accepted.<br>
+          A copy of the source code is available at <a href="https://github.com/ericfortmeyer/student-assignment-scheduler">https://github.com/ericfortmeyer/student-assignment-scheduler</a><br>
+          A copy of the license for this software can be found at <a href="https://jwvirtualassistant.com/LICENSE">https://jwvirtualassistant.com/LICENSE</a><br>
+        </div>
+      </footer>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+

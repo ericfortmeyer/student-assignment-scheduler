@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JW Virtual Assistant</title>
+        <meta name="theme-color" content="#ffffff" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Author: jwvirtualassistant.com community,
+            LAMM Scheduling App developed by the community" />
+        <link rel="manifest" href="manifest.json" />
+        <link rel="icon" href="resources/images/icon-192.png" />
+        <link rel="apple-touch-icon" href="resources/images/icon-192.png" />
+        <link  rel="preload" as="style" onload="this.rel='stylesheet'" href="dist/bundle.min.css" type="text/css" />
+        <style>
+            form button {
+                font-size: 1rem;
+                color: var(--black);
+                padding: 1rem 4rem;
+                appearance: none;
+                border: 1px solid var(--primary);
+                margin: 2rem auto;
+            }
+        </style>
+        <script type="text/javascript" src="resources/javascript/dev_urls.js"></script>
+    </head>
+    <body>
+        <h1>
+            JW Virtual Assistant
+        </h1>
+        <style type="text/css">
+            .lds-ellipsis {
+                display: inline-block;
+                position: relative;
+              }
+              .lds-ellipsis div {
+                position: absolute;
+                margin: 0;
+                margin-left: -30px;
+                top: 0;
+                width: 13px;
+                height: 13px;
+                border-radius: 50%;
+                background: #e6e;
+                animation-timing-function: cubic-bezier(0, 1, 1, 0);
+              }
+              .lds-ellipsis div:nth-child(1) {
+                left: 8px;
+                animation: lds-ellipsis1 0.6s infinite;
+              }
+              .lds-ellipsis div:nth-child(2) {
+                left: 8px;
+                animation: lds-ellipsis2 0.6s infinite;
+              }
+              .lds-ellipsis div:nth-child(3) {
+                left: 32px;
+                animation: lds-ellipsis2 0.6s infinite;
+              }
+              .lds-ellipsis div:nth-child(4) {
+                left: 56px;
+                animation: lds-ellipsis3 0.6s infinite;
+              }
+              @keyframes lds-ellipsis1 {
+                0% {
+                  transform: scale(0);
+                }
+                100% {
+                  transform: scale(1);
+                }
+              }
+              @keyframes lds-ellipsis3 {
+                0% {
+                  transform: scale(1);
+                }
+                100% {
+                  transform: scale(0);
+                }
+              }
+              @keyframes lds-ellipsis2 {
+                0% {
+                  transform: translate(0, 0);
+                }
+                100% {
+                  transform: translate(24px, 0);
+                }
+              }
+        </style>
+        <form id="loginForm" method="post" action="#">
+            <header>
+            </header>
+            <section>
+                <h2 style="color:white">
+                    Login
+                </h2>
+                <div>
+                    <label for="username">
+                        User name
+                    </label>
+                    <input type="text" id="username" name="username" required/>
+                </div>
+                <div>
+                    <label for="password">
+                        Password
+                    </label>
+                    <input type="password" id="password" name="password" required/>
+                </div>
+                <p>
+                    <a id="#createAccountLink" href="***">Create an account</a>
+                    <script type="text/javascript">
+                        document.getElementById("#createAccountLink").href = account_management_url;
+                    </script>
+                </p>
+                <button type="submit">
+                    <div class="form-submit-loader"><div></div><div></div><div></div><div></div></div>
+                </button>
+            </section>
+            <input type="hidden" name="grant_type" value="password" required/>
+            <input type="hidden" name="client_id" value="testclient2" required/>
+        </form>
+        <aside id="alert" class="form__alert">
+        </aside>
+        <script type="text/javascript" src="resources/javascript/secretKey.js"></script>
+        <script type="text/javascript" src="resources/javascript/loginActions.js"></script>
+        <script type="text/javascript" src="resources/javascript/login.js"></script>
+    </body>
+</html>

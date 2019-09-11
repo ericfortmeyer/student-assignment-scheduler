@@ -1,0 +1,33 @@
+button {
+    border-radius: var(--border-radius);
+}
+form button {
+    font-size: 1rem;
+    color: var(--black);
+    padding: 1rem 4rem;
+    appearance: none;
+    border: 1px solid var(--primary);
+    margin: 2rem auto;
+    cursor: pointer;
+}
+form button {
+    background-color: var(--white);
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    transition: all 400ms;
+}
+form button:hover {
+    background-color: var(--white);
+    box-shadow: none;
+}
+form button:before {
+    content: 'Submit';
+}
+form button:disabled {
+    background-color: #d8d8d8;
+}
+form button:disabled:before {
+    content: ' ';
+}
+form button div {
+    margin: 0;
+}

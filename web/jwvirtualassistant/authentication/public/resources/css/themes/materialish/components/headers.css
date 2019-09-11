@@ -1,0 +1,11 @@
+body > h1 {
+    margin: 10rem auto;
+    font-size: 3rem;
+    font-weight: 200;
+    letter-spacing: 1.2rem;
+    color: var(--primary-monochromatic);
+}
+
+form section h2 {
+    color: white;
+}

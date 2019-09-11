@@ -1,0 +1,50 @@
+form {
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    background-color: var(--primary);
+    width: 30vw;
+    min-width: 40rem;
+    margin: 4rem auto;
+    text-align: left;
+}
+form {
+    color: black;
+}
+form header,
+form section {
+    padding: 2rem;
+}
+form header {
+    background-color: var(--primary-monochromatic);
+    color: var(--white);
+}
+fieldset {
+    border-width: 1px;
+    border-style: solid;
+}
+label,
+legend,
+fieldset {
+    border-color: var(--primary-monochromatic);
+    color: var(--black);
+}
+label {
+    display: block;
+}
+legend {
+    color: var(--white);
+    font-size: 1.5rem;
+}
+input {
+    line-height: 2rem;
+    min-width: 80%;
+    font-size: 2rem;
+}
+form div {
+    margin: 2rem 0;
+}
+form {
+    border-radius: var(--border-radius);
+}
+form header {
+    border-radius: var(--border-radius) var(--border-radius) 0;
+}

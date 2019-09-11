@@ -1,0 +1,30 @@
+.form__alert {
+    color: var(--danger);
+}
+.fort__alert {
+    transition: all 400ms;
+}
+.form__alert {
+    background-color: pink;
+}
+.form__alert {
+    padding: 4rem 8rem;
+}
+.form__alert {
+    font-size: 2rem;
+}
+.form__alert {
+    display: inline-flex;
+    visibility: hidden;
+    opacity: 0;
+}
+.form__alert.show {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 400ms opacity 400ms;
+}
+.form__alert.hide {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 400ms opacity 400ms;
+}

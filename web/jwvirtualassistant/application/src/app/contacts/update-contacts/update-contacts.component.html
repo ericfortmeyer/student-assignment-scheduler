@@ -1,0 +1,62 @@
+<h2>Update Contact</h2>
+<div class="update-form">
+    <form *ngIf="contact$ | async as contact" [formGroup]="updateContactForm"
+    (ngSubmit)="onSubmit()">
+    <p>
+        <mat-form-field appearance="standard" class="first-name">
+            <input type="text"
+                matInput
+                trim="blur"
+                placeholder="First name"
+                name="firstName"
+                aria-label="first name"
+                formControlName="firstName">
+        </mat-form-field>
+        <mat-error *ngIf="hasError(firstName)">
+            Required
+        </mat-error>
+    </p>
+    <p>
+        <mat-form-field appearance="standard" class="last-name">
+            <input type="text"
+                matInput
+                trim="blur"
+                placeholder="Last name"
+                name="lastName"
+                aria-label="last name"
+                formControlName="lastName">
+        </mat-form-field>
+        <mat-error *ngIf="hasError(lastName)">
+            Required
+        </mat-error>
+    </p>
+    <p>
+        <mat-form-field appearance="standard" class="email">
+            <input type="email"
+                matInput
+                trim="blur"
+                placeholder="Email"
+                name="email"
+                aria-label="email"
+                formControlName="email"
+                email>
+            </mat-form-field>
+            <mat-error *ngIf="hasError(email)">
+                Invalid email
+            </mat-error>
+        </p>
+    <div *ngIf="formCompleted([ firstName, lastName, email ]) | async; else disabled">
+        <button mat-raised-button color="primary" type="submit">Done</button>
+        <button mat-raised-button color="warn" type="button" arial-label="cancel" (click)="gotoContacts(0)">Cancel</button>
+    </div>
+    <ng-template #disabled>
+        <button mat-raised-button color="primary" type="submit" disabled>Complete the form</button>
+        <button mat-raised-button color="warn" type="button" arial-label="cancel" (click)="gotoContacts(0)">Cancel</button>
+    </ng-template>
+    <div *ngIf="(formSubmitResultObs$ | async) as contact">
+        <updated-popup>
+            {{contact.fullname}}
+        </updated-popup>
+    </div>
+    </form>
+</div>

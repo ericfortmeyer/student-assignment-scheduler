@@ -1,0 +1,29 @@
+@import "utils.css"; /* load first */
+@import "colors.css"; /* load first */
+@import "components/buttons.css";
+@import "fonts.css";
+@import "layout/centered.css";
+@import "components/headers.css";
+@import "components/forms.css";
+@import "components/links.css";
+
+body {
+    color: var(--primary);
+}
+
+:root {
+    font-size: 16px;
+}
+
+section.notifications {
+    margin: 2rem auto;
+    max-width: 50vw;
+    min-height: 6rem;
+}
+
+.message--error {
+    color: var(--danger);
+    background-color: lightcoral;
+    border: 0.25rem solid var(--danger);
+    padding: 0.5rem;
+}

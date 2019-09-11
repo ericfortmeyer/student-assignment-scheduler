@@ -1,0 +1,16 @@
+<div *ngIf='scheduleRecipientsObs$ | async as contacts; else loading' style="text-align:center">
+  <div *ngFor='let contact of contacts' style="display: inline-block">
+    <mat-card class="contacts__card">
+        <mat-card-header>
+            <mat-card-title>{{contact.fullname}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content style="line-height: 30px">
+            <mat-icon svgIcon="email"></mat-icon>
+            {{contact.email}}
+        </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<ng-template #loading>
+    <app-centered-spinner></app-centered-spinner>
+</ng-template>

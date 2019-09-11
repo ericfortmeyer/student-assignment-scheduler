@@ -1,0 +1,77 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+:root {
+    --primary-monochromatic: #FF2D00;
+    --success: green;
+    --warn: red;
+}
+
+body {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+body {
+    margin: 0;
+    font-size: 16px;
+}
+
+.card {
+    max-width: 400px;
+    width: 336px;
+    margin: 0.5rem;
+}
+
+mat-form-field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.mat-drawer-content {
+    overflow: initial !important;
+}
+
+h2 {
+    text-align: center;
+}
+form {
+    width: 30vw;
+    min-width: 40rem;
+    margin: 4rem auto;
+    text-align: left;
+}
+ form p {
+     margin-left: 1rem;
+ }
+
+button[mat-button],
+button[mat-raised-button] {
+    margin: 1rem;
+}
+
+.button-container + div.ng-star-inserted {
+    display: inline;
+}
+
+.popup-container {
+    text-align: center;
+}
+
+.created-popup.success,
+.updated-popup.success {
+    border-radius: 0.4rem;
+    margin: 2rem auto;
+    display: inline-block;
+    background-color: #85ff85;
+    padding: 1rem;
+}
+
+.centered-spinner-container {
+    margin: 25vh auto;
+    text-align: center;
+}
+
+.centered-spinner-container mat-spinner {
+    margin: 0 auto;
+}

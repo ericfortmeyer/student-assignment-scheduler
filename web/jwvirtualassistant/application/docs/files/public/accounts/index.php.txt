@@ -1,0 +1,32 @@
+<?php declare(strict_types=1);
+/**
+ * JW Virtual Assistant Login Account Management.
+ * 
+ * Copywright (c) Eric Fortmeyer.
+ * See LICENSE in the project root folder for license information.
+ *
+ * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
+ */
+
+
+namespace jwvirtualassistant\AccountManagement;
+
+use GuzzleHttp\Psr7\ServerRequest;
+use Narrowspark\HttpEmitter\SapiEmitter;
+
+$BASE_DIR = __DIR__ . "/../../";
+
+require "${BASE_DIR}vendor/autoload.php";
+
+$emitter = new SapiEmitter();
+
+$Request = ServerRequest::fromGlobals();
+$Response = RequestRouting\handleRequest($Request);
+
+if ($Response->hasHeader("Location")) {
+    header(sprintf("Location: %s", $Response->getHeaderLine("Location")));
+    exit();
+}
+
+$emitter->emit($Response);
+

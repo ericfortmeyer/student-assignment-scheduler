@@ -1,0 +1,16 @@
+<div *ngIf='specialEventsObs$ | async as specialEvents; else loading' style="text-align:center">
+    <div *ngFor='let specialEvent of specialEvents' style="display: inline-block">
+        <mat-card class="card">
+            <mat-card-header>
+                <mat-card-title>{{specialEvent.type.replace('_', ' ')}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content style="line-height: 30px">
+                {{ specialEvent.date | date }}
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+<ng-template #loading>
+    <app-centered-spinner></app-centered-spinner>
+</ng-template>
+    

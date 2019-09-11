@@ -1,0 +1,36 @@
+<div style="margin:3rem; text-align: right">
+  <div style="display:inline-block; width: 6rem; text-align: center">
+    <a mat-Ripple mat-fab color="primary" routerLink="create" aria-label="add contact">
+      <mat-icon class="personAddIcon" svgIcon="person_add">Add Contact</mat-icon>
+    </a>
+    <div style="margin: 0.25rem;">
+      Add contact
+    </div>
+  </div>
+</div>
+<div *ngIf="contactsObs$ | async as contacts; else loading" style="text-align:center">
+  <div *ngFor="let contact of contacts" style="display: inline-block">
+    <mat-card class="contacts__card">
+        <mat-card-header style="display:flex; justify-content: space-between">
+            <mat-card-title>{{contact.fullname}}</mat-card-title>
+            <a [routerLink]="['update/', contact.id]" mat-mini-fab color="link" aria-label="update contact">
+              Edit
+            </a>
+        </mat-card-header>
+        <mat-card-content style="line-height: 30px; display: flex; justify-content: space-between">
+            <div>
+              <mat-icon svgIcon="email"></mat-icon>
+              <span class="contacts__card__email">
+                {{contact.email}}
+              </span>
+            </div>  
+            <button mat-raised-button color="warn" (click)="deleteContact(contact.id)">
+              Delete
+            </button>
+        </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<ng-template #loading>
+  <app-centered-spinner></app-centered-spinner>
+</ng-template>

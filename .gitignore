@@ -9,7 +9,7 @@ vendor/
 /tmp
 /backups
 
-/web
+# /web
 
 composer.lock
 

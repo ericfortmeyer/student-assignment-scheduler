@@ -1,0 +1,14 @@
+@import "utils.css"; /* load first */
+@import "colors.css"; /* load first */
+@import "components/buttons.css";
+@import "fonts.css";
+@import "layout/centered.css";
+@import "components/headers.css";
+@import "components/forms.css";
+@import "components/links.css";
+@import "components/alerts.css";
+@import "components/spinners/ellipsis.css";
+
+body {
+    color: var(--primary);
+}

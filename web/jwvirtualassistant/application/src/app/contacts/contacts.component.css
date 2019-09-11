@@ -1,0 +1,14 @@
+.contacts__card {
+    max-width: 400px;
+    min-width: 267px;
+    margin: 0.5rem;
+}
+
+.contacts__card__email {
+    vertical-align: super;
+}
+
+.personAddIcon svg {
+    width: 2rem;
+    height: 2rem;
+}
