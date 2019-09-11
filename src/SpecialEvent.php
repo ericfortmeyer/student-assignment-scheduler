@@ -67,12 +67,12 @@ final class SpecialEvent extends Event implements ArrayInterface
                 return strlen($prepend((string) $event) . $append((string) $this->date));
             })->toArray()
         );
-        $eventAsString = $prepend($this->type) . $append($this->date);
+        $eventAsString = $prepend((string) $this->type) . $append((string) $this->date);
         $currentLen = strlen($eventAsString);
         $tabWidth = $maxLen - $currentLen + 1;
         $whitespace = ' ';
         $tab = str_pad($whitespace, (int) $tabWidth, $whitespace);
-        return "{$prepend($this->type)}${tab}{$append($this->date)}";
+        return "{$prepend((string) $this->type)}${tab}{$append((string) $this->date)}";
     }
 
     /**
