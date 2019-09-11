@@ -277,10 +277,10 @@ return [
     'exclude_analysis_directory_list' => [
         'vendor/',
         'tests/',
-        'apigility/vendor/',
-        'apigility/config/',
-        'apigility/module/Application/',
-        'apigility/public/',
+        'api/vendor/',
+        'api/config/',
+        'api/module/Application/',
+        'api/public/',
         'web/',
         'tmp/'
     ],
