@@ -1,0 +1,17 @@
+{
+    "0": {
+        "date": "January 10",
+        "assignment": "bible_reading",
+        "name": "John Doe",
+        "counsel_point": "",
+        "assistant": ""
+    },
+    "1": {
+        "date": "January 10",
+        "assignment": "Talk",
+        "name": "Jim Brown",
+        "counsel_point": "",
+        "assistant": ""
+    },
+    "year": "2019"
+}

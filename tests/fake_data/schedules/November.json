@@ -1,0 +1,28 @@
+{
+    "month": "November",
+    "year": "2018",
+    "0": {
+        "date": "08",
+        "5": "First Conversation Video",
+        "6": "First Return Visit",
+        "7": "Bible Study"
+    },
+    "1": {
+        "date": "15",
+        "5": "First Conversation",
+        "6": "First Return Visit Video",
+        "7": "Talk"
+    },
+    "2": {
+        "date": "22",
+        "5": "First Conversation",
+        "6": "First Return Visit",
+        "7": "Second Return Visit Video"
+    },
+    "3": {
+        "date": "29",
+        "5": "Second Return Visit",
+        "6": "Third Return Visit",
+        "7": "Bible Study"
+    }
+}

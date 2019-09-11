@@ -1,0 +1,34 @@
+{
+    "month": "October",
+    "year": "2018",
+    "0": {
+        "date": "04",
+        "5": "First Conversation Video",
+        "6": "First Return Visit",
+        "7": "Bible Study"
+    },
+    "1": {
+        "date": "11",
+        "5": "First Conversation",
+        "6": "First Return Visit Video",
+        "7": "Talk"
+    },
+    "2": {
+        "date": "18",
+        "5": "First Conversation",
+        "6": "First Return Visit",
+        "7": "Second Return Visit Video"
+    },
+    "3": {
+        "date": "25",
+        "5": "Second Return Visit",
+        "6": "Third Return Visit",
+        "7": "Bible Study"
+    },
+    "4": {
+        "date": "02",
+        "5": "Second Return Visit",
+        "6": "Third Return Visit",
+        "7": "Bible Study"
+    }
+}
