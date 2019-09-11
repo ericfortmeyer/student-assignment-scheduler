@@ -12,7 +12,8 @@ namespace StudentAssignmentScheduler;
 use \Ds\Map;
 
 /**
- * Represents a week of assignments in a month's schedule.
+ * Represents all of the information needed
+ * to make assignments for a given week.
  */
 final class WeekOfAssignments
 {
@@ -31,14 +32,10 @@ final class WeekOfAssignments
     /**
      * @var Map $assignments
      */
-    private $assignments;
+    public $assignments;
 
     /**
-     * Create the instance.
-     *
-     * @param Month $month
-     * @param DayOfMonth $DayOfMonth
-     * @param Map $assignments
+     * Create a WeekOfAssignments instance.
      */
     public function __construct(Month $month, DayOfMonth $DayOfMonth, Map $assignments)
     {
@@ -90,5 +87,17 @@ final class WeekOfAssignments
     public function toArrayWithYearKey(string $year): array
     {
         return ["year" => $year] + $this->assignments->toArray();
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function map(\Closure $callable): self
+    {
+        return new self(
+            $this->month(),
+            $this->dayOfMonth(),
+            $this->assignments()->map($callable)
+        );
     }
 }

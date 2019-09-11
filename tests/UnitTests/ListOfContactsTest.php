@@ -11,8 +11,12 @@ class ListOfContactsTest extends TestCase
     
     protected function setup(): void
     {
-        $this->contacts = require __DIR__ . "/../mocks/contacts.php";
-
+        $this->contacts = [
+            "Bob Smith bob@aol.com",
+            "Thelonious Monk tmonk@hotmail.com",
+            "Art Tatum tatum@gmail.com",
+            "Oscar Peterson op@gmail.com"
+        ];
         $this->ListOfContacts = new ListOfContacts($this->contacts);
     }
 
@@ -108,6 +112,60 @@ class ListOfContactsTest extends TestCase
             $this->ListOfContacts->withContact(
                 new Contact("${fakeFirstName} ${fakeLastName} ${fakeEmail}")
             )->contains("${fakeFirstName} ${fakeLastName}")
+        );
+    }
+
+    public function testCanFindContactIfGivenFirstNameHasMultipleCapitalLetters()
+    {
+        $first_names_with_multiple_capital_letters = [
+            "DJ",
+            "TJ",
+            "BB",
+            "BoDee",
+            "AmyLee"
+        ];
+
+        $normal_first_names = [
+            "Mary",
+            "Sue",
+            "Catherine",
+            "Thelonious"
+        ];
+
+        $fake_last_name = "Fake";
+        $fake_email = "fake@aol.com";
+
+        /**
+         * @var Contact[] $fake_contacts
+         */
+        $fake_contacts = array_map(
+            function (string $first_name) use ($fake_last_name, $fake_email): Contact {
+                return new Contact("${first_name} ${fake_last_name} ${fake_email}");
+            },
+            array_merge($first_names_with_multiple_capital_letters, $normal_first_names)
+        );
+
+        $FakeListOfContacts = new ListOfContacts($fake_contacts);
+
+        $this->assertFalse(
+            $FakeListOfContacts->findByFullname(new Fullname("Eric Fortmeyer"))->getOrElse(
+                function () {return false;}
+            )
+        );
+
+
+        array_map( 
+            function (string $given_first_name) use ($FakeListOfContacts, $fake_last_name): void {
+                $this->assertThat(
+                    $FakeListOfContacts
+                        ->findByFullname(new Fullname($given_first_name, $fake_last_name))
+                        ->getOrElse(function () { return false; }),
+                    $this->logicalNot(
+                        $this->equalTo(false)
+                    )
+                );
+            },
+            array_merge($first_names_with_multiple_capital_letters, $normal_first_names)
         );
     }
 

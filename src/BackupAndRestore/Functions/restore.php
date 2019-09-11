@@ -51,6 +51,5 @@ function restore(RestoreConfig $config): bool
             );
         }
     );
-
     return moveAllFilesOrRollback($file_moving_queue, $config);
 }

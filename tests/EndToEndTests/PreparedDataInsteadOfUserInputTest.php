@@ -42,25 +42,23 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
         $this->path_to_assignment_form_writer_config = buildPath(
             __DIR__,
             "..",
-            "mocks",
-            "config",
+            "fake_config",
             "assignment_form_writer_config.php"
         );
 
         $this->path_to_schedule_writer_config = buildPath(
             __DIR__,
             "..",
-            "mocks",
-            "config",
+            "fake_config",
             "schedule_writer_config.php"
         );
 
-        $this->mock_contacts = buildPath(
-            __DIR__,
-            "..",
-            "mocks",
-            "contacts.php"
-        );
+        $this->mock_contacts = [
+            "Bob Smith bob@aol.com",
+            "Thelonious Monk tmonk@hotmail.com",
+            "Art Tatum tatum@gmail.com",
+            "Oscar Peterson op@gmail.com"
+        ];
     }
 
     public function testDocumentsAreCreatedAndAttachedToEmailsAndEmailsAreSentWhenGivenMockUserInput()
@@ -72,7 +70,7 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
         $assignment_form_writer_config["assignment_forms_destination"] = $this->assignment_forms_destination;
         $path_to_forms = $this->assignment_forms_destination;
         $path_to_schedule = $this->schedule_destination;
-        $ListOfContacts = new ListOfContacts(require $this->mock_contacts);
+        $ListOfContacts = new ListOfContacts($this->mock_contacts);
         $assignment_form_filenames = new \Ds\Set();
         $mail_sender_args = [
             $EmptyMailer = new PHPMailer(),
@@ -312,8 +310,8 @@ class PreparedDataInsteadOfUserInputTest extends TestCase
                 buildPath(
                     __DIR__,
                     "..",
-                    "mocks",
-                    "months",
+                    "fake_data",
+                    "schedules",
                     "January.json"
                 )
             ),

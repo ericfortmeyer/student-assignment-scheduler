@@ -14,7 +14,7 @@ namespace StudentAssignmentScheduler\BackupAndRestore;
 use StudentAssignmentScheduler\{
     Destination,
     Password,
-    Exception\IncorrectPasswordException
+    Exception\IncorrectPasswordException,
 };
 use \ZipArchive;
 use \Ds\Set;
@@ -56,20 +56,19 @@ final class RestoreConfig
     public function extractToTmpDir(ZipArchive $zip): void
     {
         $tmp_dir = (string) $this->tmp_dir;
-        if ($zip->open((string) $this->backup_file) === true) {
-            $this->password_option->select(
-                function (Password $passwd) use ($zip, $tmp_dir) {
-                    $zip->setPassword((string) $passwd);
-                    if (!$zip->extractTo($tmp_dir)) {
-                        throw new IncorrectPasswordException();
-                    }
-                },
-                function () use ($zip, $tmp_dir) {
-                    $zip->extractTo($tmp_dir);
+        $zip->open((string) $this->backup_file);
+        $this->password_option->select(
+            function (Password $passwd) use ($zip, $tmp_dir) {
+                $zip->setPassword((string) $passwd);
+                if (!$zip->extractTo($tmp_dir)) {
+                    throw new IncorrectPasswordException();
                 }
-            );
-            $zip->close();
-        }
+            },
+            function () use ($zip, $tmp_dir) {
+                $zip->extractTo($tmp_dir);
+            }
+        );
+        $zip->close();
     }
 
     public function removeTmpDir(): void
@@ -86,21 +85,7 @@ final class RestoreConfig
     {
         $filename = (string) $oldname;
         $base_dir = (string) $this->app_base_dir;
-        $tmp_dir = (string) $this->tmp_dir;
-
-        return $this->hasSubdirectory($base_dir, $tmp_dir, $filename)
-            ? (function () use ($base_dir, $filename): string {
-                $subdirectory = \explode($base_dir, dirname($filename))[1];
-                return Functions\buildPath("${base_dir}${subdirectory}", basename($filename));
-            })()
-            : (function () use ($base_dir, $filename): string {
-                return Functions\buildPath($base_dir, basename($filename));
-            })();
-    }
-
-    private function hasSubdirectory(string $base_dir, string $tmp_dir, string $filename): bool
-    {
-        $split_result = explode($base_dir, dirname($filename));
-        return count($split_result) > 1 && dirname($filename) !== $tmp_dir;
+        // $tmp_dir = (string) $this->tmp_dir;
+        return Functions\buildPath($base_dir, basename($filename));
     }
 }

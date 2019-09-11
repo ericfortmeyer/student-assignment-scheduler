@@ -25,7 +25,7 @@ function fetchContacts()
             "m",
             "s"
         ];
-        $Dotenv = new Dotenv($env_dir);
+        $Dotenv = Dotenv::create($env_dir);
         $Dotenv->load();
     } catch (\Dotenv\Exception\InvalidPathException $e) {
         setupKeys($path_to_secrets, $env_dir);
@@ -48,7 +48,5 @@ function fetchContacts()
         getenv("s")
     );
 
-    $collection = new \StudentAssignmentScheduler\ListOfContacts($contacts->toArray());
-
-    return $collection->getArrayCopy();
+    return new \StudentAssignmentScheduler\ListOfContacts($contacts->toArray());
 }

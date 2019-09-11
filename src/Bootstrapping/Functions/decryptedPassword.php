@@ -20,7 +20,6 @@ function decryptedPassword(): string
     $nonce = base64_decode(getenv("from_email_nonce"));
     $key = base64_decode(getenv("from_email_key"));
     $encrypted_password = base64_decode(getenv("from_email_password"));
-
     return sodium_crypto_secretbox_open(
         $encrypted_password,
         $nonce,

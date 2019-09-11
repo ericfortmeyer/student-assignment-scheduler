@@ -22,7 +22,6 @@ class ActionTest extends TestCase
                 $this->assertTrue(
                     \is_callable($action)
                 );
-
                 $this->assertSame(
                     $action(),
                     $key

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.4/phpunit.xsd"
-         bootstrap="tests/bootstrap.php"
-         beStrictAboutOutputDuringTests="true"
-         beStrictAboutTodoAnnotatedTests="true"
-         colors="true"
-         verbose="true">
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.4/phpunit.xsd"
+    bootstrap="tests/bootstrap.php"
+    beStrictAboutOutputDuringTests="true"
+    beStrictAboutTodoAnnotatedTests="true"
+    colors="true"
+    verbose="true">
     <testsuites>
         <testsuite name="default">
             <directory suffix="Test.php">tests/UnitTests</directory>
@@ -18,7 +18,15 @@
         </testsuite>
     </testsuites>
     <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+        <whitelist addUncoveredFilesFromWhitelist="false">
+            <directory suffix=".php">src</directory>
+            <exclude>
+                <file>src/FileRegistry/registry.php</file>
+                <directory>src/CLI</directory>
+                <directory>src/Commands</directory>
+                <directory>src/Logging</directory>
+                <directory>src/Querying</directory>
+            </exclude>
         </whitelist>
     </filter>
 </phpunit>

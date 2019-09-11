@@ -13,15 +13,11 @@ namespace StudentAssignmentScheduler\Querying\Functions;
 use function StudentAssignmentScheduler\Utils\Functions\monthNumeric;
 use function StudentAssignmentScheduler\Utils\Functions\filenamesInDirectory;
 
-/**
- * @param string $month
- * @param string $path_to_files
- * @return string[] Array of filenames
- */
+
 function filenamesByMonth(string $month, string $path_to_files): array
 {
     return array_filter(
-        filenamesInDirectory($path_to_files) ?? [],
+        filenamesInDirectory($path_to_files),
         function (string $filename) use ($month) {
             return firstTwoCharacters($filename) === monthNumeric($month);
         }

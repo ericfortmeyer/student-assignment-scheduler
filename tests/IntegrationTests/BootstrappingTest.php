@@ -17,7 +17,6 @@ class BootstrappingTest extends TestCase
         $this->location_of_mock_installation_script = buildPath(
             __DIR__,
             "..",
-            "mocks",
             "scripts",
             "install.sh"
         );
@@ -45,8 +44,8 @@ class BootstrappingTest extends TestCase
     public function testDataFromConfigFilesIsAsExpected()
     {
         $config_files = new Vector([
-            $config_file = buildPath(__DIR__, "..", "mocks", "config", "config.php"),
-            $path_config_file = buildPath(__DIR__, "..", "mocks", "config", "path_config.php")
+            $config_file = buildPath(__DIR__, "..", "fake_config", "config.php"),
+            $path_config_file = buildPath(__DIR__, "..", "fake_config", "path_config.php")
         ]);
 
         [
@@ -102,6 +101,32 @@ class BootstrappingTest extends TestCase
     protected function doesSecretsDirectoryContainFiles(string $secrets_dir): bool
     {
         return !(new Vector(filenamesInDirectory($secrets_dir)))->isEmpty();
+    }
+
+    public function testDecryptedEmailPasswordIsAsExpected()
+    {
+        $given_nonce = \random_bytes(\SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
+        $given_key = \sodium_crypto_secretbox_keygen();
+        $encoded_nonce = \base64_encode($given_nonce);
+        $encoded_key = \base64_encode($given_key);
+        $given_plaintext_password = $expected_plaintext_password = "just a fake password";
+        $encrypted_password = \sodium_crypto_secretbox(
+            $given_plaintext_password,
+            $given_nonce,
+            $given_key
+        );
+        $encoded_password = \base64_encode($encrypted_password);
+        \putenv("from_email_nonce=${encoded_nonce}");
+        \putenv("from_email_key=${encoded_key}");
+        \putenv("from_email_password=${encoded_password}");
+        $this->assertSame(
+            $expected_plaintext_password,
+            decryptedPassword()
+        );
+        // cleanup
+        \putenv("from_email_nonce");
+        \putenv("from_email_key");
+        \putenv("from_email_password");
     }
 
     protected function teardown(): void

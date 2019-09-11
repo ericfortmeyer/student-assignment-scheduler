@@ -25,6 +25,9 @@ final class MaybeContact
         $this->value = $possibly_a_contact;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function __clone()
     {
     }

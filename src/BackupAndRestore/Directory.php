@@ -32,7 +32,7 @@ class Directory
     private function validateArg(string $arg): void
     {
         if (!is_dir($arg)) {
-            throw new \InvalidArgumentException("$arg is not a directory");
+            throw new \InvalidArgumentException("${arg} is not a directory");
         }
     }
 

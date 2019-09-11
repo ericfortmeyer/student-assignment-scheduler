@@ -10,7 +10,6 @@ vendor/
 /backups
 
 /web
-/apigility
 
 composer.lock
 
@@ -30,7 +29,8 @@ scripts/scheduler-deploy
 config/contacts.php
 config/app_config.json
 config/schedule_recipients.php
-registry.php
+src/FileRegistry/registry.php
+tests/tmp/registry.php
 
 # folders containing schedule data for each year
 data/20*
@@ -51,3 +51,5 @@ workbooks/rtf/*
 test_email.php
 
 .phpunit.result.cache
+
+apigility/

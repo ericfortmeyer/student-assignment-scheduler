@@ -16,15 +16,15 @@ namespace StudentAssignmentScheduler\Encryption\Functions;
  * @param string $path_to_sensitive_data
  * @param string $key
  * @param string $associated_data
- * @return void
+ * @return int
  */
 function box(
     $sensitive_data,
     string $path_to_sensitive_data,
     string $key,
     string $associated_data = "studentassignmentscheduler"
-): void {
-    \file_put_contents(
+): int {
+    return (int) \file_put_contents(
         $path_to_sensitive_data,
         \base64_encode(
             encrypt(

@@ -47,9 +47,9 @@ class ScheduleWriterTest extends TestCase
     protected function setup(): void
     {
         $schedules_destination = realpath(__DIR__ . "/../../tmp");
-        $this->config = require realpath(__DIR__ . "/../../mocks/config/schedule_writer_config.php");
-        $this->path_to_mock_schedules = realpath(__DIR__ . "/../../mocks/months");
-        $this->path_to_mock_assignments = realpath(__DIR__ . "/../../mocks");
+        $this->config = require realpath(__DIR__ . "/../../fake_config/schedule_writer_config.php");
+        $this->path_to_mock_schedules = realpath(__DIR__ . "/../../fake_data/schedules");
+        $this->path_to_mock_assignments = realpath(__DIR__ . "/../../fake_data/assignments");
         $this->mock_registry = __DIR__ . "/../../tmp/registry.php";
         $this->config["schedules_destination"] = $schedules_destination;
         $this->test_schedule_basename = "come_on_now";
@@ -120,7 +120,6 @@ class ScheduleWriterTest extends TestCase
     protected function schedule(string $month): array
     {
         $filename = "{$this->path_to_mock_schedules}/${month}.json";
-
         return weeksFrom(importJson($filename, true, $this->mock_registry));
     }
 }

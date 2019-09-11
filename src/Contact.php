@@ -10,26 +10,28 @@
 namespace StudentAssignmentScheduler;
 
 use \Ds\Set;
+use \Ds\Map;
+use \Ds\Vector;
 
 /**
  * Used to aggregate a person's contact information.
  */
-class Contact
+class Contact implements ArrayInterface
 {
     /**
      * @var Guid $guid
      */
-    protected $guid;
+    public $guid;
 
     /**
      * @var string $first_name
      */
-    protected $first_name;
+    public $first_name;
     
     /**
      * @var string $last_name
      */
-    protected $last_name;
+    public $last_name;
 
     /**
      * @var Fullname $fullname
@@ -39,30 +41,30 @@ class Contact
     /**
      * @var string $email_addrss
      */
-    protected $email_address;
+    public $email_address;
 
     /**
-     * @var Set $contact_info
+     * @var Set $contact_info_index
      */
-    protected $contact_info;
+    protected $contact_info_index;
 
     /**
      * Create the instance.
      *
      * @param string $space_separated_contact_info
      */
-    public function __construct(string $space_separated_contact_info = "")
+    public function __construct(string $space_separated_contact_info = "", ?Guid $guid = null)
     {
         $separated = explode(" ", $space_separated_contact_info);
         
-        list($first_name, $last_name, $email_address) = $this->validate($separated);
+        [$first_name, $last_name, $email_address] = $this->validate($separated);
         $contact_info = $this->validate($separated);
         $this->first_name = $first_name;
         $this->last_name = $last_name;
         $this->email_address = $email_address;
         $this->fullname = new Fullname($first_name, $last_name);
-        $this->contact_info = new Set(array_merge($contact_info, [strtolower((string) $this->fullname)]));
-        $this->guid = new Guid();
+        $this->contact_info_index = new Set(array_merge($contact_info, [$this->fullname]));
+        $this->guid = $guid ?? new Guid();
     }
 
     /**
@@ -74,11 +76,8 @@ class Contact
      */
     private function validate(array $contact_info): array
     {
-        $contact_info_map = new \Ds\Map($contact_info);
-        // each value is stored in lower case to simplify comparisons
-        $first_name = $contact_info_map->get(0, false);
-        $last_name = $contact_info_map->get(1, false);
-        $email_address = $contact_info_map->get(2, false);
+        $contact_info_map = new Map($contact_info);
+        [$first_name, $last_name, $email_address] = $this->getValues($contact_info_map);
 
         switch (false) {
             case $first_name:
@@ -89,22 +88,31 @@ class Contact
                 throw new \InvalidArgumentException(
                     $this->invalidArgumentMessage("Last name", $contact_info)
                 );
-            case $email_address:
+            case $email_address && \filter_var($email_address, FILTER_VALIDATE_EMAIL):
                 throw new \InvalidArgumentException(
                     $this->invalidArgumentMessage("Email address", $contact_info)
                 );
         }
 
-        return array_map(
-            function (string $value): string {
-                return \strtolower($value);
-            },
-            [
-                $first_name,
-                $last_name,
-                $email_address
+        return [
+            str_replace("_", " ", $first_name), $last_name, $email_address
+        ];
+    }
+
+    private function getValues(Map $contact_info): array
+    {
+        // does the 'first name' include a middle initial
+        return $contact_info->count() === 4
+            ? [
+                "{$contact_info->get(0, false)}_{$contact_info->get(1, false)}",
+                $contact_info->get(2, false),
+                $contact_info->get(3, false)
             ]
-        );
+            : [
+                $contact_info->get(0, false),
+                $contact_info->get(1, false),
+                $contact_info->get(2, false)
+            ];
     }
 
     /**
@@ -145,12 +153,18 @@ class Contact
     /**
      * Does the contact contain the value?
      *
+     * This operation performs a case insensitive search
+     * for the given value.
      * @param string $value
      * @return bool
      */
     public function contains(string $value): bool
     {
-        return $this->contact_info->contains(strtolower($value));
+        return (new Vector($this->contact_info_index))
+            ->map(function (string $contact_info_item) {
+                return strtolower($contact_info_item);
+            })
+            ->contains(strtolower($value));
     }
     
     /**
@@ -215,27 +229,21 @@ class Contact
     }
 
     /**
-     * Use to make this instance serializable as JSON.
-     *
-     * @return array An associated array representation of this instance
+     * @codeCoverageIgnore
      */
     public function getArrayCopy(): array
     {
         return [
             "id" => (string) $this->guid(),
             "fullname" => $this->fullname(),
-            "first_name" => $this->firstName(),
-            "last_name" => $this->lastName(),
+            "firstName" => $this->firstName(),
+            "lastName" => $this->lastName(),
             "email" => $this->emailAddress()
         ];
     }
 
     /**
-     * Use to create an array representation of this instance
-     * using given data.
-     *
-     * @param mixed $data
-     * @return array
+     * @codeCoverageIgnore
      */
     public function exchangeArray($data): array
     {

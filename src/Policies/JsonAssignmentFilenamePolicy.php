@@ -36,7 +36,7 @@ final class JsonAssignmentFilenamePolicy implements RuleInterface
     }
 
     /**
-     * Determine which be in the filename.
+     * Determine which day of the month will be in the filename.
      *
      * A week can be ignored unless it overlaps two months.
      */

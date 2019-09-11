@@ -21,16 +21,6 @@ final class ApiCurlOptions extends ConfigArrayValue
     public function __construct(array $incomplete_opts, ApiUrl $url)
     {
         parent::__construct($incomplete_opts);
-
         $this->container[CURLOPT_URL] = (string) $url;
-    }
-
-    public function withUrl(ApiUrl $url): self
-    {
-        $clone = clone $this;
-
-        $clone[CURLOPT_URL] = (string) $url;
-
-        return $clone;
     }
 }

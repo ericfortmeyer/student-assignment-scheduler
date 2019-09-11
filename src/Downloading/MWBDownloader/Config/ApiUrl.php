@@ -22,7 +22,10 @@ final class ApiUrl
      */
     private $params = "";
 
-    private $path_to_config_file;
+    /**
+     * @var string $path_to_config_file
+     */
+    private $path_to_config_file = "";
 
     public function __construct(string $url, string $path_to_config_file = "")
     {
@@ -45,22 +48,23 @@ final class ApiUrl
 
     /**
      * Validate the url of the api
-     *
-     * @throws InvalidConfigurationException
+     * @codeCoverageIgnore
+     * @throws InvalidApiUrlException
      * @param string $url
      * @return bool
      */
     private function validateUrl(string $url): bool
     {
-        if (!filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) :
-            throw new InvalidConfigurationException(
+        if (!filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
+            throw new InvalidApiUrlException(
                 "{$url} does not appear to be a valid url."
                     . PHP_EOL . "Check configuration in {$this->path_to_config_file}"
             );
-        else :
+        } else {
             return true;
-        endif;
+        }
     }
+
     public function withParams(array $params): self
     {
         $clone = clone $this;

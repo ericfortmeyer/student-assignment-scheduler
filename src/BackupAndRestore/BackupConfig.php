@@ -89,25 +89,24 @@ final class BackupConfig
 
     public function addDirectoriesRecursivelyToZip(ZipArchive $zip): void
     {
-        $this->directories->reduce($this->addDirectoriesRecursively($zip));
+        $this->directories->reduce(
+            function ($carry, Directory $directory) use ($zip): void {
+                $directory->files()->reduce(
+                    $this->addFilesRecursively($zip, $directory)
+                );
+            }
+        );
     }
 
-    private function addDirectoriesRecursively(ZipArchive $zip): \Closure
-    {
-        return function ($carry, Directory $directory) use ($zip): void {
-            $directory->files()->reduce($this->addFilesRecursively($zip, basename((string) $directory)));
-        };
-    }
-
-    private function addFilesRecursively(ZipArchive $zip, string $directory): \Closure
+    private function addFilesRecursively(ZipArchive $zip, Directory $directory): \Closure
     {
         return function ($carry, string $filename) use ($zip, $directory): void {
             if (is_dir($filename)) {
-                $subdirectory = new Directory(Functions\buildPath($directory, basename($filename)));
+                $subdirectory = new Directory(Functions\buildPath((string) $directory, basename($filename)));
                 $path_to_subdirectory = (string) $subdirectory;
-                $subdirectory->files()->reduce($this->addFilesRecursively($zip, $path_to_subdirectory));
+                $subdirectory->files()->reduce($this->addFilesRecursively($zip, $subdirectory));
             } else {
-                $destination = Functions\buildPath($directory, basename($filename));
+                $destination = Functions\buildPath((string) $directory, basename($filename));
                 $zip->addFile(
                     $filename,
                     $destination

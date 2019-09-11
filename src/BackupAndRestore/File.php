@@ -11,6 +11,8 @@
 
 namespace StudentAssignmentScheduler\BackupAndRestore;
 
+use \InvalidArgumentException;
+
 final class File
 {
     /**
@@ -18,10 +20,16 @@ final class File
      */
     private $filename = "";
     
+    /**
+     * Create the instance.
+     *
+     * @throws InvalidArgumentException
+     * @param string $filename
+     */
     public function __construct(string $filename)
     {
         if (!\file_exists($filename)) {
-            throw new \RuntimeException(
+            throw new InvalidArgumentException(
                 "File: ${filename} does not exist."
             );
         }

@@ -33,7 +33,6 @@ class ConfigArrayValue implements \ArrayAccess
     /**
      * Validate that the query params specified in the configuration
      * contains expected keys.
-     *
      * @throws InvalidConfigurationException
      * @param array $given_array
      * @return bool
@@ -47,33 +46,45 @@ class ConfigArrayValue implements \ArrayAccess
         sort($keys);
 
 
-        if ($required_keys != $keys) :
+        if ($required_keys != $keys) {
             throw new InvalidConfigurationException(
                 "The given array does not contain expected keys."
                     . PHP_EOL . "Given array: " . json_encode(array_keys($given_array))
                     . PHP_EOL . "Expected keys: " . json_encode(static::REQUIRED_KEYS)
                     . PHP_EOL . "Check configuration in {$this->path_to_config_file}"
             );
-        else :
+        } else {
             return true;
-        endif;
+        }
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function offsetExists($offset): bool
     {
         return array_key_exists($offset, $this->container);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function offsetGet($offset)
     {
         return $this->container[$offset];
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function offsetSet($offset, $value): void
     {
         $this->container[$offset] = $value;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function offsetUnset($offset): void
     {
         unset($this->container[$offset]);

@@ -32,6 +32,7 @@ $do_not_assign_these = [
 $useragent = "LAMM-Scheduler";
 
 return [
+    "app_error_notification_email" => "e.fortmeyer01@gmail.com",
     "app_root_dir" => realpath(__DIR__ . "/../"),
     "app_config_filename" => $filename_of_app_config,
     "language" => $my_language,
@@ -81,7 +82,7 @@ return [
     "special_events_location" => $special_events_location,
     "special_events_registry_filename" => $special_events_registry_filename,
     "assignment_form_template" => __DIR__ . "/../src/DocumentProduction/templates/" . sha1("S-89-E.pdf"),
-    "schedule_template" => __DIR__ . "/../src/DocumentProduction/" . sha1("S-140-E.pdf"),
+    "schedule_template" => __DIR__ . "/../src/DocumentProduction/templates/" . sha1("S-140-E.pdf"),
     "assignment_forms_destination" => __DIR__ . "/../data/forms",
     "schedules_destination" => __DIR__ . "/../data/schedules",
     "schedule_font_size" => 10,
@@ -433,6 +434,14 @@ return [
                     62.8
                 ],
                 "Second Return Visit_number" => [
+                    2.5,
+                    62.8
+                ],
+                "Third Return Visit" => [
+                    7.8,
+                    62.8
+                ],
+                "Third Return Visit_number" => [
                     2.5,
                     62.8
                 ],

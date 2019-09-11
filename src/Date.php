@@ -111,9 +111,7 @@ final class Date extends DateType
     }
 
     /**
-     * Use to create a textual representation of the date.
-     *
-     * @return string
+     * @codeCoverageIgnore
      */
     public function asText(): string
     {
@@ -121,10 +119,13 @@ final class Date extends DateType
     }
 
     /**
-     * The representation of the date's month.
-     *
-     * @return Month
+     * @codeCoverageIgnore
      */
+    public function toISOString(): string
+    {
+        return (new DateTimeImmutable((string) $this))->format("c");
+    }
+
     public function month(): Month
     {
         return $this->month;

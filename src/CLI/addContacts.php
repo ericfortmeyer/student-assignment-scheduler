@@ -114,8 +114,8 @@ function sensitiveData(Set $contacts, string $path_to_contacts_file, string $key
     return basename($path_to_contacts_file) === "schedule_recipients"
         ? (new ListOfScheduleRecipients($contacts->toArray()))->union(
             file_exists($path_to_contacts_file)
-                ? unbox($path_to_contacts_file, $key)
-                : new ListOfScheduleRecipients([])
+                    ? unbox($path_to_contacts_file, $key)
+                    : new ListOfScheduleRecipients([])
         )
         : (new ListOfContacts($contacts->toArray()))->union(
             file_exists($path_to_contacts_file)

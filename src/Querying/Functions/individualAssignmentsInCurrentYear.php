@@ -1,12 +1,4 @@
-<?php declare(strict_types=1);
-/**
- * This file is part of student-assignment-scheduler.
- *
- * Copywright (c) Eric Fortmeyer.
- * Licensed under the MIT License. See LICENSE in the project root folder for license information.
- *
- * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
- */
+<?php
 
 namespace StudentAssignmentScheduler\Querying\Functions;
 
@@ -15,7 +7,7 @@ use function StudentAssignmentScheduler\Utils\Functions\buildPath;
 use \Ds\Map;
 use \Ds\Vector;
 
-function weeksOfAssignmentsInCurrentYear(): Map
+function individualAssignmentsInCurrentYear(): Map
 {
     $path_config = require __DIR__ . "/../../../config/path_config.php";
     $path_to_assignments_in_current_year = buildPath($path_config["path_to_assignments"], date_create()->format("Y"));
@@ -50,7 +42,7 @@ function weeksOfAssignmentsInCurrentYear(): Map
     $filenames = (new Vector(filenamesInDirectory($path_to_assignments_in_current_year)))
         ->filter(__NAMESPACE__ . "\\removeAssignmentCopies");
 
-    return (new Map($filenames))
-        ->map($appendDirectoryToFilename)
-        ->map($importWeeksOfAssignments);
+    return (new Map($filenames))->map($appendDirectoryToFilename)
+        ->map($importWeeksOfAssignments)
+        ->reduce($justIndividualAssignments, new Map());
 }

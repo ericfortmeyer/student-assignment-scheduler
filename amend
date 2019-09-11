@@ -31,7 +31,7 @@ $env_required_fields = [
 ];
 
 
-$Dotenv = new Dotenv($env_dir);
+$Dotenv = Dotenv::create($env_dir);
 $Dotenv->load();
 
 try {

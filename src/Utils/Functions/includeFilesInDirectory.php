@@ -15,6 +15,7 @@ namespace StudentAssignmentScheduler\Utils\Functions;
  * Use to automatically include functions
  * Recursively includes files in the given
  * This file and system files are exluded
+ * @codeCoverageIgnore
  * @param string $directory
  * @return void
  */

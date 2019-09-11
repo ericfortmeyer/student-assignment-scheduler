@@ -1,50 +1,51 @@
 <?php declare(strict_types=1);
-/**
- * This file is part of student-assignment-scheduler.
- *
- * Copywright (c) Eric Fortmeyer.
- * Licensed under the MIT License. See LICENSE in the project root folder for license information.
- *
- * @author Eric Fortmeyer <e.fortmeyer01@gmail.com>
- */
 
 namespace StudentAssignmentScheduler\Parsing;
 
+/**
+ * Represents a page from a Rtf document
+ */
 class RtfPage
 {
     /**
      * @var string
      */
-    protected $text = "";
+    protected $content = "";
 
-    public function __construct(string $text)
+    /**
+     * Create instance.
+     */
+    public function __construct(string $content)
     {
-        $this->text = $text;
+        $this->content = $content;
     }
 
+    /**
+     * @return string
+     */
     public function getText(): string
     {
-        return $this->withBackwardsCompatibleDateAppended($this->text);
+        return $this->withBackwardsCompatibleDateAppended($this->content);
     }
 
-    protected function doesNotHaveSchedule(string $text): bool
+    /**
+     * @param string $content
+     * @return string
+     */
+    protected function withBackwardsCompatibleDateAppended(string $content): string
     {
-        return strlen($text) < 400;
+        $backwards_compatible_date = implode(" ", $this->parseDate($content));
+        return "${content}${backwards_compatible_date}";
     }
 
-    protected function withBackwardsCompatibleDateAppended(string $text): string
-    {
-        $backwards_compatible_date = implode(" ", $this->parseDate($text));
-        
-        return $text . $backwards_compatible_date;
-    }
-
-    protected function parseDate(string $text): array
+    /**
+     * @param string $content
+     * @return array<string,string>
+     */
+    protected function parseDate(string $content): array
     {
         $date = "/\\\\b\s{1}(\w{3,9})\\\\u160\?(\d{1,2})(?:-|\\\\u8211\?)(?:[\w]{3,9}|\d{1,2})/";
-
-        preg_match($date, $text, $matches);
-
+        preg_match($date, $content, $matches);
         return [
             // prepend the newline to be compatible with pdf parser
             "month" => "\n" . strtoupper($matches[1]),

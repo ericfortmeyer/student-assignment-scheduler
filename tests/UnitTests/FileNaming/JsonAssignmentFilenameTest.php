@@ -26,7 +26,7 @@ class JsonAssignmentFilenameTest extends TestCase
         $day_of_month_string = "02";
 
         $Month = new Month($month_string);
-        $DayOfMonth = new DayOfMonth($Month, "02");
+        $DayOfMonth = new DayOfMonth($Month, $day_of_month_string);
         $Year = new Year(2058);
 
         $date = new Date(
@@ -57,7 +57,7 @@ class JsonAssignmentFilenameTest extends TestCase
             )
         );
 
-        $this->assertSame($actual, $expected);
+        $this->assertSame($expected, $actual);
     }
 
     public function testDoesNotAddToMonthWhenWeekDoesNotOverlapMonths()

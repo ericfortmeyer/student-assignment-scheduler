@@ -51,7 +51,7 @@ class Password
     }
 
     /**
-     * Throw an exception if the version of PHP is outdated.
+     * Throw an exception if the version of PHP is outdated
      *
      * @throws IncompatibilityException
      * @return void
@@ -72,8 +72,7 @@ class Password
     }
 
     /**
-     * Throw an exception.
-     *
+     * @codeCoverageIgnore
      * @throws IncompatibilityException
      * @return void
      */
@@ -85,6 +84,7 @@ class Password
     /**
      * Set nonce and key for encrypting and decrypting the password.
      *
+     * @codeCoverageIgnore
      * @param string $nonce
      * @param string $key
      * @return void

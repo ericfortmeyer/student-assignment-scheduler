@@ -19,7 +19,7 @@ use function StudentAssignmentScheduler\Utils\Functions\getConfig;
  * Has instances of Date and EventType as fields and
  * can be cast to a string.
  */
-final class SpecialEvent extends Event
+final class SpecialEvent extends Event implements ArrayInterface
 {
     /**
      * @var Date $date
@@ -32,66 +32,70 @@ final class SpecialEvent extends Event
     protected $type;
 
     /**
-     * Create the instance.
-     *
-     * @param Date $date
-     * @param EventType $type
+     * @var Guid $guid
+     */
+    protected $guid;
+
+    /**
+     * @codeCoverageIgnore
      */
     public function __construct(
         Date $date,
-        EventType $type
+        EventType $type,
+        ?Guid $guid = null
     ) {
+        $this->guid = $guid ?? new Guid();
         parent::__construct($date, $type);
     }
 
-    /**
-     * Use to cast the instance to a string.
-     *
-     * @return string
-     */
+    public function guid(): Guid
+    {
+        return $this->guid;
+    }
+
     public function __toString()
     {
         $special_events = getConfig()["special_events"];
-
         $prepend = function (string $type) {
             return "{$type}: ";
         };
-        
         $append = function (string $date) {
             return " {$date}" . PHP_EOL;
         };
-
         $maxLen = max(
             (new Vector($special_events))->map(function (string $event) use ($prepend, $append): int {
                 return strlen($prepend((string) $event) . $append((string) $this->date));
             })->toArray()
         );
-
-        $typeAsString = (string) $this->type;
-        $dateAsString = (string) $this->date;
-
-        $eventAsString = $prepend($typeAsString) . $append($dateAsString);
+        $eventAsString = $prepend($this->type) . $append($this->date);
         $currentLen = strlen($eventAsString);
-
         $tabWidth = $maxLen - $currentLen + 1;
         $whitespace = ' ';
-
-
         $tab = str_pad($whitespace, (int) $tabWidth, $whitespace);
-
-        return "{$prepend($typeAsString)}${tab}{$append($dateAsString)}";
+        return "{$prepend($this->type)}${tab}{$append($this->date)}";
     }
 
     /**
-     * Use to make the instance serializable to JSON.
-     *
-     * @return array
+     * @codeCoverageIgnore
      */
     public function getArrayCopy(): array
     {
         return [
-            "date" => (string) $this->date(),
-            "type" => (string) $this->type()
+            "id" => (string) $this->guid(),
+            "date" => (string) $this->date()->toISOString(),
+            "type" => str_replace(
+                " ",
+                "_",
+                (string) $this->type()
+            )
         ];
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function exchangeArray($array): array
+    {
+        return (array) $array;
     }
 }

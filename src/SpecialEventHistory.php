@@ -12,6 +12,7 @@ namespace StudentAssignmentScheduler;
 use \Ds\Stack;
 use \Ds\Map;
 use \Ds\Vector;
+use \Ds\Set;
 
 use StudentAssignmentScheduler\Persistence\ImmutableModifiablePersistenceInterface;
 use StudentAssignmentScheduler\Persistence\Saveable;
@@ -19,7 +20,11 @@ use StudentAssignmentScheduler\Persistence\Saveable;
 /**
  * A way of immutably persisting special events.
  */
-final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, ImmutableModifiablePersistenceInterface
+class SpecialEventHistory implements
+    ImmutableHistoryInterface,
+    Saveable,
+    ImmutableModifiablePersistenceInterface,
+    ArrayInterface
 {
     /**
      * @var Stack $history
@@ -29,13 +34,13 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
     /**
      * Creates a SpecialEventHistory instance.
      *
-     * @param SpecialEventHistoryLocation $Location Filename of the special event history
+     * @param SpecialEventHistoryLocation|null $Location Filename of the special event history
      */
-    public function __construct(SpecialEventHistoryLocation $Location)
+    public function __construct(?SpecialEventHistoryLocation $Location = null, ?Stack $history = null)
     {
         $this->history = \file_exists((string) $Location)
             ? $this->getSavedSpecialEventHistory((string) $Location)->history()
-            : new Stack();
+            : $history ?? new Stack();
     }
     
     /**
@@ -54,6 +59,16 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
     public function asMap(): Map
     {
         return new Map($this->history->toArray());
+    }
+
+    /**
+     * Convert this instance into a set.
+     *
+     * @return Set
+     */
+    public function asSet(): Set
+    {
+        return new Set($this->history->toArray());
     }
 
     /**
@@ -77,6 +92,24 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
     }
 
     /**
+     * Returns a MaybeSpecialEvent instance.
+     *
+     * @param Guid $guid
+     * @return MaybeSpecialEvent Represents the result of the search attempt
+     */
+    public function findByGuid(Guid $guid): MaybeSpecialEvent
+    {
+        $specialEventWithGuid = function (SpecialEvent $event) use ($guid): bool {
+            return (string) $event->guid() === (string) $guid;
+        };
+
+        $result = $this->asSet()->filter($specialEventWithGuid);
+        $resultResolved = $result->count() !== 0 ? $result->first() : false;
+
+        return MaybeSpecialEvent::init($resultResolved);
+    }
+
+    /**
      * Returns a copy with the item removed.
      *
      * @param SpecialEvent $item
@@ -84,13 +117,13 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
      */
     public function remove($item): ImmutableModifiablePersistenceInterface
     {
-        // since this implementation is using a stack
-        // we do not use the $item parameter
         $copy = clone $this;
+        $historyAsSet = new Set($copy->history());
+        $historyAsSet->remove($item);
 
-        $copy->history->pop();
-
-        return $copy;
+        return $copy->withHistory(
+            new Stack($historyAsSet)
+        );
     }
 
     /**
@@ -140,8 +173,17 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
     }
 
     /**
-     * Retrieve the latest event.
+     * Return this instance with the given history.
      *
+     * @param Stack $history
+     * @return static
+     */
+    public function withHistory(Stack $history): ImmutableHistoryInterface
+    {
+        return new self(null, $history);
+    }
+
+    /**
      * @return Event
      */
     public function latest(): Event
@@ -212,5 +254,10 @@ final class SpecialEventHistory implements ImmutableHistoryInterface, Saveable, 
             },
             $this->history()->toArray()
         );
+    }
+
+    public function exchangeArray($array): array
+    {
+        return (new Stack($array))->toArray();
     }
 }

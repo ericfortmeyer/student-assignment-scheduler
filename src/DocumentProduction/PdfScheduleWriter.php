@@ -57,7 +57,6 @@ class PdfScheduleWriter implements ScheduleWriterInterface
      */
     protected $writeIndividualAssignment;
 
-
     public function __construct(array $config)
     {
         $this->config = $config;
@@ -236,7 +235,6 @@ class PdfScheduleWriter implements ScheduleWriterInterface
             $assignment_num,
             "position"
         );
-
         $this->write($assignment);
     }
 
@@ -266,25 +264,6 @@ class PdfScheduleWriter implements ScheduleWriterInterface
             );
     }
 
-    protected function writeStudentAndAssistant(
-        int $week_index,
-        int $assignment_num,
-        string $student,
-        string $assistant
-    ): void {
-        $assistant
-            ? $this->writeName(
-                $week_index,
-                $assignment_num,
-                $this->appendAssistantName($student, $assistant)
-            )
-            : $this->writeName(
-                $week_index,
-                $assignment_num,
-                $student
-            );
-    }
-
     protected function writeName(int $week_index, int $assignment_num, string $name): void
     {
         $this->position(
@@ -305,11 +284,6 @@ class PdfScheduleWriter implements ScheduleWriterInterface
         return "${name} ${counsel_point}";
     }
 
-    protected function writeAssistant(string $name_of_assistant): void
-    {
-        $this->write("{$this->withSlash($name_of_assistant)}");
-    }
-
     protected function withSlash(string $name): string
     {
         return "/${name}";
@@ -323,16 +297,6 @@ class PdfScheduleWriter implements ScheduleWriterInterface
             "date"
         );
         $this->write($date);
-    }
-
-    protected function writeCounselPoint(int $week_index, int $assignment_num, string $counsel_point): void
-    {
-        $this->position(
-            $week_index,
-            $assignment_num,
-            "counsel_point"
-        );
-        $this->write($counsel_point);
     }
 
     protected function createPDF(string $filename): void
@@ -352,31 +316,6 @@ class PdfScheduleWriter implements ScheduleWriterInterface
     protected function addExtension(string $basename): string
     {
         return "$basename.pdf";
-    }
-
-    protected function removeExtension(string $filename): string
-    {
-        return basename($filename, ".pdf");
-    }
-
-    protected function allCaps(string $string): string
-    {
-        return strtoupper($string);
-    }
-
-    protected function monthFromDate(string $date): string
-    {
-        return date_create_from_format("F j", $date)->format("F");
-    }
-
-    protected function firstName(string $fullname): string
-    {
-        return current(
-            explode(
-                " ",
-                $fullname
-            )
-        );
     }
 
     protected function position(int $week_index, int $assignment_num, string $position): void
@@ -410,6 +349,9 @@ class PdfScheduleWriter implements ScheduleWriterInterface
         $this->pdfCreator->SetFontSize($points);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function textColor(string $color): void
     {
         $rgb = $this->colorIsAvailable($color)

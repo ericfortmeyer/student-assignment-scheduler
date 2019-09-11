@@ -27,6 +27,7 @@ use \Ds\Map;
  * (2) Attach file and send email to the recipient
  * (3) Delete the file from the folder
  *
+ * @codeCoverageIgnore
  * @param MailSender $MailSender
  * @param Map $MapOfAttachmentFilenamesToTheirRecipients
  * @param LoggerInterface $log

@@ -13,6 +13,10 @@ namespace StudentAssignmentScheduler\Downloading\Functions;
 use StudentAssignmentScheduler\Downloading\MWBDownloader\{
     Month,
     Utils\ApiService,
+    Utils\BadRequestException,
+    Utils\PageNotFoundException,
+    Utils\InvalidUrlException,
+    Utils\ServerFailureException,
     Config\DownloadConfig
 };
 
@@ -20,7 +24,7 @@ use StudentAssignmentScheduler\Downloading\MWBDownloader\{
  * @param Month $month
  * @param DownloadConfig $config
  * @param string|null $destination
- * @throws \Exception
+ * @throws BadRequestException|PageNotFoundException|InvalidUrlException|ServerFailureException
  */
 function download(Month $month, DownloadConfig $config, ?string $destination = null): void
 {
@@ -30,11 +34,9 @@ function download(Month $month, DownloadConfig $config, ?string $destination = n
         $config->apiQueryParams
     );
 
-    $fileObj = createFileObject(
+    createFileObject(
         (new ApiService($config->apiOpts($url)))
             ->getPayloadAsObject(),
         $config
-    );
-
-    $fileObj->downloadTo($destination ?? $config->workbook_download_destination);
+    )->downloadTo($destination ?? $config->workbook_download_destination);
 }

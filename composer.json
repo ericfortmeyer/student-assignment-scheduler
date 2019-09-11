@@ -18,7 +18,7 @@
         "ext-xml": "*",
         "ext-mbstring": "*",
         "phpmailer/phpmailer": "^6.0",
-        "vlucas/phpdotenv": "^2.5",
+        "vlucas/phpdotenv": "^3.4",
         "setasign/fpdi": "^2.1",
         "setasign/fpdf": "^1.8",
         "smalot/pdfparser": "^0.13.2",

@@ -21,7 +21,7 @@ final class Guid
     /**
      * @var string $value
      */
-    private $value;
+    public $value;
 
     private const THIRD_SET_ALLOWED = [4];
     private const FOURTH_SET_ALLOWED = [8, 9, "A", "B"];

@@ -18,6 +18,7 @@ use StudentAssignmentScheduler\Fullname;
 use Psr\Log\LoggerInterface;
 
 /**
+ * @codeCoverageIgnore
  * @param MailSender $MailSender
  * @param ListOfContacts $ListOfContacts
  * @param ListOfScheduleRecipients $schedule_recipients

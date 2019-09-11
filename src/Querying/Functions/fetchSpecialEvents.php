@@ -12,11 +12,12 @@ namespace StudentAssignmentScheduler\Querying\Functions;
 
 use StudentAssignmentScheduler\Persistence\SpecialEventHistoryRegistry;
 use StudentAssignmentScheduler\Destination;
+use StudentAssignmentScheduler\SpecialEventHistory;
 
 use function StudentAssignmentScheduler\Utils\Functions\getConfig;
 use function StudentAssignmentScheduler\Utils\Functions\buildPath;
 
-function fetchSpecialEvents()
+function fetchSpecialEvents(): SpecialEventHistory
 {
     $config = getConfig();
     $specialEvents = $config["special_events"];
@@ -40,5 +41,5 @@ function fetchSpecialEvents()
 
     $SpecialEventHistory = $SpecialEventHistoryRegistry->latest();
 
-    return $SpecialEventHistory->getArrayCopy();
+    return $SpecialEventHistory;
 }

@@ -12,8 +12,10 @@ namespace StudentAssignmentScheduler;
 
 use \Ds\Map;
 
+use function StudentAssignmentScheduler\Utils\Functions\shouldMakeAssignment;
 /**
- * Represents all assignments in the given schedule for a month.
+ * A representation of all of the information needed
+ * to make assignments for an entire month.
  */
 final class MonthOfAssignments
 {
@@ -36,9 +38,7 @@ final class MonthOfAssignments
     private $WeeksOfAssignments;
 
     /**
-     * Create the instance.
-     *
-     * @param array $schedule A month's schedule of assignments
+     * Create a MonthOfAssignments instance
      */
     public function __construct(array $schedule)
     {
@@ -60,12 +60,17 @@ final class MonthOfAssignments
             function (string $index, array $week_of_assignments) {
                 $Week = new Map($week_of_assignments);
 
-                $DayOfMonth = new DayOfMonth($this->month, (string) $Week->remove(self::DATE));
-                $Assignments = $Week->map(
-                    function (string $assignment_number, string $assignment_name): Assignment {
-                        return new Assignment($assignment_number, $assignment_name);
-                    }
-                );
+                $DayOfMonth = new DayOfMonth($this->month, $Week->remove(self::DATE));
+                $Assignments = $Week
+                    ->filter(
+                        function (string $assignment_number, string $assignment_name): bool {
+                            return shouldMakeAssignment($assignment_name);
+                        }
+                    )->map(
+                        function (string $assignment_number, string $assignment_name): Assignment {
+                            return new Assignment($assignment_number, $assignment_name);
+                        }
+                    );
 
                 $this->WeeksOfAssignments->put(
                     new Date(
@@ -115,9 +120,7 @@ final class MonthOfAssignments
     }
 
     /**
-     * The year the assignments are in.
-     *
-     * @return Year
+     * @codeCoverageIgnore
      */
     public function year(): Year
     {
