@@ -51,5 +51,3 @@ workbooks/rtf/*
 test_email.php
 
 .phpunit.result.cache
-
-apigility/

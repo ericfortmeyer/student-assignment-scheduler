@@ -5,6 +5,6 @@ class TestSpecialEventsResourceFactory
 {
     public function __invoke($services)
     {
-        return new TestSpecialEventsResource($services);
+        return new TestSpecialEventsResource();
     }
 }
